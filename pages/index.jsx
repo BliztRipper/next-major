@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Head from 'next/head'
-import '../style.scss';
+import '../styles/style.scss';
 import BottomNavBar from '../components/BottomNavBar'
 
 

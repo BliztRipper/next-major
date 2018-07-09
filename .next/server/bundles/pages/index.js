@@ -103,7 +103,6 @@ var head__default = /*#__PURE__*/__webpack_require__.n(head_);
 
 // EXTERNAL MODULE: ./style.scss
 var style = __webpack_require__(7);
-var style_default = /*#__PURE__*/__webpack_require__.n(style);
 
 // EXTERNAL MODULE: external "react-tabs"
 var external__react_tabs_ = __webpack_require__(8);
@@ -278,7 +277,7 @@ module.exports = require("next/head");
 /* 7 */
 /***/ (function(module, exports) {
 
-
+throw new Error("Module parse failed: Unexpected token (1:4)\nYou may need an appropriate loader to handle this file type.\n| body{\n|   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n| }");
 
 /***/ }),
 /* 8 */
