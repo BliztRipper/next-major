@@ -5,6 +5,17 @@ import BottomNavBar from '../components/BottomNavBar'
 
 
 export default class extends Component {
+  componentDidMount () {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+          console.log('SW registered: ', registration)
+        }).catch(function (registrationError) {
+          console.log('SW registration failed: ', registrationError)
+        })
+      })
+    }
+  }
 
   render() {
     return(
@@ -15,6 +26,7 @@ export default class extends Component {
         </Head>
         <h1 className='home-title'>Now Showing</h1>
         <BottomNavBar/>
+
       </div>
     )
    }
