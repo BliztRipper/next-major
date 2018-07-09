@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
@@ -11,9 +18,9 @@ class BottomNavBar extends Component {
     }
   }
   componentDidMount(){
-    fetch(`http://54.169.203.113/MovieList`)
+    fetch(`https://api.hackerwebapp.com/news`)
     .then(response => response.json())
-    .then(data => this.setState({dataObj:data.data.comingsoon, isLoading: false}))
+    .then(data => this.setState({dataObj:data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
   }
   render() {
@@ -28,14 +35,12 @@ class BottomNavBar extends Component {
     return (
       <Tabs>
         <TabPanel>
-          <div className='showing__container'>
-              {dataObj.map((item,i) =>
-              <div className='showing__cell' key={i}>
-                <img className='showing__poster' src={item.poster_ori} width='110' height='160'/>
-                <span className='showing__title'>{item.title_th}</span>
-              </div>
-            )}
+          {dataObj.map((item,i) =>
+          <div key={i}>
+            <a href={item.url}><h1> {item.title}</h1></a>
+            <h4> {item.points}</h4>
           </div>
+        )}
         </TabPanel>
         <TabPanel>
           <h2>Any content 2</h2>

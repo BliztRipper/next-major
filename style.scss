@@ -5,6 +5,29 @@ body{
 .home-title{
   text-align: center;
 }
+.showing{
+  &__container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    grid-gap: .5rem;
+    padding-bottom: 4rem;
+  }
+  &__cell{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__poster{
+    width: 110px;
+    height: 160px;
+  }
+  &__title{
+    padding: 0.5rem 0;
+    text-align: center;
+  }
+
+}
 .react-tabs{
   display: flex;
   flex-direction: column;

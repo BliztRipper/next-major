@@ -11,6 +11,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
+        <noscript>Your browser does not support JavaScript!</noscript>
       </html>
     )
   }
