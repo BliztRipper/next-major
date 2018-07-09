@@ -20,7 +20,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "deploy": "gh-pages -d"
+    "deploy": "gh-pages -d .next"
   },
   "homepage": "https://myusername.github.io/next-major"
 }
