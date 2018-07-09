@@ -31,7 +31,7 @@ class BottomNavBar extends Component {
           <div className='showing__container'>
               {dataObj.map((item,i) =>
               <div className='showing__cell' key={i}>
-                <img className='showing__poster' src={item.poster_ori} width='110' height='160'/>
+                <img className='showing__poster' src={item.poster_ori}/>
                 <span className='showing__title'>{item.title_th}</span>
               </div>
             )}
