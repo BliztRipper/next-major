@@ -1,13 +1,41 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import styled from 'styled-components';
 
 class BottomNavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataObj: [],
+      isLoading: true,
+      error: null,
+    }
+  }
+  componentDidMount(){
+    fetch(`https://api.hackerwebapp.com/news`)
+    .then(response => response.json())
+    .then(data => this.setState({dataObj:data, isLoading: false}))
+    .catch(error => this.setState({ error, isLoading: false }))
+  }
   render() {
+    const {dataObj, isLoading, error} = this.state;
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+    {console.log(dataObj)}
     return (
       <Tabs>
         <TabPanel>
           <h2>Any content 1</h2>
+          {dataObj.map((item,i) =>
+          <div key={i}>
+            <h1> {item.title}</h1>
+            <h4> {item.points}</h4>
+          </div>
+        )}
         </TabPanel>
         <TabPanel>
           <h2>Any content 2</h2>
