@@ -206,6 +206,10 @@ function (_Component) {
 }(external__react_["Component"]);
 
 /* harmony default export */ var components_BottomNavBar = (BottomNavBar_BottomNavBar);
+// EXTERNAL MODULE: ./styles/style.scss
+var style = __webpack_require__(9);
+var style_default = /*#__PURE__*/__webpack_require__.n(style);
+
 // CONCATENATED MODULE: ./pages/index.jsx
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return pages__default; });
 
@@ -228,6 +232,7 @@ function pages__inherits(subClass, superClass) { if (typeof superClass !== "func
 
 
 
+
 var pages__default =
 /*#__PURE__*/
 function (_Component) {
@@ -240,16 +245,15 @@ function (_Component) {
   }
 
   pages__createClass(_default, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('../sw.js').then(function () {
-          console.log('Service Worker Registered');
-        });
-      }
-    }
-  }, {
     key: "render",
+    // componentDidMount () {
+    //   if('serviceWorker' in navigator) {
+    //       navigator.serviceWorker.register('../sw.js')
+    //         .then(function() {
+    //           console.log('Service Worker Registered');
+    //         });
+    //       }
+    // }
     value: function render() {
       return external__react__default.a.createElement("div", {
         className: "jsx-697407302"
@@ -290,6 +294,12 @@ module.exports = require("next/head");
 /***/ (function(module, exports) {
 
 module.exports = require("react-tabs");
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+
 
 /***/ })
 /******/ ]);
