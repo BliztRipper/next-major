@@ -1897,6 +1897,10 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
+directory-tree@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/directory-tree/-/directory-tree-2.1.0.tgz#e0c1a66f625481aaf7d603741f0d3d93cdd4867a"
+
 dom-serializer@0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/dom-serializer/-/dom-serializer-0.1.0.tgz#073c697546ce0780ce23be4a28e293e40bc30c82"
@@ -3791,6 +3795,12 @@ next@^6.1.1:
     webpack-hot-middleware "2.19.1"
     webpack-sources "1.1.0"
     write-file-webpack-plugin "4.2.0"
+
+nextjs-export-path-map@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/nextjs-export-path-map/-/nextjs-export-path-map-0.1.2.tgz#ee558181aa93a06ed08e39cae4640cc6316f7099"
+  dependencies:
+    directory-tree "^2.0.0"
 
 node-fetch@^1.0.1:
   version "1.7.3"
