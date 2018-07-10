@@ -267,14 +267,15 @@ function (_Component) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _default; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("react");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_next_head__ = __webpack_require__("next/head");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_next_head___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_next_head__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__styles_style_scss__ = __webpack_require__("./styles/style.scss");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__styles_style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__styles_style_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_styled_jsx_style__ = __webpack_require__("styled-jsx/style");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_styled_jsx_style___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_styled_jsx_style__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__("react");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_next_head__ = __webpack_require__("next/head");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_next_head___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_next_head__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_BottomNavBar__ = __webpack_require__("./components/BottomNavBar.jsx");
 var _jsxFileName = "/Users/arnontawong/Documents/Github/next-major/pages/index.jsx";
+
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -294,7 +295,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-
 var _default =
 /*#__PURE__*/
 function (_Component) {
@@ -308,62 +308,61 @@ function (_Component) {
 
   _createClass(_default, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('/sw.js');
-        });
-      }
+    value: function componentDidMount() {// if('serviceWorker' in navigator) {
+      //     navigator.serviceWorker.register('../sw.js')
+      //       .then(function() {
+      //         console.log('Service Worker Registered');
+      //       });
+      //     }
     }
   }, {
     key: "render",
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 18
-        }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_next_head___default.a, {
+        },
+        className: "jsx-697407302"
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_next_head___default.a, {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 19
         }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("title", {
+      }, __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("title", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 20
-        }
-      }, "True Major Cineplex"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("meta", {
+        },
+        className: "jsx-697407302"
+      }, "True Major Cineplex"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("meta", {
         name: "viewport",
         content: "initial-scale=1.0, width=device-width",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 21
-        }
-      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h1", {
-        className: "home-title",
+        },
+        className: "jsx-697407302"
+      })), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement("h1", {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 23
-        }
-      }, "Now Showing"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_BottomNavBar__["a" /* default */], {
+        },
+        className: "jsx-697407302" + " " + 'home-title'
+      }, "Now Showing"), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_BottomNavBar__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 24
         }
+      }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_styled_jsx_style___default.a, {
+        styleId: "697407302",
+        css: "body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}.home-title{text-align:center;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF3QjJCLEFBR3lFLEFBSTFDLGtCQUNwQixzQ0FKQSIsImZpbGUiOiJwYWdlcy9pbmRleC5qc3giLCJzb3VyY2VSb290IjoiL1VzZXJzL2Fybm9udGF3b25nL0RvY3VtZW50cy9HaXRodWIvbmV4dC1tYWpvciIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyBDb21wb25lbnQgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgSGVhZCBmcm9tICduZXh0L2hlYWQnXG5pbXBvcnQgQm90dG9tTmF2QmFyIGZyb20gJy4uL2NvbXBvbmVudHMvQm90dG9tTmF2QmFyJ1xuXG5cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIGV4dGVuZHMgQ29tcG9uZW50IHtcbiAgY29tcG9uZW50RGlkTW91bnQgKCkge1xuICAgIC8vIGlmKCdzZXJ2aWNlV29ya2VyJyBpbiBuYXZpZ2F0b3IpIHtcbiAgICAvLyAgICAgbmF2aWdhdG9yLnNlcnZpY2VXb3JrZXIucmVnaXN0ZXIoJy4uL3N3LmpzJylcbiAgICAvLyAgICAgICAudGhlbihmdW5jdGlvbigpIHtcbiAgICAvLyAgICAgICAgIGNvbnNvbGUubG9nKCdTZXJ2aWNlIFdvcmtlciBSZWdpc3RlcmVkJyk7XG4gICAgLy8gICAgICAgfSk7XG4gICAgLy8gICAgIH1cbiAgfVxuXG4gIHJlbmRlcigpIHtcbiAgICByZXR1cm4oXG4gICAgICA8ZGl2PlxuICAgICAgICA8SGVhZD5cbiAgICAgICAgICA8dGl0bGU+VHJ1ZSBNYWpvciBDaW5lcGxleDwvdGl0bGU+XG4gICAgICAgICAgPG1ldGEgbmFtZT1cInZpZXdwb3J0XCIgY29udGVudD1cImluaXRpYWwtc2NhbGU9MS4wLCB3aWR0aD1kZXZpY2Utd2lkdGhcIiAvPlxuICAgICAgICA8L0hlYWQ+XG4gICAgICAgIDxoMSBjbGFzc05hbWU9J2hvbWUtdGl0bGUnPk5vdyBTaG93aW5nPC9oMT5cbiAgICAgICAgPEJvdHRvbU5hdkJhci8+XG4gICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG4gICAgICAgICAgYm9keXtcbiAgICAgICAgICAgIGZvbnQtZmFtaWx5OiAnU2Vnb2UgVUknLCBUYWhvbWEsIEdlbmV2YSwgVmVyZGFuYSwgc2Fucy1zZXJpZjtcbiAgICAgICAgICB9XG4gICAgICAgICAgXG4gICAgICAgICAgLmhvbWUtdGl0bGV7XG4gICAgICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgICAgICAgfVxuICAgICAgICBgfVxuICAgICAgICA8L3N0eWxlPlxuICAgICAgPC9kaXY+XG4gICAgKVxuICAgfVxuIH1cbiJdfQ== */\n/*@ sourceURL=pages/index.jsx */"
       }));
     }
   }]);
 
   return _default;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-/***/ }),
-
-/***/ "./styles/style.scss":
-/***/ (function(module, exports) {
+}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
 
 
 
@@ -395,6 +394,13 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-tabs");
+
+/***/ }),
+
+/***/ "styled-jsx/style":
+/***/ (function(module, exports) {
+
+module.exports = require("styled-jsx/style");
 
 /***/ })
 
