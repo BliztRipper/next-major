@@ -7,13 +7,9 @@ import BottomNavBar from '../components/BottomNavBar'
 export default class extends Component {
   componentDidMount () {
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
-          console.log('SW registered: ', registration)
-        }).catch(function (registrationError) {
-          console.log('SW registration failed: ', registrationError)
-        })
-      })
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     }
   }
 
