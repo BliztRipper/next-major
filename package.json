@@ -21,6 +21,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "start": "next start -p 8000",
     "export": "next build && next export",
     "deploy": "gh-pages -d out"
   },
