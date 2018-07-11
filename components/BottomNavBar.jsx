@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import HighlightCarousel from '../components/HighlightShowing'
 
 class BottomNavBar extends Component {
   constructor(props) {
@@ -10,32 +11,34 @@ class BottomNavBar extends Component {
       error: null,
     }
   }
-  componentDidMount(){
-    fetch(`http://54.169.203.113/MovieList`)
-    .then(response => response.json())
-    .then(data => this.setState({dataObj:data.data.comingsoon, isLoading: false}))
-    .catch(error => this.setState({ error, isLoading: false }))
-  }
+  // componentDidMount(){
+  //   fetch(`http://54.169.203.113/MovieList`)
+  //   .then(response => response.json())
+  //   .then(data => this.setState({dataObj:data.data.comingsoon, isLoading: false}))
+  //   .catch(error => this.setState({ error, isLoading: false }))
+  // }
   render() {
-    const {dataObj, isLoading, error} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
-    {console.log(dataObj)}
+    // const {dataObj, isLoading, error} = this.state;
+    // if (error) {
+    //   return <p>{error.message}</p>;
+    // }
+    // if (isLoading) {
+    //   return <p>Loading...</p>;
+    // }
+    // {console.log(dataObj)}
     return (
       <Tabs>
         <TabPanel>
-          <div className='showing__container'>
+          {/* <div className='showing__container'>
               {dataObj.map((item,i) =>
               <div className='showing__cell' key={i}>
                 <img className='showing__poster' src={item.poster_ori}/>
                 <span className='showing__title'>{item.title_th}</span>
               </div>
             )}
-          </div>
+          </div> */}
+          <h1>ดูภาพยนต์ทั้งหมด</h1>
+          <HighlightCarousel/>
         </TabPanel>
         <TabPanel>
           <h2>Any content 2</h2>
