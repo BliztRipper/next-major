@@ -1,4 +1,18 @@
 
+.highlight{
+  margin-top: 15vh;
+  &__poster{
+    width:200px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  &__title{
+    text-align: center;
+    display: block
+  }
+}
 
 .showing{
   &__container{
@@ -9,19 +23,18 @@
     padding-bottom: 4rem;
   }
   &__cell{
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
   }
   &__poster{
-    width: 110px;
-    height: 160px;
+    width: 90px;
+    height: 140px;
   }
   &__title{
     padding: 0.5rem 0;
     text-align: center;
   }
-
 }
 .react-tabs{
   display: flex;

@@ -2,12 +2,33 @@ import React, { Component } from 'react';
 import Slider from "react-slick";
 
 class HighlightCarousel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataObj: [],
+      isLoading: true,
+      error: null,
+    }
+  }
+  componentDidMount(){
+    fetch(`http://54.169.203.113/MovieList`)
+    .then(response => response.json())
+    .then(data => this.setState({dataObj:data.data.comingsoon, isLoading: false}))
+    .catch(error => this.setState({ error, isLoading: false }))
+  }
   render() {
+    const {dataObj, isLoading, error} = this.state;
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
     const settings = {
       className: "center",
       centerMode: true,
       infinite: false,
-      centerPadding: "60px",
+      centerPadding: "30px",
       speed: 300,
       dots: false,
       arrows: false,
@@ -16,18 +37,21 @@ class HighlightCarousel extends Component {
       slidesToScroll: 1,
     };
     return (
-      <div>
+      <div className='highlight'>
         <Slider {...settings}>
-          <div>
-            <h3 className="header-tab">กำลังฉาย</h3>
-          </div>
-          <div>
-            <h3 className="header-tab">เร็วๆนี้</h3>
-          </div>
-          <div>
-            <h3 className="header-tab">ตุลาคม 2017</h3>
-          </div>
+          {dataObj.map((item,i) =>
+                <div key={i}>
+                  <img className='highlight__poster' src={item.poster_ori}/>
+                  <span className='highlight__title'>{item.title_th}</span>
+                </div>
+              )}
         </Slider>
+        <style jsx>{`
+          .slick-slide{
+            width: 240px !important;
+          }
+        `}
+        </style>
       </div>
     );
   }
