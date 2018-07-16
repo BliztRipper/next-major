@@ -1,19 +1,39 @@
 
 .highlight{
-  margin-top: 15vh;
+  margin-top: 10vh;
+  text-align: center;
   &__poster{
     width:200px;
-    height: 300px;
+    height: 320px;
     margin-left: auto;
     margin-right: auto;
     display: block;
   }
   &__title{
-    text-align: center;
     display: block
   }
+  &__subtitle{
+    color: #383D48;
+    font-size: 14px;
+    display: block
+  }
+  &__genre{
+    color: #989FAE;
+    font-size: 12px;
+    display: block
+  }
+  &__book-btn{
+    background-color: #ff8300;
+    display: flex;
+    justify-content: center;
+    padding: .6rem 0;
+    margin: 0.5rem auto;
+    width: 200px;
+    color:#fff;
+    border-radius: 4px;
+    text-decoration: none;
+  }
 }
-
 .showing{
   &__container{
     display: grid;

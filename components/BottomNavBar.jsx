@@ -10,7 +10,7 @@ class BottomNavBar extends Component {
       <Tabs>
         <TabPanel>
           <Link prefetch href="/AllMovie">
-            <a>ดูภาพยนต์ทั้งหมด</a>
+            <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
           </Link>
           <HighlightCarousel/>
         </TabPanel>
@@ -27,7 +27,19 @@ class BottomNavBar extends Component {
           <Tab>ตั๋วหนัง</Tab>
           </div>
         </TabList>
+        <style>{`
+          .allmovie-btn{
+            text-align:center;
+            display:block;
+            padding:10px;
+            text-decoration:none;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            color:#737373;
+          }
+        `}</style>
       </Tabs>
+
     );
   }
 }

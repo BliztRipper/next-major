@@ -24,6 +24,8 @@ export default class extends Component {
         <style jsx global>{`
           body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-y: hidden;
+            height:100vh;
           }
         `}
         </style>
