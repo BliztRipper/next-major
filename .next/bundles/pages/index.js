@@ -11,8 +11,9 @@ __NEXT_REGISTER_PAGE('/', function() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_tabs__ = __webpack_require__("./node_modules/react-tabs/esm/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_HighlightShowing__ = __webpack_require__("./components/HighlightShowing.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_next_link__ = __webpack_require__("./node_modules/next/link.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_next_link___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_next_link__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ListingCinema__ = __webpack_require__("./components/ListingCinema.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_next_link__ = __webpack_require__("./node_modules/next/link.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_next_link___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_next_link__);
 var _jsxFileName = "/Users/arnontawong/Documents/Github/next-major/components/BottomNavBar.jsx";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -28,6 +29,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -51,81 +53,81 @@ function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["d" /* Tabs */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 10
+          lineNumber: 11
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 11
+          lineNumber: 12
         }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_next_link___default.a, {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_next_link___default.a, {
         prefetch: true,
         href: "/AllMovie",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 12
+          lineNumber: 13
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("a", {
         className: "allmovie-btn",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 13
+          lineNumber: 14
         }
       }, "\u0E14\u0E39\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_HighlightShowing__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 15
+          lineNumber: 16
         }
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 17
-        }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", {
-        __source: {
-          fileName: _jsxFileName,
           lineNumber: 18
         }
-      }, "Any content 2")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_ListingCinema__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 20
+          lineNumber: 19
         }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", {
+      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 21
         }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22
+        }
       }, "Any content 3")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["b" /* TabList */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 23
+          lineNumber: 24
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "react-tabs__tabs-container",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 24
+          lineNumber: 25
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 25
+          lineNumber: 26
         }
       }, "\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 26
+          lineNumber: 27
         }
       }, "\u0E42\u0E23\u0E07\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 27
+          lineNumber: 28
         }
       }, "\u0E15\u0E31\u0E4B\u0E27\u0E2B\u0E19\u0E31\u0E07"))), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("style", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 30
+          lineNumber: 31
         }
       }, "\n          .allmovie-btn{\n            text-align:center;\n            display:block;\n            padding:10px;\n            text-decoration:none;\n            border: 1px solid #bbb;\n            border-radius: 8px;\n            color:#737373;\n          }\n        "));
     }
@@ -440,6 +442,137 @@ var _jsxFileName = "/Users/arnontawong/Documents/Github/next-major/components/La
     }
   })), children);
 });
+
+/***/ }),
+
+/***/ "./components/ListingCinema.jsx":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__("./node_modules/react/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _jsxFileName = "/Users/arnontawong/Documents/Github/next-major/components/ListingCinema.jsx";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var ListingCinema =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(ListingCinema, _Component);
+
+  function ListingCinema(props) {
+    var _this;
+
+    _classCallCheck(this, ListingCinema);
+
+    _this = _possibleConstructorReturn(this, (ListingCinema.__proto__ || Object.getPrototypeOf(ListingCinema)).call(this, props));
+    _this.state = {
+      dataObj: [],
+      isLoading: true,
+      error: null
+    };
+    return _this;
+  }
+
+  _createClass(ListingCinema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      try {
+        fetch("http://api-cinema.truemoney.net/Cinemas").then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          return _this2.setState({
+            dataObj: data.data,
+            isLoading: false
+          });
+        });
+      } catch (err) {
+        (function (error) {
+          return _this2.setState({
+            error: error,
+            isLoading: false
+          });
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _state = this.state,
+          dataObj = _state.dataObj,
+          isLoading = _state.isLoading,
+          error = _state.error;
+
+      if (error) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 24
+          }
+        }, error.message);
+      }
+
+      if (isLoading) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 27
+          }
+        }, "Loading Please wait...");
+      }
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "cinemaList",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 30
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "cinemaList__header",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 31
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 32
+        }
+      }, "\u0E04\u0E27\u0E2D\u0E40\u0E17\u0E35\u0E22\u0E23\u0E4C \u0E0B\u0E35\u0E40\u0E19\u0E2D\u0E32\u0E23\u0E4C\u0E15"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("span", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 33
+        }
+      }, "300m"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "sprite-2dDigital",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 34
+        }
+      })));
+    }
+  }]);
+
+  return ListingCinema;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (ListingCinema);
 
 /***/ }),
 

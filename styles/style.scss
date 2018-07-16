@@ -1,3 +1,15 @@
+.sprite{
+  background: url("../static/MajorGroupSprite.png") no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  &-2dDigital{
+    @extend .sprite;
+    background-position: -258px -300px; 
+    width: 48px;
+    height: 25px;
+    }
+  }
+
 
 .highlight{
   margin-top: 10vh;
