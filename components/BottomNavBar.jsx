@@ -13,10 +13,10 @@ class BottomNavBar extends Component {
           <Link prefetch href="/AllMovie">
             <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
           </Link>
-          <HighlightCarousel />
+          <HighlightCarousel/>
         </TabPanel>
         <TabPanel>
-          <ListingCinema />
+          <ListingCinema/>
         </TabPanel>
         <TabPanel>
           <h2>Any content 3</h2>

@@ -5,7 +5,7 @@ import '../styles/style.scss'
 
 export default class extends Component {
   componentDidMount () {
-    if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
         .then(registration => {

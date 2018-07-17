@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CardCinema from './CardCinema'
 
 class ListingCinema extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class ListingCinema extends Component {
       error: null,
     }
   }
+
   componentDidMount(){
     try{
       fetch(`http://api-cinema.truemoney.net/Cinemas`)
@@ -18,6 +20,16 @@ class ListingCinema extends Component {
       error => this.setState({ error, isLoading: false })
     }
   }
+
+  renderCinema(){
+    let resultsArray = [];
+    this.state.dataObj.map((item, i) => {
+      resultsArray.push(<CardCinema item={item} key={i}/>)
+    });
+    return resultsArray;
+  }
+
+  
   render() {
     const {dataObj, isLoading, error} = this.state;
     if (error) {
@@ -27,12 +39,8 @@ class ListingCinema extends Component {
       return <p>Loading Please wait...</p>;
     }
     return (
-      <div className="cinemaList">
-        <div className="cinemaList__header">
-          <h2>ควอเทียร์ ซีเนอาร์ต</h2>
-          <span>300m</span>
-          <div className="sprite-2dDigital"></div>
-        </div>
+      <div>
+        {this.renderCinema()}
       </div>
     );
   }

@@ -1,5 +1,10 @@
+
+:root{
+  font-size: 16px;
+}
+
 .sprite{
-  background: url("../static/MajorGroupSprite.png") no-repeat;
+  background: url('../static/MajorGroupSprite.png') no-repeat;
   display: inline-block;
   vertical-align: middle;
   &-2dDigital{
@@ -7,6 +12,51 @@
     background-position: -258px -300px; 
     width: 48px;
     height: 25px;
+    margin: 5px;
+    }
+  &-quatierCine{
+    @extend .sprite;
+    background-position: -20px -20px; 
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    }
+  &-favCinema{
+    @extend .sprite;
+    background-position: -11px -336px; 
+    width: 18px;
+    height: 18px;
+    margin: 5px;
+      &.active{
+        background-position: -33px -336px; 
+      }
+    }
+  &-favFilled{
+    @extend .sprite;
+    background-position: -33px -336px; 
+    width: 18px;
+    height: 18px;
+    margin: 5px;
+    }
+  &-earestCinema{
+    @extend .sprite;
+    background-position: -11px -359px; 
+    width: 18px;
+    height: 18px;
+    margin: 5px;
+    }
+  &-chevronDown{
+    @extend .sprite;
+    background-position: -14px -382px; 
+    width: 12px;
+    height: 7px;
+    margin: 5px;
+    position: absolute;
+    right: 15px;
+    transition: 200ms;
+      &.active{
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -96,3 +146,40 @@
   }
 }
 
+.card-cinema{
+  box-shadow: 0px 0px 15px 1px rgba(151, 151, 151, 0.35);
+  border-radius: 4px;
+  &__header{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    &__title{
+      color:#757D8C;
+      font-size: 0.875rem;
+      font-weight: normal;
+    }
+  }
+  &__body{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem;
+    transition: 500ms;
+    &.active{
+      display: none;
+    }
+  }
+  &__CineTitle{
+    margin-left: -75px;
+  }
+  &__CineName{
+    font-size: 1rem;
+    color:#383D48;
+  }
+  &__CineDistant{
+    font-size: 0.6875rem;
+    color:#989FAE;
+  }
+}
