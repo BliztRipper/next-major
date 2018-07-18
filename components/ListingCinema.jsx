@@ -4,11 +4,19 @@ import CardCinema from './CardCinema'
 class ListingCinema extends Component {
   constructor(props) {
     super(props);
+    this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
       dataObj: [],
       isLoading: true,
       error: null,
+      favActive: false,
     }
+  }
+
+  favAddActiveClass() {
+    this.setState({
+      favActive: !this.state.favActive
+    })
   }
 
   componentDidMount(){
@@ -39,10 +47,17 @@ class ListingCinema extends Component {
       return <p>Loading Please wait...</p>;
     }
     return (
-      <div>
-        {this.renderCinema()}
-      </div>
-    );
+        <div className="card-cinema">
+        <div className="card-cinema__header">
+          <div className="sprite-favCinema"></div>
+            <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
+          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} onClick={this.favAddActiveClass}></div>
+        </div>
+          <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
+            {this.renderCinema()}
+          </div>
+        </div>
+    )
   }
 }
 

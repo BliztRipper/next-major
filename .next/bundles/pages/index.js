@@ -50,86 +50,87 @@ function (_Component) {
   _createClass(BottomNavBar, [{
     key: "render",
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["d" /* Tabs */], {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "indexTab",
         __source: {
           fileName: _jsxFileName,
           lineNumber: 11
         }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["d" /* Tabs */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 12
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 13
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_next_link___default.a, {
         prefetch: true,
         href: "/AllMovie",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 13
+          lineNumber: 14
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("a", {
         className: "allmovie-btn",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 14
+          lineNumber: 15
         }
       }, "\u0E14\u0E39\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_HighlightShowing__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 16
+          lineNumber: 17
         }
       })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 18
-        }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_ListingCinema__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 19
         }
-      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_ListingCinema__["a" /* default */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 21
+          lineNumber: 20
         }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", {
+      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["c" /* TabPanel */], {
         __source: {
           fileName: _jsxFileName,
           lineNumber: 22
         }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h2", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 23
+        }
       }, "Any content 3")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["b" /* TabList */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 24
+          lineNumber: 25
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "react-tabs__tabs-container",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 25
+          lineNumber: 26
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 26
+          lineNumber: 27
         }
       }, "\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 27
+          lineNumber: 28
         }
       }, "\u0E42\u0E23\u0E07\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tabs__["a" /* Tab */], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 28
+          lineNumber: 29
         }
-      }, "\u0E15\u0E31\u0E4B\u0E27\u0E2B\u0E19\u0E31\u0E07"))), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("style", {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 31
-        }
-      }, "\n          .allmovie-btn{\n            text-align:center;\n            display:block;\n            padding:10px;\n            text-decoration:none;\n            border: 1px solid #bbb;\n            border-radius: 8px;\n            color:#737373;\n          }\n        "));
+      }, "\u0E15\u0E31\u0E4B\u0E27\u0E2B\u0E19\u0E31\u0E07")))));
     }
   }]);
 
@@ -175,23 +176,14 @@ function (_Component) {
     _classCallCheck(this, CardCinema);
 
     _this = _possibleConstructorReturn(this, (CardCinema.__proto__ || Object.getPrototypeOf(CardCinema)).call(this, props));
-    _this.favAddActiveClass = _this.favAddActiveClass.bind(_assertThisInitialized(_this));
     _this.favCineActiveClass = _this.favCineActiveClass.bind(_assertThisInitialized(_this));
     _this.state = {
-      favActive: false,
       favCineActive: false
     };
     return _this;
   }
 
   _createClass(CardCinema, [{
-    key: "favAddActiveClass",
-    value: function favAddActiveClass() {
-      this.setState({
-        favActive: !this.state.favActive
-      });
-    }
-  }, {
     key: "favCineActiveClass",
     value: function favCineActiveClass() {
       this.setState({
@@ -202,74 +194,43 @@ function (_Component) {
     key: "render",
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
-        className: "card-cinema",
+        className: "card-cinema__body",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 27
-        }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
-        className: "card-cinema__header",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 28
-        }
-      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
-        className: "sprite-favCinema",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 29
-        }
-      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h5", {
-        className: "card-cinema__header__title",
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 30
-        }
-      }, "\u0E42\u0E23\u0E07\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C\u0E17\u0E35\u0E48\u0E0A\u0E37\u0E48\u0E19\u0E0A\u0E2D\u0E1A"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
-        className: this.state.favActive ? 'sprite-chevronDown active' : 'sprite-chevronDown',
-        onClick: this.favAddActiveClass,
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 31
-        }
-      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
-        className: this.state.favActive ? 'card-cinema__body active' : 'card-cinema__body',
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 33
+          lineNumber: 20
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "sprite-quatierCine",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 34
+          lineNumber: 21
         }
       }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "card-cinema__CineTitle",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 35
+          lineNumber: 22
         }
       }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "card-cinema__CineName",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 36
+          lineNumber: 23
         }
       }, this.props.item.Name), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: "card-cinema__CineDistant",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 37
+          lineNumber: 24
         }
       }, "100 m")), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         className: this.state.favCineActive ? 'sprite-favCinema active' : 'sprite-favCinema',
         onClick: this.favCineActiveClass,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 39
+          lineNumber: 26
         }
-      })));
+      }));
     }
   }]);
 
@@ -604,9 +565,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
 
@@ -622,15 +583,24 @@ function (_Component) {
     _classCallCheck(this, ListingCinema);
 
     _this = _possibleConstructorReturn(this, (ListingCinema.__proto__ || Object.getPrototypeOf(ListingCinema)).call(this, props));
+    _this.favAddActiveClass = _this.favAddActiveClass.bind(_assertThisInitialized(_this));
     _this.state = {
       dataObj: [],
       isLoading: true,
-      error: null
+      error: null,
+      favActive: false
     };
     return _this;
   }
 
   _createClass(ListingCinema, [{
+    key: "favAddActiveClass",
+    value: function favAddActiveClass() {
+      this.setState({
+        favActive: !this.state.favActive
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -663,7 +633,7 @@ function (_Component) {
           key: i,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 27
+            lineNumber: 35
           }
         }));
       });
@@ -681,7 +651,7 @@ function (_Component) {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 36
+            lineNumber: 44
           }
         }, error.message);
       }
@@ -690,17 +660,49 @@ function (_Component) {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("p", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 39
+            lineNumber: 47
           }
         }, "Loading Please wait...");
       }
 
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "card-cinema",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 42
+          lineNumber: 50
         }
-      }, this.renderCinema());
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "card-cinema__header",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 51
+        }
+      }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: "sprite-favCinema",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 52
+        }
+      }), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("h5", {
+        className: "card-cinema__header__title",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 53
+        }
+      }, "\u0E42\u0E23\u0E07\u0E20\u0E32\u0E1E\u0E22\u0E19\u0E15\u0E4C\u0E17\u0E35\u0E48\u0E0A\u0E37\u0E48\u0E19\u0E0A\u0E2D\u0E1A"), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: this.state.favActive ? 'sprite-chevronDown active' : 'sprite-chevronDown',
+        onClick: this.favAddActiveClass,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 54
+        }
+      })), __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
+        className: this.state.favActive ? 'card-cinema__container active' : 'card-cinema__container',
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 56
+        }
+      }, this.renderCinema()));
     }
   }]);
 
@@ -7945,8 +7947,8 @@ function (_Component) {
           lineNumber: 23
         }
       }), __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_0_styled_jsx_style___default.a, {
-        styleId: "3155174115",
-        css: "body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow-y:hidden;height:100vh;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1QjJCLEFBR3lFLHdEQUMxQyxrQkFDTixhQUNkIiwiZmlsZSI6InBhZ2VzL2luZGV4LmpzeCIsInNvdXJjZVJvb3QiOiIvVXNlcnMvYXJub250YXdvbmcvRG9jdW1lbnRzL0dpdGh1Yi9uZXh0LW1ham9yIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7IENvbXBvbmVudCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCBMYXlvdXQgZnJvbSAnLi4vY29tcG9uZW50cy9MYXlvdXQnXG5pbXBvcnQgQm90dG9tTmF2QmFyIGZyb20gJy4uL2NvbXBvbmVudHMvQm90dG9tTmF2QmFyJ1xuaW1wb3J0ICcuLi9zdHlsZXMvc3R5bGUuc2NzcydcblxuZXhwb3J0IGRlZmF1bHQgY2xhc3MgZXh0ZW5kcyBDb21wb25lbnQge1xuICBjb21wb25lbnREaWRNb3VudCAoKSB7XG4gIGlmICgnc2VydmljZVdvcmtlcicgaW4gbmF2aWdhdG9yKSB7XG4gICAgICBuYXZpZ2F0b3Iuc2VydmljZVdvcmtlclxuICAgICAgICAucmVnaXN0ZXIoJy9zZXJ2aWNlLXdvcmtlci5qcycpXG4gICAgICAgIC50aGVuKHJlZ2lzdHJhdGlvbiA9PiB7XG4gICAgICAgICAgY29uc29sZS5sb2coJ3NlcnZpY2Ugd29ya2VyIHJlZ2lzdHJhdGlvbiBzdWNjZXNzZnVsJylcbiAgICAgICAgfSlcbiAgICAgICAgLmNhdGNoKGVyciA9PiB7XG4gICAgICAgICAgY29uc29sZS53YXJuKCdzZXJ2aWNlIHdvcmtlciByZWdpc3RyYXRpb24gZmFpbGVkJywgZXJyLm1lc3NhZ2UpXG4gICAgICAgIH0pXG4gICAgfVxuICB9XG5cbiAgcmVuZGVyKCkge1xuICAgIHJldHVybihcbiAgICAgIDxMYXlvdXQ+XG4gICAgICAgIDxCb3R0b21OYXZCYXIvPlxuICAgICAgICA8c3R5bGUganN4IGdsb2JhbD57YFxuICAgICAgICAgIGJvZHl7XG4gICAgICAgICAgICBmb250LWZhbWlseTogJ1NlZ29lIFVJJywgVGFob21hLCBHZW5ldmEsIFZlcmRhbmEsIHNhbnMtc2VyaWY7XG4gICAgICAgICAgICBvdmVyZmxvdy15OiBoaWRkZW47XG4gICAgICAgICAgICBoZWlnaHQ6MTAwdmg7XG4gICAgICAgICAgfVxuICAgICAgICBgfVxuICAgICAgICA8L3N0eWxlPlxuICAgICAgPC9MYXlvdXQ+XG4gICAgKVxuICAgfVxuIH1cbiJdfQ== */\n/*@ sourceURL=pages/index.jsx */"
+        styleId: "3265870378",
+        css: "body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow-y:hidden;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL2luZGV4LmpzeCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUF1QjJCLEFBR3lFLHdEQUMxQyxrQkFDcEIiLCJmaWxlIjoicGFnZXMvaW5kZXguanN4Iiwic291cmNlUm9vdCI6Ii9Vc2Vycy9hcm5vbnRhd29uZy9Eb2N1bWVudHMvR2l0aHViL25leHQtbWFqb3IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgQ29tcG9uZW50IH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IExheW91dCBmcm9tICcuLi9jb21wb25lbnRzL0xheW91dCdcbmltcG9ydCBCb3R0b21OYXZCYXIgZnJvbSAnLi4vY29tcG9uZW50cy9Cb3R0b21OYXZCYXInXG5pbXBvcnQgJy4uL3N0eWxlcy9zdHlsZS5zY3NzJ1xuXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBleHRlbmRzIENvbXBvbmVudCB7XG4gIGNvbXBvbmVudERpZE1vdW50ICgpIHtcbiAgaWYgKCdzZXJ2aWNlV29ya2VyJyBpbiBuYXZpZ2F0b3IpIHtcbiAgICAgIG5hdmlnYXRvci5zZXJ2aWNlV29ya2VyXG4gICAgICAgIC5yZWdpc3RlcignL3NlcnZpY2Utd29ya2VyLmpzJylcbiAgICAgICAgLnRoZW4ocmVnaXN0cmF0aW9uID0+IHtcbiAgICAgICAgICBjb25zb2xlLmxvZygnc2VydmljZSB3b3JrZXIgcmVnaXN0cmF0aW9uIHN1Y2Nlc3NmdWwnKVxuICAgICAgICB9KVxuICAgICAgICAuY2F0Y2goZXJyID0+IHtcbiAgICAgICAgICBjb25zb2xlLndhcm4oJ3NlcnZpY2Ugd29ya2VyIHJlZ2lzdHJhdGlvbiBmYWlsZWQnLCBlcnIubWVzc2FnZSlcbiAgICAgICAgfSlcbiAgICB9XG4gIH1cblxuICByZW5kZXIoKSB7XG4gICAgcmV0dXJuKFxuICAgICAgPExheW91dD5cbiAgICAgICAgPEJvdHRvbU5hdkJhci8+XG4gICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG4gICAgICAgICAgYm9keXtcbiAgICAgICAgICAgIGZvbnQtZmFtaWx5OiAnU2Vnb2UgVUknLCBUYWhvbWEsIEdlbmV2YSwgVmVyZGFuYSwgc2Fucy1zZXJpZjtcbiAgICAgICAgICAgIG92ZXJmbG93LXk6IGhpZGRlbjtcbiAgICAgICAgICB9XG4gICAgICAgIGB9XG4gICAgICAgIDwvc3R5bGU+XG4gICAgICA8L0xheW91dD5cbiAgICApXG4gICB9XG4gfVxuIl19 */\n/*@ sourceURL=pages/index.jsx */"
       }));
     }
   }]);

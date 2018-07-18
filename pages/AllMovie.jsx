@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Layout from '../components/Layout'
 import '../styles/style.scss'
 
@@ -28,6 +29,13 @@ class AllMovie extends Component {
     {console.log(dataObj)}
     return (
       <Layout title='All Movie'>
+      <div className="allmovieTab">
+      <Tabs>
+        <TabList>
+          <Tab>กำลังฉาย</Tab>
+          <Tab>เร็วๆนี้</Tab>
+        </TabList>
+        <TabPanel>
         <section>
           <div className='showing__container'>
                 {dataObj.map((item,i) =>
@@ -38,7 +46,14 @@ class AllMovie extends Component {
               )}
           </div>
       </section>
+        </TabPanel>
+        <TabPanel>
+          <h1>Hiiii</h1>
+        </TabPanel>
+      </Tabs>
+      </div>  
       </Layout>
+      
     );
   }
 }

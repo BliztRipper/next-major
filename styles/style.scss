@@ -60,13 +60,22 @@
     }
   }
 
+  .allmovie-btn{
+    text-align:center;
+    display:block;
+    padding:10px;
+    text-decoration:none;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    color:#737373;
+  }
 
 .highlight{
   margin-top: 10vh;
   text-align: center;
   &__poster{
-    width:200px;
-    height: 320px;
+    width:auto;
+    height: calc((100vh / 100) * 40);
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -98,11 +107,12 @@
 }
 .showing{
   &__container{
-    display: grid;
+    display: grid; 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: .5rem;
     padding-bottom: 4rem;
+    margin-top: 65px;
   }
   &__cell{
     display: flex !important;
@@ -116,33 +126,6 @@
   &__title{
     padding: 0.5rem 0;
     text-align: center;
-  }
-}
-.react-tabs{
-  display: flex;
-  flex-direction: column;
-  &__tab-list{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    padding-left: 0;
-    margin: 0 0;
-    list-style: none;
-    width: 100vw;
-  }
-  &__tabs-container{
-    display: flex;
-    justify-content: space-around;
-    box-shadow: #000 0 2px 4px 0;
-    background-color: #fff;
-  }
-  &__tab{
-    text-align: center;
-    color:#989FAE;
-    padding: 1rem 0;
-    &--selected{
-      border-top: 3px solid #ff8200;
-    }
   }
 }
 
@@ -161,18 +144,22 @@
       font-weight: normal;
     }
   }
+  &__container{
+    display: unset;
+    &.active{
+      display: none;
+    }
+  }
   &__body{
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.6rem;
     transition: 500ms;
-    &.active{
-      display: none;
-    }
   }
   &__CineTitle{
-    margin-left: -75px;
+    width: 70%;
+
   }
   &__CineName{
     font-size: 1rem;
@@ -183,3 +170,65 @@
     color:#989FAE;
   }
 }
+
+.indexTab{
+  .react-tabs{
+      &__tab-list{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        padding-left: 0;
+        margin: 0 0;
+        list-style: none;
+        width: 100vw;
+      }
+      &__tabs-container{
+        display: flex;
+        justify-content: space-around;
+        box-shadow: #000 0 2px 4px 0;
+        background-color: #fff;
+      }
+      &__tab{
+        text-align: center;
+        color:#989FAE;
+        padding: 1rem 0;
+        &--selected{
+          border-top: 3px solid #ff8200;
+        }
+      } 
+    }
+
+}
+
+.allmovieTab{
+  .react-tabs{
+      &__tab-list{
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-left: 0;
+        margin: 0 0;
+        list-style: none;
+        width: 100vw;
+        display: flex;
+        justify-content: space-around;
+        background-color: #fff;
+      }
+      &__tabs-container{
+        display: flex;
+        justify-content: space-around;
+        box-shadow: #000 0 2px 4px 0;
+        background-color: #fff;
+      }
+      &__tab{
+        text-align: center;
+        color:#989FAE;
+        padding: 1rem 0;
+        &--selected{
+          border-top: 3px solid #ff8200;
+        }
+      } 
+    }
+
+}
+  

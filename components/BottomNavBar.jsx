@@ -8,7 +8,8 @@ import Link from 'next/link'
 class BottomNavBar extends Component {
   render() {
     return (
-      <Tabs>
+      <div className="indexTab">
+        <Tabs>
         <TabPanel>
           <Link prefetch href="/AllMovie">
             <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
@@ -28,19 +29,8 @@ class BottomNavBar extends Component {
             <Tab>ตั๋วหนัง</Tab>
           </div>
         </TabList>
-        <style>{`
-          .allmovie-btn{
-            text-align:center;
-            display:block;
-            padding:10px;
-            text-decoration:none;
-            border: 1px solid #bbb;
-            border-radius: 8px;
-            color:#737373;
-          }
-        `}</style>
       </Tabs>
-
+      </div>
     );
   }
 }

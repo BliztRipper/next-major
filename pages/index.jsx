@@ -25,7 +25,6 @@ export default class extends Component {
           body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-y: hidden;
-            height:100vh;
           }
         `}
         </style>
