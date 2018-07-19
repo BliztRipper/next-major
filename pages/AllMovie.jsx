@@ -11,6 +11,7 @@ class AllMovie extends Component {
       dataObj: [],
       isLoading: true,
       error: null,
+      monthMovie:[]
     }
   }
   componentDidMount(){
@@ -20,12 +21,22 @@ class AllMovie extends Component {
     .catch(error => this.setState({ error, isLoading: false }))
   }
   render() {
-    const {dataObj, isLoading, error} = this.state;
+    const {dataObj, isLoading, error, monthMovie} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
       return <AllMoviePLaceholder/>
+    }
+
+
+    dataObj.comingsoon.forEach(movie => {
+      monthMovie[movie.release_date] ? 
+      monthMovie[movie.release_date].push({title: movie.title_th, poster:movie.poster_ori})  
+      :(monthMovie[movie.release_date] = [], monthMovie[movie.release_date].push({title: movie.title_th, poster:movie.poster_ori})) 
+    })
+
+    {console.log(monthMovie);
     }
     return (
       <Layout title='All Movie'>
@@ -49,14 +60,15 @@ class AllMovie extends Component {
         </TabPanel>
         <TabPanel>
           <section>
-            <div className='comingsoon__container'>
+            {/* <div className='comingsoon__container'>
                   {dataObj.comingsoon.map((item,i) =>
                   <div className='comingsoon__cell' key={i}>
                     <img className='comingsoon__poster' src={item.poster_ori}/>
                     <span className='comingsoon__title'>{item.title_th}</span>
                   </div>
                 )}
-            </div>
+            </div> */}
+            
           </section>
         </TabPanel>
       </Tabs>

@@ -122,10 +122,18 @@
   &__poster{
     width: 90px;
     height: 140px;
+    box-shadow: #505050 0px 5px 10px 0;
+    &--lazy{
+      width: 90px;
+      height: 140px;  
+      box-shadow: 0;
+    }
   }
   &__title{
     padding: 0.5rem 0;
     text-align: center;
+    text-overflow: ellipsis;
+    line-clamp: 2;
   }
 }
 
@@ -146,10 +154,13 @@
   &__poster{
     width: 90px;
     height: 140px;
+    box-shadow: #505050 0px 5px 10px 0;
   }
   &__title{
     padding: 0.5rem 0;
     text-align: center;
+    text-overflow: ellipsis; 
+    line-clamp: 2;
   }
 }
 
@@ -248,8 +259,9 @@
         text-align: center;
         color:#989FAE;
         padding: 1rem 0;
+        width: 50%;
         &--selected{
-          border-top: 3px solid #ff8200;
+          border-bottom: 3px solid #ff8200;
         }
       } 
     }
