@@ -11,7 +11,8 @@ class AllMovie extends Component {
       dataObj: [],
       isLoading: true,
       error: null,
-      monthMovie:[]
+      monthMovie:[],
+      monthArr:[],
     }
   }
   componentDidMount(){
@@ -20,6 +21,52 @@ class AllMovie extends Component {
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
   }
+
+  convertToYearMonth(dateString) {
+    if (dateString.length >= 7){
+      switch (dateString.substring(0,7)) {
+        case '2018-07':
+        dateString = 'jul2018'
+          break;
+        case '2018-08':
+        dateString = 'aug2018'
+          break;
+        case '2018-09':
+        dateString = 'sep2018'
+          break;
+        case '2018-10':
+        dateString = 'oct2018'
+          break;
+        case '2018-11':
+        dateString = 'nov2018'
+          break;
+        case '2018-12':
+        dateString = 'dec2018'
+          break;
+        case '2019-01':
+        dateString = 'jan2019'
+          break;
+        case '2019-02':
+        dateString = 'feb2019'
+          break;
+        case '2019-03':
+        dateString = 'mar2019'
+          break;
+    
+      }
+    }
+    return dateString
+  }
+
+  toArr(){
+    for (var month in monthMovie) {
+      var movies = monthMovie[month];
+      movies.map((movie,i)=> {
+        monthArr[i].push(movie)
+      })
+    }
+  }
+
   render() {
     const {dataObj, isLoading, error, monthMovie} = this.state;
     if (error) {
@@ -31,13 +78,17 @@ class AllMovie extends Component {
 
 
     dataObj.comingsoon.forEach(movie => {
-      monthMovie[movie.release_date] ? 
-      monthMovie[movie.release_date].push({title: movie.title_th, poster:movie.poster_ori})  
-      :(monthMovie[movie.release_date] = [], monthMovie[movie.release_date].push({title: movie.title_th, poster:movie.poster_ori})) 
+      let key = this.convertToYearMonth(movie.release_date)
+      if (key in monthMovie == false){
+        monthMovie[key] = []
+      } 
+      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori,})
     })
 
-    {console.log(monthMovie);
-    }
+      //console.log(monthMovie);
+     
+
+    
     return (
       <Layout title='All Movie'>
       <div className="allmovieTab">
@@ -60,15 +111,8 @@ class AllMovie extends Component {
         </TabPanel>
         <TabPanel>
           <section>
-            {/* <div className='comingsoon__container'>
-                  {dataObj.comingsoon.map((item,i) =>
-                  <div className='comingsoon__cell' key={i}>
-                    <img className='comingsoon__poster' src={item.poster_ori}/>
-                    <span className='comingsoon__title'>{item.title_th}</span>
-                  </div>
-                )}
-            </div> */}
-            
+            <div className='comingsoon__container'>
+            </div>
           </section>
         </TabPanel>
       </Tabs>
