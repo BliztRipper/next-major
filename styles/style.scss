@@ -1,6 +1,11 @@
 
 :root{
   font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.loading{
+  position: absolute;top: 40%;left: 50%;transform: translateX(-50%);
 }
 
 .sprite{
@@ -132,8 +137,9 @@
   &__title{
     padding: 0.5rem 0;
     text-align: center;
-    text-overflow: ellipsis;
     line-clamp: 2;
+    font-size: 0.875rem;
+    color:#383D48;
   }
 }
 
@@ -141,6 +147,8 @@
   margin-top: 75px;
   &__header{
     text-align: center;
+    font-size: 1.125rem;
+    font-weight: bold;
   }
   &__container{
     display: grid; 
@@ -164,6 +172,8 @@
     text-align: center;
     text-overflow: ellipsis; 
     line-clamp: 2;
+    font-size: 0.875rem;
+    color:#383D48;
   }
 }
 
@@ -175,7 +185,7 @@
     justify-content: start;
     align-items: center;
     position: relative;
-    border-bottom: 1px solid #ccc;
+    box-shadow: 0 1px 0 0 #E9EBEF;
     &__title{
       color:#757D8C;
       font-size: 0.875rem;
@@ -265,6 +275,7 @@
         width: 50%;
         &--selected{
           border-bottom: 3px solid #ff8200;
+          color:#ff8200;
         }
       } 
     }

@@ -7,17 +7,6 @@ import CominSoonComp from '../components/ComingSoonComp'
 
 class AllMovie extends Component {
 
-  toArr(monthMovie){
-    var monthArr = []
-    for (var month in monthMovie) {
-      var movies = monthMovie[month];
-      movies.map((movie,i)=> {
-        monthArr[i].push(movie)
-      })
-    }
-    return monthArr
-  }
-
   render() {
     return (
       <Layout title='All Movie'>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MovieOfMonth from './MovieOfMonth'
-import AllMoviePLaceholder from './AllMoviePlaceHolder'
 import MoviePoster from './MoviePoster';
+import loading from '../static/loading.gif'
 
 class CominSoonComp extends Component {
   constructor(props) {
@@ -11,6 +11,7 @@ class CominSoonComp extends Component {
       isLoading: true,
       error: null,
       monthMovie:[],
+      renderMovie: [],
     }
   }
 
@@ -39,12 +40,12 @@ class CominSoonComp extends Component {
 
 
   render() {
-    const {dataObj, isLoading, error, monthMovie} = this.state;
+    const {dataObj, isLoading, error, monthMovie, renderMovie} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <AllMoviePLaceholder/>
+      return <img src={loading} className="loading"/>
     }
 
     dataObj.comingsoon.map(movie => {
@@ -55,27 +56,25 @@ class CominSoonComp extends Component {
       monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori})
     })
     
-    const htmlLines = []
     var cells = []
     {(() => {
       for (var month in monthMovie) {
-        htmlLines.push(<MovieOfMonth title={month} key={month}/>)
+        renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
           cells.push(<MoviePoster title={movie.title} poster={movie.poster} key={movie.title+i}/>)
-          console.log(monthMovie[month]);
         })
-        htmlLines.push(
+        renderMovie.push(
           <div className="comingsoon__container" key={month+'comingsoon__container'}>
             {cells}
           </div>
         )
-        cells = [];
+        cells = []
       }
     })()}
 
     return (
       <section className="comingsoon">
-          {htmlLines}
+          {renderMovie}
       </section>
     );
   }

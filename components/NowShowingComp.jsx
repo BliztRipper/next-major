@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AllMoviePLaceholder from './AllMoviePlaceHolder'
+import loading from '../static/loading.gif'
 
 class NowShowingComp extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class NowShowingComp extends Component {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <AllMoviePLaceholder/>
+      return <img src={loading} className="loading"/>
     }
     return (
         <section>
