@@ -138,13 +138,16 @@
 }
 
 .comingsoon{
+  margin-top: 75px;
+  &__header{
+    text-align: center;
+  }
   &__container{
     display: grid; 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: .5rem;
     padding-bottom: 4rem;
-    margin-top: 65px;
   }
   &__cell{
     display: flex !important;
