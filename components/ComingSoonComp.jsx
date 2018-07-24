@@ -52,25 +52,35 @@ class CominSoonComp extends Component {
       if (key in monthMovie == false){
         monthMovie[key] = []
       } 
-      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori,})
+      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori})
     })
     
     const htmlLines = []
+    var cells = []
     {(() => {
       for (var month in monthMovie) {
         htmlLines.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
-          // htmlLines.push(<MoviePoster title={movie.title} poster={movie.poster_ori} key={movie.title+i}/>)
-          htmlLines.push(<MoviePoster movies={monthMovie[month]} key={movie.title+i}/>)
+          cells.push(<MoviePoster title={movie.title} poster={movie.poster} key={movie.title+i}/>)
+          console.log(monthMovie[month]);
         })
+        htmlLines.push(
+          <div className="comingsoon__container" key={month+'comingsoon__container'}>
+            {cells}
+          </div>
+        )
+        cells = [];
       }
     })()}
+
     return (
       <section className="comingsoon">
-        {htmlLines}
+          {htmlLines}
       </section>
     );
   }
 }
+
+
 
 export default CominSoonComp;
