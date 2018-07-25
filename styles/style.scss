@@ -186,6 +186,7 @@
     align-items: center;
     position: relative;
     box-shadow: 0 1px 0 0 #E9EBEF;
+    margin-top: 65px;
     &__title{
       color:#757D8C;
       font-size: 0.875rem;
@@ -204,6 +205,8 @@
     justify-content: space-between;
     padding: 0.6rem;
     transition: 500ms;
+    position: relative;
+    z-index: 5;
   }
   &__CineTitle{
     width: 70%;
@@ -216,6 +219,31 @@
   &__CineDistant{
     font-size: 0.6875rem;
     color:#989FAE;
+  }
+}
+
+.cinema__regional{
+  &__header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 1px 0 0 #e9ebef;
+    border: 1px solid #F5F6F8;
+    background-color: #fff;
+  }
+  &__title{
+    color:#757D8C;
+    font-size: 0.875rem;
+    margin-left: 10px;
+    font-weight: normal;
+  }
+  &__body{
+    padding:0.6rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
@@ -240,12 +268,47 @@
         text-align: center;
         color:#989FAE;
         padding: 1rem 0;
+        height: 20px;
         &--selected{
           border-top: 3px solid #ff8200;
         }
       } 
     }
-
+  &__cinema{
+    .react-tabs{
+      &__tab-list{
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-left: 0;
+        margin: 0 0;
+        list-style: none;
+        width: 100vw;
+        display: flex;
+        justify-content: space-around;
+        background-color: #fff;
+        z-index: -1;
+      }
+      // &__tabs-container{
+      //   display: flex;
+      //   justify-content: space-around;
+      //   box-shadow: #000 0 2px 4px 0;
+      //   background-color: #fff;
+      // }
+      &__tab{
+        text-align: center;
+        color:#989FAE;
+        padding: 1rem 0;
+        width: 50%;
+        top:0;
+        &--selected{
+          border-bottom: 3px solid #ff8200;
+          color:#ff8200;
+          border-top: 0;
+        }
+      } 
+    }
+  }
 }
 
 .allmovieTab{
@@ -279,6 +342,5 @@
         }
       } 
     }
-
 }
   

@@ -11,3 +11,4 @@ class MovieOfMonth extends Component {
 }
 
 export default MovieOfMonth;
+ 

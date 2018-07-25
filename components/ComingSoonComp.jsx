@@ -13,7 +13,7 @@ class CominSoonComp extends Component {
       monthMovie:[],
       renderMovie: [],
     }
-  }
+  } 
 
   componentDidMount(){
     fetch(`http://54.169.203.113/MovieList`)

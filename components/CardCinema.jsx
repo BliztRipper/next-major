@@ -26,7 +26,7 @@ class CardCinema extends Component {
               <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );
-  }
+  } 
 }
 
 export default CardCinema;

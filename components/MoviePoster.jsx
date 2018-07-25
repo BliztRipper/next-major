@@ -11,4 +11,4 @@ class MoviePoster extends Component {
   }
 }
 
-export default MoviePoster;
+export default MoviePoster; 

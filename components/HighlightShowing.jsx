@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Slider from "react-slick";
 import Link from 'next/link'
+import loading from '../static/loading.gif'
 
 class HighlightCarousel extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class HighlightCarousel extends Component {
     try{
       fetch(`http://54.169.203.113/MovieList`)
       .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data.now_showing, isLoading: false}))
+      .then((data) => this.setState({dataObj:data.data.now_showing, isLoading: false}))
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
@@ -26,7 +27,7 @@ class HighlightCarousel extends Component {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <p>Loading Please wait...</p>;
+      return <img src={loading} className="loading"/>
     }
     const settings = {
       className: "center",
