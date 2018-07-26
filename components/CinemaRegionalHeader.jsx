@@ -33,7 +33,7 @@ class CinemaRegionalHeader extends Component {
     var cells = []
     rows.push(this.GenHeader(this.props.zone_name))
     this.props.items.map((item,i) => {
-      cells.push(<CardCinemaRegional name={item.name}/>)
+      cells.push(<CardCinemaRegional name={item.name} key={i}/>)
     })
 
     rows.push(

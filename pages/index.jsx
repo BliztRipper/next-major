@@ -13,7 +13,7 @@ export default class extends Component {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-y: hidden;
           }
-        `}
+        `} 
         </style>
       </Layout>
     )
