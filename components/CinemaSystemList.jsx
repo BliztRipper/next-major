@@ -22,7 +22,7 @@ class CinemaSystemList extends Component {
 
   componentDidMount(){
     try{
-      fetch(`http://api-cinema.truemoney.net/Cinemas`)
+      fetch(`https://api-cinema.truemoney.net/Cinemas`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
     } catch(err){

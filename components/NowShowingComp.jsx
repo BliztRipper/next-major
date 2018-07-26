@@ -11,7 +11,7 @@ class NowShowingComp extends Component {
     }
   }
   componentDidMount(){
-    fetch(`http://54.169.203.113/MovieList`)
+    fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
@@ -27,7 +27,7 @@ class NowShowingComp extends Component {
     return (
         <section>
           <div className='showing__container'>
-              {dataObj.now_showing.map((item,i) =>
+              {dataObj.comingsoon.map((item,i) =>
                 <div className='showing__cell' key={i}>
                   <img className='showing__poster' src={item.poster_ori}/>
                   <span className='showing__title'>{item.title_th}</span>

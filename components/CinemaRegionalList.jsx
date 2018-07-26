@@ -9,13 +9,14 @@ class CinemaRegionalList extends Component {
       dataObj: [],
       isLoading: true,
       error: null,
-      branchRegion:[]
+      branchRegion:[],
+      renderRegion:[],
     }
   }
 
   componentDidMount(){
     try{
-      fetch(`http://api-cinema.truemoney.net/Branches`)
+      fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
     } catch(err){
@@ -23,18 +24,16 @@ class CinemaRegionalList extends Component {
     }
   }
 
-
   renderRegionHeader(){
     let resultsArray = [];
     this.state.branchRegion.map((item, i) => {
-      resultsArray.push(<CinemaRegionalHeader title={item.name} key={i}/>)
+      resultsArray.push(<CinemaRegionalHeader title={item} name={name} key={i}/>)
     });
     return resultsArray;
   }
 
-    
   render() {
-    const {dataObj, isLoading, error, branchRegion} = this.state;
+    const {dataObj, isLoading, error, branchRegion, renderRegion} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -43,18 +42,24 @@ class CinemaRegionalList extends Component {
     }
 
     dataObj.map(region=>{
-      let key = region.DescriptionInside.zone_id 
+      let key = region.DescriptionInside.zone_name
       if (key in branchRegion == false){
         branchRegion[key] = []
       } 
-      branchRegion[key].push({id: region.DescriptionInside.zone_id, name:region.DescriptionInside.zone_name}) 
-      
+      branchRegion[key].push({id: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.NameAlt}) 
     })
 
-    console.log(branchRegion);
+    {(() => {
+      for (var region in branchRegion){
+        branchRegion[region].map((item,i)=>{
+          renderRegion.push(<CinemaRegionalHeader title={item.title} name={item.name} key={i+item.id}/>)
+        })
+      }   
+      console.log(branchRegion);
+    })()}
 
     return (
-      <div>{this.renderRegionHeader()}</div>
+      <div>{renderRegion}</div>
     );
   }
 }

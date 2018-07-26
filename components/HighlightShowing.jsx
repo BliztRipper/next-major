@@ -14,9 +14,9 @@ class HighlightCarousel extends Component {
   }
   componentDidMount(){
     try{
-      fetch(`http://54.169.203.113/MovieList`)
+      fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
-      .then((data) => this.setState({dataObj:data.data.now_showing, isLoading: false}))
+      .then((data) => this.setState({dataObj:data.data.comingsoon, isLoading: false}))
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }

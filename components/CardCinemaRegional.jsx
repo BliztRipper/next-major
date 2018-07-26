@@ -15,7 +15,7 @@ class CardCinemaRegional extends Component {
 
   componentDidMount(){
     try{
-      fetch(`http://api-cinema.truemoney.net/Branches`)
+      fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
     } catch(err){

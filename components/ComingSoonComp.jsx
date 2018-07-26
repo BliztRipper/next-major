@@ -16,7 +16,7 @@ class CominSoonComp extends Component {
   } 
 
   componentDidMount(){
-    fetch(`http://54.169.203.113/MovieList`)
+    fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
