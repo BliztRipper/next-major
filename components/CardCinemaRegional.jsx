@@ -4,12 +4,11 @@ import loading from '../static/loading.gif'
 class CardCinemaRegional extends Component {
   constructor(props) {
     super(props);
-    this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
       dataObj: [],
       isLoading: true,
       error: null,
-      favCineActive:false
+      
     }
   }
 
@@ -21,13 +20,6 @@ class CardCinemaRegional extends Component {
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
-  }
-  
-
-  favCineActiveClass() {
-    this.setState({
-      favCineActive: !this.state.favCineActive
-    })
   }
 
   render() {
@@ -41,14 +33,14 @@ class CardCinemaRegional extends Component {
 
     
     return (
-      <div className="cinema__regional__body">
-        <div className="sprite-quatierCine"></div>
-        <div className="card-cinema__CineTitle">
-          <div className="card-cinema__CineName">sdlsajdlsalkdsa</div>
-          <div className="card-cinema__CineDistant">100 m</div>
+          <div className="cinema__regional__body">
+            <div className="sprite-quatierCine"></div>
+            <div className="card-cinema__CineTitle">
+              <div className="card-cinema__CineName">{this.props.name}</div>
+              <div className="card-cinema__CineDistant">100 m</div>
+            </div>
+            <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'}></div>
         </div>
-        <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
-    </div>
     );
   } 
 }

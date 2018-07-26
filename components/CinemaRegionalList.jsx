@@ -11,6 +11,7 @@ class CinemaRegionalList extends Component {
       error: null,
       branchRegion:[],
       renderRegion:[],
+      favActive:false
     }
   }
 
@@ -22,14 +23,6 @@ class CinemaRegionalList extends Component {
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
-  }
-
-  renderRegionHeader(){
-    let resultsArray = [];
-    this.state.branchRegion.map((item, i) => {
-      resultsArray.push(<CinemaRegionalHeader title={item} name={name} key={i}/>)
-    });
-    return resultsArray;
   }
 
   render() {
@@ -50,12 +43,9 @@ class CinemaRegionalList extends Component {
     })
 
     {(() => {
-      for (var region in branchRegion){
-        branchRegion[region].map((item,i)=>{
-          renderRegion.push(<CinemaRegionalHeader title={item.title} name={item.name} key={i+item.id}/>)
-        })
-      }   
-      console.log(branchRegion);
+      for (var region in branchRegion) {
+        renderRegion.push(<CinemaRegionalHeader zone_name={region} items={branchRegion[region]}/>)
+      }
     })()}
 
     return (
