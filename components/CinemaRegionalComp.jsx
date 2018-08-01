@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import CardCinemaRegional from "./CardCinemaRegional";
 
 
@@ -41,9 +41,9 @@ class CinemaRegionalComp extends PureComponent {
       </div>
     )
     return (
-      <div>
+      <Fragment>
         {ToggleHeader}
-      </div>
+      </Fragment>
     );
   }
 }

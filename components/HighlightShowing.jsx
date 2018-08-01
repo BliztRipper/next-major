@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
@@ -45,7 +45,7 @@ class HighlightCarousel extends PureComponent {
       <div className='highlight'>
         <Slider {...settings}>
           {dataObj.map((item,i) =>
-                <div key={i}>
+                <Fragment key={i}>
                   <img className='highlight__poster' src={item.poster_ori}/>
                   <Link prefetch href="/">
                     <a className="highlight__book-btn">ซื้อตั๋ว</a>
@@ -53,7 +53,7 @@ class HighlightCarousel extends PureComponent {
                   <span className='highlight__title'>{item.title_en}</span>
                   <span className='highlight__subtitle'>{item.title_th}</span>
                   <span className='highlight__genre'>{item.genre}</span>
-                </div>
+                </Fragment>
               )}
         </Slider>
       </div>

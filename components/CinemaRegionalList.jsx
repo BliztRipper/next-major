@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import CinemaRegionalComp from "./CinemaRegionalComp";
 import loading from '../static/loading.gif'
 
@@ -49,7 +49,7 @@ class CinemaRegionalList extends PureComponent {
     })()}
 
     return (
-      <div>{renderRegion}</div>
+      <Fragment>{renderRegion}</Fragment>
     );
   }
 }
