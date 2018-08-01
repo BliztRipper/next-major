@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import CardCinema from './CardCinema'
 import loading from '../static/loading.gif'
 
-class CinemaBranchList extends Component {
+class CinemaFavoriteList extends PureComponent {
   constructor(props) {
     super(props);
     this.favAddActiveClass= this.favAddActiveClass.bind(this);
@@ -47,7 +47,7 @@ class CinemaBranchList extends Component {
     }
     return (
       <div className="card-cinema">
-        <div className="card-cinema__header">
+        <div className="card-cinema__header"> 
           <div className="sprite-favCinema"></div>
             <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} onClick={this.favAddActiveClass}></div>
@@ -60,4 +60,4 @@ class CinemaBranchList extends Component {
   }
 }
 
-export default CinemaBranchList;
+export default CinemaFavoriteList;

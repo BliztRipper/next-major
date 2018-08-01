@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import CardCinemaRegional from "./CardCinemaRegional";
 
 
-class CinemaRegionalHeader extends Component {
+class CinemaRegionalComp extends PureComponent {
   constructor(props) {
     super(props);
     this.favAddActiveClass= this.favAddActiveClass.bind(this);
@@ -16,12 +16,12 @@ class CinemaRegionalHeader extends Component {
       favActive: !this.state.favActive
     })
   }
-
-  GenHeader(name) {
+ 
+  RenderHeader(zone_name) {
     return (
       <div className="cinema__regional">
         <div className="cinema__regional__header">
-          <h5 className="cinema__regional__title">{name}</h5>
+          <h5 className="cinema__regional__title">{zone_name}</h5>
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} onClick={this.favAddActiveClass}></div>
         </div>
       </div>
@@ -29,24 +29,23 @@ class CinemaRegionalHeader extends Component {
   }
 
   render() {
-    var rows = []
-    var cells = []
-    rows.push(this.GenHeader(this.props.zone_name))
+    var ToggleHeader = []
+    var CardRegionalBody = []
+    ToggleHeader.push(this.RenderHeader(this.props.zone_name))
     this.props.items.map((item,i) => {
-      cells.push(<CardCinemaRegional name={item.name} key={i}/>)
+      CardRegionalBody.push(<CardCinemaRegional name={item.name} key={i}/>)
     })
-
-    rows.push(
+    ToggleHeader.push(
       <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
-        {cells}
+        {CardRegionalBody}
       </div>
     )
     return (
       <div>
-        {rows}
+        {ToggleHeader}
       </div>
     );
   }
 }
 
-export default CinemaRegionalHeader;
+export default CinemaRegionalComp;

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import CinemaBranchList from './CinemaBranchList'
+import CinemaFavoriteList from './CinemaFavoriteList'
 import CinemaSystemList from './CinemaSystemList'
 import CinemaRegionalList from './CinemaRegionalList'
 
-class ListingCinema extends Component {
+class MainCinemaListing extends PureComponent {
   render() {
     return (
       <div className="indexTab__cinema">
@@ -14,7 +14,7 @@ class ListingCinema extends Component {
               <Tab>รูปแบบโรง</Tab>
             </TabList>
           <TabPanel>
-            <CinemaBranchList/>
+            <CinemaFavoriteList/>
             <CinemaRegionalList/>
           </TabPanel>
           <TabPanel>
@@ -26,4 +26,4 @@ class ListingCinema extends Component {
   }
 }
 
-export default ListingCinema;
+export default MainCinemaListing;

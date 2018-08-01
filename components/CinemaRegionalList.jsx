@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import CinemaRegionalHeader from "./CinemaRegionalHeader";
+import React, { PureComponent } from 'react';
+import CinemaRegionalComp from "./CinemaRegionalComp";
 import loading from '../static/loading.gif'
 
-class CinemaRegionalList extends Component {
+class CinemaRegionalList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +44,7 @@ class CinemaRegionalList extends Component {
 
     {(() => {
       for (var region in branchRegion) {
-        renderRegion.push(<CinemaRegionalHeader zone_name={region} items={branchRegion[region]}/>)
+        renderRegion.push(<CinemaRegionalComp zone_name={region} items={branchRegion[region]}/>)
       }
     })()}
 

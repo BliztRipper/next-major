@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class MovieOfMonth extends Component {
+class MovieOfMonth extends PureComponent {
   render() {
     return (
       <div className="comingsoon__head-container">

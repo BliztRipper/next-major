@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
-import BottomNavBar from '../components/BottomNavBar'
+import MainNavBar from '../components/MainNavBar'
 import '../styles/style.scss'
 
-export default class extends Component {
+export default class extends PureComponent {
   render() {
     return(
       <Layout>
-        <BottomNavBar/>
+        <MainNavBar/>
         <style jsx global>{`
           body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

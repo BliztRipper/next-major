@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
 
-class HighlightCarousel extends Component {
+class HighlightCarousel extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

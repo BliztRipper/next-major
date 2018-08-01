@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import MovieOfMonth from './MovieOfMonth'
 import MoviePoster from './MoviePoster';
 import loading from '../static/loading.gif'
 
-class CominSoonComp extends Component {
+class CominSoonComp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

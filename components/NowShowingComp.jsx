@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import loading from '../static/loading.gif'
 
-class NowShowingComp extends Component {
+class NowShowingComp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {

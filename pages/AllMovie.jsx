@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Layout from '../components/Layout'
 import '../styles/style.scss'
 import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 
-class AllMovie extends Component {
+class AllMovie extends PureComponent {
 
   render() {
     return (

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import CardCinema from './CardCinema'
 import loading from '../static/loading.gif'
 
-class CinemaSystemList extends Component {
+class CinemaSystemList extends PureComponent {
   constructor(props) {
     super(props);
     this.favAddActiveClass= this.favAddActiveClass.bind(this);

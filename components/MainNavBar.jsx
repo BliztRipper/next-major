@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightShowing'
-import ListingCinema from '../components/ListingCinema'
+import MainCinemaListing from '../components/MainCinemaListing'
 import Link from 'next/link'
 
 
-class BottomNavBar extends Component {
+class MainNavBar extends PureComponent {
   render() {
     return (
       <div className="indexTab">
@@ -17,7 +17,7 @@ class BottomNavBar extends Component {
           <HighlightCarousel/>
         </TabPanel>
         <TabPanel>
-          <ListingCinema/>
+          <MainCinemaListing/>
         </TabPanel>
         <TabPanel>
           <h2>Any content 3</h2>
@@ -35,4 +35,4 @@ class BottomNavBar extends Component {
   }
 }
 
-export default BottomNavBar;
+export default MainNavBar;

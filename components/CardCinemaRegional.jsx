@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import loading from '../static/loading.gif'
 
-class CardCinemaRegional extends Component {
+class CardCinemaRegional extends PureComponent {
   constructor(props) {
     super(props);
+    this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
       dataObj: [],
       isLoading: true,
       error: null,
-      
+      favCineActive:false
     }
   }
 
@@ -22,8 +23,14 @@ class CardCinemaRegional extends Component {
     }
   }
 
+  favCineActiveClass() {
+    this.setState({
+      favCineActive: !this.state.favCineActive
+    })
+  }
+
   render() {
-    const {dataObj, isLoading, error} = this.state;
+    const {isLoading, error} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -39,7 +46,7 @@ class CardCinemaRegional extends Component {
               <div className="card-cinema__CineName">{this.props.name}</div>
               <div className="card-cinema__CineDistant">100 m</div>
             </div>
-            <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'}></div>
+            <div className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );
   } 
