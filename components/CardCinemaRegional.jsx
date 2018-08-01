@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import loading from '../static/loading.gif'
+import Link from 'next/link'
 
 class CardCinemaRegional extends PureComponent {
   constructor(props) {
@@ -42,10 +43,12 @@ class CardCinemaRegional extends PureComponent {
     return (
           <div className="cinema__regional__body">
             <div className="sprite-quatierCine"></div>
-            <div className="card-cinema__CineTitle">
-              <div className="card-cinema__CineName">{this.props.name}</div>
-              <div className="card-cinema__CineDistant">100 m</div>
-            </div>
+            <Link prefetch href="/MovieListFromCine">
+              <div className="card-cinema__CineTitle">
+                <div className="card-cinema__CineName">{this.props.name}</div>
+                <div className="card-cinema__CineDistant">100m</div>
+              </div>
+            </Link>  
             <div className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );

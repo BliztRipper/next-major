@@ -249,6 +249,8 @@
 }
 
 .indexTab{
+  position: relative;
+  z-index: 0;
   .react-tabs{
       &__tab-list{
         position: fixed;

@@ -33,21 +33,21 @@ class CinemaRegionalList extends PureComponent {
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     }
-
     dataObj.map(region=>{
       let key = region.DescriptionInside.zone_name
       if (key in branchRegion == false){
         branchRegion[key] = []
       } 
-      branchRegion[key].push({id: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.NameAlt}) 
+      branchRegion[key].push({id: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.NameAlt, cinemaId:region.ID}) 
     })
 
     {(() => {
       for (var region in branchRegion) {
-        renderRegion.push(<CinemaRegionalComp zone_name={region} items={branchRegion[region]}/>)
+        renderRegion.push(<CinemaRegionalComp zone_name={region} items={branchRegion[region]} cinemaId={branchRegion[region].cinemaId}/>)
       }
     })()}
-
+    console.log(dataObj)
+    console.log(branchRegion)
     return (
       <Fragment>{renderRegion}</Fragment>
     );

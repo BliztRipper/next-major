@@ -1,7 +1,8 @@
 import Head from 'next/head'
+import React, { Fragment } from 'react';
 
 export default ({ children, title = 'True Major Cineplex' }) => (
-  <div>
+  <Fragment>
     <Head>
       <title>{title}</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -18,5 +19,5 @@ export default ({ children, title = 'True Major Cineplex' }) => (
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
     </Head>
     { children }
-  </div>
+  </Fragment>
 )
