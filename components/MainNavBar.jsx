@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import HighlightCarousel from '../components/HighlightShowing'
+import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'
 import Link from 'next/link'
 
@@ -24,7 +24,7 @@ class MainNavBar extends PureComponent {
         </TabPanel>
         <TabList>
           <div className="react-tabs__tabs-container">
-            <Tab>ภาพยนต์</Tab>
+            <Tab><div className="sprite-tab-menu1"></div>ภาพยนต์</Tab>
             <Tab>โรงภาพยนต์</Tab>
             <Tab>ตั๋วหนัง</Tab>
           </div>

@@ -38,7 +38,11 @@ class CinemaRegionalList extends PureComponent {
       if (key in branchRegion == false){
         branchRegion[key] = []
       } 
-      branchRegion[key].push({zoneId: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.NameAlt, cinemaId:region.ID}) 
+      if (region.NameAlt == ''){
+        branchRegion[key].push({zoneId: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.Name, cinemaId:region.ID}) 
+      } else {
+        branchRegion[key].push({zoneId: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.NameAlt, cinemaId:region.ID}) 
+      }
     })
 
     {(() => {

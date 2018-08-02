@@ -41,6 +41,8 @@ class HighlightCarousel extends PureComponent {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
+    // localStorage.setItem('dataObj.title_en',)
+    
     return (
       <div className='highlight'>
         <Slider {...settings}>
@@ -50,6 +52,11 @@ class HighlightCarousel extends PureComponent {
                   <Link prefetch href="/">
                     <a className="highlight__book-btn">ซื้อตั๋ว</a>
                   </Link>
+                  {(() => {
+                    if(item.title_en === item.title_th){
+                       item.title_th = ''
+                    } 
+                  })()}
                   <span className='highlight__title'>{item.title_en}</span>
                   <span className='highlight__subtitle'>{item.title_th}</span>
                   <span className='highlight__genre'>{item.genre}</span>

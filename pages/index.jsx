@@ -20,13 +20,6 @@ export default class extends PureComponent {
     return(
       <Layout>
         <MainNavBar/>
-        <style jsx global>{`
-          body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-y: hidden;
-          }
-        `} 
-        </style>
       </Layout>
     )
    }
