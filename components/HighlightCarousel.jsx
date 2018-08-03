@@ -41,7 +41,6 @@ class HighlightCarousel extends PureComponent {
       slidesToShow: 1,
       slidesToScroll: 1,
     };
-    // localStorage.setItem('dataObj.title_en',)
     
     return (
       <div className='highlight'>

@@ -24,9 +24,18 @@ class MainNavBar extends PureComponent {
         </TabPanel>
         <TabList>
           <div className="react-tabs__tabs-container">
-            <Tab><div className="sprite-tab-menu1"></div>ภาพยนต์</Tab>
-            <Tab>โรงภาพยนต์</Tab>
-            <Tab>ตั๋วหนัง</Tab>
+            <Tab>
+              <div className="sprite-tab-menu1"></div>
+              <span className="tab-menu-title">ภาพยนต์</span>
+            </Tab>
+            <Tab>
+              <div className="sprite-tab-menu2"></div>
+              <span className="tab-menu-title">โรงภาพยนต์</span>
+            </Tab>
+            <Tab>
+            <div className="sprite-tab-menu3"></div>
+            <span className="tab-menu-title">ตั๋วหนัง</span>
+            </Tab>
           </div>
         </TabList>
       </Tabs>
