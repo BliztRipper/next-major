@@ -14,9 +14,22 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
-  // componentDidMount() {
-    
-  // }
+  componentDidMount() {
+    try {
+      fetch(`http://api-cinema.truemoney.net/Schedule`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({tittle:'tittle', body:sessionStorage.getItem('CinemaID')})
+      })
+      .then(response => response.json())
+      .then((data) =>  console.log(data))
+    } catch (error) {
+      error => this.setState({ error, isLoading: false })
+    }
+  }
   
 
   render() {
@@ -27,6 +40,8 @@ class MainSelectMovieByCinema extends PureComponent {
     // if (isLoading) { 
     //   return <img src={loading} className="loading"/>
     // }
+    // console.log(data);
+    
     return (
       <Layout title="Select Movie">
         <article className="movie-card">

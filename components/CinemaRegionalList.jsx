@@ -20,7 +20,7 @@ class CinemaRegionalList extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    } catch(err){
+    } catch(error){
       error => this.setState({ error, isLoading: false })
     }
   }
@@ -38,16 +38,30 @@ class CinemaRegionalList extends PureComponent {
       if (key in branchRegion == false){
         branchRegion[key] = []
       } 
+      let brand = region.DescriptionInside.brand_name_en
+      brand = brand.replace(/ +/g, "")
       if (region.NameAlt == ''){
-        branchRegion[key].push({zoneId: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.Name, cinemaId:region.ID}) 
+        branchRegion[key].push({
+          zoneId: region.DescriptionInside.zone_id,
+          title:region.DescriptionInside.zone_name,
+          name:region.Name,
+          cinemaId:region.ID,
+          brandName:brand,
+        }) 
       } else {
-        branchRegion[key].push({zoneId: region.DescriptionInside.zone_id, title:region.DescriptionInside.zone_name, name:region.NameAlt, cinemaId:region.ID}) 
+        branchRegion[key].push({
+          zoneId: region.DescriptionInside.zone_id,
+          title:region.DescriptionInside.zone_name,
+          name:region.NameAlt,
+          cinemaId:region.ID,
+          brandName:brand,
+        }) 
       }
     })
 
     {(() => {
       for (var region in branchRegion) {
-        renderRegion.push(<CinemaRegionalComp zone_name={region} items={branchRegion[region]} cinemaId={branchRegion[region].cinemaId}/>)
+        renderRegion.push(<CinemaRegionalComp zone_name={region} items={branchRegion[region]} cinemaId={branchRegion[region].cinemaId} brandName={branchRegion[region].brandName}/>)
       }
     })()}
     return (

@@ -16,7 +16,7 @@ class HighlightCarousel extends PureComponent {
     try{
       fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
-      .then((data) => this.setState({dataObj:data.data.comingsoon, isLoading: false}))
+      .then((data) => this.setState({dataObj:data.data.now_showing, isLoading: false}))
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
@@ -29,6 +29,13 @@ class HighlightCarousel extends PureComponent {
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
+    {(()=>{ 
+      for( let i = 0; i < dataObj.length; i++) {
+        localStorage.setItem(dataObj[i].title_en, JSON.stringify(dataObj[i].movieCode))
+      }
+    })()}
+    
+
     const settings = {
       className: "center",
       centerMode: true,
@@ -40,7 +47,8 @@ class HighlightCarousel extends PureComponent {
       arrows: false,
       slidesToShow: 1,
       slidesToScroll: 1,
-    };
+    }
+    // localStorage.setItem('movieId',dataObj.movieCode)
     
     return (
       <div className='highlight'>
