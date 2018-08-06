@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
+import { now } from '../node_modules/moment';
 
 
 class MainSelectMovieByCinema extends PureComponent {
@@ -11,11 +12,16 @@ class MainSelectMovieByCinema extends PureComponent {
       data: [],
       isLoading: true,
       error: null,
+      nowShowing: []
+      // dataForSchedule: []
     }
   }
 
+  //this function done after render
   componentDidMount() {
     try {
+      this.setState({nowShowing:JSON.parse(localStorage.getItem("now_showing"))})
+
       fetch(`http://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
         headers: {
@@ -25,24 +31,78 @@ class MainSelectMovieByCinema extends PureComponent {
         body:JSON.stringify({tittle:'tittle', body:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
-      .then((data) =>  console.log(data))
+      .then(data =>  this.setState({data:data.data, isLoading: false}))
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
   }
-  
 
-  render() {
-    // const {data, isLoading, error} = this.state;
-    // if (error) {
-    //   return <p>{error.message}</p>;
-    // }
-    // if (isLoading) { 
-    //   return <img src={loading} className="loading"/>
-    // }
-    // console.log(data);
+  getTitleById(filmId) {
+    var info = null
+    this.state.nowShowing.map(movie => {
+      if (movie.movieCode != null) {
+        movie.movieCode.map(movieId => {
+          if (filmId == movieId) {         
+            info = movie
+          }
+        })
+      }
+    })
+
+    return info
+  }
+  
+  dataForSchedule(){
+    var movies = []
+    this.state.data.map(item => {
+      // console.log(item)
+
+      Object.keys(item.Theaters).map(key => {
+        var info = this.getTitleById(item.Theaters[key].ScheduledFilmId)       
+        if (info == null) {
+          console.log("fileId is not found in now showing wait to fix"); 
+        } else {
+          let title = info.title_en.replace(/ +/g, "")
+          if (title == "") {
+            title = "unknown"
+          }
+          
+          if (!(title in movies)) {
+            movies[title] = []
+
+            movies[title] = {
+              title_en: info.title_en,
+              title_th: info.title_th,
+              poster_ori: info.poster_ori,
+              cinema_id: item.CinemaId,
+              genre: info.genre,
+              duration: info.duration,
+              synopsis_th: info.synopsis_th,
+              theaters: []
+            }
+          }
+
+          movies[title].theaters.push(item.Theaters[key])          
+        }
+      })
+    })
+
+    console.log(movies);
     
-    return (
+  }
+  
+  render() {      
+    const {data, isLoading, error, nowShowing} = this.state;      
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+    if (isLoading) { 
+      return <img src={loading} className="loading"/>
+    }    
+    
+    this.dataForSchedule()
+    
+    return (      
       <Layout title="Select Movie">
         <article className="movie-card">
           <div className="movie-card__container">
