@@ -2,8 +2,13 @@ import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
-import { now } from '../node_modules/moment';
+import CinemaMovieInfo from '../components/CinemaMovieInfo';
 
+const PostLink = (props) => (
+  <Link prefetch href={props.link}>
+    <a className="movie-card__showtime">{props.time}</a>
+  </Link>
+)
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -12,16 +17,15 @@ class MainSelectMovieByCinema extends PureComponent {
       data: [],
       isLoading: true,
       error: null,
-      nowShowing: []
-      // dataForSchedule: []
+      nowShowing: [],
+      dataSchedule: []
     }
   }
 
   //this function done after render
-  componentDidMount() {
+  componentWillMount() {
     try {
       this.setState({nowShowing:JSON.parse(localStorage.getItem("now_showing"))})
-
       fetch(`http://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
         headers: {
@@ -37,6 +41,7 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
+
   getTitleById(filmId) {
     var info = null
     this.state.nowShowing.map(movie => {
@@ -48,15 +53,12 @@ class MainSelectMovieByCinema extends PureComponent {
         })
       }
     })
-
     return info
   }
   
   dataForSchedule(){
     var movies = []
     this.state.data.map(item => {
-      // console.log(item)
-
       Object.keys(item.Theaters).map(key => {
         var info = this.getTitleById(item.Theaters[key].ScheduledFilmId)       
         if (info == null) {
@@ -66,10 +68,8 @@ class MainSelectMovieByCinema extends PureComponent {
           if (title == "") {
             title = "unknown"
           }
-          
           if (!(title in movies)) {
             movies[title] = []
-
             movies[title] = {
               title_en: info.title_en,
               title_th: info.title_th,
@@ -81,18 +81,23 @@ class MainSelectMovieByCinema extends PureComponent {
               theaters: []
             }
           }
-
           movies[title].theaters.push(item.Theaters[key])          
         }
       })
     })
-
     console.log(movies);
-    
   }
-  
+
+  // renderMovieInfo(){
+  //   let resultsArray = []
+  //   movies.map((item, i) => {
+  //     resultsArray.push(<CinemaMovieInfo poster={item.poster_ori} title_en={item.title_en} title_th={item.title_th} genre={item.genre} duration={item.duration} key={i}/>)
+  //   });
+  //   return resultsArray;
+  // }
+
   render() {      
-    const {data, isLoading, error, nowShowing} = this.state;      
+    const {isLoading, error, dataSchedule} = this.state;      
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -101,6 +106,7 @@ class MainSelectMovieByCinema extends PureComponent {
     }    
     
     this.dataForSchedule()
+    
     
     return (      
       <Layout title="Select Movie">
@@ -116,6 +122,7 @@ class MainSelectMovieByCinema extends PureComponent {
               </Link>
             </div>
           </div>
+          {/* {this.renderMovieInfo()} */}
           <div className="movie-card__theatre-container">
             <div className="movie-card__theatre-wrapper">
               <div className="movie-card__theatre-title">Theatre 5</div>
@@ -123,27 +130,7 @@ class MainSelectMovieByCinema extends PureComponent {
               <span>ไทย</span>
             </div>
             <div className="movie-card__timetable">
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
-              <Link prefetch href="">
-                <a className="movie-card__showtime">15:00</a>
-              </Link>
+              <PostLink link="/" time="15:00" />
             </div>
           </div>
         </article>
