@@ -13,14 +13,19 @@ class SeatMapDisplay extends PureComponent {
   handleSelectSeats (aSeat, area, row) {
     if (aSeat.Status === 99) {
       aSeat.Status = 0
+      this.setState({seatsSelected: this.state.seatsSelected.filter((element) => { 
+          let matchSeatBefore = element.Id === aSeat.Id && element.AreaCategoryCode === area.AreaCategoryCode && element.rowPhysicalName === row.PhysicalName
+          return !matchSeatBefore 
+        })
+      })
     } else if (aSeat.Status === 0) {
       aSeat.Status = 99
+      this.state.seatsSelected.push({
+        ...aSeat,
+        AreaCategoryCode: area.AreaCategoryCode,
+        rowPhysicalName: row.PhysicalName
+      })
     }
-    this.state.seatsSelected.push({
-      ...aSeat,
-      AreaCategoryCode: area.AreaCategoryCode,
-      rowPhysicalName: row.PhysicalName
-    })
     this.setState({
       renderSeats: this.listGroups(this.state.areas)
     })
@@ -44,8 +49,8 @@ class SeatMapDisplay extends PureComponent {
         })
         return (
           <Fragment key={'Fragment' + row.PhysicalName + rowIndex}>
-            <div className="seatMapDisplay__cell seatMapDisplay__cell-title" key={area.AreaCategoryCode + row.PhysicalName }>{row.PhysicalName}</div>
             {seatMapCell}
+            <div className="seatMapDisplay__cell seatMapDisplay__cell-title" key={area.AreaCategoryCode + row.PhysicalName }>{row.PhysicalName}</div>
           </Fragment>
         )
       }

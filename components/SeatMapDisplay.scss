@@ -23,6 +23,7 @@ $colorTheme: #ff8300;
   grid-template-columns: repeat(17, 1fr);
   grid-column-gap: 0.3rem;
   grid-row-gap: 0.3rem;
+  direction: rtl;
   text-align: center;
   margin-bottom: 0.3rem;
   &-title {
