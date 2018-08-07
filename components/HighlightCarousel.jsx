@@ -33,13 +33,12 @@ class HighlightCarousel extends PureComponent {
       let arr = [];
       let items = []
       for( let i = 0; i < dataObj.length; i++) {
-        // localStorage.setItem(dataObj[i].title_en, JSON.stringify(dataObj[i].movieCode))
         let string = dataObj[i].title_en
         string = string.replace(/ +/g, "")
         arr.push(dataObj[i].movieCode,dataObj[i].title_en,dataObj[i].title_th,dataObj[i].poster_ori,dataObj[i].rating,dataObj[i].genre,dataObj[i].duration,dataObj[i].synopsis_th,dataObj[i].trailer)
         items.push(dataObj[i])
       }
-      localStorage.setItem("now_showing", JSON.stringify(items))
+      sessionStorage.setItem("now_showing", JSON.stringify(items))
     })()}
     
 

@@ -292,8 +292,8 @@ body{
   }
   &__poster{
     box-shadow: 0 1px 10px -4px #15181d;
-    max-width: 100%;
-    height: auto;
+    width: auto;
+    height: 200px;
   }
   &__title{
     font-size: 1rem;
