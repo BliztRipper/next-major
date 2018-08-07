@@ -1,3 +1,23 @@
+$colorTheme: #ff8300;
+.seatMapDisplay__group {
+  margin-bottom: 1rem;
+  &.isPremium {
+    .seatMapDisplay__cell {
+      &:not(.selected) {
+        background-color: #9EDFBC;
+        color: #000;
+      }
+    }
+  }
+  &.isPrivilege {
+    .seatMapDisplay__cell {
+      &:not(.selected) {
+        background-color: #EBBBBD;
+        color: #000;
+      }
+    }
+  }
+}
 .seatMapDisplay__row {
   display: grid;
   grid-template-columns: repeat(17, 1fr);
@@ -16,7 +36,11 @@
   padding: 0.3rem 0;
   &-title {
     font-weight: bold;
-    background-color: darken(#fff, 20%);
-    color: darken(#fff, 90%);
+    background-color: darken(#fff, 20%) !important;
+    color: darken(#fff, 90%) !important;
+  }
+  &.selected {
+    background-color:#000;
+    color: #fff;
   }
 }
