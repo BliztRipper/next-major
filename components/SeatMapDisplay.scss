@@ -8,6 +8,13 @@ body {
   padding-right: 15px;
 }
 .seatMapDisplay {
+  &.selected {
+    .seatMapDisplay__group {
+      &:not(.selected) {
+        opacity: 0.3;
+      }
+    }    
+  }
 }
 .seatMapDisplay__group {
   margin-bottom: 1rem;

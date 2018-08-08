@@ -6,6 +6,7 @@ class SeatMapDisplay extends PureComponent {
     super(props);
       this.state = {
         areas: this.props.areaData,
+        areaSelected: null,
         seatsSelected: [],
         renderSeats: null,
         tickets: this.props.ticketData,
@@ -14,6 +15,8 @@ class SeatMapDisplay extends PureComponent {
       }
   }
   handleSelectSeats (aSeat, area, row, ticket) {
+    if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
+    this.state.areaSelected = area.AreaCategoryCode
     if (aSeat.Status === 99) {
       aSeat.Status = 0
       this.setState({seatsSelected: this.state.seatsSelected.filter((element) => { 
@@ -32,8 +35,12 @@ class SeatMapDisplay extends PureComponent {
           price: ticket.PriceInCents / 100
         }
       })
+      this.setState({
+        seatsSelected:this.state.seatsSelected
+      })
     }
     this.setState({
+      areaSelected: this.state.areaSelected,
       renderSeats: this.listGroups()
     })
   }
@@ -82,14 +89,16 @@ class SeatMapDisplay extends PureComponent {
         let ticket = this.state.tickets.filter(ticket => ticket.AreaCategoryCode === area.AreaCategoryCode)
         ticket = ticket[0]
         let Description = this.manageDescription(area.Description)
+        let classNameSelected = ''
+        classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
         return (
-          <div className={ 'seatMapDisplay__group ' + classNameGroupSpecific } key={area.AreaCategoryCode}>
+          <div className={ 'seatMapDisplay__group ' + classNameGroupSpecific + classNameSelected} key={area.AreaCategoryCode}>
             <div className="seatMapDisplay__title" key={'title' + area.AreaCategoryCode + area.Description }>{Description}</div>
             <div className="seatMapDisplay__row" key={'row' + area.AreaCategoryCode + area.Description }>
               {this.listItems(area, ticket)}
             </div>
           </div>
-        );
+        )
       })
     )
   }
@@ -138,9 +147,10 @@ class SeatMapDisplay extends PureComponent {
   render () {
     const {renderSeats, renderListPrice} = this.state
     if (!renderSeats) return false
+    let classNameSelected = this.state.seatsSelected.length ? ' selected' : ''
     return (
       <Fragment>
-        <div className="seatMapDisplay">
+        <div className={'seatMapDisplay' + classNameSelected}>
           {renderSeats}
         </div>
         <div className="ticketResult">
