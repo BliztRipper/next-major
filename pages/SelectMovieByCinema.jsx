@@ -111,13 +111,11 @@ class MainSelectMovieByCinema extends PureComponent {
       Object.keys(this.state.dataSchedule).map(item => {
         cinemaTimetable = this.state.dataSchedule[item].theaters
       })
-      console.log(cinemaTimetable);
       cinemaTimetable.map((theter,i)=>{
-        console.log(theter)
         if(theter.SessionAttributesNames = 'EN/TH'){
           theter.SessionAttributesNames = 'อังกฤษ'
         }
-        resultsArray.push(<CinemaTimeTable key={i} ScreenName={theter.ScreenName} SessionAttributesNames={theter.SessionAttributesNames}/>)        
+        resultsArray.push(<CinemaTimeTable key={i} item={theter}/>)        
         // d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
       })
     }
