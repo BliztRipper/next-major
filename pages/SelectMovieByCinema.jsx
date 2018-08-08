@@ -1,14 +1,8 @@
 import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
-import {withRouter} from 'next/router'
 import Link from 'next/link'
 import loading from '../static/loading.gif'
-
-const PostLink = (props) => (
-  <Link prefetch href={props.link}>
-    <a className="movie-card__showtime">{props.time}</a>
-  </Link>
-)
+import CinemaTimeTable from '../components/CinemaTimeTable'
 
 class CinemaMovieInfo extends PureComponent {
   render() {
@@ -50,7 +44,7 @@ class MainSelectMovieByCinema extends PureComponent {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body:JSON.stringify({tittle:'tittle', body:sessionStorage.getItem('CinemaID')})
+        body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
       .then(data =>  this.setState({data:data.data, isLoading: false}))
@@ -75,12 +69,12 @@ class MainSelectMovieByCinema extends PureComponent {
     })
     return info
   }
-  
+
   dataForSchedule(){
     var movies = []
     this.state.data.map(item => {
       Object.keys(item.Theaters).map(key => {
-        var info = this.getTitleById(item.Theaters[key].ScheduledFilmId)       
+        var info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
         if (info == null) {
           console.log("fileId is not found in now showing wait to fix"); 
         } else {
@@ -95,6 +89,7 @@ class MainSelectMovieByCinema extends PureComponent {
               title_th: info.title_th,
               poster_ori: info.poster_ori,
               cinema_id: item.CinemaId,
+              showtimes: item.Theaters[key].Showtimes,
               genre: info.genre,
               duration: info.duration,
               synopsis_th: info.synopsis_th,
@@ -103,17 +98,37 @@ class MainSelectMovieByCinema extends PureComponent {
             }
           }
           movies[title].theaters.push(item.Theaters[key])
-          this.setState({dataSchedule:movies})
         }
       })
-    })
+    }) 
+    this.setState({dataSchedule:movies})
+  }
+
+  getTimetable(){
+    let cinemaTimetable = []
+    let resultsArray = []
+    if(this.state.dataSchedule != null){
+      Object.keys(this.state.dataSchedule).map(item => {
+        cinemaTimetable = this.state.dataSchedule[item].theaters
+      })
+      console.log(cinemaTimetable);
+      cinemaTimetable.map((theter,i)=>{
+        console.log(theter)
+        if(theter.SessionAttributesNames = 'EN/TH'){
+          theter.SessionAttributesNames = 'อังกฤษ'
+        }
+        resultsArray.push(<CinemaTimeTable key={i} ScreenName={theter.ScreenName} SessionAttributesNames={theter.SessionAttributesNames}/>)        
+        // d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
+      })
+    }
+    return resultsArray
   }
 
   renderMovieInfo(){
     if(this.state.dataSchedule != null){
       let resultsArray = []
-      Object.keys(this.state.dataSchedule ).map((key,i) => {
-        resultsArray.push(<CinemaMovieInfo key={i} item={this.state.dataSchedule[key]}/>)
+      Object.keys(this.state.dataSchedule).map((item,i) => {
+        resultsArray.push(<CinemaMovieInfo key={i} item={this.state.dataSchedule[item]}/>)
       })
       return resultsArray
     }
@@ -127,21 +142,11 @@ class MainSelectMovieByCinema extends PureComponent {
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     }    
-
     return (      
       <Layout title="Select Movie">
         <article className="movie-card"> 
           {this.renderMovieInfo()}
-          <div className="movie-card__theatre-container">
-            <div className="movie-card__theatre-wrapper">
-              <div className="movie-card__theatre-title">Theatre 5</div>
-              <img className="movie-card__theatre-type" src='static/digital.png'/>
-              <span>ไทย</span>
-            </div>
-            <div className="movie-card__timetable">
-              <PostLink link="/" time="15:00" />
-            </div>
-          </div>
+          {this.getTimetable()}
         </article>
       </Layout>
     );
