@@ -1,4 +1,14 @@
 $colorTheme: #ff8300;
+body {
+  padding: 0;
+  margin: 0;
+}
+.seatMap {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.seatMapDisplay {
+}
 .seatMapDisplay__group {
   margin-bottom: 1rem;
   &.isPremium {
@@ -17,6 +27,9 @@ $colorTheme: #ff8300;
       }
     }
   }
+}
+.seatMapDisplay__title {
+  margin-bottom: 0.5rem;
 }
 .seatMapDisplay__row {
   display: grid;
@@ -40,8 +53,40 @@ $colorTheme: #ff8300;
     background-color: darken(#fff, 20%) !important;
     color: darken(#fff, 90%) !important;
   }
+  &.notAllowed {
+    opacity: 0.4;
+  }
   &.selected {
     background-color:#000;
     color: #fff;
+  }
+}
+.ticketResult {
+  border-top: 1px solid darken(#fff, 10%);
+  border-bottom: 1px solid darken(#fff, 10%);
+  font-size: 0.7rem;
+  &__lists {
+    display: flex;
+  }
+  &__list {
+    flex-basis: 100%;
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+  &__selectedAndPrice {
+    border-top: 1px solid darken(#fff, 10%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > * {
+      padding: 0.4rem 0;
+    }
+  }
+  &__selectedLists {
+    font-size: 0.6rem;
+  }
+  &__totalPrice {
+    font-weight: bold;
+    font-size: 0.7rem;
   }
 }

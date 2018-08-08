@@ -10,7 +10,8 @@ class seatMap extends PureComponent {
         dataObj: null,
         isLoading: true,
         error: null,
-        areaData: null
+        areaData: null,
+        ticketData: null
       }
       this.getSeatPlans()
   }
@@ -18,13 +19,23 @@ class seatMap extends PureComponent {
     try{
       fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/42371`)
       .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
+      .then(data => this.setState({dataObj:data.data}))
       .then(() => {
         this.mapArea()
+        this.getTickets()
       })
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
+  }
+  getTickets () {
+    try{
+      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/42371`)
+      .then(response => response.json())
+      .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
+    } catch(err){
+      error => this.setState({ error, isLoading: false })
+    }    
   }
   mapArea () {
     this.setState({
@@ -32,7 +43,7 @@ class seatMap extends PureComponent {
     })
   }
   render () {
-    const {isLoading, error, areaData} = this.state;
+    const {isLoading, error, areaData, ticketData} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -45,7 +56,7 @@ class seatMap extends PureComponent {
     return (
       <Layout>
         <div className="seatMap">
-          <SeatMapDisplay areaData={areaData}></SeatMapDisplay>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData}></SeatMapDisplay>
         </div>
       </Layout>
     )

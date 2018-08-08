@@ -7,10 +7,13 @@ class SeatMapDisplay extends PureComponent {
       this.state = {
         areas: this.props.areaData,
         seatsSelected: [],
-        renderSeats: null
+        renderSeats: null,
+        tickets: this.props.ticketData,
+        renderListPrice: null,
+        renderListSelectedAndPrice: null
       }
   }
-  handleSelectSeats (aSeat, area, row) {
+  handleSelectSeats (aSeat, area, row, ticket) {
     if (aSeat.Status === 99) {
       aSeat.Status = 0
       this.setState({seatsSelected: this.state.seatsSelected.filter((element) => { 
@@ -23,14 +26,26 @@ class SeatMapDisplay extends PureComponent {
       this.state.seatsSelected.push({
         ...aSeat,
         AreaCategoryCode: area.AreaCategoryCode,
-        rowPhysicalName: row.PhysicalName
+        rowPhysicalName: row.PhysicalName,
+        Description: area.Description,
+        ticket: {
+          price: ticket.PriceInCents / 100
+        }
       })
     }
     this.setState({
-      renderSeats: this.listGroups(this.state.areas)
+      renderSeats: this.listGroups()
     })
   }
-  listItems (area) {
+  manageDescription (str) {
+    let word = 'hair'
+    if (str.search(word) >= 0) {
+      return str.substring(0, str.indexOf(word) - 1)
+    } else {
+      return str
+    }
+  }
+  listItems (area, ticket) {
     let arr = []
     arr = area.Rows.map((row, rowIndex) => {
       if (row.PhysicalName !== null) {
@@ -44,7 +59,7 @@ class SeatMapDisplay extends PureComponent {
             }
           }
           return (
-            <div className={classNameCell} key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row)} >{(aSeat.Id)}</div>
+            <div className={classNameCell} key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >{(aSeat.Id)}</div>
           )
         })
         return (
@@ -57,33 +72,79 @@ class SeatMapDisplay extends PureComponent {
     })
     return arr
   }
-  listGroups (areas) {
+  listGroups () {
     return (
-      areas.map((area) => {
+      this.state.areas.map(area => {
         let classNameGroupSpecific = area.AreaCategoryCode === '0000000008' ? 'isPremium' : area.AreaCategoryCode === '0000000016' ? 'isPrivilege' : ''
+        let ticket = this.state.tickets.filter(ticket => ticket.AreaCategoryCode === area.AreaCategoryCode)
+        ticket = ticket[0]
+        let Description = this.manageDescription(area.Description)
         return (
           <div className={ 'seatMapDisplay__group ' + classNameGroupSpecific } key={area.AreaCategoryCode}>
-            <div className="seatMapDisplay__title" key={'title' + area.AreaCategoryCode + area.Description }>{area.Description}</div>
+            <div className="seatMapDisplay__title" key={'title' + area.AreaCategoryCode + area.Description }>{Description}</div>
             <div className="seatMapDisplay__row" key={'row' + area.AreaCategoryCode + area.Description }>
-              {this.listItems(area)}
+              {this.listItems(area, ticket)}
             </div>
           </div>
         );
       })
     )
   }
+  listPrice () {
+    let ticketList = this.state.tickets.map(element => {
+      let classNameTicketList = 'ticketResult__list'
+      classNameTicketList = element.AreaCategoryCode === '0000000008' ? classNameTicketList + ' isPremium' : element.AreaCategoryCode === '0000000016' ? classNameTicketList + ' isPrivilege' : ''
+      let Description = this.manageDescription(element.Description)
+      return (
+        <div className={classNameTicketList} key={element.AreaCategoryCode}>
+          <div>{Description}</div>
+          <div>{(element.PriceInCents / 100) + 'บาท'}</div>
+        </div>
+      )
+    });
+    return (
+      <div className="ticketResult__lists">
+        {ticketList}
+      </div>
+    )
+  }
+  listSelectedAndPrice () {
+    let selectedList = this.state.seatsSelected.map(seat => seat.rowPhysicalName + seat.Id)
+    selectedList = selectedList.join()
+    let totalPrice = 0
+    this.state.seatsSelected.forEach(seat => {
+      totalPrice += seat.ticket.price
+    })
+    return (
+      <div className="ticketResult__selectedAndPrice">
+        <div className="ticketResult__selectedLists">
+          {selectedList}
+        </div>
+        <div className="ticketResult__totalPrice">
+        {'รวม ' + totalPrice + ' บาท' }
+        </div>
+      </div>
+    )
+  }
   componentWillMount () {
     this.setState({ 
-      renderSeats: this.listGroups(this.state.areas) 
+      renderSeats: this.listGroups(),
+      renderListPrice: this.listPrice()
     })
   }
   render () {
-    const {renderSeats} = this.state
+    const {renderSeats, renderListPrice} = this.state
     if (!renderSeats) return false
     return (
-      <div className="seatMapDisplay">
-        {renderSeats}
-      </div>
+      <Fragment>
+        <div className="seatMapDisplay">
+          {renderSeats}
+        </div>
+        <div className="ticketResult">
+          {renderListPrice}
+          {this.listSelectedAndPrice()}
+        </div> 
+      </Fragment>
     )
   }
 }
