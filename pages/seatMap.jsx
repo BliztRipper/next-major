@@ -5,7 +5,7 @@ import loading from '../static/loading.gif'
 
 class seatMap extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
       this.state = {
         dataObj: null,
         isLoading: true,

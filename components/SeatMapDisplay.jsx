@@ -37,6 +37,9 @@ class SeatMapDisplay extends PureComponent {
       renderSeats: this.listGroups()
     })
   }
+  handleSubmitTicket () {
+    console.log(this.state.seatsSelected)
+  }
   manageDescription (str) {
     let word = 'hair'
     if (str.search(word) >= 0) {
@@ -144,6 +147,9 @@ class SeatMapDisplay extends PureComponent {
           {renderListPrice}
           {this.listSelectedAndPrice()}
         </div> 
+        <div className="seatMapSubmit" onClick={this.handleSubmitTicket.bind(this)}>
+          ดำเนินการ
+        </div>
       </Fragment>
     )
   }

@@ -63,7 +63,6 @@ body {
 }
 .ticketResult {
   border-top: 1px solid darken(#fff, 10%);
-  border-bottom: 1px solid darken(#fff, 10%);
   font-size: 0.7rem;
   &__lists {
     display: flex;
@@ -79,14 +78,26 @@ body {
     justify-content: space-between;
     align-items: center;
     > * {
-      padding: 0.4rem 0;
+      padding: 1rem 0;
     }
   }
   &__selectedLists {
     font-size: 0.6rem;
+    word-break: break-word;
   }
   &__totalPrice {
     font-weight: bold;
     font-size: 0.7rem;
+    white-space: nowrap;
+    padding-left: 0.5rem;
+  }
+}
+.seatMapSubmit {
+  text-align: center;
+  background-color: $colorTheme;
+  color: #fff;
+  padding: 0.5rem 0;
+  &:active {
+    background-color: darken($colorTheme, 10%);
   }
 }
