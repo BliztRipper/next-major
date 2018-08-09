@@ -43,6 +43,9 @@ class seatMap extends PureComponent {
       areaData: this.state.dataObj.SeatLayoutData.Areas
     })
   }
+  handleBackButton () {
+    console.log('back')
+  }
   render () {
     const {isLoading, error, areaData, ticketData} = this.state;
     if (error) {
@@ -57,6 +60,15 @@ class seatMap extends PureComponent {
     return (
       <Layout>
         <div className="seatMap">
+          <div className="seatMapHeader">
+            <div className="seatMapHeader__button" onClick={this.handleBackButton}>&lt;</div>
+            <div className="seatMapHeader__title">เลือกที่นั่ง</div>
+          </div>
+          <div className="seatMapScreen">
+            <div className="seatMapScreen__inner">
+
+            </div>
+          </div>
           <SeatMapDisplay areaData={areaData} ticketData={ticketData}></SeatMapDisplay>
         </div>
       </Layout>
