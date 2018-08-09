@@ -1,5 +1,4 @@
 import { PureComponent, Fragment } from 'react'
-import './SeatMapDisplay.scss'
 
 class SeatMapDisplay extends PureComponent {
   constructor(props) {
@@ -93,7 +92,7 @@ class SeatMapDisplay extends PureComponent {
         classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
         return (
           <div className={ 'seatMapDisplay__group ' + classNameGroupSpecific + classNameSelected} key={area.AreaCategoryCode}>
-            <div className="seatMapDisplay__title" key={'title' + area.AreaCategoryCode + area.Description }>{Description}</div>
+            {/* <div className="seatMapDisplay__title" key={'title' + area.AreaCategoryCode + area.Description }>{Description}</div> */}
             <div className="seatMapDisplay__row" key={'row' + area.AreaCategoryCode + area.Description }>
               {this.listItems(area, ticket)}
             </div>
@@ -109,8 +108,10 @@ class SeatMapDisplay extends PureComponent {
       let Description = this.manageDescription(element.Description)
       return (
         <div className={classNameTicketList} key={element.AreaCategoryCode}>
-          <div>{Description}</div>
-          <div>{(element.PriceInCents / 100) + 'บาท'}</div>
+          <div>
+            <div>{Description}</div>
+            <div>{(element.PriceInCents / 100) + 'บาท'}</div>
+          </div>
         </div>
       )
     });
