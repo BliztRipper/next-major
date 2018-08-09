@@ -7,18 +7,42 @@ import './SeatMap.scss'
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
-      this.state = {
-        dataObj: null,
-        isLoading: true,
-        error: null,
-        areaData: null,
-        ticketData: null
-      }
-      this.getSeatPlans()
+    this.state = {
+      sessionID: '42641',
+      dataObj: null,
+      isLoading: true,
+      error: null,
+      areaData: null,
+      ticketData: null
+    }
+    this.getSchedule()
+  }
+  getSchedule () {
+    let dataPostSchedule = {
+      cinemaId: '0000000002',
+      filmIds: ['HO00003343']
+    }
+    try{
+      fetch(`http://api-cinema.truemoney.net/Schedule`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(dataPostSchedule)
+      })
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({sessionID: data.data[0].Theaters['7'].SessionId})
+        this.getSeatPlans()
+    })
+    } catch(err){
+      error => this.setState({ error, isLoading: false })
+    }
   }
   getSeatPlans () {
     try{
-      fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/42371`)
+      fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.sessionID}`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data}))
       .then(() => {
@@ -31,7 +55,7 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/42371`)
+      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.sessionID}`)
       .then(response => response.json())
       .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
     } catch(err){
@@ -69,7 +93,7 @@ class seatMap extends PureComponent {
 
             </div>
           </div>
-          <SeatMapDisplay areaData={areaData} ticketData={ticketData}></SeatMapDisplay>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData} sessionID={this.state.sessionID}></SeatMapDisplay>
         </div>
       </Layout>
     )
