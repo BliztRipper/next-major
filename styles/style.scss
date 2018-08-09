@@ -345,6 +345,11 @@ body{
     color:#FF8300;
     text-decoration: none;
     margin: 5px;
+    &.disable{
+      border: 1px solid #ccc;
+      color:#ccc;
+      pointer-events: none;
+    }
   }
 }
 

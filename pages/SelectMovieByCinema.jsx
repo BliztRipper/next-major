@@ -116,7 +116,6 @@ class MainSelectMovieByCinema extends PureComponent {
           theter.SessionAttributesNames = 'อังกฤษ'
         }
         resultsArray.push(<CinemaTimeTable key={i} item={theter}/>)        
-        // d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
       })
     }
     return resultsArray
