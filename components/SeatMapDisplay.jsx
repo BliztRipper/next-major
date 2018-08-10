@@ -18,10 +18,11 @@ class SeatMapDisplay extends PureComponent {
   handleSelectSeats (aSeat, area, row, ticket) {
     if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
     // let isOdd = (num) => { return num % 2 === 1 }
+    let seatsSelected = this.state.seatsSelected
     this.state.areaSelected = area.AreaCategoryCode
     if (aSeat.Status === 99) {
       aSeat.Status = 0
-      this.state.seatsSelected.filter((element) => { 
+      seatsSelected = this.state.seatsSelected.filter((element) => { 
         let matchSeatBefore = element.Id === aSeat.Id && element.ticket.AreaCategoryCode === area.AreaCategoryCode && element.rowPhysicalName === row.PhysicalName
         return !matchSeatBefore 
       })
@@ -33,8 +34,9 @@ class SeatMapDisplay extends PureComponent {
         ticket: ticket
       })
     } 
+    console.log(seatsSelected, 'this.state.seatsSelected')
     this.setState({
-      seatsSelected: this.state.seatsSelected,
+      seatsSelected: seatsSelected,
       areaSelected: this.state.areaSelected,
       renderSeats: this.listGroups()
     })
@@ -183,6 +185,7 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   componentWillMount () {
+    console.log(this.props.areaData, 'this.props.areaData')
     this.setState({ 
       renderSeats: this.listGroups(),
       renderListPrice: this.listPrice()
@@ -191,6 +194,8 @@ class SeatMapDisplay extends PureComponent {
   render () {
     const {renderSeats, renderListPrice} = this.state
     if (!renderSeats) return false
+    // this.state.areas = this.props.areaData
+    // this.state.tickets = this.props.ticketData
     let classNameSelected = this.state.seatsSelected.length ? ' selected' : ''
     let buttonText = 'ดำเนินการ'
     if (this.state.postingTicket) {
@@ -209,9 +214,6 @@ class SeatMapDisplay extends PureComponent {
         <div className={'seatMapSubmit' + classNameSelected} onClick={this.handleSubmitTicket.bind(this)}>
           <div>{buttonText}</div>
         </div>
-        {/* <div className="seatLogs">
-          <div className="titleText">โรง : {this.props.theatreData.ScreenNameAlt} ({this.props.theatreData.ScreenName})</div>
-        </div> */}
       </Fragment>
     )
   }
