@@ -25,7 +25,7 @@ class seatMap extends PureComponent {
       filmIds: []
     }
     try{
-      fetch(`http://api-cinema.truemoney.net/Schedule`, {
+      fetch(`https://api-cinema.truemoney.net/Schedule`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -48,7 +48,7 @@ class seatMap extends PureComponent {
   }
   getSeatPlans () {
     try{
-      fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.theatreData.SessionId}`)
+      fetch(`https://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.theatreData.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data}))
       .then(() => {
@@ -61,7 +61,7 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.theatreData.SessionId}`)
+      fetch(`https://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.theatreData.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
     } catch(err){

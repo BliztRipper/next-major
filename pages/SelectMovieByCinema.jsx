@@ -39,7 +39,7 @@ class MainSelectMovieByCinema extends PureComponent {
   componentWillMount() {
     try {
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("now_showing"))})
-      fetch(`http://api-cinema.truemoney.net/Schedule`,{
+      fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',

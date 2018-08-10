@@ -68,7 +68,7 @@ class SeatMapDisplay extends PureComponent {
       });
       try {
         this.setState({postingTicket: true})
-        fetch(`http://api-cinema.truemoney.net/AddTicket`,{
+        fetch(`https://api-cinema.truemoney.net/AddTicket`,{
           method: 'POST',
           headers: {
             'Accept': 'application/json',
