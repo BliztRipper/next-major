@@ -8,21 +8,20 @@ const PostLink = (props) => (
 )
 
 class CinemaTimeTable extends PureComponent {
-
   renderSchedule(){
     let resultArray = []
     this.props.item.Showtimes.map((time,i)=>{
-      let d = new Date('Thu Aug 09 2018 09:50:27 GMT+0700 (Indochina Time)')
-      let fixd = d.getDate() //วันที่ 9
-      let now = new Date()
+      let d = new Date(this.props.serverTime)
+      let today = d.getDate() //วันที่ 10
+      let now = new Date(this.props.serverTime)
       let nowtime = now.getTime()
       let date = new Date(time)
       let movienowtime = date.getTime()
       let playDate = date.getDate() //วันที่ 9
-      console.log(nowtime, 'nowtime')
-      console.log(movienowtime, 'movienowtime')
-      
-      if (fixd === playDate) {
+      // console.log(nowtime, 'nowtime')
+      // console.log(nowtime, 'nowtime')
+      // console.log(movienowtime, 'movienowtime')
+      if (today === playDate) {
         if(movienowtime > nowtime){
           let format = date.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
           resultArray.push(<PostLink key={i} link='/' class={false} time={format}/>)
@@ -39,7 +38,9 @@ class CinemaTimeTable extends PureComponent {
       <div className="movie-card__theatre-container">
         <div className="movie-card__theatre-wrapper">
           <div className="movie-card__theatre-title">{this.props.item.ScreenName}</div>
-          <img className="movie-card__theatre-type" src='static/digital.png'/>
+          <div className={this.props.item.FormatCode}></div>
+          {console.log(this.props.item)
+          }
           <span>{this.props.item.SessionAttributesNames}</span>
         </div>
         <div className="movie-card__timetable">

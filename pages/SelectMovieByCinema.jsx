@@ -30,7 +30,8 @@ class MainSelectMovieByCinema extends PureComponent {
       isLoading: true,
       error: null,
       nowShowing: [],
-      dataSchedule:null
+      dataSchedule:null,
+      serverTime:''
     }
   }
 
@@ -47,7 +48,7 @@ class MainSelectMovieByCinema extends PureComponent {
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
-      .then(data =>  this.setState({data:data.data, isLoading: false}))
+      .then(data =>  this.setState({data:data.data, serverTime:data.server_time_utc,isLoading: false}))
       .then(()=>{
         this.dataForSchedule()
       })
@@ -90,6 +91,7 @@ class MainSelectMovieByCinema extends PureComponent {
               poster_ori: info.poster_ori,
               cinema_id: item.CinemaId,
               showtimes: item.Theaters[key].Showtimes,
+              formatCode: item.Theaters[key].FormatCode,
               genre: info.genre,
               duration: info.duration,
               synopsis_th: info.synopsis_th,
@@ -115,7 +117,8 @@ class MainSelectMovieByCinema extends PureComponent {
         if(theter.SessionAttributesNames = 'EN/TH'){
           theter.SessionAttributesNames = 'อังกฤษ'
         }
-        resultsArray.push(<CinemaTimeTable key={i} item={theter}/>)        
+
+        resultsArray.push(<CinemaTimeTable key={i} item={theter} serverTime={this.state.serverTime}/>)        
       })
     }
     return resultsArray
@@ -130,6 +133,7 @@ class MainSelectMovieByCinema extends PureComponent {
       return resultsArray
     }
   }
+
 
   render() {      
     const {isLoading, error} = this.state;      
