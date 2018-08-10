@@ -2,55 +2,47 @@ import { PureComponent } from 'react'
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
+import Router from 'next/router'
 
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      sessionID: '', 
       theatre: '7',
-      theatreData: '',
-      theatreDataAll: '',
+      CinemaId: '',
+      SessionId: '',
       dataObj: null,
       isLoading: true,
       error: null,
       areaData: null,
       ticketData: null
     }
-    this.getSchedule()
   }
-  getSchedule () {
-    let dataPostSchedule = {
-      cinemaId: '0000000002',
-      filmIds: []
-    }
-    try{
-      fetch(`https://api-cinema.truemoney.net/Schedule`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(dataPostSchedule)
-      })
-      .then(response => response.json())
-      .then((data) => {
-        this.setState(
-          {
-            theatreData: data.data[0].Theaters[this.state.theatre],
-            theatreDataAll: data.data[0].Theaters
-          })
-        this.getSeatPlans()
+  goToHome () {
+    Router.push({
+      pathname: '/'
     })
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
+  }
+  getTheatre () {
+    this.state.CinemaId = sessionStorage.getItem('CinemaID')
+    this.state.SessionId = `${this.props.url.query.SessionId}`
+    this.state.theatre = `${this.props.url.query.ScreenNumber}`
+    this.setState({
+      CinemaId: this.state.CinemaId,
+      SessionId: this.state.SessionId,
+      theatre: this.state.theatre
+    })
+    if (this.state.SessionId === 'undefined') {
+      this.goToHome()
+    } else {
+      this.getSeatPlans()
     }
   }
   getSeatPlans () {
     try{
-      fetch(`https://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.theatreData.SessionId}`)
+      fetch(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data}))
+      .then(data => this.setState({dataObj:data.data, isLoading: true}))
       .then(() => {
         this.mapArea()
         this.getTickets()
@@ -61,7 +53,7 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`https://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.theatreData.SessionId}`)
+      fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
     } catch(err){
@@ -76,8 +68,11 @@ class seatMap extends PureComponent {
   handleBackButton () {
     console.log('back')
   }
+  componentDidMount() {
+    this.getTheatre()
+  }
   render () {
-    const {isLoading, error, areaData, ticketData, theatreData, theatreDataAll} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -95,7 +90,7 @@ class seatMap extends PureComponent {
             <div className="seatMapHeader__title">เลือกที่นั่ง</div>
           </div>
           <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
-          <SeatMapDisplay areaData={areaData} ticketData={ticketData} theatreData={theatreData}></SeatMapDisplay>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId}></SeatMapDisplay>
         </div>
       </Layout>
     )

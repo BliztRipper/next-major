@@ -57,7 +57,7 @@ class SeatMapDisplay extends PureComponent {
           priceInCents: item.ticket.PriceInCents,
           ticketTypeCode: item.ticket.TicketTypeCode,
           qty: array.length,
-          SessionId: this.props.theatreData.SessionId
+          SessionId: this.props.SessionId
         }
         dataToStorage = {...dataToStorage, ...data}
         dataToStorage.SelectedSeats.push({

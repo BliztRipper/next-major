@@ -9,6 +9,10 @@ const PostLink = (props) => (
 
 class CinemaTimeTable extends PureComponent {
   renderSchedule(){
+    let dataToSeatMap = {
+      pathname: '/seatMap',
+      query: {...this.props.item}
+    }
     let resultArray = []
     this.props.item.Showtimes.map((time,i)=>{
       let d = new Date(this.props.serverTime)
@@ -24,10 +28,10 @@ class CinemaTimeTable extends PureComponent {
       if (today === playDate) {
         if(movienowtime > nowtime){
           let format = date.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
-          resultArray.push(<PostLink key={i} link='/seatMap' class={false} time={format}/>)
+          resultArray.push(<PostLink key={i} link={dataToSeatMap} class={false} time={format}/>)
         } else {
           let format = date.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
-          resultArray.push(<PostLink key={i} link='/seatMap' class={true} time={format}/>)
+          resultArray.push(<PostLink key={i} link={dataToSeatMap} class={true} time={format}/>)
         }
       }
     })
