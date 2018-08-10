@@ -1,9 +1,14 @@
 
+@import 'SeatMap';
+
 :root{
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-display: swap;
 }
+
+
+
 body{
   box-sizing: border-box;
 }
@@ -81,6 +86,16 @@ body{
         transform: rotate(180deg);
       }
     }
+  }
+
+  .VS00000001{
+    background: url('../static/MajorGroupSprite.png') no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 8px;
+    // background-position: -84px -230px; 
+    // width: 48px;
+    // height: 25px;
   }
 
   .MajorCineplex{
@@ -292,8 +307,8 @@ body{
   }
   &__poster{
     box-shadow: 0 1px 10px -4px #15181d;
-    max-width: 100%;
-    height: auto;
+    width: auto;
+    height: 200px;
   }
   &__title{
     font-size: 1rem;
@@ -345,6 +360,11 @@ body{
     color:#FF8300;
     text-decoration: none;
     margin: 5px;
+    &.disable{
+      border: 1px solid #ccc;
+      color:#ccc;
+      pointer-events: none;
+    }
   }
 }
 
