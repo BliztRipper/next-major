@@ -56,7 +56,7 @@ class SeatMapDisplay extends PureComponent {
           priceInCents: item.ticket.PriceInCents,
           ticketTypeCode: item.ticket.TicketTypeCode,
           qty: array.length,
-          SessionId: this.props.sessionID
+          SessionId: this.props.theatreData.sessionID
         }
         dataToStorage = {...dataToStorage, ...data}
         dataToStorage.SelectedSeats.push({
@@ -64,7 +64,6 @@ class SeatMapDisplay extends PureComponent {
           ...item.Position
         })
       });
-      console.log(dataToStorage)
       try {
         this.setState({postingTicket: true})
         fetch(`http://api-cinema.truemoney.net/AddTicket`,{
@@ -77,13 +76,10 @@ class SeatMapDisplay extends PureComponent {
         })
         .then(response => response.json())
         .then((data) =>  {
-          console.log(data.data.Order)
           this.setState({
             postingTicket: false,
-            userOrder: data.data.Order,
-            renderSeats: this.listGroups()
+            userOrder: data.data.Order
           })
-          this.forceUpdate()
         })
       } catch (error) {
         console.error('error', error);
@@ -213,6 +209,9 @@ class SeatMapDisplay extends PureComponent {
         <div className={'seatMapSubmit' + classNameSelected} onClick={this.handleSubmitTicket.bind(this)}>
           <div>{buttonText}</div>
         </div>
+        {/* <div className="seatLogs">
+          <div className="titleText">โรง : {this.props.theatreData.ScreenNameAlt} ({this.props.theatreData.ScreenName})</div>
+        </div> */}
       </Fragment>
     )
   }

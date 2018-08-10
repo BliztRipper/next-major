@@ -8,7 +8,9 @@ class seatMap extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      sessionID: '42641',
+      sessionID: '', 
+      theatre: '5',
+      theatreData: '',
       dataObj: null,
       isLoading: true,
       error: null,
@@ -33,7 +35,7 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) => {
-        this.setState({sessionID: data.data[0].Theaters['7'].SessionId})
+        this.setState({theatreData: data.data[0].Theaters[this.state.theatre]})
         this.getSeatPlans()
     })
     } catch(err){
@@ -42,7 +44,7 @@ class seatMap extends PureComponent {
   }
   getSeatPlans () {
     try{
-      fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.sessionID}`)
+      fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.theatreData.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data}))
       .then(() => {
@@ -55,7 +57,7 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.sessionID}`)
+      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.theatreData.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
     } catch(err){
@@ -93,7 +95,7 @@ class seatMap extends PureComponent {
 
             </div>
           </div>
-          <SeatMapDisplay areaData={areaData} ticketData={ticketData} sessionID={this.state.sessionID}></SeatMapDisplay>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData} theatreData={this.state.theatreData}></SeatMapDisplay>
         </div>
       </Layout>
     )

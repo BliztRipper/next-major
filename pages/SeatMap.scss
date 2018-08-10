@@ -226,7 +226,6 @@ body {
     }
   }
 }
-
 @keyframes flash {
   from,
   50%,
@@ -238,4 +237,11 @@ body {
   75% {
     opacity: 0.6;
   }
+}
+
+.seatLogs {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: darken(#fff, 10%);
+  color: darken(#fff, 50%);
 }
