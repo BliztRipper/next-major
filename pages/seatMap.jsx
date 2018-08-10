@@ -2,7 +2,6 @@ import { PureComponent } from 'react'
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
-import './SeatMap.scss'
 
 class seatMap extends PureComponent {
   constructor(props) {
