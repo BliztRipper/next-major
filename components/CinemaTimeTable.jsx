@@ -24,10 +24,10 @@ class CinemaTimeTable extends PureComponent {
       if (today === playDate) {
         if(movienowtime > nowtime){
           let format = date.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
-          resultArray.push(<PostLink key={i} link='/' class={false} time={format}/>)
+          resultArray.push(<PostLink key={i} link='seatMap' class={false} time={format}/>)
         } else {
           let format = date.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
-          resultArray.push(<PostLink key={i} link='/' class={true} time={format}/>)
+          resultArray.push(<PostLink key={i} link='seatMap' class={true} time={format}/>)
         }
       }
     })
@@ -39,8 +39,6 @@ class CinemaTimeTable extends PureComponent {
         <div className="movie-card__theatre-wrapper">
           <div className="movie-card__theatre-title">{this.props.item.ScreenName}</div>
           <div className={this.props.item.FormatCode}></div>
-          {console.log(this.props.item)
-          }
           <span>{this.props.item.SessionAttributesNames}</span>
         </div>
         <div className="movie-card__timetable">
