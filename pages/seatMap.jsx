@@ -9,8 +9,9 @@ class seatMap extends PureComponent {
     super(props)
     this.state = {
       sessionID: '', 
-      theatre: '5',
+      theatre: '7',
       theatreData: '',
+      theatreDataAll: '',
       dataObj: null,
       isLoading: true,
       error: null,
@@ -22,7 +23,7 @@ class seatMap extends PureComponent {
   getSchedule () {
     let dataPostSchedule = {
       cinemaId: '0000000002',
-      filmIds: ['HO00003343']
+      filmIds: []
     }
     try{
       fetch(`http://api-cinema.truemoney.net/Schedule`, {
@@ -35,7 +36,11 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) => {
-        this.setState({theatreData: data.data[0].Theaters[this.state.theatre]})
+        this.setState(
+          {
+            theatreData: data.data[0].Theaters[this.state.theatre],
+            theatreDataAll: data.data[0].Theaters
+          })
         this.getSeatPlans()
     })
     } catch(err){
@@ -68,12 +73,20 @@ class seatMap extends PureComponent {
     this.setState({
       areaData: this.state.dataObj.SeatLayoutData.Areas
     })
+    console.log('mapArea')
   }
   handleBackButton () {
     console.log('back')
   }
+  handleSwitchTheatre (key) {
+    console.log(key, 'key')
+    console.log(this)
+    this.state.theatre = key
+    this.getSchedule()
+    this.setState({theatre: this.state.theatre})
+  }
   render () {
-    const {isLoading, error, areaData, ticketData} = this.state;
+    const {isLoading, error, areaData, ticketData, theatreData, theatreDataAll} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -83,6 +96,13 @@ class seatMap extends PureComponent {
     if (!areaData) {
       return false
     }
+    let SwitchButtons = Object.keys(theatreDataAll).map((key) => {
+      return (
+        <div className="switchButton" onClick={this.handleSwitchTheatre.bind(this, key)} key={key + 'SwitchTheatre'}>
+          <div>{key}</div>
+        </div>
+      )
+    })
     return (
       <Layout>
         <div className="seatMap">
@@ -90,12 +110,14 @@ class seatMap extends PureComponent {
             <div className="seatMapHeader__button" onClick={this.handleBackButton}>&lt;</div>
             <div className="seatMapHeader__title">เลือกที่นั่ง</div>
           </div>
-          <div className="seatMapScreen">
-            <div className="seatMapScreen__inner">
-
+          <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData} theatreData={theatreData}></SeatMapDisplay>
+          {/* <div className="seatLogs">
+            <div className="titleText">LOGS >> โรง : {theatreData.ScreenNameAlt} ({theatreData.ScreenName})</div>
+            <div className="switchButtons">
+              {SwitchButtons}
             </div>
-          </div>
-          <SeatMapDisplay areaData={areaData} ticketData={ticketData} theatreData={this.state.theatreData}></SeatMapDisplay>
+          </div> */}
         </div>
       </Layout>
     )
