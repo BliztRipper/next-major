@@ -34,7 +34,6 @@ class SeatMapDisplay extends PureComponent {
         ticket: ticket
       })
     } 
-    console.log(seatsSelected, 'this.state.seatsSelected')
     this.setState({
       seatsSelected: seatsSelected,
       areaSelected: this.state.areaSelected,
@@ -58,7 +57,7 @@ class SeatMapDisplay extends PureComponent {
           priceInCents: item.ticket.PriceInCents,
           ticketTypeCode: item.ticket.TicketTypeCode,
           qty: array.length,
-          SessionId: this.props.theatreData.sessionID
+          SessionId: this.props.theatreData.SessionId
         }
         dataToStorage = {...dataToStorage, ...data}
         dataToStorage.SelectedSeats.push({
@@ -68,7 +67,7 @@ class SeatMapDisplay extends PureComponent {
       });
       try {
         this.setState({postingTicket: true})
-        fetch(`http://api-cinema.truemoney.net/AddTicket`,{
+        fetch(`https://api-cinema.truemoney.net/AddTicket`,{
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -78,10 +77,13 @@ class SeatMapDisplay extends PureComponent {
         })
         .then(response => response.json())
         .then((data) =>  {
-          this.setState({
-            postingTicket: false,
-            userOrder: data.data.Order
-          })
+          console.log(data, 'data')
+          if (data.status_code !== 400) {
+            this.setState({
+              postingTicket: false,
+              userOrder: data.data.Order
+            })
+          }
         })
       } catch (error) {
         console.error('error', error);
@@ -185,7 +187,6 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   componentWillMount () {
-    console.log(this.props.areaData, 'this.props.areaData')
     this.setState({ 
       renderSeats: this.listGroups(),
       renderListPrice: this.listPrice()
@@ -194,8 +195,6 @@ class SeatMapDisplay extends PureComponent {
   render () {
     const {renderSeats, renderListPrice} = this.state
     if (!renderSeats) return false
-    // this.state.areas = this.props.areaData
-    // this.state.tickets = this.props.ticketData
     let classNameSelected = this.state.seatsSelected.length ? ' selected' : ''
     let buttonText = 'ดำเนินการ'
     if (this.state.postingTicket) {

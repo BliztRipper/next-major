@@ -26,7 +26,7 @@ class seatMap extends PureComponent {
       filmIds: []
     }
     try{
-      fetch(`http://api-cinema.truemoney.net/Schedule`, {
+      fetch(`https://api-cinema.truemoney.net/Schedule`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -49,7 +49,7 @@ class seatMap extends PureComponent {
   }
   getSeatPlans () {
     try{
-      fetch(`http://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.theatreData.SessionId}`)
+      fetch(`https://api-cinema.truemoney.net/SeatPlan/0000000002/${this.state.theatreData.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data}))
       .then(() => {
@@ -62,7 +62,7 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`http://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.theatreData.SessionId}`)
+      fetch(`https://api-cinema.truemoney.net/TicketPrices/0000000002/${this.state.theatreData.SessionId}`)
       .then(response => response.json())
       .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
     } catch(err){
@@ -73,17 +73,9 @@ class seatMap extends PureComponent {
     this.setState({
       areaData: this.state.dataObj.SeatLayoutData.Areas
     })
-    console.log('mapArea')
   }
   handleBackButton () {
     console.log('back')
-  }
-  handleSwitchTheatre (key) {
-    console.log(key, 'key')
-    console.log(this)
-    this.state.theatre = key
-    this.getSchedule()
-    this.setState({theatre: this.state.theatre})
   }
   render () {
     const {isLoading, error, areaData, ticketData, theatreData, theatreDataAll} = this.state;
@@ -96,13 +88,6 @@ class seatMap extends PureComponent {
     if (!areaData) {
       return false
     }
-    let SwitchButtons = Object.keys(theatreDataAll).map((key) => {
-      return (
-        <div className="switchButton" onClick={this.handleSwitchTheatre.bind(this, key)} key={key + 'SwitchTheatre'}>
-          <div>{key}</div>
-        </div>
-      )
-    })
     return (
       <Layout>
         <div className="seatMap">
@@ -112,12 +97,6 @@ class seatMap extends PureComponent {
           </div>
           <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
           <SeatMapDisplay areaData={areaData} ticketData={ticketData} theatreData={theatreData}></SeatMapDisplay>
-          {/* <div className="seatLogs">
-            <div className="titleText">LOGS >> โรง : {theatreData.ScreenNameAlt} ({theatreData.ScreenName})</div>
-            <div className="switchButtons">
-              {SwitchButtons}
-            </div>
-          </div> */}
         </div>
       </Layout>
     )
