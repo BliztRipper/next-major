@@ -1,0 +1,247 @@
+$colorTheme: #ff8300;
+body {
+  padding: 0;
+  margin: 0;
+}
+.seatMap {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+.seatMapHeader {
+  position: relative;
+  &__button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 1;
+    padding: 0.5rem;
+  }
+  &__title {
+    text-align: center;
+    position: relative;
+    z-index: 0;
+    padding: 1rem 0;
+  }
+}
+.seatMapScreen {
+  margin-bottom: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  perspective: 10rem;
+  width: 15rem;
+  &__inner {
+    background-color: darken(#fff, 20%);
+    padding-bottom: 3rem;
+    transform: rotateX(-45deg);
+    transform-style: preserve-3d;
+  }
+}
+.seatMapDisplay {
+  &.selected {
+    .seatMapDisplay__group {
+      &:not(.selected) {
+        opacity: 0.3;
+      }
+    }    
+  }
+}
+.seatMapDisplay__group {
+  margin-bottom: 1rem;
+  transition: opacity 0.4s;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.6rem auto;
+  &:nth-child(1) {
+    .seatMapDisplay__cell {
+      &:not(.selected) {
+        background-color: #9EDFBC;
+        color: #000;
+      }
+    }
+  }
+  &:nth-child(2) {
+    .seatMapDisplay__cell {
+      &:not(.selected) {
+        background-color: #EBBBBD;
+        color: #000;
+      }
+    }
+  }
+  &:nth-child(3) {
+    .seatMapDisplay__cell {
+      &:not(.selected) {
+        background-color: #A1B1F2;
+        color: #000;
+      }
+    }
+  }
+}
+.seatMapDisplay__title {
+  font-size: 0.6rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+.seatMapDisplay__row {
+  display: grid;
+  justify-content: center;	
+  grid-template-columns: repeat(var(--total-seat), .77rem);
+  grid-column-gap: 0.3rem;
+  grid-row-gap: 0.3rem;
+  direction: rtl;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  &-title {
+    font-size: 0.6rem;
+  }
+}
+.seatMapDisplay__cell {
+  background-color: darken(#fff, 10%);
+  color: darken(#fff, 40%);
+  font-size: 0.4rem;
+  padding: 0.3rem 0;
+  &-title {
+    font-weight: bold;
+    background-color: darken(#fff, 20%) !important;
+    color: darken(#fff, 90%) !important;
+  }
+  &.notAllowed {
+    opacity: 0.4;
+  }
+  &.selected {
+    background-color:#000;
+    color: #fff;
+  }
+}
+.ticketResult {
+  border-top: 1px solid darken(#fff, 10%);
+  font-size: 0.55rem;
+  &__lists {
+    padding: 0.5rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__list {
+    flex-basis: 33.333%;
+    padding-bottom: 0.5rem;
+    > div {
+      display: inline-block;
+      position: relative;
+      padding-left: 27px;
+      text-align: left;
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 22px;
+        height: 22px;
+        background-color: #000;
+      }
+    }
+    &:nth-child(1) { 
+      > div {
+        &:after {
+          background-color: #9EDFBC;
+        }
+      }
+    }
+    &:nth-child(2) { 
+      > div {
+        &:after {
+          background-color: #EBBBBD;
+        }
+      }
+    }
+    &:nth-child(3) { 
+      > div {
+        &:after {
+          background-color: #a1b1f2;
+        }
+      }
+    }
+  }
+  &__selectedAndPrice {
+    border-top: 1px solid darken(#fff, 10%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > * {
+      padding: 1rem 0;
+    }
+  }
+  &__selectedLists {
+    font-size: 0.6rem;
+    word-break: break-word;
+  }
+  &__totalPrice {
+    font-weight: bold;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    padding-left: 0.5rem;
+  }
+}
+.seatMapSubmit {
+  text-align: center;
+  padding: 0.5rem 0;
+  background-color: darken(#fff, 10%);
+  color: darken(#fff, 30%);
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: $colorTheme;
+    transition: 0.3s all;
+    opacity: 0;
+    width: 0;
+  }
+  > div {
+    position: relative;
+    z-index: 1;
+  }
+  &.selected {
+    color: #fff;
+    &:after {
+      width: 100%;
+      opacity: 1;
+    }
+    &:active {
+      &:after {
+        background-color: darken($colorTheme, 10%);
+      }
+    }
+    &.posting {
+      animation-name: flash;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+@keyframes flash {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.6;
+  }
+}
+
+.seatLogs {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: darken(#fff, 10%);
+  color: darken(#fff, 50%);
+}
