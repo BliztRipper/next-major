@@ -17,25 +17,24 @@ class CinemaTimeTable extends PureComponent {
     let resultArray = []
     this.props.item.Showtimes.map((time,i)=>{
       //Sync with Server Time      
-      let d = new Date(this.props.serverTime)
+      let d = new Date(this.props.serverTime*1000)
       let today = d.getDate()
       //Get date and time for today
       let now = new Date()
       let nowtime = now.getTime()
       //Get date and time each schedule
-      let date = new Date(time)
+      let date = new Date(time*1000)
       let movienowtime = date.getTime()
       let playDate = date.getDate() 
       if (today === playDate) {
-        // let format = date.toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'})
-        let format = `${date.getHours()}:${('0'+date.getMinutes()).slice(-2)}`
+        let format = date.getHours()+':'+('0'+date.getMinutes()).slice(-2)
         let movienowtimeMoreThanNowtime = ''
         if(movienowtime > nowtime){
           movienowtimeMoreThanNowtime = false
         } else {
           movienowtimeMoreThanNowtime = true
         }
-        resultArray.push(<PostLink key={i} link={dataToSeatMap} class={movienowtimeMoreThanNowtime} time={movienowtime}/>)
+        resultArray.push(<PostLink key={i} link={dataToSeatMap} class={movienowtimeMoreThanNowtime} time={format}/>)
       }
     })
     return resultArray
