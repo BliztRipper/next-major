@@ -103,37 +103,32 @@ class MainSelectMovieByCinema extends PureComponent {
         }
       })
     }) 
-    this.setState({dataSchedule:movies})
+    this.setState({dataSchedule:movies}) 
   }
 
   getTimetable(){
     let cinemaTimetable = []
-    let resultsArray = []
+    let resultsArray = {
+      info:[],
+      time:[]
+    }
     if(this.state.dataSchedule != null){
-      Object.keys(this.state.dataSchedule).map(item => {
-        cinemaTimetable = this.state.dataSchedule[item].theaters
+      Object.keys(this.state.dataSchedule).map(item=> {
+        cinemaTimetable.push(this.state.dataSchedule[item])
       })
       cinemaTimetable.map((theter,i)=>{
-        if(theter.SessionAttributesNames = 'EN/TH'){
-          theter.SessionAttributesNames = 'อังกฤษ'
-        }
-
-        resultsArray.push(<CinemaTimeTable key={i} item={theter} serverTime={this.state.serverTime}/>)        
+        resultsArray.info.push(<CinemaMovieInfo key={i} item={theter}/>, resultsArray.time)
+        theter.theaters.forEach((element,j) => {
+          if(element.SessionAttributesNames = 'EN/TH'){
+            element.SessionAttributesNames = 'อังกฤษ'
+          }
+        resultsArray.time.push(<CinemaTimeTable key={'theter' + i + 'element' + j} item={element} serverTime={this.state.serverTime}/>)   
+        });    
+        resultsArray.time = []
       })
     }
     return resultsArray
   }
-
-  renderMovieInfo(){
-    if(this.state.dataSchedule != null){
-      let resultsArray = []
-      Object.keys(this.state.dataSchedule).map((item,i) => {
-        resultsArray.push(<CinemaMovieInfo key={i} item={this.state.dataSchedule[item]}/>)
-      })
-      return resultsArray
-    }
-  }
-
 
   render() {      
     const {isLoading, error} = this.state;      
@@ -146,8 +141,7 @@ class MainSelectMovieByCinema extends PureComponent {
     return (      
       <Layout title="Select Movie">
         <article className="movie-card"> 
-          {this.renderMovieInfo()}
-          {this.getTimetable()}
+          {this.getTimetable().info}
         </article>
       </Layout>
     );
