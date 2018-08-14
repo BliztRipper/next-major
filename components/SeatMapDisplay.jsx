@@ -192,6 +192,14 @@ class SeatMapDisplay extends PureComponent {
       renderListPrice: this.listPrice()
     })
   }
+  componentDidMount () {
+    (()=> {
+      let parent = document.querySelector('.seatMap')
+      let header = document.querySelector('.seatMapHeader')
+      let footer = document.querySelector('.seatMapFooter')
+      parent.style.cssText = `padding-bottom: ${footer.clientHeight}px; padding-top: ${header.clientHeight}px;`
+    })()
+  }
   render () {
     const {renderSeats, renderListPrice} = this.state
     if (!renderSeats) return false
@@ -203,15 +211,22 @@ class SeatMapDisplay extends PureComponent {
     }
     return (
       <Fragment>
-        <div className={'seatMapDisplay' + classNameSelected}>
-          {renderSeats}
+        <div className="seatMapMain">
+          <div className="seatMapMain__inner">
+            <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
+            <div className={'seatMapDisplay' + classNameSelected}>
+              {renderSeats}
+            </div>
+          </div>
         </div>
-        <div className={'ticketResult' + classNameSelected}>
-          {renderListPrice}
-          {this.listSelectedAndPrice()}
-        </div> 
-        <div className={'seatMapSubmit' + classNameSelected} onClick={this.handleSubmitTicket.bind(this)}>
-          <div>{buttonText}</div>
+        <div className="seatMapFooter">
+          <div className={'ticketResult' + classNameSelected}>
+            {renderListPrice}
+            {this.listSelectedAndPrice()}
+          </div> 
+          <div className={'seatMapSubmit' + classNameSelected} onClick={this.handleSubmitTicket.bind(this)}>
+            <div>{buttonText}</div>
+          </div>
         </div>
       </Fragment>
     )

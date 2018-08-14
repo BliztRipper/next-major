@@ -6,9 +6,22 @@ body {
 .seatMap {
   padding-left: 0.4rem;
   padding-right: 0.4rem;
+  padding-top: 51px;
+  height: 100vh;
+  padding-bottom: 160px;
+  position: relative;
+  box-sizing: border-box;
+  .seatMapMain {
+    height: 100%;
+    overflow: auto;
+  }
 }
 .seatMapHeader {
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: #fff;
   &__button {
     position: absolute;
     top: 50%;
@@ -114,7 +127,6 @@ body {
   }
 }
 .ticketResult {
-  border-top: 1px solid darken(#fff, 10%);
   font-size: 0.55rem;
   &__lists {
     padding: 0.5rem 0 0;
@@ -244,4 +256,17 @@ body {
   padding: 0.5rem;
   background-color: darken(#fff, 10%);
   color: darken(#fff, 50%);
+}
+
+.seatMapFooter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  box-shadow: 0 -3px 3px rgba(#000, 0.1);
+  .ticketResult {
+    padding-left: .4rem;
+    padding-right: .4rem;
+  }
 }
