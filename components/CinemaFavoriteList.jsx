@@ -47,10 +47,10 @@ class CinemaFavoriteList extends PureComponent {
     }
     return (
       <div className="card-cinema">
-        <div className="card-cinema__header"> 
+        <div className="card-cinema__header" onClick={this.favAddActiveClass}> 
           <div className="sprite-favCinema"></div>
             <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
-          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} onClick={this.favAddActiveClass}></div>
+          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'}></div>
         </div>
         <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
           {this.renderCinema()}

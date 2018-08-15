@@ -48,7 +48,7 @@ class MainSelectMovieByCinema extends PureComponent {
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
-      .then(data =>  this.setState({data:data.data, serverTime:data.server_timestamp,isLoading: false}))
+      .then(data =>  this.setState({data:data.data, serverTime:data.server_time,isLoading: false}))
       .then(()=>{
         this.dataForSchedule()
       })

@@ -1,0 +1,138 @@
+
+:root{
+  font-size: 16px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-display: swap;
+}
+
+.cashier-header{
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.movie-cashier{
+  box-shadow: 0 1px 10px -4px #15181d;
+  padding: 1rem;
+  color: #383D48;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 4px;
+  &__container{
+    display: flex;
+    flex-direction: column;
+    margin: 0.6rem;
+    background-color: #fff;
+    box-shadow: 0 1px 60px -15px #999;
+    padding: 1rem;
+  }
+  &__movie-info{
+    display: flex;
+  }
+  &__wrapper{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+  }
+  &__poster{
+    box-shadow: 0 1px 10px -4px #15181d;
+    width: auto;
+    height: 200px;
+  }
+  &__title{
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+  &__subtitle{
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+  &__genre{
+    color:#989FAE;
+    font-size: 0.75rem;
+  }
+  &__cine-info{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    &--label{
+      position:absolute;
+      left: 34px;
+      font-size: 0.75rem;
+      color:#999;
+      font-weight: bold;
+    }
+    &--title{
+      position: relative;
+      padding-top: 0.8rem;
+      color:#333;
+      font-weight: bold;
+    }
+    &--map{
+      padding-top: 1rem;
+      color: #ff8300;
+      font-size: 0.75rem;
+    }
+  }
+  &__date-info{
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: space-between;
+    &--wrapper{
+      position: relative;
+    }
+    &--label{
+      position:absolute;
+      top: -14px;
+      font-size: 0.75rem;
+      color:#999;
+      font-weight: bold;
+    }
+    &--title{
+      position: relative;
+      padding-top: 0.8rem;
+      color:#333;
+      font-weight: bold;
+    }
+  }
+  &__seat-info{
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: space-between;
+    &--wrapper{
+      position: relative;
+    }
+    &--label{
+      position:absolute;
+      top: -14px;
+      font-size: 0.75rem;
+      color:#999;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    &--title{
+      position: relative;
+      padding-top: 0.8rem;
+      color:#333;
+      font-weight: bold;
+    }
+  }
+  &__sound{
+    margin-top: 1rem;
+  }
+  &__confirm{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    font-size: 1.125rem;
+    background-color:#ff8300;
+    width: 100%;
+  }
+}
