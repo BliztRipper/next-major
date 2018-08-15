@@ -26,18 +26,21 @@ body{
     background-position: -12px -403px; 
     width: 25px;
     height: 24px;
+    margin: 0;
   }
   &-tab-menu2{
     @extend .sprite;
     background-position: -44px -403px; 
     width: 16px;
     height: 22px;
+    margin: 0;
   }
   &-tab-menu3{
     @extend .sprite;
     background-position: -65px -402px; 
     width: 24px;
     height: 24px;
+    margin: 0;
   }
   &-2dDigital{
     @extend .sprite;
@@ -116,10 +119,14 @@ body{
     border: 1px solid #bbb;
     border-radius: 8px;
     color:#737373;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
   }
 
 .highlight{
-  margin-top: 10vh;
+  margin-top: 5vh;
   text-align: center;
   &__poster{
     width:auto;
@@ -406,12 +413,15 @@ body{
           }
           .sprite-tab-menu1{
             background-position: -12px -430px; 
+            margin: 0;
           }
           .sprite-tab-menu2{
-            background-position: -44px -432px; 
+            background-position: -44px -432px;
+            margin: 0; 
           }
           .sprite-tab-menu3{
             background-position: -66px -431px; 
+            margin: 0;
           }
         }
       } 
