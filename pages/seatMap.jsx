@@ -18,7 +18,8 @@ class seatMap extends PureComponent {
       error: null,
       areaData: null,
       ticketData: null,
-      otpShow: false
+      otpShow: false,
+      userAuthData: null
     }
   }
   goToHome () {
@@ -100,14 +101,19 @@ class seatMap extends PureComponent {
   handleBackButton () {
     Router.back()
   }
-  handleAddedTicket () {
-    this.setState({otpShow: true})
+  handleShowOtp (data) {
+    console.log(data, 'data handleShowOtp')
+    this.state.userAuthData = data
+    this.setState({
+      otpShow: true,
+      userAuthData: this.state.userAuthData
+    })
   }
   componentDidMount() {
     this.getTheatre()
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId, otpShow} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -118,9 +124,9 @@ class seatMap extends PureComponent {
       return false
     }
     if (otpShow) {
-    return (
+      return (
         <Layout title="One-Time Password">
-          <OTP></OTP>
+          <OTP userAuthData={userAuthData}></OTP>
         </Layout>
       )
     }
@@ -128,7 +134,7 @@ class seatMap extends PureComponent {
       <Layout title="Select Seats">
         <div className="seatMap">
           <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
-          <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId} handleAddedTicket={this.handleAddedTicket.bind(this)}></SeatMapDisplay>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId} handleShowOtp={this.handleShowOtp.bind(this)}></SeatMapDisplay>
         </div>
       </Layout>
     )

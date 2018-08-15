@@ -7,7 +7,7 @@ class OTP extends PureComponent {
       this.state = {
         userNumber: '099-999-9999',
         otpNumberValue: '',
-        otpMatchCode: 'HUTV',
+        otpMatchCode: this.props.userAuthData.otp_ref,
         optSubmited: false
       }
   }
@@ -17,15 +17,44 @@ class OTP extends PureComponent {
   handleOtpInput (e) {
     let inputValue = e.target.value
     let maxValue = e.target.maxLength
-    this.setState({otpNumberValue: inputValue.substring(0, maxValue)})
+    this.state.otpNumberValue = inputValue.substring(0, maxValue)
+    this.setState({otpNumberValue: this.state.otpNumberValue})
     if (inputValue.length >= maxValue && !this.state.optSubmited) {
       this.state.optSubmited = true
-      console.log('OTP : handleOtpInput')
+      this.authOtpVerify(this.state.otpNumberValue)
     }
   }
   handleOtpResend () {
-    console.log('OTP : handleOtpResend')
-  }  
+    this.authOtpVerify(this.state.otpNumberValue)
+  }
+  authOtpVerify (otpCode) {
+    let userAuthData = this.props.userAuthData
+    let dataToStorage = {
+      otp_ref: userAuthData.otp_ref,
+      otp_code: otpCode,
+      agreement_id: userAuthData.agreement_id,
+      auth_code: userAuthData.auth_code,
+      tmn_account : userAuthData.phoneNumber
+    }
+    console.log(dataToStorage, 'dataToStorage verify')
+    try {
+      fetch(`https://api-cinema.truemoney.net/AuthVerify/${userAuthData.phoneNumber}`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToStorage)
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        console.log(data, 'get verify')
+      })
+    } catch (error) {
+      console.error('error', error);
+    }
+  }
   render () {
     const { userNumber, otpNumberValue, otpMatchCode } = this.state
     return (

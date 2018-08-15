@@ -12,7 +12,14 @@ class SeatMapDisplay extends PureComponent {
         renderListPrice: null,
         renderListSelectedAndPrice: null,
         postingTicket: false,
-        userOrder: ''
+        userOrder: '',
+        userPhoneNumber: '0863693746',
+        userAuthData: null,
+        apiOtpHeader: {
+          'Accept': 'application/json',
+          'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
+          'Content-Type': 'application/json'
+        }
       }
   }
   handleSelectSeats (aSeat, area, row, ticket) {
@@ -40,53 +47,105 @@ class SeatMapDisplay extends PureComponent {
       renderSeats: this.listGroups()
     })
   }
+  pushDataSeatSelectedToStorage () {
+    let dataToStorage = {
+      cinemaId: '',
+      SessionId: '',
+      ticketTypeCode: '',
+      qty: 0,
+      priceInCents: 0,
+      SelectedSeats: []
+    }
+    this.state.seatsSelected.forEach((item, index, array) => {
+      let data = {
+        cinemaId: item.ticket.CinemaId,
+        priceInCents: item.ticket.PriceInCents,
+        ticketTypeCode: item.ticket.TicketTypeCode,
+        qty: array.length,
+        SessionId: this.props.SessionId
+      }
+      dataToStorage = {...dataToStorage, ...data}
+      dataToStorage.SelectedSeats.push({
+        AreaCategoryCode: item.ticket.AreaCategoryCode,
+        ...item.Position
+      })
+    });
+    try {
+      this.setState({postingTicket: true})
+      fetch(`https://api-cinema.truemoney.net/AddTicket`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(dataToStorage)
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        console.log(data, 'data add tickets')
+        if (data.status_code !== 400) {
+          this.setState({
+            postingTicket: false,
+            userOrder: data.data.Order
+          })
+          this.props.handleShowOtp()
+        }
+      })
+    } catch (error) {
+      console.error('error', error);
+    }
+  }
+  authOtpHasToken () {
+    try {
+      this.setState({postingTicket: true})
+      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userPhoneNumber}`,{
+        headers: this.state.apiOtpHeader
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        console.log(data, 'HasToken')
+        // if (data.status_code === 200) {
+        //   this.setState({postingTicket: false})
+        //   alert('มี Token แล้ว ไปหน้าแคชเชียร์')
+        // } else {
+        // }
+        this.authOtpGetOtp()
+      })
+    } catch (error) {
+      console.error('error', error);
+    }
+  }
+  authOtpGetOtp () {
+    let dataToStorage = {
+      mobile_number: this.state.userPhoneNumber,
+      tmn_account: this.state.userPhoneNumber
+    }
+    try {
+      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userPhoneNumber}`,{
+        method: 'POST',
+        headers: this.state.apiOtpHeader,
+        body: JSON.stringify(dataToStorage)
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        console.log(data, 'getOTP')
+        this.state.userAuthData = {
+          phoneNumber: this.state.userPhoneNumber,
+          ...data
+        }
+        this.setState({
+          postingTicket: false
+        })
+        this.props.handleShowOtp(this.state.userAuthData)
+      })
+    } catch (error) {
+      console.error('error', error);
+    }
+  }
   handleSubmitTicket () {
     if (this.state.postingTicket) return false
     if (this.state.seatsSelected.length) {
-      let dataToStorage = {
-        cinemaId: '',
-        SessionId: '',
-        ticketTypeCode: '',
-        qty: 0,
-        priceInCents: 0,
-        SelectedSeats: []
-      }
-      this.state.seatsSelected.forEach((item, index, array) => {
-        let data = {
-          cinemaId: item.ticket.CinemaId,
-          priceInCents: item.ticket.PriceInCents,
-          ticketTypeCode: item.ticket.TicketTypeCode,
-          qty: array.length,
-          SessionId: this.props.SessionId
-        }
-        dataToStorage = {...dataToStorage, ...data}
-        dataToStorage.SelectedSeats.push({
-          AreaCategoryCode: item.ticket.AreaCategoryCode,
-          ...item.Position
-        })
-      });
-      try {
-        this.setState({postingTicket: true})
-        fetch(`https://api-cinema.truemoney.net/AddTicket`,{
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body:JSON.stringify(dataToStorage)
-        })
-        .then(response => response.json())
-        .then((data) =>  {
-          if (data.status_code !== 400) {
-            this.setState({
-              postingTicket: false,
-              userOrder: data.data.Order
-            })
-          }
-        })
-      } catch (error) {
-        console.error('error', error);
-      }
+      this.authOtpHasToken()
     } else {
       alert('กรุณาเลือกที่นั่ง')
     }
