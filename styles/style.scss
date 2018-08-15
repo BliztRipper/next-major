@@ -284,6 +284,7 @@ body{
     box-shadow: 0 1px 0 0 #e9ebef;
     border: 1px solid #F5F6F8;
     background-color: #fff;
+    z-index: 2;
   }
   &__title{
     color:#757D8C;
@@ -297,7 +298,8 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative
+    position: relative;
+    z-index: 2;
   }
 }
 
@@ -465,6 +467,7 @@ body{
   .react-tabs{
       &__tab-list{
         position: fixed;
+        list-style: none;
         top: 0;
         left: 0;
         padding-left: 0;

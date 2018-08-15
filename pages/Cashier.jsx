@@ -8,7 +8,7 @@ class CinemaMovieInfo extends PureComponent {
     return (
       <div className="movie-cashier__container">
         <div className="movie-cashier__movie-info">
-          <img className="movie-cashier__poster" src="static/thumb_2183.jpg"/>
+          <img className="movie-cashier__poster" src="/static/thumb_2183.jpg"/>
           <div className="movie-cashier__wrapper">
             <h2 className="movie-cashier__title">Mission Impossible 6</h2>
             <h3 className="movie-cashier__subtitle">มิชชั่น อิมพอสสิเบิ้ล ฟอลล์เอาท์</h3>
