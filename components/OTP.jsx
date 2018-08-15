@@ -25,7 +25,7 @@ class OTP extends PureComponent {
     }
   }
   handleOtpResend () {
-    this.authOtpVerify(this.state.otpNumberValue)
+    alert('ยางม่ายยยยด้ายยย ทามมมม')
   }
   authOtpVerify (otpCode) {
     let userAuthData = this.props.userAuthData
