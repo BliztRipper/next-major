@@ -3,15 +3,15 @@ import SeatMapDisplay from '../components/SeatMapDisplay'
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import Router from 'next/router'
+import '../styles/style.scss'
 
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      theatre: '7',
       CinemaId: '',
       SessionId: '',
-      dataObj: null,
+      dataSeatPlan: null,
       isLoading: true,
       error: null,
       areaData: null,
@@ -24,27 +24,46 @@ class seatMap extends PureComponent {
     })
   }
   getTheatre () {
-    this.state.CinemaId = sessionStorage.getItem('CinemaID')
-    this.state.SessionId = `${this.props.url.query.SessionId}`
-    this.state.theatre = `${this.props.url.query.ScreenNumber}`
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      try{
+        fetch(`https://api-cinema.truemoney.net/Schedule`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body:JSON.stringify({cinemaId: this.state.CinemaId})          
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.setState({ isLoading: false })
+          this.state.CinemaId = '0000000002'
+          this.state.SessionId = data.data[0].Theaters['3'].SessionId
+          this.getSeatPlans()
+        })
+      } catch(err){
+        error => this.setState({ error, isLoading: false })
+      }
+    } else {
+      this.state.CinemaId = sessionStorage.getItem('CinemaID')
+      this.state.SessionId = `${this.props.url.query.SessionId}`
+      if (this.state.SessionId === 'undefined') {
+        this.goToHome()
+      } else {
+        this.getSeatPlans()
+      }
+    }
     this.setState({
       CinemaId: this.state.CinemaId,
-      SessionId: this.state.SessionId,
-      theatre: this.state.theatre
+      SessionId: this.state.SessionId
     })
-    if (this.state.SessionId === 'undefined') {
-      this.goToHome()
-    } else {
-      this.getSeatPlans()
-    }
   }
   getSeatPlans () {
     try{
       fetch(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: true}))
-      .then(() => {
-        this.mapArea()
+      .then(data => {
+        this.state.dataSeatPlan = data.data
         this.getTickets()
       })
     } catch(err){
@@ -55,18 +74,28 @@ class seatMap extends PureComponent {
     try{
       fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
-      .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
+      .then(data => {
+        this.state.ticketData = this.state.dataSeatPlan.SeatLayoutData.Areas.map((area, areaIndex) => {
+          if (area.AreaCategoryCode === data.data.Tickets[areaIndex].AreaCategoryCode) {
+            return data.data.Tickets[areaIndex]
+          }
+        })
+        this.mapArea()
+        this.setState({isLoading: false})
+      })
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }    
   }
   mapArea () {
     this.setState({
-      areaData: this.state.dataObj.SeatLayoutData.Areas
+      dataSeatPlan: this.state.dataSeatPlan,
+      areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
+      ticketData: this.state.ticketData
     })
   }
   handleBackButton () {
-    console.log('back')
+    Router.back()
   }
   componentDidMount() {
     this.getTheatre()
@@ -83,13 +112,14 @@ class seatMap extends PureComponent {
       return false
     }
     return (
-      <Layout>
+      <Layout title="Select Seats">
         <div className="seatMap">
           <div className="seatMapHeader">
-            <div className="seatMapHeader__button" onClick={this.handleBackButton}>&lt;</div>
+            <div className="seatMapHeader__button" onClick={this.handleBackButton}>
+              <div>&lt;</div>
+            </div>
             <div className="seatMapHeader__title">เลือกที่นั่ง</div>
           </div>
-          <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
           <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId}></SeatMapDisplay>
         </div>
       </Layout>
