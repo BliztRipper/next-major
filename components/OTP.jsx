@@ -5,7 +5,7 @@ class OTP extends PureComponent {
   constructor(props) {
     super(props);
       this.state = {
-        userNumber: '099-999-9999',
+        userNumber: this.props.userAuthData.phoneNumber,
         otpNumberValue: '',
         otpMatchCode: this.props.userAuthData.otp_ref,
         optSubmited: false
@@ -17,11 +17,11 @@ class OTP extends PureComponent {
   handleOtpInput (e) {
     let inputValue = e.target.value
     let maxValue = e.target.maxLength
-    this.state.otpNumberValue = inputValue.substring(0, maxValue)
-    this.setState({otpNumberValue: this.state.otpNumberValue})
+    inputValue = inputValue.substring(0, maxValue)
+    this.setState({otpNumberValue: inputValue})
     if (inputValue.length >= maxValue && !this.state.optSubmited) {
       this.state.optSubmited = true
-      this.authOtpVerify(this.state.otpNumberValue)
+      this.authOtpVerify(inputValue)
     }
   }
   handleOtpResend () {
