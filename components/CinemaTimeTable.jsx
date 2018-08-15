@@ -13,7 +13,6 @@ class CinemaTimeTable extends PureComponent {
       pathname: '/seatMap',
       query: this.props.item
     }
-    // console.log(this.props.item);
     let resultArray = []
     this.props.item.Showtimes.map((time,i)=>{
       //Sync with Server Time      
@@ -23,9 +22,9 @@ class CinemaTimeTable extends PureComponent {
       let now = new Date()
       let nowtime = now.getTime()
       //Get date and time each schedule
-      let date = new Date(time+'Z')
+      let date = new Date(time)
       let movienowtime = date.getTime()
-      let playDate = date.getDate() 
+      let playDate = date.getDate()
       if (today === playDate) {
         let format = date.getHours()+':'+('0'+date.getMinutes()).slice(-2)
         let movienowtimeMoreThanNowtime = ''
@@ -34,23 +33,31 @@ class CinemaTimeTable extends PureComponent {
         } else {
           movienowtimeMoreThanNowtime = true
         }
-        resultArray.push(<PostLink key={i} link={dataToSeatMap} class={movienowtimeMoreThanNowtime} time={format}/>)
+        resultArray.push(          
+        <PostLink key={i} link={dataToSeatMap} class={movienowtimeMoreThanNowtime} time={format}/>
+      )
       }
     })
-    return resultArray
+    if (resultArray.length > 0) {
+      return (
+        <div className="movie-card__theatre-container">
+            <div className="movie-card__theatre-wrapper">
+            <div className="movie-card__theatre-title">{this.props.item.ScreenName}</div>
+            <div className={this.props.item.FormatCode}></div>
+            <span>{this.props.item.SessionAttributesNames}</span>
+          </div>
+          <div className="movie-card__timetable">
+            {resultArray}
+          </div>
+        </div>
+      )
+    }
   }
   render() {
     return (    
-      <div className="movie-card__theatre-container">
-        <div className="movie-card__theatre-wrapper">
-          <div className="movie-card__theatre-title">{this.props.item.ScreenName}</div>
-          <div className={this.props.item.FormatCode}></div>
-          <span>{this.props.item.SessionAttributesNames}</span>
-        </div>
-        <div className="movie-card__timetable">
-          {this.renderSchedule()}
-        </div>
-      </div>
+      <Fragment>
+        {this.renderSchedule()}
+      </Fragment>
     );
   }
 }

@@ -116,6 +116,8 @@ class MainSelectMovieByCinema extends PureComponent {
       Object.keys(this.state.dataSchedule).map(item=> {
         cinemaTimetable.push(this.state.dataSchedule[item])
       })
+      console.log(cinemaTimetable);
+      
       cinemaTimetable.map((theter,i)=>{
         resultsArray.info.push(<CinemaMovieInfo key={i} item={theter}/>, resultsArray.time)
         theter.theaters.forEach((element,j) => {
