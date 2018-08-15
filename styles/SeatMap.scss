@@ -16,7 +16,7 @@ body {
     overflow: auto;
   }
 }
-.seatMapHeader {
+.globalHeader {
   position: absolute;
   left: 0;
   right: 0;
@@ -26,7 +26,7 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 0;
+    left: .5rem;
     z-index: 1;
     padding: 0.5rem;
   }

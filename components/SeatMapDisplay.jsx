@@ -194,7 +194,7 @@ class SeatMapDisplay extends PureComponent {
   componentDidMount () {
     (()=> {
       let parent = document.querySelector('.seatMap')
-      let header = document.querySelector('.seatMapHeader')
+      let header = document.querySelector('.globalHeader')
       let footer = document.querySelector('.seatMapFooter')
       parent.style.cssText = `padding-bottom: ${footer.clientHeight}px; padding-top: ${header.clientHeight}px;`
     })()

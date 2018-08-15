@@ -1,5 +1,7 @@
 import { PureComponent } from 'react'
 import SeatMapDisplay from '../components/SeatMapDisplay'
+import OTP from '../components/OTP'
+import GlobalHeader from '../components/GlobalHeader'
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import Router from 'next/router'
@@ -15,7 +17,8 @@ class seatMap extends PureComponent {
       isLoading: true,
       error: null,
       areaData: null,
-      ticketData: null
+      ticketData: null,
+      otpShow: false
     }
   }
   goToHome () {
@@ -97,11 +100,14 @@ class seatMap extends PureComponent {
   handleBackButton () {
     Router.back()
   }
+  handleAddedTicket () {
+    this.setState({otpShow: true})
+  }
   componentDidMount() {
     this.getTheatre()
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -111,16 +117,18 @@ class seatMap extends PureComponent {
     if (!areaData) {
       return false
     }
+    if (otpShow) {
+    return (
+        <Layout title="One-Time Password">
+          <OTP></OTP>
+        </Layout>
+      )
+    }
     return (
       <Layout title="Select Seats">
         <div className="seatMap">
-          <div className="seatMapHeader">
-            <div className="seatMapHeader__button" onClick={this.handleBackButton}>
-              <div>&lt;</div>
-            </div>
-            <div className="seatMapHeader__title">เลือกที่นั่ง</div>
-          </div>
-          <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId}></SeatMapDisplay>
+          <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
+          <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId} handleAddedTicket={this.handleAddedTicket.bind(this)}></SeatMapDisplay>
         </div>
       </Layout>
     )
