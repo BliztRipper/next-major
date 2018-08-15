@@ -1,5 +1,6 @@
 
 @import 'SeatMap';
+@import 'cashier';
 
 :root{
   font-size: 16px;
@@ -70,7 +71,7 @@ body{
     height: 18px;
     margin: 5px;
     }
-  &-earestCinema{
+  &-nearestCinema{
     @extend .sprite;
     background-position: -11px -359px; 
     width: 18px;
@@ -327,7 +328,6 @@ body{
   &__subtitle{
     font-size: 0.875rem;
     font-weight: normal;
-    margin-top: 0;
   }
   &__genre{
     color:#989FAE;
@@ -377,6 +377,7 @@ body{
       pointer-events: none;
     }
   }
+
 }
 
 /* Wrapper for Tab*/
