@@ -77,7 +77,6 @@ class SeatMapDisplay extends PureComponent {
         })
         .then(response => response.json())
         .then((data) =>  {
-          console.log(data, 'data')
           if (data.status_code !== 400) {
             this.setState({
               postingTicket: false,

@@ -62,9 +62,8 @@ class seatMap extends PureComponent {
     try{
       fetch(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
-      .then(data => this.setState({dataSeatPlan:data.data, isLoading: true}))
-      .then(() => {
-        this.mapArea()
+      .then(data => {
+        this.state.dataSeatPlan = data.data
         this.getTickets()
       })
     } catch(err){
@@ -75,18 +74,28 @@ class seatMap extends PureComponent {
     try{
       fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
-      .then(data => this.setState({ticketData:data.data.Tickets, isLoading: false}))
+      .then(data => {
+        this.state.ticketData = this.state.dataSeatPlan.SeatLayoutData.Areas.map((area, areaIndex) => {
+          if (area.AreaCategoryCode === data.data.Tickets[areaIndex].AreaCategoryCode) {
+            return data.data.Tickets[areaIndex]
+          }
+        })
+        this.mapArea()
+        this.setState({isLoading: false})
+      })
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }    
   }
   mapArea () {
     this.setState({
-      areaData: this.state.dataSeatPlan.SeatLayoutData.Areas
+      dataSeatPlan: this.state.dataSeatPlan,
+      areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
+      ticketData: this.state.ticketData
     })
   }
   handleBackButton () {
-    console.log('back')
+    Router.back()
   }
   componentDidMount() {
     this.getTheatre()
@@ -103,10 +112,12 @@ class seatMap extends PureComponent {
       return false
     }
     return (
-      <Layout>
+      <Layout title="Select Seats">
         <div className="seatMap">
           <div className="seatMapHeader">
-            <div className="seatMapHeader__button" onClick={this.handleBackButton}>&lt;</div>
+            <div className="seatMapHeader__button" onClick={this.handleBackButton}>
+              <div>&lt;</div>
+            </div>
             <div className="seatMapHeader__title">เลือกที่นั่ง</div>
           </div>
           <SeatMapDisplay areaData={areaData} ticketData={ticketData} SessionId={SessionId}></SeatMapDisplay>
