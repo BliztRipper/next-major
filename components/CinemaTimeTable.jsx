@@ -8,6 +8,17 @@ const PostLink = (props) => (
 )
 
 class CinemaTimeTable extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.movieData = this.movieData.bind(this);
+  }
+
+  movieData(event){
+    let target = event.target || event.srcElement;
+    target = target.innerHTML
+    sessionStorage.setItem('BookingTime',target)
+  }
+
   renderSchedule(){
     let dataToSeatMap = {
       pathname: '/seatMap',
@@ -41,12 +52,12 @@ class CinemaTimeTable extends PureComponent {
     if (resultArray.length > 0) {
       return (
         <div className="movie-card__theatre-container">
-            <div className="movie-card__theatre-wrapper">
+          <div className="movie-card__theatre-wrapper">
             <div className="movie-card__theatre-title">{this.props.item.ScreenName}</div>
             <div className={this.props.item.FormatCode}></div>
             <span>{this.props.item.SessionAttributesNames}</span>
           </div>
-          <div className="movie-card__timetable">
+          <div className="movie-card__timetable" onClick={this.movieData}>
             {resultArray}
           </div>
         </div>

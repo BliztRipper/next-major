@@ -35320,7 +35320,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./styles/style.scss":
+/***/ "./styles/cashier.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 // removed by extract-text-webpack-plugin;
@@ -35345,7 +35345,7 @@ module.exports = function(module) {
           .querySelectorAll("link[href][rel=stylesheet]")
           .forEach(function(link) {
             if (!link.href.match(prefix) || link.stale) return;
-            injectCss(link, link.href.split("?")[0] + "?unix=1534327666399");
+            injectCss(link, link.href.split("?")[0] + "?unix=1534388667830");
           });
       }
     }

@@ -32,7 +32,9 @@ class CardCinemaRegional extends PureComponent {
 
   getCineId(){
     let id = this.refs.cineIdProp.innerText
+    let name = this.refs.cineName.innerText
     sessionStorage.setItem('CinemaID',id)
+    sessionStorage.setItem('BookingCinema',name)
   }
 
   render() {
@@ -52,7 +54,7 @@ class CardCinemaRegional extends PureComponent {
             <div className={this.props.brandname}></div>
             <Link prefetch href="/SelectMovieByCinema">
               <div className="card-cinema__CineTitle">
-                <div className="card-cinema__CineName">{this.props.name}</div>
+                <div ref="cineName" className="card-cinema__CineName">{this.props.name}</div>
                 <div className="card-cinema__CineDistant">100m</div>
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.cineId}</div>
               </div>
