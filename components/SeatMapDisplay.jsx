@@ -11,13 +11,11 @@ class SeatMapDisplay extends PureComponent {
         tickets: this.props.ticketData,
         renderListPrice: null,
         renderListSelectedAndPrice: null,
-        postingTicket: false,
-        userOrder: ''
+        postingTicket: false
       }
   }
   handleSelectSeats (aSeat, area, row, ticket) {
     if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
-    // let isOdd = (num) => { return num % 2 === 1 }
     let seatsSelected = this.state.seatsSelected
     this.state.areaSelected = area.AreaCategoryCode
     if (aSeat.Status === 99) {
@@ -40,58 +38,10 @@ class SeatMapDisplay extends PureComponent {
       renderSeats: this.listGroups()
     })
   }
-  pushDataSeatSelectedToStorage () {
-    let dataToStorage = {
-      cinemaId: '',
-      SessionId: '',
-      ticketTypeCode: '',
-      qty: 0,
-      priceInCents: 0,
-      SelectedSeats: []
-    }
-    this.state.seatsSelected.forEach((item, index, array) => {
-      let data = {
-        cinemaId: item.ticket.CinemaId,
-        priceInCents: item.ticket.PriceInCents,
-        ticketTypeCode: item.ticket.TicketTypeCode,
-        qty: array.length,
-        SessionId: this.props.SessionId
-      }
-      dataToStorage = {...dataToStorage, ...data}
-      dataToStorage.SelectedSeats.push({
-        AreaCategoryCode: item.ticket.AreaCategoryCode,
-        ...item.Position
-      })
-    });
-    try {
-      this.setState({postingTicket: true})
-      fetch(`https://api-cinema.truemoney.net/AddTicket`,{
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(dataToStorage)
-      })
-      .then(response => response.json())
-      .then((data) =>  {
-        console.log(data, 'data add tickets')
-        if (data.status_code !== 400) {
-          this.setState({
-            postingTicket: false,
-            userOrder: data.data.Order
-          })
-          this.props.handleShowOtp()
-        }
-      })
-    } catch (error) {
-      console.error('error', error);
-    }
-  }
   handleSubmitTicket () {
     if (this.state.postingTicket) return false
     if (this.state.seatsSelected.length) {
-      this.props.authOtpHasToken()
+      this.props.authOtpHasToken(this.state.seatsSelected)
     } else {
       alert('กรุณาเลือกที่นั่ง')
     }

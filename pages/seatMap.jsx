@@ -18,6 +18,8 @@ class seatMap extends PureComponent {
       error: null,
       areaData: null,
       ticketData: null,
+      userOrder: null,
+      seatsSelected: null,
       otpShow: false,
       userPhoneNumber: '0863693746',
       userAuthData: null,
@@ -106,7 +108,8 @@ class seatMap extends PureComponent {
   handleBackButton () {
     Router.back()
   }
-  authOtpHasToken () {
+  authOtpHasToken (seatSelected) {
+    this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
       fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userPhoneNumber}`,{
@@ -115,11 +118,7 @@ class seatMap extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         if (data.status_code === 200) {
-          this.setState({postingTicket: false})
-          alert('มี Token แล้ว ไปหน้าแคชเชียร์')
-          Router.push({
-            pathname: '/Cashier'
-        })
+          this.bookSelectedSeats()
         } else {
           this.authOtpGetOtp(true)
         }
@@ -149,6 +148,7 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
+        console.log(data, 'data Get OTP')
         this.state.userAuthData = {
           phoneNumber: this.state.userPhoneNumber,
           ...data
@@ -184,15 +184,61 @@ class seatMap extends PureComponent {
         body: JSON.stringify(dataToStorage)
       })
       .then(response => response.json())
-      .then((data) =>  {
-        Router.push({
-          pathname: '/Cashier'
-        })
+      .then(() =>  {
+        this.bookSelectedSeats()
       })
     } catch (error) {
       console.error('error', error);
     }
   }  
+  bookSelectedSeats () {
+    let dataToStorage = {
+      cinemaId: '',
+      SessionId: '',
+      ticketTypeCode: '',
+      qty: 0,
+      priceInCents: 0,
+      SelectedSeats: []
+    }
+    this.state.seatsSelected.forEach((item, index, array) => {
+      let data = {
+        cinemaId: item.ticket.CinemaId,
+        priceInCents: item.ticket.PriceInCents,
+        ticketTypeCode: item.ticket.TicketTypeCode,
+        qty: array.length,
+        SessionId: this.state.SessionId
+      }
+      dataToStorage = {...dataToStorage, ...data}
+      dataToStorage.SelectedSeats.push({
+        AreaCategoryCode: item.ticket.AreaCategoryCode,
+        ...item.Position
+      })
+    });
+    try {
+      fetch(`https://api-cinema.truemoney.net/AddTicket`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(dataToStorage)
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        this.refSeatMapDisplay.current.setState({postingTicket: false})
+        if (data.status_code !== 400) {
+          this.setState({
+            userOrder: data.data.Order
+          })
+          Router.push({
+            pathname: '/Cashier'
+          })
+        }
+      })
+    } catch (error) {
+      console.error('error', error);
+    }
+  }
   componentDidMount() {
     this.getTheatre()
   }
@@ -229,6 +275,7 @@ class seatMap extends PureComponent {
             SessionId={SessionId} 
             ticketData={ticketData} 
             authOtpHasToken={this.authOtpHasToken.bind(this)}
+            bookSelectedSeats={this.bookSelectedSeats.bind(this)}
           ></SeatMapDisplay>
         </div>
       </Layout>
