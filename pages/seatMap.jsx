@@ -50,7 +50,6 @@ class seatMap extends PureComponent {
         })
         .then(response => response.json())
         .then(data => {
-          this.setState({ isLoading: false })
           this.state.CinemaId = '0000000002'
           this.state.SessionId = data.data[0].Theaters['3'].SessionId
           this.getSeatPlans()
@@ -97,9 +96,9 @@ class seatMap extends PureComponent {
         this.setState({
           dataSeatPlan: this.state.dataSeatPlan,
           areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
-          ticketData: this.state.ticketData
+          ticketData: this.state.ticketData,
+          isLoading: false
         })
-        this.setState({isLoading: false})
       })
     } catch(err){
       error => this.setState({ error, isLoading: false })
@@ -148,7 +147,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data Get OTP')
         this.state.userAuthData = {
           phoneNumber: this.state.userPhoneNumber,
           ...data
