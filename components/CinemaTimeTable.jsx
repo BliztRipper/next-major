@@ -3,14 +3,21 @@ import Link from 'next/link'
 
 const PostLink = (props) => (
   <Link prefetch href={props.link}>
-    <a className={props.class? 'movie-card__showtime disable':'movie-card__showtime'}>{props.time}</a>
+    <a 
+      className={props.class? 'movie-card__showtime disable':'movie-card__showtime'}
+      onClick={props.handleScheduleSelected}
+    >{props.time}</a>
   </Link>
 )
 
 class CinemaTimeTable extends PureComponent {
+  handleScheduleSelected (itemTheaterInfo) {
+    console.log(this, 'this')
+    console.log(itemTheaterInfo, 'itemTheaterInfo')
+  }
   renderSchedule(){
     let dataToSeatMap = {
-      pathname: '/seatMap',
+      // pathname: '/seatMap',
       query: this.props.item
     }
     let resultArray = []
@@ -34,7 +41,7 @@ class CinemaTimeTable extends PureComponent {
           movienowtimeMoreThanNowtime = true
         }
         resultArray.push(          
-        <PostLink key={i} link={dataToSeatMap} class={movienowtimeMoreThanNowtime} time={format}/>
+        <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
       )
       }
     })

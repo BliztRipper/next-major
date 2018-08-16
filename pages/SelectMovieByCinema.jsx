@@ -58,7 +58,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   getTitleById(filmId) {
-    var info = null
+    let info = null
     this.state.nowShowing.map(movie => {
       if (movie.movieCode != null) {
         movie.movieCode.map(movieId => {
@@ -74,8 +74,9 @@ class MainSelectMovieByCinema extends PureComponent {
   dataForSchedule(){
     var movies = []
     this.state.data.map(item => {
+      let info = ''
       Object.keys(item.Theaters).map(key => {
-        var info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
+        info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
         if (info == null) {
           console.log("fileId is not found in now showing wait to fix"); 
         } else {
@@ -116,15 +117,14 @@ class MainSelectMovieByCinema extends PureComponent {
       Object.keys(this.state.dataSchedule).map(item=> {
         cinemaTimetable.push(this.state.dataSchedule[item])
       })
-      console.log(cinemaTimetable);
       
-      cinemaTimetable.map((theter,i)=>{
-        resultsArray.info.push(<CinemaMovieInfo key={i} item={theter}/>, resultsArray.time)
-        theter.theaters.forEach((element,j) => {
+      cinemaTimetable.map((theaters,i)=>{
+        resultsArray.info.push(<CinemaMovieInfo key={i} item={theaters}/>, resultsArray.time)
+        theaters.theaters.forEach((element,j) => {
           if(element.SessionAttributesNames = 'EN/TH'){
             element.SessionAttributesNames = 'อังกฤษ'
           }
-        resultsArray.time.push(<CinemaTimeTable key={'theter' + i + 'element' + j} item={element} serverTime={this.state.serverTime}/>)   
+        resultsArray.time.push(<CinemaTimeTable key={'theaters' + i + 'element' + j} itemTheaterInfo={theaters} item={element} serverTime={this.state.serverTime}/>)   
         });    
         resultsArray.time = []
       })
