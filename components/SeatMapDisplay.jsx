@@ -64,9 +64,7 @@ class SeatMapDisplay extends PureComponent {
         let classNameSelected = ''
         let totalSeatsEachRow = 0
         classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
-        
-        let listItems = []
-        listItems = area.Rows.map((row, rowIndex) => {
+        let listItems = area.Rows.map((row, rowIndex) => {
           if (row.PhysicalName !== null) {
             totalSeatsEachRow = row.Seats.length
             let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
@@ -147,14 +145,6 @@ class SeatMapDisplay extends PureComponent {
       renderSeats: this.listGroups(),
       renderListPrice: this.listPrice()
     })
-  }
-  componentDidMount () {
-    (()=> {
-      let parent = document.querySelector('.seatMap')
-      let header = document.querySelector('.globalHeader')
-      let footer = document.querySelector('.seatMapFooter')
-      parent.style.cssText = `padding-bottom: ${footer.clientHeight}px; padding-top: ${header.clientHeight}px;`
-    })()
   }
   render () {
     const {renderSeats, renderListPrice} = this.state
