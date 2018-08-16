@@ -114,7 +114,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'HasToken')
         if (data.status_code === 200) {
           this.setState({postingTicket: false})
           alert('มี Token แล้ว ไปหน้าแคชเชียร์')
@@ -150,7 +149,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'getOTP')
         this.state.userAuthData = {
           phoneNumber: this.state.userPhoneNumber,
           ...data
@@ -179,7 +177,6 @@ class seatMap extends PureComponent {
       auth_code: userAuthData.auth_code,
       tmn_account : userAuthData.phoneNumber
     }
-    console.log(dataToStorage, 'dataToStorage verify')
     try {
       fetch(`https://api-cinema.truemoney.net/AuthVerify/${userAuthData.phoneNumber}`,{
         method: 'POST',
@@ -188,7 +185,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'get verify')
         Router.push({
           pathname: '/Cashier'
         })

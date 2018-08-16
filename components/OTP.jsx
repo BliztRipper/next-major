@@ -1,6 +1,5 @@
 import { PureComponent } from 'react'
 import GlobalHeader from '../components/GlobalHeader'
-import Router from 'next/router'
 
 class OTP extends PureComponent {
   constructor(props) {
