@@ -103,6 +103,7 @@
     justify-content: space-between;
     &--wrapper{
       position: relative;
+      width: 150px;
     }
     &--label{
       position:absolute;
@@ -114,9 +115,11 @@
     }
     &--title{
       position: relative;
-      padding-top: 0.8rem;
+      padding-top: 0.4rem;
       color:#333;
       font-weight: bold;
+      display: flex;
+      word-break: break-word;
     }
   }
   &__sound{

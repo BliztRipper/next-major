@@ -4,43 +4,83 @@ import loading from '../static/loading.gif'
 import '../styles/cashier.scss'
 
 class CinemaMovieInfo extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      error: null,
+    }
+  }
+  componentDidMount() {
+    try {
+      let dateObj = new Date();
+      let month = dateObj.getUTCMonth() + 1; 
+      let day = dateObj.getUTCDate();
+      let year = dateObj.getUTCFullYear();
+      let newdate = day + "/" + month + "/" + year;
+      this.setState({
+        BookingMovie: sessionStorage.getItem('BookingMovie'),
+        BookingDuration: sessionStorage.getItem('BookingDuration'),
+        BookingGenre: sessionStorage.getItem('BookingGenre'),
+        BookingCinema: sessionStorage.getItem('BookingCinema'),
+        BookingMovieTH: sessionStorage.getItem('BookingMovieTH'),
+        BookingPoster: sessionStorage.getItem('BookingPoster'),
+        BookingScreenName: sessionStorage.getItem('BookingScreenName'),
+        BookingSeat: sessionStorage.getItem('BookingSeat'),
+        BookingDate: newdate,
+        BookingAttributesNames: sessionStorage.getItem('BookingAttributesNames'),
+        BookingTime: sessionStorage.getItem('BookingTime'),isLoading: false
+      })
+    } catch (error) {
+      error => this.setState({ error, isLoading: false })
+    }
+  }
+  
   render() {
+    const {isLoading, error} = this.state;      
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+    if (isLoading) { 
+      return <img src={loading} className="loading"/>
+    } 
+   
     return (
       <div className="movie-cashier__container">
         <div className="movie-cashier__movie-info">
-          <img className="movie-cashier__poster" src="../static/thumb_2183.jpg"/>
+          <img className="movie-cashier__poster" src={this.state.BookingPoster}/>
           <div className="movie-cashier__wrapper">
-            <h2 className="movie-cashier__title">Mission Impossible 6</h2>
-            <h3 className="movie-cashier__subtitle">มิชชั่น อิมพอสสิเบิ้ล ฟอลล์เอาท์</h3>
-            <span className="movie-cashier__genre">Action/Adventure/Thriller <br/> 118 นาที</span>
+            <h2 className="movie-cashier__title">{this.state.BookingMovie}</h2>
+            <h3 className="movie-cashier__subtitle">{this.state.BookingMovieTH}</h3>
+            <span className="movie-cashier__genre">{this.state.BookingGenre}<br/> {this.state.BookingDuration}</span>
           </div>
         </div>
         <div className="movie-cashier__cine-info">
-            <span className="movie-cashier__cine-info--title">ควอเทียร์ ซีเนอาร์ต</span>
+            <span className="movie-cashier__cine-info--title">{this.state.BookingCinema}</span>
             <span className="movie-cashier__cine-info--label">สาขา</span>
             <span className="movie-cashier__cine-info--map">ดูแผนที่</span>
         </div>
         <div className="movie-cashier__date-info">
           <div className="movie-cashier__date-info--wrapper">
             <span className="movie-cashier__date-info--label">วันที่</span>
-            <span className="movie-cashier__date-info--title">3 ก.ย.</span>
+            <span className="movie-cashier__date-info--title">{this.state.BookingDate}</span>
           </div>
           <div className="movie-cashier__date-info--wrapper">
             <span className="movie-cashier__date-info--label">เวลา</span>
-            <span className="movie-cashier__date-info--title">19:40</span>
+            <span className="movie-cashier__date-info--title">{this.state.BookingTime}</span>
           </div>
         </div>
         <div className="movie-cashier__seat-info">
           <div className="movie-cashier__seat-info--wrapper">
             <span className="movie-cashier__seat-info--label">โรงภาพยนตร์</span>
-            <span className="movie-cashier__seat-info--title">3</span>
+            <span className="movie-cashier__seat-info--title">{this.state.BookingScreenName}</span>
           </div>
           <div className="movie-cashier__seat-info--wrapper">
             <span className="movie-cashier__seat-info--label">หมายเลขที่นั่ง</span>
-            <span className="movie-cashier__seat-info--title">J4,J5,VP1, VP2</span>
+            <span className="movie-cashier__seat-info--title">{this.state.BookingSeat}</span>
           </div>
         </div>
-        <span className="movie-cashier__sound">อังกฤษ</span>
+        <span className="movie-cashier__sound">เสียง {this.state.BookingAttributesNames}</span>
       </div>
     );
   }

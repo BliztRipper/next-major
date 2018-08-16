@@ -11,7 +11,8 @@ class SeatMapDisplay extends PureComponent {
         tickets: this.props.ticketData,
         renderListPrice: null,
         renderListSelectedAndPrice: null,
-        postingTicket: false
+        postingTicket: false,
+        selectedList:''
       }
   }
   handleSelectSeats (aSeat, area, row, ticket) {
@@ -42,6 +43,7 @@ class SeatMapDisplay extends PureComponent {
     if (this.state.postingTicket) return false
     if (this.state.seatsSelected.length) {
       this.props.authOtpHasToken(this.state.seatsSelected)
+      sessionStorage.setItem('BookingSeat',this.state.selectedList)
     } else {
       alert('กรุณาเลือกที่นั่ง')
     }
@@ -124,6 +126,7 @@ class SeatMapDisplay extends PureComponent {
   listSelectedAndPrice () {
     let selectedList = this.state.seatsSelected.map(seat => seat.rowPhysicalName + seat.Id)
     selectedList = selectedList.join()
+    this.setState({selectedList:selectedList})
     let totalPrice = 0
     this.state.seatsSelected.forEach(seat => {
       totalPrice += seat.ticket.PriceInCents / 100

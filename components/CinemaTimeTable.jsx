@@ -3,32 +3,28 @@ import Link from 'next/link'
 
 const PostLink = (props) => (
   <Link prefetch href={props.link}>
-    <a 
-      className={props.class? 'movie-card__showtime disable':'movie-card__showtime'}
-      onClick={props.handleScheduleSelected}
-    >{props.time}</a>
+    <a className={props.class? 'movie-card__showtime disable':'movie-card__showtime'} onClick={props.handleScheduleSelected}>{props.time}</a>
   </Link>
 )
 
 class CinemaTimeTable extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.movieData = this.movieData.bind(this);
-  }
 
-  movieData(event){
-    let target = event.target || event.srcElement;
+  handleScheduleSelected (itemTheaterInfo, event, ) {
+    let target = event.target || event.srcElement
     target = target.innerHTML
     sessionStorage.setItem('BookingTime',target)
+    sessionStorage.setItem('BookingMovie',itemTheaterInfo.title_en)
+    sessionStorage.setItem('BookingMovieTH',itemTheaterInfo.title_th)
+    sessionStorage.setItem('BookingGenre',itemTheaterInfo.genre)
+    sessionStorage.setItem('BookingDuration',itemTheaterInfo.duration)
+    sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
+    sessionStorage.setItem('BookingPoster',itemTheaterInfo.poster_ori)
+    sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
   }
 
-  handleScheduleSelected (itemTheaterInfo) {
-    console.log(this, 'this')
-    console.log(itemTheaterInfo, 'itemTheaterInfo')
-  }
   renderSchedule(){
     let dataToSeatMap = {
-      // pathname: '/seatMap',
+      pathname: '/seatMap',
       query: this.props.item
     }
     let resultArray = []
@@ -64,7 +60,7 @@ class CinemaTimeTable extends PureComponent {
             <div className={this.props.item.FormatCode}></div>
             <span>{this.props.item.SessionAttributesNames}</span>
           </div>
-          <div className="movie-card__timetable" onClick={this.movieData}>
+          <div className="movie-card__timetable">
             {resultArray}
           </div>
         </div>
