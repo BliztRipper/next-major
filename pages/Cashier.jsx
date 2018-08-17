@@ -9,6 +9,7 @@ class CinemaMovieInfo extends PureComponent {
     this.state = {
       isLoading: true,
       error: null,
+      success:false
     }
   }
   componentDidMount() {
@@ -29,7 +30,8 @@ class CinemaMovieInfo extends PureComponent {
         BookingSeat: sessionStorage.getItem('BookingSeat'),
         BookingDate: newdate,
         BookingAttributesNames: sessionStorage.getItem('BookingAttributesNames'),
-        BookingTime: sessionStorage.getItem('BookingTime'),isLoading: false
+        BookingTime: sessionStorage.getItem('BookingTime'),
+        BookingPrice: sessionStorage.getItem('BookingPrice'),isLoading: false
       })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
@@ -37,7 +39,7 @@ class CinemaMovieInfo extends PureComponent {
   }
   
   render() {
-    const {isLoading, error} = this.state;      
+    const {isLoading, error,success} = this.state;      
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -80,7 +82,20 @@ class CinemaMovieInfo extends PureComponent {
             <span className="movie-cashier__seat-info--title">{this.state.BookingSeat}</span>
           </div>
         </div>
-        <span className="movie-cashier__sound">เสียง {this.state.BookingAttributesNames}</span>
+        <div className="movie-cashier__seat-info">
+          <div className="movie-cashier__seat-info--wrapper">
+            <span className="movie-cashier__seat-info--title">เสียง {this.state.BookingAttributesNames}</span>
+          </div>
+          <div className="movie-cashier__seat-info--wrapper">
+            <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPrice} บาท</span>
+          </div>
+        </div>
+        <div className={success? 'qrContainer success':'qrContainer'}>
+          <img className="qrContainer__qrcode" src="../static/QR.png"/>
+          <b className="qrContainer__ref">WJM28PZ</b>
+        </div>
+        <div className={success? 'movie-cashier__confirm success':'movie-cashier__confirm'}>ยืนยันการจอง</div>
+        <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
       </div>
     );
   }
@@ -92,7 +107,6 @@ class Cashier extends PureComponent {
       <Layout title="Cashier Page">
         <header className="cashier-header">ยืนยันที่นั่ง</header>
         <CinemaMovieInfo/>
-        <div className="movie-cashier__confirm">ยืนยันการจอง</div>
       </Layout>
     );
   }
