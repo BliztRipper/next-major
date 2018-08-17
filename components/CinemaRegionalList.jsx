@@ -15,7 +15,7 @@ class CinemaRegionalList extends PureComponent {
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     try{
       fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
@@ -61,7 +61,7 @@ class CinemaRegionalList extends PureComponent {
 
     {(() => {
       for (var region in branchRegion) {
-        renderRegion.push(<CinemaRegionalComp zone_name={region} items={branchRegion[region]} cinemaId={branchRegion[region].cinemaId} brandName={branchRegion[region].brandName}/>)
+        renderRegion.push(<CinemaRegionalComp zone_name={region} key={region} items={branchRegion[region]} cinemaId={branchRegion[region].cinemaId} brandName={branchRegion[region].brandName}/>)
       }
     })()}
     return (

@@ -19,7 +19,7 @@ class CinemaRegionalComp extends PureComponent {
  
   RenderHeader(zone_name) {
     return (
-      <div className="cinema__regional" onClick={this.favAddActiveClass} >
+      <div className="cinema__regional" onClick={this.favAddActiveClass} key={zone_name}>
         <div className="cinema__regional__header">
           <h5 className="cinema__regional__title">{zone_name}</h5>
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} ></div>
@@ -36,7 +36,7 @@ class CinemaRegionalComp extends PureComponent {
       CardRegionalBody.push(<CardCinemaRegional name={item.name} key={item.cinemaId} cineId={item.cinemaId} brandname={item.brandName}/>)
     })
     ToggleHeader.push(
-      <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
+      <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'} key={'ToggleHeader'}>
         {CardRegionalBody}
       </div>
     )
