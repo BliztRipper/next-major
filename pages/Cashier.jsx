@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import '../styles/cashier.scss'
-import qrcodejs from 'davidshimjs-qrcodejs'
+import QRCode from 'qrcode.react'
 
 class CinemaMovieInfo extends PureComponent {
   constructor(props) {
@@ -51,14 +51,6 @@ class CinemaMovieInfo extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         if(data.status_code == 200){
-          new qrcodejs(this.refs.qrcode,{
-            text:data.data.data.VistaBookingNumber,
-            width: 150,
-            height: 150,
-            colorDark : "#000000",
-            colorLight : "#ffffff",
-            correctLevel : qrcodejs.CorrectLevel.H
-          })
           this.setState({
             success: true,
             VistaBookingId:data.data.data.VistaBookingId,
@@ -160,7 +152,9 @@ class CinemaMovieInfo extends PureComponent {
           </div>
         </div>
         <div className={success? 'qrContainer success':'qrContainer'}>
-          <div ref="qrcode" className="qrContainer__qrcode"></div>
+          <div className="qrContainer__qrcode">
+            <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} />
+          </div>
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
         <div className={success? 'movie-cashier__confirm success':'movie-cashier__confirm'} onClick={this.submitPayment.bind(this)}>ยืนยันการจอง</div>
