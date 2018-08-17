@@ -137,5 +137,50 @@
     font-size: 1.125rem;
     background-color:#ff8300;
     width: 100%;
+    &.success{
+      display: none;
+    }
+  }
+}
+
+$size: 10px;
+
+.qrContainer{
+  border-top: 1px dashed #e3e3e3;
+  position: relative;
+  margin-top: 1.5rem;
+  display: none;
+  &::before{
+    content: "";
+    height: $size * 2;
+    width: $size;
+    background-color: #e3e3e3;
+    position: absolute;
+    border-bottom-right-radius: $size * 2;
+    border-top-right-radius: $size * 2;
+    top: -10px;
+    left: -16px;
+  }
+  &::after{
+    content: "";
+    height: $size * 2;
+    width: $size;
+    background-color: #e3e3e3;
+    position: absolute;
+    border-bottom-left-radius: $size * 2;
+    border-top-left-radius: $size * 2;
+    top: -10px;
+    right: -16px;
+  }
+  &__qrcode{
+    display: block;
+    margin: 0 auto;
+  }
+  &__ref{
+    text-align: center;
+    display: block;
+  }
+  &.success{
+    display: block;
   }
 }

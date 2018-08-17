@@ -127,13 +127,14 @@ class SeatMapDisplay extends PureComponent {
     let totalPrice = 0
     this.state.seatsSelected.forEach(seat => {
       totalPrice += seat.ticket.PriceInCents / 100
+      sessionStorage.setItem('BookingPrice',totalPrice)
     })
     return (
       <div className="ticketResult__selectedAndPrice">
         <div className="ticketResult__selectedLists">
           {selectedList}
         </div>
-        <div className="ticketResult__totalPrice">
+        <div className="ticketResult__totalPrice" ref="totalPrice">
         {'รวม ' + totalPrice + ' บาท' }
         </div>
       </div>
