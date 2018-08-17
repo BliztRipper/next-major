@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import '../styles/cashier.scss'
+import qrcodejs from 'davidshimjs-qrcodejs'
 
 class CinemaMovieInfo extends PureComponent {
   constructor(props) {
@@ -32,15 +33,15 @@ class CinemaMovieInfo extends PureComponent {
       BookingAttributesNames: '',
       BookingTime: '',
       BookingPrice: '',
+      BookingPriceDisplay: '',
       BookingUserSessionId: '',
       BookingUserPhoneNumber: '',
-      success: false
+      success: false,
+      VistaBookingId:'',
+      VistaBookingNumber:''
     }
   }
   submitPayment () {
-    console.log(this.state.dataToPayment , 'this.state.dataToPayment')
-    console.log(JSON.stringify(this.state.dataToPayment) , 'this.state.dataToPayment JSON')
-    console.log(this.state.BookingUserPhoneNumber , 'this.state.BookingUserPhoneNumber')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
         method: 'POST',
@@ -49,8 +50,23 @@ class CinemaMovieInfo extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data , 'data submitPayment')
+        if(data.status_code == 200){
+          new qrcodejs(this.refs.qrcode,{
+            text:data.data.data.VistaBookingNumber,
+            width: 150,
+            height: 150,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : qrcodejs.CorrectLevel.H
+          })
+          this.setState({
+            success: true,
+            VistaBookingId:data.data.data.VistaBookingId,
+            VistaBookingNumber:data.data.data.VistaBookingNumber,
+          })
+        } 
       })
+
     } catch (error) {
       console.error('error', error);
     }
@@ -75,6 +91,7 @@ class CinemaMovieInfo extends PureComponent {
         BookingAttributesNames: sessionStorage.getItem('BookingAttributesNames'),
         BookingTime: sessionStorage.getItem('BookingTime'),
         BookingPrice: sessionStorage.getItem('BookingPrice'),
+        BookingPriceDisplay: sessionStorage.getItem('BookingPriceDisplay'),
         BookingUserSessionId: sessionStorage.getItem('BookingUserSessionId'),
         BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber'),
         isLoading: false
@@ -84,9 +101,8 @@ class CinemaMovieInfo extends PureComponent {
           let filtered = Object.keys(this.state).filter((str) => str.includes(filterPattern))
           filtered.forEach(key => { this.state.dataToPayment.payload[key] = this.state[key] })
           this.state.dataToPayment.third_party_tx_id = this.state.BookingUserSessionId
-          this.state.dataToPayment.amount_satang = parseInt(this.state.BookingPrice)
-        }
-      )
+          this.state.dataToPayment.amount_satang = this.state.BookingPrice
+        })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
@@ -99,7 +115,7 @@ class CinemaMovieInfo extends PureComponent {
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     } 
-   
+
     return (
       <div className="movie-cashier__container">
         <div className="movie-cashier__movie-info">
@@ -140,12 +156,12 @@ class CinemaMovieInfo extends PureComponent {
             <span className="movie-cashier__seat-info--title">เสียง {this.state.BookingAttributesNames}</span>
           </div>
           <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPrice} บาท</span>
+            <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPriceDisplay} บาท</span>
           </div>
         </div>
         <div className={success? 'qrContainer success':'qrContainer'}>
-          <img className="qrContainer__qrcode" src="../static/QR.png"/>
-          <b className="qrContainer__ref">WJM28PZ</b>
+          <div ref="qrcode" className="qrContainer__qrcode"></div>
+          <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
         <div className={success? 'movie-cashier__confirm success':'movie-cashier__confirm'} onClick={this.submitPayment.bind(this)}>ยืนยันการจอง</div>
         <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>

@@ -126,7 +126,8 @@ class SeatMapDisplay extends PureComponent {
     let totalPrice = 0
     this.state.seatsSelected.forEach(seat => {
       totalPrice += seat.ticket.PriceInCents / 100
-      sessionStorage.setItem('BookingPrice',totalPrice)
+      sessionStorage.setItem('BookingPrice',totalPrice*100)
+      sessionStorage.setItem('BookingPriceDisplay',totalPrice)
     })
     return (
       <div className="ticketResult__selectedAndPrice">
