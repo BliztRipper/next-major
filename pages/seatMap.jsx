@@ -38,33 +38,12 @@ class seatMap extends PureComponent {
     })
   }
   getTheatre () {
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-      try{
-        fetch(`https://api-cinema.truemoney.net/Schedule`, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body:JSON.stringify({cinemaId: this.state.CinemaId})          
-        })
-        .then(response => response.json())
-        .then(data => {
-          this.state.CinemaId = '0000000002'
-          this.state.SessionId = data.data[0].Theaters['3'].SessionId
-          this.getSeatPlans()
-        })
-      } catch(err){
-        error => this.setState({ error, isLoading: false })
-      }
+    this.state.CinemaId = sessionStorage.getItem('CinemaID')
+    this.state.SessionId = `${this.props.url.query.SessionId}`
+    if (this.state.SessionId === 'undefined') {
+      this.goToHome()
     } else {
-      this.state.CinemaId = sessionStorage.getItem('CinemaID')
-      this.state.SessionId = `${this.props.url.query.SessionId}`
-      if (this.state.SessionId === 'undefined') {
-        this.goToHome()
-      } else {
-        this.getSeatPlans()
-      }
+      this.getSeatPlans()
     }
     this.setState({
       CinemaId: this.state.CinemaId,
@@ -212,6 +191,7 @@ class seatMap extends PureComponent {
         ...item.Position
       })
     });
+    console.log(dataToStorage, 'dataToStorage AddTicket')
     try {
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',

@@ -77,10 +77,8 @@ class SeatMapDisplay extends PureComponent {
                 }
               }
               return (
-                <div className={classNameCell} key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
-                  <div>
-                    {(aSeat.Id)}
-                  </div>
+                <div className={classNameCell} title={'Status = ' +  aSeat.Status} key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
+                  <div>{(aSeat.Id)}</div>
                 </div>
               )
             })
