@@ -44,6 +44,7 @@ class SeatMapDisplay extends PureComponent {
     if (this.state.seatsSelected.length) {
       this.props.authOtpHasToken(this.state.seatsSelected)
       sessionStorage.setItem('BookingSeat',this.state.selectedList)
+      sessionStorage.setItem('BookingSeatTotal',this.state.seatsSelected.length)
     } else {
       alert('กรุณาเลือกที่นั่ง')
     }

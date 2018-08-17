@@ -18,7 +18,7 @@ class seatMap extends PureComponent {
       error: null,
       areaData: null,
       ticketData: null,
-      userOrder: null,
+      dataBookedSeats: null,
       seatsSelected: null,
       otpShow: false,
       userPhoneNumber: '0863693746',
@@ -204,13 +204,11 @@ class seatMap extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         this.refSeatMapDisplay.current.setState({postingTicket: false})
+        console.log(data, 'data bookSelectedSeats')
         if (data.status_code !== 400) {
-          this.setState({
-            userOrder: data.data.Order
-          })
-          Router.push({
-            pathname: '/Cashier'
-          })
+          this.setState({ dataBookedSeats: data })
+          Router.push({ pathname: '/Cashier' })
+          sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
         }
       })
     } catch (error) {

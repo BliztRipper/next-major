@@ -9,6 +9,24 @@ class CinemaMovieInfo extends PureComponent {
     this.state = {
       isLoading: true,
       error: null,
+      dataToPayment: {
+        third_party_tx_id: '',
+        amount_satang: 0,
+        currency: 'THB',
+        payload: {}
+      },
+      BookingMovie: '',
+      BookingDuration: '',
+      BookingGenre: '',
+      BookingCinema: '',
+      BookingMovieTH: '',
+      BookingPoster: '',
+      BookingScreenName: '',
+      BookingSeat: '',
+      BookingDate: '',
+      BookingAttributesNames: '',
+      BookingTime: '',
+      BookingUserSessionId: ''
     }
   }
   componentDidMount() {
@@ -29,8 +47,19 @@ class CinemaMovieInfo extends PureComponent {
         BookingSeat: sessionStorage.getItem('BookingSeat'),
         BookingDate: newdate,
         BookingAttributesNames: sessionStorage.getItem('BookingAttributesNames'),
-        BookingTime: sessionStorage.getItem('BookingTime'),isLoading: false
-      })
+        BookingTime: sessionStorage.getItem('BookingTime'),
+        BookingUserSessionId: sessionStorage.getItem('BookingUserSessionId'),
+        isLoading: false
+      },
+        () => {
+          let filterPattern = 'Booking'
+          let filtered = Object.keys(this.state).filter((str) => str.includes(filterPattern))
+          filtered.forEach(key => { this.state.dataToPayment.payload[key] = this.state[key] })
+          this.state.dataToPayment.third_party_tx_id = this.state.BookingUserSessionId
+          this.state.dataToPayment.amount_satang = this.state.BookingPrice
+          console.log(this.state.dataToPayment , 'this.state.dataToPayment')
+        }
+      )
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
