@@ -15,6 +15,11 @@ class CinemaMovieInfo extends PureComponent {
         currency: 'THB',
         payload: {}
       },
+      apiOtpHeader: {
+        'Accept': 'application/json',
+        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
+        'Content-Type': 'application/json'
+      },
       BookingMovie: '',
       BookingDuration: '',
       BookingGenre: '',
@@ -28,7 +33,26 @@ class CinemaMovieInfo extends PureComponent {
       BookingTime: '',
       BookingPrice: '',
       BookingUserSessionId: '',
+      BookingUserPhoneNumber: '',
       success: false
+    }
+  }
+  submitPayment () {
+    console.log(this.state.dataToPayment , 'this.state.dataToPayment')
+    console.log(JSON.stringify(this.state.dataToPayment) , 'this.state.dataToPayment JSON')
+    console.log(this.state.BookingUserPhoneNumber , 'this.state.BookingUserPhoneNumber')
+    try {
+      fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
+        method: 'POST',
+        headers: this.state.apiOtpHeader,
+        body: JSON.stringify(this.state.dataToPayment)
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        console.log(data , 'data submitPayment')
+      })
+    } catch (error) {
+      console.error('error', error);
     }
   }
   componentDidMount() {
@@ -52,6 +76,7 @@ class CinemaMovieInfo extends PureComponent {
         BookingTime: sessionStorage.getItem('BookingTime'),
         BookingPrice: sessionStorage.getItem('BookingPrice'),
         BookingUserSessionId: sessionStorage.getItem('BookingUserSessionId'),
+        BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber'),
         isLoading: false
       },
         () => {
@@ -59,15 +84,13 @@ class CinemaMovieInfo extends PureComponent {
           let filtered = Object.keys(this.state).filter((str) => str.includes(filterPattern))
           filtered.forEach(key => { this.state.dataToPayment.payload[key] = this.state[key] })
           this.state.dataToPayment.third_party_tx_id = this.state.BookingUserSessionId
-          this.state.dataToPayment.amount_satang = this.state.BookingPrice
-          console.log(this.state.dataToPayment , 'this.state.dataToPayment')
+          this.state.dataToPayment.amount_satang = parseInt(this.state.BookingPrice)
         }
       )
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
   }
-  
   render() {
     const {isLoading, error,success} = this.state;      
     if (error) {
@@ -124,7 +147,7 @@ class CinemaMovieInfo extends PureComponent {
           <img className="qrContainer__qrcode" src="../static/QR.png"/>
           <b className="qrContainer__ref">WJM28PZ</b>
         </div>
-        <div className={success? 'movie-cashier__confirm success':'movie-cashier__confirm'}>ยืนยันการจอง</div>
+        <div className={success? 'movie-cashier__confirm success':'movie-cashier__confirm'} onClick={this.submitPayment.bind(this)}>ยืนยันการจอง</div>
         <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
       </div>
     );

@@ -209,6 +209,7 @@ class seatMap extends PureComponent {
           this.setState({ dataBookedSeats: data })
           Router.push({ pathname: '/Cashier' })
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
+          sessionStorage.setItem('BookingUserPhoneNumber', this.state.userPhoneNumber)
         }
       })
     } catch (error) {

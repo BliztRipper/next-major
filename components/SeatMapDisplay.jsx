@@ -121,9 +121,8 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   listSelectedAndPrice () {
-    let selectedList = this.state.seatsSelected.map(seat => seat.rowPhysicalName + seat.Id)
-    selectedList = selectedList.join()
-    this.setState({selectedList:selectedList})
+    this.state.selectedList = this.state.seatsSelected.map(seat => seat.rowPhysicalName + seat.Id)
+    let selectedList = this.state.selectedList.join()
     let totalPrice = 0
     this.state.seatsSelected.forEach(seat => {
       totalPrice += seat.ticket.PriceInCents / 100
