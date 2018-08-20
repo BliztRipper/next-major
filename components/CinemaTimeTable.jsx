@@ -28,21 +28,27 @@ class CinemaTimeTable extends PureComponent {
       query: this.props.item
     }
     let resultArray = []
+    var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     this.props.item.Showtimes.map((time,i)=>{
       //Sync with Server Time      
       let d = new Date(this.props.serverTime)
-      let today = d.getDate()
+      let today = d.getDate().toString()
       //Get date and time for today
       let now = new Date()
-      let nowtime = now.getTime()
+      let nowtime = now.getTime()      
       //Get date and time each schedule
       let date = new Date(time)
+      let arrayDate
+      while ((arrayDate = regex1.exec(time)) !== null) {}
+      arrayDate = regex1.exec(time);
       let movienowtime = date.getTime()
-      let playDate = date.getDate()
-      if (today === playDate) {
-        let format = date.getHours()+':'+('0'+date.getMinutes()).slice(-2)
+      if (today === arrayDate[3]) {
+        let splitHours = arrayDate[4].slice(0,2)
+        let splitMins= arrayDate[4].slice(-2)
+        let movieTime = now.setHours(splitHours,splitMins)
+        let format = arrayDate[4]
         let movienowtimeMoreThanNowtime = ''
-        if(movienowtime > nowtime){
+        if(movieTime > nowtime){
           movienowtimeMoreThanNowtime = false
         } else {
           movienowtimeMoreThanNowtime = true
