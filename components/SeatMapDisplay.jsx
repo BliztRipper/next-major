@@ -65,7 +65,7 @@ class SeatMapDisplay extends PureComponent {
         let classNameSelected = ''
         let totalSeatsEachRow = 0
         classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
-        let listItems = area.Rows.map((row, rowIndex) => {
+        let listItems = area.Rows.slice().reverse().map((row, rowIndex) => {
           if (row.PhysicalName !== null) {
             totalSeatsEachRow = row.Seats.length
             let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
