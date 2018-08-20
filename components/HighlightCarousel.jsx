@@ -16,7 +16,9 @@ class HighlightCarousel extends PureComponent {
     try{
       fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
-      .then((data) => this.setState({dataObj:data.data.now_showing, isLoading: false}))
+      .then((data) => {
+        this.setState({dataObj:data.data.now_showing, isLoading: false})
+      })
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
