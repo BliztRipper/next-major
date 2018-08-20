@@ -10,6 +10,7 @@ class CinemaMovieInfo extends PureComponent {
     this.state = {
       isLoading: true,
       error: null,
+      postingTicket: false,
       dataToPayment: {
         third_party_tx_id: '',
         amount_satang: 0,
@@ -42,6 +43,9 @@ class CinemaMovieInfo extends PureComponent {
     }
   }
   submitPayment () {
+    if (this.state.postingTicket) return false
+    this.setState({postingTicket: true})
+    console.log(this.state.dataToPayment, 'dataToPayment submitPayment')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
         method: 'POST',
@@ -50,8 +54,10 @@ class CinemaMovieInfo extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
+        console.log(data, 'data submitPayment')
         if(data.status_code == 200){
           this.setState({
+            postingTicket: false,
             success: true,
             VistaBookingId:data.data.data.VistaBookingId,
             VistaBookingNumber:data.data.data.VistaBookingNumber,
@@ -100,7 +106,13 @@ class CinemaMovieInfo extends PureComponent {
     }
   }
   render() {
-    const {isLoading, error,success} = this.state;      
+    const {isLoading, error,success, postingTicket} = this.state;     
+    let buttonProgressText = 'ดำเนินการ'
+    let buttonProgressClassName = success? 'movie-cashier__confirm success':'movie-cashier__confirm'
+    buttonProgressClassName += postingTicket? ' posting' : ''
+    if (postingTicket) {
+      buttonProgressText = 'กรุณารอสักครู่'
+    } 
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -157,7 +169,7 @@ class CinemaMovieInfo extends PureComponent {
           </div>
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
-        <div className={success? 'movie-cashier__confirm success':'movie-cashier__confirm'} onClick={this.submitPayment.bind(this)}>ยืนยันการจอง</div>
+        <div className={buttonProgressClassName} onClick={this.submitPayment.bind(this)}>{buttonProgressText}</div>
         <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
       </div>
     );

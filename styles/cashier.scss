@@ -140,9 +140,26 @@
     &.success{
       display: none;
     }
+    &.posting {
+      animation-name: flash;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
   }
 }
 
+@keyframes flash {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.6;
+  }
+}
 $size: 10px;
 
 .qrContainer{
