@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
 import CinemaTimeTable from '../components/CinemaTimeTable'
+import Router from 'next/router'
 
 class CinemaMovieInfo extends PureComponent {
   render() {
@@ -50,30 +51,35 @@ class MainSelectMovieByCinema extends PureComponent {
       .then(response => response.json())
       .then(data =>  this.setState({data:data.data, serverTime:data.server_time,isLoading: false}))
       .then(()=>{
-        this.dataForSchedule()
+        this.dataForSchedule() 
       })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
   }
+  
 
   getTitleById(filmId) {
     let info = null
-    this.state.nowShowing.map(movie => {
-      if (movie.movieCode != null) {
-        movie.movieCode.map(movieId => {
-          if (filmId == movieId) {         
-            info = movie
-          }
-        })
-      }
-    })
-    return info
+    if(!this.state.nowShowing) {this.goToHome()
+    } else{
+      this.state.nowShowing.map(movie => {
+        if (movie.movieCode != null) {
+          movie.movieCode.map(movieId => {
+            if (filmId == movieId) {         
+              info = movie
+            }
+          })
+        }
+      })
+      return info
+    }
   }
 
   dataForSchedule(){
     var movies = []
     this.state.data.map(item => {
+      console.log(item);
       let info = ''
       Object.keys(item.Theaters).map(key => {
         info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
@@ -131,8 +137,14 @@ class MainSelectMovieByCinema extends PureComponent {
     return resultsArray
   }
 
+  goToHome() {
+    Router.push({
+      pathname: '/'
+    })
+  }
+
   render() {      
-    const {isLoading, error} = this.state;      
+    const {isLoading, error} = this.state;    
     if (error) {
       return <p>{error.message}</p>;
     }
