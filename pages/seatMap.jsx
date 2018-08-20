@@ -191,7 +191,7 @@ class seatMap extends PureComponent {
         ...item.Position
       })
     });
-    console.log(dataToStorage, 'dataToStorage AddTicket')
+    console.log(dataToStorage, 'data POST AddTicket')
     try {
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
@@ -204,7 +204,7 @@ class seatMap extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         this.refSeatMapDisplay.current.setState({postingTicket: false})
-        console.log(data, 'data bookSelectedSeats')
+        console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
           Router.push({ pathname: '/Cashier' })

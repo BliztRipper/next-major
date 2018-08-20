@@ -45,7 +45,7 @@ class CinemaMovieInfo extends PureComponent {
   submitPayment () {
     if (this.state.postingTicket) return false
     this.setState({postingTicket: true})
-    console.log(this.state.dataToPayment, 'dataToPayment submitPayment')
+    console.log(this.state.dataToPayment, 'data POST submitPayment')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
         method: 'POST',
@@ -54,7 +54,7 @@ class CinemaMovieInfo extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data submitPayment')
+        console.log(data, 'data RESPONSE submitPayment')
         if(data.status_code == 200){
           this.setState({
             postingTicket: false,
@@ -96,7 +96,7 @@ class CinemaMovieInfo extends PureComponent {
       },
         () => {
           let filterPattern = 'Booking'
-          let filtered = Object.keys(this.state).filter((str) => str.includes(filterPattern))
+          let filtered = Object.keys(this.state).filter((str) => str.startsWith(filterPattern))
           filtered.forEach(key => { this.state.dataToPayment.payload[key] = this.state[key] })
           this.state.dataToPayment.third_party_tx_id = this.state.BookingUserSessionId
           this.state.dataToPayment.amount_satang = this.state.BookingPrice
