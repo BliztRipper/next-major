@@ -96,7 +96,7 @@ class seatMap extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         if (data.status_code === 200) {
-          this.bookSelectedSeats()
+          this.bookSelectedSeats(true)
         } else {
           this.authOtpGetOtp(true)
         }
@@ -168,7 +168,7 @@ class seatMap extends PureComponent {
       console.error('error', error);
     }
   }  
-  bookSelectedSeats () {
+  bookSelectedSeats (isChaining) {
     let dataToStorage = {
       cinemaId: '',
       SessionId: '',
@@ -203,7 +203,9 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        this.refSeatMapDisplay.current.setState({postingTicket: false})
+        if (isChaining) {
+          this.refSeatMapDisplay.current.setState({postingTicket: false})
+        }
         console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
