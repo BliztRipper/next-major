@@ -6,11 +6,34 @@ import Link from 'next/link'
 
 
 class MainNavBar extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.currentTabsIndex = 0
+    this.bounceOnScrollStyles = {
+      disable: 'position: fixed; top: 0; left: 0; margin: 0; padding: 8px; width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;',
+      enable: 'position: ; top: ; left: ; margin: ; padding: ; width: ; height: ; overflow-x: ; overflow-y: ; -webkit-overflow-scrolling: ;'
+    }
+  }
+  setStyleBounceOnScroll (styles) {
+    let documents = [document.documentElement, document.body]
+    documents.forEach(element => element.style.cssText = styles);
+  }
+  onSelectTabs (index) {
+    this.currentTabsIndex = index
+    if (this.currentTabsIndex !== 0) {
+      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable, 'enable onSelectTabs')
+    } else {
+      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable, 'disable onSelectTabs')
+    }
+  }
+  componentDidMount () {
+    if (this.currentTabsIndex === 0) this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable, 'componentDidMount')
+  }
   render() {
     resetIdCounter()
     return (
       <div className="indexTab">
-        <Tabs>
+        <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
           <TabPanel>
             <Link prefetch href="/AllMovie">
               <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
