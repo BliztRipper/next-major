@@ -6,6 +6,7 @@ import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import Router from 'next/router'
 import '../styles/style.scss'
+import Swal from 'sweetalert2'
 
 class seatMap extends PureComponent {
   constructor(props) {
@@ -41,7 +42,14 @@ class seatMap extends PureComponent {
     this.state.CinemaId = sessionStorage.getItem('CinemaID')
     this.state.SessionId = `${this.props.url.query.SessionId}`
     if (this.state.SessionId === 'undefined') {
-      this.goToHome()
+      Swal({
+        type: 'error',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'คุณไม่ได้เลือกโรงภาพยนต์',
+        confirmButtonText: this.goToHome(),
+        showConfirmButton: false,
+        timer: 3000
+      })
     } else {
       this.getSeatPlans()
     }
@@ -212,6 +220,14 @@ class seatMap extends PureComponent {
           Router.push({ pathname: '/Cashier' })
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userPhoneNumber)
+        } else if(data.status_code === 400 && data.description === 'Selected seats unavailable.') {
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'ที่นั่งที่คุณเลือกไม่สามารถจองได้',
+            showConfirmButton: false,
+            timer: 4000
+          })
         }
       })
     } catch (error) {

@@ -67,7 +67,9 @@ class MainSelectMovieByCinema extends PureComponent {
         type: 'error',
         title: 'เกิดข้อผิดพลาด',
         text: 'คุณไม่ได้เลือกโรงภาพยนต์',
-        confirmButtonText: `<a onCLick={${this.goToHome()}>กลับหน้าแรก</a>`
+        confirmButtonText: this.goToHome(),
+        showConfirmButton: false,
+        timer: 3000
       })
     } else{
       this.state.nowShowing.map(movie => {

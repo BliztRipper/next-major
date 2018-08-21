@@ -3,6 +3,9 @@ import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import '../styles/cashier.scss'
 import QRCode from 'qrcode.react'
+import Link from 'next/link'
+import Swal from 'sweetalert2'
+import Router from 'next/router'
 
 class CinemaMovieInfo extends PureComponent {
   constructor(props) {
@@ -62,7 +65,22 @@ class CinemaMovieInfo extends PureComponent {
             VistaBookingId:data.data.data.VistaBookingId,
             VistaBookingNumber:data.data.data.VistaBookingNumber,
           })
-        } 
+          Swal({
+            type: 'success',
+            title: 'ทำรายการเสร็จสิ้น!',
+            text: 'ขอให้สนุกกับการชมภาพยนต์',
+            showConfirmButton: false,
+            timer: 4000
+          })
+        }else if(data.status_code == 400 && data.description === 'Invalid parameters'){
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด!',
+            html: 'ไม่สามารถชำระเงินได้<br/>ที่นั่งที่คุณเลือกอาจถูกซื้อไปแล้ว',
+            showConfirmButton: false,
+            footer: '<a href="/" style="text-decoration:none;color: #595959;">กลับไปหน้าแรก</a>'
+          })
+        }
       })
 
     } catch (error) {
@@ -105,6 +123,13 @@ class CinemaMovieInfo extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
+
+  goToHome() {
+    Router.push({
+      pathname: '/'
+    })
+  }
+
   render() {
     const {isLoading, error,success, postingTicket} = this.state;     
     let buttonProgressText = 'ดำเนินการ'
@@ -170,7 +195,9 @@ class CinemaMovieInfo extends PureComponent {
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
         <div className={buttonProgressClassName} onClick={this.submitPayment.bind(this)}>{buttonProgressText}</div>
-        <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
+        <Link  prefetch href="/">
+          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
+        </Link>
       </div>
     );
   }
