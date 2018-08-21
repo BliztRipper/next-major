@@ -8,6 +8,13 @@ const PostLink = (props) => (
 )
 
 class CinemaTimeTable extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataToSeatmap: ''
+    }
+  }
+  
 
   handleScheduleSelected (itemTheaterInfo, event, ) {
     let target = event.target || event.srcElement
@@ -25,7 +32,7 @@ class CinemaTimeTable extends PureComponent {
   renderSchedule(){
     let dataToSeatMap = {
       pathname: '/seatMap',
-      query: this.props.item
+      query: ''
     }
     let resultArray = []
     var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
@@ -52,6 +59,10 @@ class CinemaTimeTable extends PureComponent {
           movienowtimeMoreThanNowtime = false
         } else {
           movienowtimeMoreThanNowtime = true
+        }
+        dataToSeatMap.query = {
+          ...this.props.item,
+          SessionId: this.props.item.SessionIds[i]
         }
         resultArray.push(          
         <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
