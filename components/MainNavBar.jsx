@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'
+import MyTicket from '../components/MyTicket'
 import Link from 'next/link'
 
 
@@ -44,7 +45,7 @@ class MainNavBar extends PureComponent {
             <MainCinemaListing/>
           </TabPanel>
           <TabPanel>
-            <h2>Any content 3</h2>
+            <MyTicket></MyTicket>
           </TabPanel>
           <TabList>
             <div className="react-tabs__tabs-container">

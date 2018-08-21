@@ -37,7 +37,8 @@ class Ticket extends PureComponent {
     Object.keys(this.props.dataTicket).forEach(key => this.state[key] = this.props.dataTicket[key])
     this.setState({
       ...this.props.dataTicket,
-      BookingDate: newdate
+      BookingDate: newdate,
+      success: this.props.dataTicket.VistaBookingId ? true : false
     })
   }
   renderCinemaMovieInfo () {
