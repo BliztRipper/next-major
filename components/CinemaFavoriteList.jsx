@@ -22,19 +22,21 @@ class CinemaFavoriteList extends PureComponent {
 
   componentDidMount(){
     try{
-      fetch(`https://api-cinema.truemoney.net/Cinemas`)
+      fetch(`https://api-cinema.truemoney.net/FavCinemas/0891916415`)
       .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
+      .then(data => this.setState({dataObj:data, isLoading: false}))
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
   }
 
   renderCinema(){
-    let resultsArray = [];
-    this.state.dataObj.map((item, i) => {
-      resultsArray.push(<CardCinema item={item} key={i}/>)
-    });
+    let resultsArray = []
+    if (this.state.dataObj.data.CinemaIds){
+      this.state.dataObj.data.CinemaIds.map(item => {
+        resultsArray.push(<CardCinema item={item} key={item.id}/>)
+      })
+    }
     return resultsArray;
   }
   render() {
@@ -45,6 +47,7 @@ class CinemaFavoriteList extends PureComponent {
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     }
+    
     return (
       <div className="card-cinema">
         <div className="card-cinema__header" onClick={this.favAddActiveClass}> 

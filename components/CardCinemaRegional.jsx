@@ -25,9 +25,15 @@ class CardCinemaRegional extends PureComponent {
   }
 
   favCineActiveClass() {
-    this.setState({
-      favCineActive: !this.state.favCineActive
-    })
+    let CinemaID = this.refs.cineIdProp.innerText
+    let phoneNum = '0891916415'
+    if(this.state.favCineActive == false) {
+      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
+      .then(this.setState({favCineActive: true}))
+    } else{
+      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${phoneNum}/${CinemaID}`)
+      .then(this.setState({favCineActive: false}))
+    }
   }
 
   getCineId(){
@@ -59,7 +65,7 @@ class CardCinemaRegional extends PureComponent {
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.cineId}</div>
               </div>
             </Link>  
-            <div className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
+            <div ref="classname" className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );
   } 
