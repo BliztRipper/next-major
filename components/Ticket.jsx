@@ -1,6 +1,7 @@
 import { PureComponent, Fragment } from 'react';
 import '../styles/cashier.scss'
 import QRCode from 'qrcode.react'
+import Link from 'next/link'
 
 class Ticket extends PureComponent {
   constructor(props) {
@@ -97,7 +98,9 @@ class Ticket extends PureComponent {
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
         <div className={buttonProgressClassName} onClick={this.props.submitPayment}>{buttonProgressText}</div>
-        <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
+        <Link prefetch href="/">
+          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
+        </Link>  
       </div>
     );    
   }

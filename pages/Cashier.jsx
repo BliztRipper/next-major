@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import Ticket from '../components/Ticket'
 import '../styles/cashier.scss'
 import Swal from 'sweetalert2'
+import loading from '../static/loading.gif'
 
 class Cashier extends PureComponent {
   constructor(props) {
