@@ -2,7 +2,7 @@ import { PureComponent, Fragment } from 'react';
 import '../styles/cashier.scss'
 import QRCode from 'qrcode.react'
 
-class CinemaMovieInfo extends PureComponent {
+class Ticket extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +39,7 @@ class CinemaMovieInfo extends PureComponent {
       BookingDate: newdate
     })
   }
-  render() {
+  renderCinemaMovieInfo () {
     const {success, postingTicket} = this.state;     
     let buttonProgressText = 'ดำเนินการ'
     let buttonProgressClassName = success? 'movie-cashier__confirm success':'movie-cashier__confirm'
@@ -99,16 +99,12 @@ class CinemaMovieInfo extends PureComponent {
         <div className={buttonProgressClassName} onClick={this.props.submitPayment}>{buttonProgressText}</div>
         <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
       </div>
-    );
+    );    
   }
-}
-
-class Ticket extends PureComponent {
   render() {
     return (
       <Fragment>
-        <header className="cashier-header">ยืนยันที่นั่ง</header>
-        <CinemaMovieInfo submitPayment={this.props.submitPayment} dataTicket={this.props.dataTicket} />
+        {this.renderCinemaMovieInfo()}
       </Fragment>
     );
   }

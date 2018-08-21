@@ -9,7 +9,6 @@ class Cashier extends PureComponent {
     this.state = {
       isLoading: true,
       error: null,
-      postingTicket: false,
       dataToPayment: {
         third_party_tx_id: '',
         amount_satang: 0,
@@ -41,11 +40,11 @@ class Cashier extends PureComponent {
       VistaBookingId:'',
       VistaBookingNumber:''
     }
+    this.refTicket = React.createRef()
   }
   submitPayment () {
-    if (this.state.postingTicket) return false
-    this.setState({postingTicket: true})
-    console.log(this.state.dataToPayment, 'data POST submitPayment')
+    if (this.refTicket.current.postingTicket) return false
+    this.refTicket.current.setState({postingTicket: true})
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
         method: 'POST',
@@ -56,12 +55,13 @@ class Cashier extends PureComponent {
       .then((data) =>  {
         console.log(data, 'data RESPONSE submitPayment')
         if(data.status_code == 200){
-          this.setState({
-            postingTicket: false,
+          let dataPaymentSuccess = {
             success: true,
             VistaBookingId:data.data.data.VistaBookingId,
             VistaBookingNumber:data.data.data.VistaBookingNumber,
-          })
+          }
+          this.setState({...dataPaymentSuccess})
+          this.refTicket.current.setState({postingTicket: false, ...dataPaymentSuccess})
         } 
       })
 
@@ -118,7 +118,8 @@ class Cashier extends PureComponent {
     } 
     return (
       <Layout title="Cashier Page">
-        <Ticket dataTicket={dataToTicket} submitPayment={this.submitPayment.bind(this)}></Ticket>
+        <header className="cashier-header">ยืนยันที่นั่ง</header>
+        <Ticket ref={this.refTicket} dataTicket={dataToTicket} submitPayment={this.submitPayment.bind(this)}></Ticket>
       </Layout>
     );
   }
