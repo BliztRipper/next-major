@@ -4,6 +4,7 @@ import Link from 'next/link'
 import loading from '../static/loading.gif'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
+import Swal from 'sweetalert2'
 
 class CinemaMovieInfo extends PureComponent {
   render() {
@@ -61,7 +62,13 @@ class MainSelectMovieByCinema extends PureComponent {
 
   getTitleById(filmId) {
     let info = null
-    if(!this.state.nowShowing) {this.goToHome()
+    if(!this.state.nowShowing) {
+      Swal({
+        type: 'error',
+        title: 'เกิดข้อผิดพลาด',
+        text: 'คุณไม่ได้เลือกโรงภาพยนต์',
+        confirmButtonText: `<a onCLick={${this.goToHome()}>กลับหน้าแรก</a>`
+      })
     } else{
       this.state.nowShowing.map(movie => {
         if (movie.movieCode != null) {
