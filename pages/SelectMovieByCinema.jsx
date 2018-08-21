@@ -105,6 +105,7 @@ class MainSelectMovieByCinema extends PureComponent {
               poster_ori: info.poster_ori,
               cinema_id: item.CinemaId,
               showtimes: item.Theaters[key].Showtimes,
+              sessionids: item.Theaters[key].SessionIds,
               formatCode: item.Theaters[key].FormatCode,
               genre: info.genre,
               duration: info.duration,
