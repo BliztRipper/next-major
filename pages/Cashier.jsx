@@ -1,25 +1,22 @@
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent } from 'react';
 import Layout from '../components/Layout'
-import loading from '../static/loading.gif'
+import Ticket from '../components/Ticket'
 import '../styles/cashier.scss'
-import QRCode from 'qrcode.react'
-import Link from 'next/link'
 import Swal from 'sweetalert2'
-import Router from 'next/router'
 
-class CinemaMovieInfo extends PureComponent {
+class Cashier extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
       error: null,
-      postingTicket: false,
       dataToPayment: {
         third_party_tx_id: '',
         amount_satang: 0,
         currency: 'THB',
         payload: {}
       },
+      dataToTicket: '',
       apiOtpHeader: {
         'Accept': 'application/json',
         'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
@@ -40,15 +37,15 @@ class CinemaMovieInfo extends PureComponent {
       BookingPriceDisplay: '',
       BookingUserSessionId: '',
       BookingUserPhoneNumber: '',
-      success: false,
+      success: false, 
       VistaBookingId:'',
       VistaBookingNumber:''
     }
+    this.refTicket = React.createRef()
   }
   submitPayment () {
-    if (this.state.postingTicket) return false
-    this.setState({postingTicket: true})
-    console.log(this.state.dataToPayment, 'data POST submitPayment')
+    if (this.refTicket.current.postingTicket) return false
+    this.refTicket.current.setState({postingTicket: true})
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
         method: 'POST',
@@ -59,12 +56,13 @@ class CinemaMovieInfo extends PureComponent {
       .then((data) =>  {
         console.log(data, 'data RESPONSE submitPayment')
         if(data.status_code == 200){
-          this.setState({
-            postingTicket: false,
+          let dataPaymentSuccess = {
             success: true,
             VistaBookingId:data.data.data.VistaBookingId,
             VistaBookingNumber:data.data.data.VistaBookingNumber,
-          })
+          }
+          this.setState({...dataPaymentSuccess})
+          this.refTicket.current.setState({postingTicket: false, ...dataPaymentSuccess})
           Swal({
             type: 'success',
             title: 'ทำรายการเสร็จสิ้น!',
@@ -72,7 +70,7 @@ class CinemaMovieInfo extends PureComponent {
             showConfirmButton: false,
             timer: 4000
           })
-        }else if(data.status_code == 400 && data.description === 'Invalid parameters'){
+        } else if(data.status_code == 400 && data.description === 'Invalid parameters'){
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด!',
@@ -109,8 +107,7 @@ class CinemaMovieInfo extends PureComponent {
         BookingPrice: sessionStorage.getItem('BookingPrice'),
         BookingPriceDisplay: sessionStorage.getItem('BookingPriceDisplay'),
         BookingUserSessionId: sessionStorage.getItem('BookingUserSessionId'),
-        BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber'),
-        isLoading: false
+        BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber')
       },
         () => {
           let filterPattern = 'Booking'
@@ -118,6 +115,10 @@ class CinemaMovieInfo extends PureComponent {
           filtered.forEach(key => { this.state.dataToPayment.payload[key] = this.state[key] })
           this.state.dataToPayment.third_party_tx_id = this.state.BookingUserSessionId
           this.state.dataToPayment.amount_satang = this.state.BookingPrice
+          this.setState({
+            dataToTicket: this.state.dataToPayment.payload,
+            isLoading: false
+          })
         })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
@@ -131,84 +132,17 @@ class CinemaMovieInfo extends PureComponent {
   }
 
   render() {
-    const {isLoading, error,success, postingTicket} = this.state;     
-    let buttonProgressText = 'ดำเนินการ'
-    let buttonProgressClassName = success? 'movie-cashier__confirm success':'movie-cashier__confirm'
-    buttonProgressClassName += postingTicket? ' posting' : ''
-    if (postingTicket) {
-      buttonProgressText = 'กรุณารอสักครู่'
-    } 
+    const {isLoading, error, dataToTicket} = this.state;    
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     } 
-
-    return (
-      <div className="movie-cashier__container">
-        <div className="movie-cashier__movie-info">
-          <img className="movie-cashier__poster" src={this.state.BookingPoster}/>
-          <div className="movie-cashier__wrapper">
-            <h2 className="movie-cashier__title">{this.state.BookingMovie}</h2>
-            <h3 className="movie-cashier__subtitle">{this.state.BookingMovieTH}</h3>
-            <span className="movie-cashier__genre">{this.state.BookingGenre}<br/> {this.state.BookingDuration}</span>
-          </div>
-        </div>
-        <div className="movie-cashier__cine-info">
-            <span className="movie-cashier__cine-info--title">{this.state.BookingCinema}</span>
-            <span className="movie-cashier__cine-info--label">สาขา</span>
-            <span className="movie-cashier__cine-info--map">ดูแผนที่</span>
-        </div>
-        <div className="movie-cashier__date-info">
-          <div className="movie-cashier__date-info--wrapper">
-            <span className="movie-cashier__date-info--label">วันที่</span>
-            <span className="movie-cashier__date-info--title">{this.state.BookingDate}</span>
-          </div>
-          <div className="movie-cashier__date-info--wrapper">
-            <span className="movie-cashier__date-info--label">เวลา</span>
-            <span className="movie-cashier__date-info--title">{this.state.BookingTime}</span>
-          </div>
-        </div>
-        <div className="movie-cashier__seat-info">
-          <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--label">โรงภาพยนตร์</span>
-            <span className="movie-cashier__seat-info--title">{this.state.BookingScreenName}</span>
-          </div>
-          <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--label">หมายเลขที่นั่ง</span>
-            <span className="movie-cashier__seat-info--title">{this.state.BookingSeat}</span>
-          </div>
-        </div>
-        <div className="movie-cashier__seat-info">
-          <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--title">เสียง {this.state.BookingAttributesNames}</span>
-          </div>
-          <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPriceDisplay} บาท</span>
-          </div>
-        </div>
-        <div className={success? 'qrContainer success':'qrContainer'}>
-          <div className="qrContainer__qrcode">
-            <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} />
-          </div>
-          <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
-        </div>
-        <div className={buttonProgressClassName} onClick={this.submitPayment.bind(this)}>{buttonProgressText}</div>
-        <Link  prefetch href="/">
-          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
-        </Link>
-      </div>
-    );
-  }
-}
-
-class Cashier extends PureComponent {
-  render() {
     return (
       <Layout title="Cashier Page">
         <header className="cashier-header">ยืนยันที่นั่ง</header>
-        <CinemaMovieInfo/>
+        <Ticket ref={this.refTicket} dataTicket={dataToTicket} submitPayment={this.submitPayment.bind(this)}></Ticket>
       </Layout>
     );
   }
