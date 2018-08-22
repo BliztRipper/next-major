@@ -5,7 +5,7 @@ class CardCinema extends PureComponent {
     super(props);
     this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
-      favCineActive:false
+      favCineActive:true
     }
   }
 

@@ -10,7 +10,7 @@ class CinemaFavoriteList extends PureComponent {
       dataObj: [],
       isLoading: true,
       error: null,
-      favActive: true,
+      favActive: false,
     }
   }
 
