@@ -15,7 +15,6 @@ export default class extends PureComponent {
           console.warn('service worker registration failed', err.message)
         })
     }
-    window.phoneNumber = '0891916415'
   }
   render() {
     return(

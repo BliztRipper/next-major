@@ -22,7 +22,7 @@ class seatMap extends PureComponent {
       dataBookedSeats: null,
       seatsSelected: null,
       otpShow: false,
-      userPhoneNumber: window.phoneNumber,
+      userPhoneNumber: '0891916415',
       userAuthData: null,
       apiOtpHeader: {
         'Accept': 'application/json',
