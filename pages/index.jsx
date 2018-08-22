@@ -3,7 +3,10 @@ import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import '../styles/style.scss'
 
-export default class extends PureComponent {
+export default class home extends PureComponent {
+  componentWillMount () {
+    console.log(`${this.props.url.query.phoneNumber}`)
+  }
   componentDidMount () {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker

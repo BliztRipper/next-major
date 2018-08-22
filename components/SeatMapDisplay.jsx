@@ -14,6 +14,9 @@ class SeatMapDisplay extends PureComponent {
         postingTicket: false,
         selectedList:''
       }
+      this.refSeatsRow = React.createRef()
+      this.refSeatsMainInner = React.createRef()
+      this.refSeatsMain = React.createRef()
   }
   handleSelectSeats (aSeat, area, row, ticket) {
     if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
@@ -60,14 +63,13 @@ class SeatMapDisplay extends PureComponent {
   listGroups () {
     return (
       this.state.areas.map(area => {
-        let ticket = this.state.tickets.filter(ticket => ticket.AreaCategoryCode === area.AreaCategoryCode)
+        let ticket = this.state.tickets.filter(ticket => { if (ticket) return ticket.AreaCategoryCode === area.AreaCategoryCode })
         ticket = ticket[0]
         let classNameSelected = ''
-        let totalSeatsEachRow = 0
+        let totalSeatsEachRow = area.ColumnCount - 1
         classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
         let listItems = area.Rows.slice().reverse().map((row, rowIndex) => {
           if (row.PhysicalName !== null) {
-            totalSeatsEachRow = row.Seats.length
             let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
               let classNameCell = 'seatMapDisplay__cell'
               if (aSeat.Status !== 0) {
@@ -78,26 +80,28 @@ class SeatMapDisplay extends PureComponent {
                 }
               }
               return (
-                <div className={classNameCell} title={'Status = ' +  aSeat.Status} key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
+                <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
                   <div>{(aSeat.Id)}</div>
                 </div>
               )
             })
             return (
               <Fragment key={'Fragment' + row.PhysicalName + rowIndex}>
-                <div className="seatMapDisplay__title" key={area.AreaCategoryCode + row.PhysicalName }>{row.PhysicalName}</div>
-                <div className="seatMapDisplay__row" style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
+                <div className="seatMapDisplay__title"  key={area.AreaCategoryCode + row.PhysicalName }><div>{row.PhysicalName}</div></div>
+                <div className="seatMapDisplay__row" ref={this.refSeatsRow} style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
                   {seatMapCell}
                 </div>
               </Fragment>
             )
           }
         })
-        return (
-          <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
-            {listItems}
-          </div>
-        )
+        if (ticket) {
+          return (
+            <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
+              {listItems}
+            </div>
+          )
+        }
       })
     )
   }
@@ -140,6 +144,16 @@ class SeatMapDisplay extends PureComponent {
       </div>
     )
   }
+  styleSeatsContainer () {
+    let containerWidth = this.refSeatsRow.current.clientWidth
+    this.refSeatsMainInner.current.style.width = containerWidth + 'px'
+    this.refSeatsMain.current.scrollLeft = (containerWidth - window.innerWidth) * 0.5
+  }
+  componentDidMount () {
+    setTimeout(() => {
+      this.styleSeatsContainer()
+    }, 300);
+  }
   componentWillMount () {
     this.setState({ 
       renderSeats: this.listGroups(),
@@ -157,8 +171,8 @@ class SeatMapDisplay extends PureComponent {
     }
     return (
       <Fragment>
-        <div className="seatMapMain">
-          <div className="seatMapMain__inner">
+        <div className="seatMapMain" ref={this.refSeatsMain}>
+          <div className="seatMapMain__inner" ref={this.refSeatsMainInner}>
             <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
             <div className={'seatMapDisplay' + classNameSelected}>
               {renderSeats}
