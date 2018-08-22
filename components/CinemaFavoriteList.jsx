@@ -8,6 +8,7 @@ class CinemaFavoriteList extends PureComponent {
     this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
       dataObj: [],
+      dataCine: [],
       isLoading: true,
       error: null,
       favActive: false,
@@ -25,6 +26,9 @@ class CinemaFavoriteList extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/FavCinemas/0891916415`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data, isLoading: false}))
+      fetch(`https://api-cinema.truemoney.net/Branches`)
+      .then(response => response.json())
+      .then(data => this.setState({dataCine:data.data}))
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
@@ -32,26 +36,33 @@ class CinemaFavoriteList extends PureComponent {
 
   renderCinema(){
     let resultsArray = []
-    if (this.state.dataObj.data.CinemaIds){
-      this.state.dataObj.data.CinemaIds.map(item => {
-        resultsArray.push(<CardCinema item={item} key={item.id}/>)
+    if(this.state.dataCine.length != 0){
+      this.state.dataCine.map(item=>{
+        if(this.state.dataObj.data.CinemaIds != null) {
+          this.state.dataObj.data.CinemaIds.map(cineID=>{
+            if(cineID === item.ID){
+              resultsArray.push(<CardCinema item={item} key={item.ID}/>)
+            }
+          })
+        }
       })
     }
     return resultsArray;
   }
+
   render() {
-    const {isLoading, error} = this.state;
+    const {isLoading, error, dataCine,branchRegion} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     }
-    
+
     return (
       <div className="card-cinema">
         <div className="card-cinema__header" onClick={this.favAddActiveClass}> 
-          <div className="sprite-favCinema"></div>
+          <div className="sprite-favCinema active"></div>
             <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'}></div>
         </div>

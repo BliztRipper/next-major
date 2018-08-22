@@ -52,7 +52,7 @@ class CinemaRegionalList extends PureComponent {
         branchRegion[key].push({
           zoneId: region.DescriptionInside.zone_id,
           title:region.DescriptionInside.zone_name,
-          name:region.NameAlt,
+          name:region.Name,
           cinemaId:region.ID,
           brandName:brand,
         }) 

@@ -8,17 +8,29 @@ class CardCinemaRegional extends PureComponent {
     this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
       dataObj: [],
+      dataCine: [],
       isLoading: true,
       error: null,
       favCineActive:false,
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     try{
       fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
+      fetch(`https://api-cinema.truemoney.net/FavCinemas/0891916415`)
+      .then(response => response.json())
+      .then(data => this.setState({dataCine:data}, function(){
+        if(this.state.dataCine.data.CinemaIds != null){
+          this.state.dataCine.data.CinemaIds.map(item=>{
+            if(item === this.props.item.cinemaId ){
+              this.setState({favCineActive:true})
+            }
+          })
+        }
+      }))
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
@@ -27,12 +39,12 @@ class CardCinemaRegional extends PureComponent {
   favCineActiveClass() {
     let CinemaID = this.refs.cineIdProp.innerText
     let phoneNum = '0891916415'
-    if(this.state.favCineActive == false) {
-      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
-      .then(this.setState({favCineActive: true}))
-    } else{
+    if(this.state.favCineActive == true){
+      this.setState({favCineActive: !this.state.favCineActive})
       fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${phoneNum}/${CinemaID}`)
-      .then(this.setState({favCineActive: false}))
+    } else {
+      this.setState({favCineActive: !this.state.favCineActive})
+      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
     }
   }
 
@@ -45,7 +57,6 @@ class CardCinemaRegional extends PureComponent {
 
   render() {
     const cineIdHide = {display:'none'}
-    
     const {isLoading, error} = this.state;
     if (error) {
       return <p>{error.message}</p>;
@@ -53,7 +64,6 @@ class CardCinemaRegional extends PureComponent {
     if (isLoading) { 
       return <img src={loading} className="loading"/>
     }
-
     
     return (
           <div className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
