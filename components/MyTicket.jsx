@@ -49,10 +49,10 @@ class MyTicket extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     return (
-      <Fragment>
+      <div className="myTickets">
         <header className="cashier-header">ตั๋วของฉัน</header>
         {this.renderTickets()}
-      </Fragment>
+      </div>
     )
   }
 }

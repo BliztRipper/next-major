@@ -1,0 +1,11 @@
+.myTickets {
+  padding-bottom: 90px;
+  .movie-cashier {
+    &__container {
+      margin-bottom: 3rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
