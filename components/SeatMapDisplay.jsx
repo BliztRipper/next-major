@@ -14,25 +14,40 @@ class SeatMapDisplay extends PureComponent {
         postingTicket: false,
         selectedList:''
       }
+      this.refSeatsRow = React.createRef()
+      this.refSeatsMainInner = React.createRef()
+      this.refSeatsMain = React.createRef()
   }
   handleSelectSeats (aSeat, area, row, ticket) {
     if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
     let seatsSelected = this.state.seatsSelected
     this.state.areaSelected = area.AreaCategoryCode
-    if (aSeat.Status === 99) {
-      aSeat.Status = 0
-      seatsSelected = this.state.seatsSelected.filter((element) => { 
-        let matchSeatBefore = element.Id === aSeat.Id && element.ticket.AreaCategoryCode === area.AreaCategoryCode && element.rowPhysicalName === row.PhysicalName
-        return !matchSeatBefore 
+    let toggleBooked = aSeat => {
+      if (aSeat.Status === 99) {
+        aSeat.Status = 0
+        seatsSelected = seatsSelected.filter((aSeatSelected) => { 
+          return !(aSeatSelected.Id === aSeat.Id && aSeatSelected.rowPhysicalName === row.PhysicalName)
+        })
+      } else if (aSeat.Status === 0) {
+        aSeat.Status = 99
+        this.state.seatsSelected.push({
+          ...aSeat,
+          rowPhysicalName: row.PhysicalName,
+          ticket: ticket
+        })
+      }
+    }
+    if (ticket.IsPackageTicket) {
+      aSeat.SeatsInGroup.forEach(seatInGroup => {
+        row.Seats.forEach((aSeat) => {
+          if (seatInGroup.ColumnIndex === aSeat.Position.ColumnIndex) {
+            toggleBooked(aSeat)
+          }
+        })
       })
-    } else if (aSeat.Status === 0) {
-      aSeat.Status = 99
-      this.state.seatsSelected.push({
-        ...aSeat,
-        rowPhysicalName: row.PhysicalName,
-        ticket: ticket
-      })
-    } 
+    } else {
+      toggleBooked(aSeat)      
+    }
     this.setState({
       seatsSelected: seatsSelected,
       areaSelected: this.state.areaSelected,
@@ -60,14 +75,13 @@ class SeatMapDisplay extends PureComponent {
   listGroups () {
     return (
       this.state.areas.map(area => {
-        let ticket = this.state.tickets.filter(ticket => ticket.AreaCategoryCode === area.AreaCategoryCode)
+        let ticket = this.state.tickets.filter(ticket => { if (ticket) return ticket.AreaCategoryCode === area.AreaCategoryCode })
         ticket = ticket[0]
         let classNameSelected = ''
-        let totalSeatsEachRow = 0
+        let totalSeatsEachRow = area.ColumnCount - 1
         classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
         let listItems = area.Rows.slice().reverse().map((row, rowIndex) => {
           if (row.PhysicalName !== null) {
-            totalSeatsEachRow = row.Seats.length
             let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
               let classNameCell = 'seatMapDisplay__cell'
               if (aSeat.Status !== 0) {
@@ -78,38 +92,42 @@ class SeatMapDisplay extends PureComponent {
                 }
               }
               return (
-                <div className={classNameCell} title={'Status = ' +  aSeat.Status} key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
+                <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
                   <div>{(aSeat.Id)}</div>
                 </div>
               )
             })
             return (
               <Fragment key={'Fragment' + row.PhysicalName + rowIndex}>
-                <div className="seatMapDisplay__title" key={area.AreaCategoryCode + row.PhysicalName }>{row.PhysicalName}</div>
-                <div className="seatMapDisplay__row" style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
+                <div className="seatMapDisplay__title"  key={area.AreaCategoryCode + row.PhysicalName }><div>{row.PhysicalName}</div></div>
+                <div className="seatMapDisplay__row" ref={this.refSeatsRow} style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
                   {seatMapCell}
                 </div>
               </Fragment>
             )
           }
         })
-        return (
-          <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
-            {listItems}
-          </div>
-        )
+        if (ticket) {
+          return (
+            <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
+              {listItems}
+            </div>
+          )
+        }
       })
     )
   }
   listPrice () {
-    let ticketList = this.state.tickets.map(element => {
+    let ticketList = this.state.tickets.map(ticket => {
       let classNameTicketList = 'ticketResult__list'
-      let Description = this.manageDescription(element.Description)
+      // let Description = this.manageDescription(ticket.Description)
+      let Description = ticket.Description
+      classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
       return (
-        <div className={classNameTicketList} key={element.AreaCategoryCode + Description}>
+        <div className={classNameTicketList} key={ticket.AreaCategoryCode + Description}>
           <div>
             <div>{Description}</div>
-            <div>{(element.PriceInCents / 100) + ' บาท'}</div>
+            <div>{(ticket.PriceInCents / 100) + ' บาท'}</div>
           </div>
         </div>
       )
@@ -140,6 +158,18 @@ class SeatMapDisplay extends PureComponent {
       </div>
     )
   }
+  styleSeatsContainer () {
+    let titleRowSpace = 50
+    document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
+    let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
+    this.refSeatsMainInner.current.style.width = containerWidth + 'px'
+    this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
+  }
+  componentDidMount () {
+    setTimeout(() => {
+      this.styleSeatsContainer()
+    }, 150)
+  }
   componentWillMount () {
     this.setState({ 
       renderSeats: this.listGroups(),
@@ -157,9 +187,13 @@ class SeatMapDisplay extends PureComponent {
     }
     return (
       <Fragment>
-        <div className="seatMapMain">
-          <div className="seatMapMain__inner">
-            <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
+        <div className="seatMapMain" ref={this.refSeatsMain}>
+          <div className="seatMapMain__inner" ref={this.refSeatsMainInner}>
+            <div className="seatMapScreenWrap">
+              <div className="seatMapScreen" ref={this.refScreen}>
+                <div className="seatMapScreen__inner"></div>
+              </div>
+            </div>
             <div className={'seatMapDisplay' + classNameSelected}>
               {renderSeats}
             </div>

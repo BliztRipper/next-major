@@ -60,8 +60,9 @@ $colorSeat3: #a0b0f4;
   margin-bottom: 0.3rem;
   transition: opacity 0.4s;
   display: grid;
-  align-items: center;
-  grid-template-columns: 0.6rem auto;
+  align-items: stretch;
+  grid-template-columns: 2rem auto;
+  grid-column-gap: 1.4vw;
   &:nth-child(1) {
     .seatMapDisplay__cell {
       &:not(.selected) {
@@ -89,28 +90,30 @@ $colorSeat3: #a0b0f4;
 }
 .seatMapDisplay__title {
   font-size: 0.6rem;
-  text-align: center;
   margin-bottom: 0.3rem;
+  font-weight: bold;
+  background-color: darken(#fff, 10%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .seatMapDisplay__row {
   display: grid;
   justify-content: center;	
-  grid-template-columns: repeat(var(--total-seat), 4.1vw);
+  grid-template-columns: repeat(var(--total-seat), 7vw);
   grid-column-gap: 1.4vw;
   grid-row-gap: 1.4vw;
   direction: rtl;
   text-align: center;
   margin-bottom: 0.3rem;
-  &-title {
-    font-size: 0.6rem;
-  }
+  font-size: 0.5rem;
 }
 .seatMapDisplay__cell {
   background-color: darken(#fff, 10%);
   color: darken(#fff, 40%);
-  font-size: 0.4rem;
   padding: 0.3rem 0;
   border-radius: 3px;
+  grid-column: var(--col-seat) / span 1;
   &-title {
     font-weight: bold;
     background-color: darken(#fff, 20%) !important;
@@ -127,12 +130,11 @@ $colorSeat3: #a0b0f4;
 .ticketResult {
   font-size: 0.55rem;
   &__lists {
-    padding: 0.5rem 0 0;
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-around;
   }
   &__list {
-    flex-basis: 33.333%;
+    padding: 0.5rem 0 0;
     padding-bottom: 0.5rem;
     text-align: center;
     > div {
@@ -148,12 +150,29 @@ $colorSeat3: #a0b0f4;
         top: 0;
         width: 22px;
         height: 22px;
-        background-color: #000;
+        background-color: #333;
         border-radius: 5px;
+      }
+    }
+    &.IsPackageTicket {
+      > div {
+        padding-left: 50px;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 23px;
+          top: 0;
+          width: 22px;
+          height: 22px;
+          border-radius: 5px;
+          background-color: #333;
+        }
       }
     }
     &:nth-child(1) { 
       > div {
+        &:before,
         &:after {
           background-color: $colorSeat1;
         }
@@ -161,6 +180,7 @@ $colorSeat3: #a0b0f4;
     }
     &:nth-child(2) { 
       > div {
+        &:before,
         &:after {
           background-color: $colorSeat2;
         }
@@ -168,6 +188,7 @@ $colorSeat3: #a0b0f4;
     }
     &:nth-child(3) { 
       > div {
+        &:before,
         &:after {
           background-color: $colorSeat3;
         }

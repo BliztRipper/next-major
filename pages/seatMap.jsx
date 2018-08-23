@@ -75,15 +75,15 @@ class seatMap extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
-        this.state.ticketData = this.state.dataSeatPlan.SeatLayoutData.Areas.map((area, areaIndex) => {
+        let matchTicketData = this.state.dataSeatPlan.SeatLayoutData.Areas.map((area, areaIndex) => {
           if (area.AreaCategoryCode === data.data.Tickets[areaIndex].AreaCategoryCode) {
             return data.data.Tickets[areaIndex]
           }
-        })
+        }).filter(ticket => ticket ? ticket: '' )
         this.setState({
           dataSeatPlan: this.state.dataSeatPlan,
           areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
-          ticketData: this.state.ticketData,
+          ticketData: matchTicketData,
           isLoading: false
         })
       })
