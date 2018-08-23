@@ -66,12 +66,12 @@ class CardCinemaRegional extends PureComponent {
     }
     
     return (
-          <div className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
+          <div ref="searchCine" className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
             <div className={this.props.brandname}></div>
             <Link prefetch href="/SelectMovieByCinema">
               <div className="card-cinema__CineTitle">
                 <div ref="cineName" className="card-cinema__CineName">{this.props.name}</div>
-                <div className="card-cinema__CineDistant">100m</div>
+                {/* <div className="card-cinema__CineDistant">100m</div> */}
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.cineId}</div>
               </div>
             </Link>  

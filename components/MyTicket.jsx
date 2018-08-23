@@ -1,6 +1,7 @@
 import {PureComponent, Fragment} from 'react'
 import Ticket from './Ticket'
 import loading from '../static/loading.gif'
+import empty from '../static/emptyTicket.png'
 
 class MyTicket extends PureComponent {
   constructor(props) {
@@ -10,6 +11,7 @@ class MyTicket extends PureComponent {
       error: null,
       userPhoneNumber: '0891916415',
       dataMyTicket: {},
+      isEmpty:true,
     }
     this.refTicket = React.createRef()
   }
@@ -24,30 +26,36 @@ class MyTicket extends PureComponent {
           isLoading: false 
         })
       })
+      if(this.state.dataMyTicket.length <= 0){
+        this.setState({isEmpty:true})
+      }
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }    
   }
   renderTickets () {
-    return (
+    if( this.state.dataMyTicket != null){
       this.state.dataMyTicket.map((item) => {
         return (
           <Ticket ref={this.refTicket} dataTicket={item} key={item.VistaBookingId}></Ticket>
         )
       })
-    )
+    }
   }
   componentWillMount() {
     this.getTickets()
   }
   render () {
-    const {isLoading, error} = this.state;
+    const {isLoading, error,isEmpty} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
+    }   
     return (
       <div className="myTickets">
         <header className="cashier-header">ตั๋วของฉัน</header>

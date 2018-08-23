@@ -27,7 +27,7 @@ class NowShowingComp extends PureComponent {
     return (
         <section>
           <div className='showing__container'>
-              {dataObj.comingsoon.map((item,i) =>
+              {dataObj.now_showing.map((item,i) =>
                 <div className='showing__cell' key={i}>
                   <img className='showing__poster' src={item.poster_ori}/>
                   <span className='showing__title'>{item.title_th}</span>

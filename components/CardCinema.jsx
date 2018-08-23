@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Link from 'next/link'
 
 class CardCinema extends PureComponent {
   constructor(props) {
@@ -26,15 +27,25 @@ class CardCinema extends PureComponent {
     }
   }
   
+  getCineId(){
+    let id = this.refs.cineIdProp.innerText
+    let name = this.refs.cineName.innerText
+    sessionStorage.setItem('CinemaID',id)
+    sessionStorage.setItem('BookingCinema',name)
+  }
   
   render() {
+    const cineIdHide = {display:'none'}
     return (
-        <div className="card-cinema__body">
+        <div ref="searchCine" className="card-cinema__body" onClick={this.getCineId.bind(this)}>
             <div className="sprite-quatierCine"></div>
+            <Link prefetch href="/SelectMovieByCinema">
               <div className="card-cinema__CineTitle">
-                <div className="card-cinema__CineName">{this.props.item.Name}</div>
-                <div className="card-cinema__CineDistant">100 m</div>
+                <div ref="cineName" className="card-cinema__CineName">{this.props.item.Name}</div>
+                {/* <div className="card-cinema__CineDistant">100 m</div> */}
+                <div ref="cineIdProp" style={cineIdHide}>{this.props.item.ID}</div>
               </div>
+            </Link>    
               <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );

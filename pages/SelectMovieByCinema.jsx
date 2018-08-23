@@ -1,25 +1,39 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
+import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
 import Swal from 'sweetalert2'
 
 class CinemaMovieInfo extends PureComponent {
+  state = {
+    isToggle: false
+  }
+  toggleDetail(){
+    this.setState({isToggle:!this.state.isToggle})
+  }
   render() {
     return (
-      <div className="movie-card__container">
-        <img className="movie-card__poster" src={this.props.item.poster_ori} />
-        <div className="movie-card__wrapper">
-          <h2 className="movie-card__title">{this.props.item.title_en}</h2>
-          <h3 className="movie-card__subtitle">{this.props.item.title_th}</h3>
-          <span className="movie-card__genre">{this.props.item.genre} | {this.props.item.duration} นาที</span>
-          <Link prefetch href={this.props.item.trailer}>
-            <a className="movie-card__more-detail">รายละเอียด</a>
-          </Link>
+      <Fragment>
+        <div className="movie-card__container">
+          <img className="movie-card__poster" src={this.props.item.poster_ori} />
+          <div className="movie-card__wrapper">
+            <h2 className="movie-card__title">{this.props.item.title_en}</h2>
+            <h3 className="movie-card__subtitle">{this.props.item.title_th}</h3>
+            <span className="movie-card__genre">{this.props.item.genre} | {this.props.item.duration} นาที</span>
+            <a className="movie-card__more-detail" onClick={this.toggleDetail.bind(this)}>{this.state.isToggle? 'ซ่อนรายละเอียด':'แสดงรายละเอียด'}</a>
+          </div>
         </div>
-      </div>
+        <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container'}>
+          <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
+          <video className="movie-card__trailer" width="320" controls>
+            <source src={this.props.item.trailer} />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+    </Fragment>
     );
   }
 }
@@ -34,6 +48,7 @@ class MainSelectMovieByCinema extends PureComponent {
       nowShowing: [],
       dataSchedule:null,
       serverTime:'',
+      isEmpty:false,
     }
   }
 
@@ -58,7 +73,6 @@ class MainSelectMovieByCinema extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
-  
 
   getTitleById(filmId) {
     let info = null
@@ -88,7 +102,6 @@ class MainSelectMovieByCinema extends PureComponent {
   dataForSchedule(){
     var movies = []
     this.state.data.map(item => {
-      console.log(item);
       let info = ''
       Object.keys(item.Theaters).map(key => {
         info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
@@ -120,7 +133,10 @@ class MainSelectMovieByCinema extends PureComponent {
         }
       })
     }) 
-    this.setState({dataSchedule:movies}) 
+    this.setState({dataSchedule:movies})
+    if(this.state.data.length <= 0){
+      this.setState({isEmpty:true})
+    }
   }
 
   getTimetable(){
@@ -134,6 +150,7 @@ class MainSelectMovieByCinema extends PureComponent {
         cinemaTimetable.push(this.state.dataSchedule[item])
       })
       cinemaTimetable.map((theaters,i)=>{
+        console.log(theaters)
         resultsArray.info.push(<CinemaMovieInfo key={i} item={theaters}/>, resultsArray.time)
         theaters.theaters.forEach((element,j) => {
           if(element.SessionAttributesNames = 'EN/TH'){
@@ -154,12 +171,15 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   render() {      
-    const {isLoading, error} = this.state;    
+    const {isLoading, error, isEmpty} = this.state;    
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) { 
       return <img src={loading} className="loading"/>
+    }
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }    
     return (      
       <Layout title="Select Movie">

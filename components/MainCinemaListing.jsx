@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CinemaFavoriteList from './CinemaFavoriteList'
 import CinemaSystemList from './CinemaSystemList'
 import CinemaRegionalList from './CinemaRegionalList'
+import SearchCinema from './SearchCinema'
 
 class MainCinemaListing extends PureComponent {
   render() {
@@ -14,6 +15,7 @@ class MainCinemaListing extends PureComponent {
               <Tab>รูปแบบโรง</Tab>
             </TabList>
           <TabPanel>
+            {/* <SearchCinema/> */}
             <CinemaFavoriteList/>
             <CinemaRegionalList/>
           </TabPanel>

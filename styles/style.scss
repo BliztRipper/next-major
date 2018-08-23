@@ -3,6 +3,7 @@
 @import 'OTP';
 @import 'cashier';
 @import 'myTickets';
+@import 'searchCinema';
 
 :root{
   font-size: 16px;
@@ -30,7 +31,9 @@ body{
 .loading{
   position: fixed;top: 30%;left: 50%;transform: translateX(-50%);
 }
-
+.empty{
+  display: flex; flex-direction: column; padding-top: 25vh;color:#989FAE; align-items: center; text-align: center;
+}
 .sprite{
   background: url('../static/MajorGroupSprite.png') no-repeat;
   display: inline-block;
@@ -254,7 +257,7 @@ body{
     align-items: center;
     position: relative;
     box-shadow: 0 1px 0 0 #E9EBEF;
-    margin-top: 65px;
+    margin-top: 70px;
     &__title{
       color:#757D8C;
       font-size: 0.875rem;
@@ -359,8 +362,27 @@ body{
     padding: 0px 8px;
     border: 2px solid #989FAE;
     border-radius: 4px;
-    width: 68px;
+    width: 100px;
     white-space: nowrap;
+  }
+  &__more-detail-container{
+    transition:300ms;
+    opacity: 0;
+    display: none;
+    &.isActive{
+      transition:300ms;
+      opacity: 1;
+      display: block;
+    }
+  }
+  &__synopsis{
+    font-size: 0.875rem;
+    color:#6d7079;
+  }
+  &__trailer{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
   &__theatre-wrapper{
     display: flex;

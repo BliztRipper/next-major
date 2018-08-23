@@ -51,7 +51,7 @@ class CinemaFavoriteList extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, dataCine,branchRegion} = this.state;
+    const {isLoading, error} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
