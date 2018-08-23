@@ -130,11 +130,11 @@ $colorSeat3: #a0b0f4;
 .ticketResult {
   font-size: 0.55rem;
   &__lists {
-    padding: 0.5rem 0 0;
     display: flex;
+    justify-content: space-around;
   }
   &__list {
-    flex-basis: 100%;
+    padding: 0.5rem 0 0;
     padding-bottom: 0.5rem;
     text-align: center;
     > div {
@@ -150,12 +150,29 @@ $colorSeat3: #a0b0f4;
         top: 0;
         width: 22px;
         height: 22px;
-        background-color: #000;
+        background-color: #333;
         border-radius: 5px;
+      }
+    }
+    &.IsPackageTicket {
+      > div {
+        padding-left: 50px;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          left: 23px;
+          top: 0;
+          width: 22px;
+          height: 22px;
+          border-radius: 5px;
+          background-color: #333;
+        }
       }
     }
     &:nth-child(1) { 
       > div {
+        &:before,
         &:after {
           background-color: $colorSeat1;
         }
@@ -163,6 +180,7 @@ $colorSeat3: #a0b0f4;
     }
     &:nth-child(2) { 
       > div {
+        &:before,
         &:after {
           background-color: $colorSeat2;
         }
@@ -170,6 +188,7 @@ $colorSeat3: #a0b0f4;
     }
     &:nth-child(3) { 
       > div {
+        &:before,
         &:after {
           background-color: $colorSeat3;
         }

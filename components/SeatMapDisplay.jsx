@@ -22,20 +22,32 @@ class SeatMapDisplay extends PureComponent {
     if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
     let seatsSelected = this.state.seatsSelected
     this.state.areaSelected = area.AreaCategoryCode
-    if (aSeat.Status === 99) {
-      aSeat.Status = 0
-      seatsSelected = this.state.seatsSelected.filter((element) => { 
-        let matchSeatBefore = element.Id === aSeat.Id && element.ticket.AreaCategoryCode === area.AreaCategoryCode && element.rowPhysicalName === row.PhysicalName
-        return !matchSeatBefore 
+    let toggleBooked = aSeat => {
+      if (aSeat.Status === 99) {
+        aSeat.Status = 0
+        seatsSelected = seatsSelected.filter((aSeatSelected) => { 
+          return !(aSeatSelected.Id === aSeat.Id && aSeatSelected.rowPhysicalName === row.PhysicalName)
+        })
+      } else if (aSeat.Status === 0) {
+        aSeat.Status = 99
+        this.state.seatsSelected.push({
+          ...aSeat,
+          rowPhysicalName: row.PhysicalName,
+          ticket: ticket
+        })
+      }
+    }
+    if (ticket.IsPackageTicket) {
+      aSeat.SeatsInGroup.forEach(seatInGroup => {
+        row.Seats.forEach((aSeat) => {
+          if (seatInGroup.ColumnIndex === aSeat.Position.ColumnIndex) {
+            toggleBooked(aSeat)
+          }
+        })
       })
-    } else if (aSeat.Status === 0) {
-      aSeat.Status = 99
-      this.state.seatsSelected.push({
-        ...aSeat,
-        rowPhysicalName: row.PhysicalName,
-        ticket: ticket
-      })
-    } 
+    } else {
+      toggleBooked(aSeat)      
+    }
     this.setState({
       seatsSelected: seatsSelected,
       areaSelected: this.state.areaSelected,
@@ -106,14 +118,16 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   listPrice () {
-    let ticketList = this.state.tickets.map(element => {
+    let ticketList = this.state.tickets.map(ticket => {
       let classNameTicketList = 'ticketResult__list'
-      let Description = this.manageDescription(element.Description)
+      // let Description = this.manageDescription(ticket.Description)
+      let Description = ticket.Description
+      classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
       return (
-        <div className={classNameTicketList} key={element.AreaCategoryCode + Description}>
+        <div className={classNameTicketList} key={ticket.AreaCategoryCode + Description}>
           <div>
             <div>{Description}</div>
-            <div>{(element.PriceInCents / 100) + ' บาท'}</div>
+            <div>{(ticket.PriceInCents / 100) + ' บาท'}</div>
           </div>
         </div>
       )
@@ -145,14 +159,16 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   styleSeatsContainer () {
-    let containerWidth = this.refSeatsRow.current.clientWidth
+    let titleRowSpace = 50
+    document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
+    let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
     this.refSeatsMainInner.current.style.width = containerWidth + 'px'
-    this.refSeatsMain.current.scrollLeft = (containerWidth - window.innerWidth) * 0.5
+    this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
   }
   componentDidMount () {
     setTimeout(() => {
       this.styleSeatsContainer()
-    }, 300);
+    }, 150)
   }
   componentWillMount () {
     this.setState({ 
@@ -173,7 +189,11 @@ class SeatMapDisplay extends PureComponent {
       <Fragment>
         <div className="seatMapMain" ref={this.refSeatsMain}>
           <div className="seatMapMain__inner" ref={this.refSeatsMainInner}>
-            <div className="seatMapScreen"><div className="seatMapScreen__inner"></div></div>
+            <div className="seatMapScreenWrap">
+              <div className="seatMapScreen" ref={this.refScreen}>
+                <div className="seatMapScreen__inner"></div>
+              </div>
+            </div>
             <div className={'seatMapDisplay' + classNameSelected}>
               {renderSeats}
             </div>
