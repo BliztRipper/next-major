@@ -48,6 +48,8 @@ $colorSeat3: #a0b0f4;
   }
 }
 .seatMapDisplay {
+  display: grid;
+  grid-template-rows: repeat(var(--row-seat),28px);
   &.selected {
     .seatMapDisplay__group {
       &:not(.selected) {
@@ -100,10 +102,10 @@ $colorSeat3: #a0b0f4;
 .seatMapDisplay__row {
   display: grid;
   justify-content: center;	
-  grid-template-columns: repeat(var(--total-seat), 7vw);
-  grid-column-gap: 1.4vw;
-  grid-row-gap: 1.4vw;
-  direction: rtl;
+  grid-template-columns: repeat(var(--total-seat), 28px);
+  grid-column-gap: 0.3rem;
+  grid-row-gap: 0.3rem;
+  // direction: rtl;
   text-align: center;
   margin-bottom: 0.3rem;
   font-size: 0.5rem;
@@ -111,9 +113,12 @@ $colorSeat3: #a0b0f4;
 .seatMapDisplay__cell {
   background-color: darken(#fff, 10%);
   color: darken(#fff, 40%);
-  padding: 0.3rem 0;
+  height: 28px;
   border-radius: 3px;
   grid-column: var(--col-seat) / span 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &-title {
     font-weight: bold;
     background-color: darken(#fff, 20%) !important;

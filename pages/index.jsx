@@ -5,7 +5,7 @@ import '../styles/style.scss'
 
 export default class home extends PureComponent {
   componentWillMount () {
-    console.log(`${this.props.url.query.phoneNumber}`)
+    // console.log(`${this.props.url.query.phoneNumber}`)
   }
   componentDidMount () {
     if ('serviceWorker' in navigator) {

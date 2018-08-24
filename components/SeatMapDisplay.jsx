@@ -12,44 +12,80 @@ class SeatMapDisplay extends PureComponent {
         renderListPrice: null,
         renderListSelectedAndPrice: null,
         postingTicket: false,
-        selectedList:''
+        selectedList:'',
+        seatColMax: 0,
+        seatRowMax: 0,
+        seatMatrix: []
       }
       this.refSeatsRow = React.createRef()
       this.refSeatsMainInner = React.createRef()
       this.refSeatsMain = React.createRef()
   }
-  handleSelectSeats (aSeat, area, row, ticket) {
-    if (this.state.seatsSelected.length && this.state.areaSelected !== area.AreaCategoryCode) return false
-    let seatsSelected = this.state.seatsSelected
-    this.state.areaSelected = area.AreaCategoryCode
-    let toggleBooked = aSeat => {
-      if (aSeat.Status === 99) {
+  getTicketByAreaCode (AreaCategoryCode) {
+    return this.state.tickets.filter(ticket => ticket.AreaCategoryCode === AreaCategoryCode)
+  }
+  getAreaByAreaCode (AreaCategoryCode) {
+    return this.state.areas.filter(area => area.AreaCategoryCode === AreaCategoryCode)
+  }
+  handleSelectSeats (aSeat) {
+    let area = this.getAreaByAreaCode(aSeat.AreaCategoryCode)[0]
+    let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
+    let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)[0]
+    if (this.state.seatsSelected.length && this.state.areaSelected !== aSeat.AreaCategoryCode) return false
+    this.state.areaSelected = aSeat.AreaCategoryCode
+    let canBook = (column) => {
+      if (column < 0) { //out of bound
+        return false
+      } else if (column > (selectRow.length - 1)) { //out of bound
+        return false
+      } else if (selectRow[column] == null) { //not seat in index
+        return false
+      }
+      return (selectRow[column].Status === 0)
+    }
+    
+    let toggleBooked = (aSeat, ticketIsPackageTicket) => {
+      if (aSeat.Status === 99) { // Already booked a seat
         aSeat.Status = 0
-        seatsSelected = seatsSelected.filter((aSeatSelected) => { 
-          return !(aSeatSelected.Id === aSeat.Id && aSeatSelected.rowPhysicalName === row.PhysicalName)
+        this.state.seatsSelected = this.state.seatsSelected.filter((aSeatSelected) => {
+          return !(aSeatSelected.Id === aSeat.Id && aSeatSelected.rowPhysicalName === area.PhysicalName)
         })
-      } else if (aSeat.Status === 0) {
-        aSeat.Status = 99
-        this.state.seatsSelected.push({
-          ...aSeat,
-          rowPhysicalName: row.PhysicalName,
-          ticket: ticket
-        })
+      } else if (aSeat.Status === 0) { // Allow book a seat
+        let allowBook = false
+        let bookingStatus = aSeat.OriginalStatus
+        let cannotBookLeft = canBook(aSeat.Position.ColumnIndex-1) && !canBook(aSeat.Position.ColumnIndex-2)
+        let cannotBookRight = canBook(aSeat.Position.ColumnIndex+1) && !canBook(aSeat.Position.ColumnIndex+2)
+        if ((!cannotBookLeft && !cannotBookRight) || ticketIsPackageTicket) {
+          allowBook = true
+          bookingStatus = 99
+        }
+        if (allowBook) {
+          aSeat.Status = bookingStatus
+          this.state.seatsSelected.push({
+            ...aSeat,
+            rowPhysicalName: area.PhysicalName,
+            ticket: ticket
+          })
+          this.setState({
+            seatsSelected: this.state.seatsSelected
+          })
+        }
       }
     }
     if (ticket.IsPackageTicket) {
       aSeat.SeatsInGroup.forEach(seatInGroup => {
-        row.Seats.forEach((aSeat) => {
-          if (seatInGroup.ColumnIndex === aSeat.Position.ColumnIndex) {
-            toggleBooked(aSeat)
+        selectRow.forEach((aSeatInSelectRow) => {
+          if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
+            toggleBooked(aSeatInSelectRow, true)
           }
         })
       })
     } else {
-      toggleBooked(aSeat)      
+      toggleBooked(aSeat, false)      
     }
+    
     this.setState({
-      seatsSelected: seatsSelected,
+      seatsSelected: this.state.seatsSelected,
       areaSelected: this.state.areaSelected,
       renderSeats: this.listGroups()
     })
@@ -74,48 +110,78 @@ class SeatMapDisplay extends PureComponent {
   }
   listGroups () {
     return (
-      this.state.areas.map(area => {
-        let ticket = this.state.tickets.filter(ticket => { if (ticket) return ticket.AreaCategoryCode === area.AreaCategoryCode })
-        ticket = ticket[0]
-        let classNameSelected = ''
-        let totalSeatsEachRow = area.ColumnCount - 1
-        classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
-        let listItems = area.Rows.slice().reverse().map((row, rowIndex) => {
-          if (row.PhysicalName !== null) {
-            let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
-              let classNameCell = 'seatMapDisplay__cell'
-              if (aSeat.Status !== 0) {
-                if (aSeat.Status === 99) {
-                  classNameCell = classNameCell + ' ' + 'selected'
-                } else {
-                  classNameCell = classNameCell + ' ' + 'notAllowed'
-                }
+      <div className="seatMapDisplay" style={ {'--row-seat': this.state.seatRowMax} }>
+      {
+        this.state.seatMatrix.map(rows => {
+          let seatMapCell = rows.map((aSeat, aSeatIndex) => {
+            let classNameCell = 'seatMapDisplay__cell'
+            if (aSeat.Status !== 0) {
+              if (aSeat.Status === 99) {
+                classNameCell = classNameCell + ' ' + 'selected'
+              } else {
+                classNameCell = classNameCell + ' ' + 'notAllowed'
               }
-              return (
-                <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
-                  <div>{(aSeat.Id)}</div>
-                </div>
-              )
-            })
+            }
             return (
-              <Fragment key={'Fragment' + row.PhysicalName + rowIndex}>
-                <div className="seatMapDisplay__title"  key={area.AreaCategoryCode + row.PhysicalName }><div>{row.PhysicalName}</div></div>
-                <div className="seatMapDisplay__row" ref={this.refSeatsRow} style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
-                  {seatMapCell}
-                </div>
-              </Fragment>
+              <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } onClick={this.handleSelectSeats.bind(this, aSeat, rows)} >
+                <div>{(aSeatIndex)}</div>
+              </div>
             )
-          }
-        })
-        if (ticket) {
+          })
           return (
-            <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
-              {listItems}
+            <div className="seatMapDisplay__row" ref={this.refSeatsRow} style={ {'--total-seat': this.state.seatColMax} } > 
+              {seatMapCell}
             </div>
           )
-        }
-      })
+        })
+      }
+      </div>
     )
+
+    // return (
+    //   this.state.areas.map(area => {
+        
+    //     let ticket = this.state.tickets.filter(ticket => { if (ticket) return ticket.AreaCategoryCode === area.AreaCategoryCode })
+    //     ticket = ticket[0]
+    //     let classNameSelected = ''
+    //     let totalSeatsEachRow = area.ColumnCount - 1
+    //     classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
+    //     let listItems = area.Rows.slice().reverse().map((row, rowIndex) => {
+    //       if (row.PhysicalName !== null) {
+    //         let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
+    //           let classNameCell = 'seatMapDisplay__cell'
+    //           if (aSeat.Status !== 0) {
+    //             if (aSeat.Status === 99) {
+    //               classNameCell = classNameCell + ' ' + 'selected'
+    //             } else {
+    //               classNameCell = classNameCell + ' ' + 'notAllowed'
+    //             }
+    //           }
+    //           return (
+    //             <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
+    //               <div>{(aSeat.Id)}</div>
+    //             </div>
+    //           )
+    //         })
+    //         return (
+    //           <Fragment key={'Fragment' + row.PhysicalName + rowIndex}>
+    //             <div className="seatMapDisplay__title"  key={area.AreaCategoryCode + row.PhysicalName }><div>{row.PhysicalName}</div></div>
+    //             <div className="seatMapDisplay__row" ref={this.refSeatsRow} style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
+    //               {seatMapCell}
+    //             </div>
+    //           </Fragment>
+    //         )
+    //       }
+    //     })
+    //     if (ticket) {
+    //       return (
+    //         <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
+    //           {listItems}
+    //         </div>
+    //       )
+    //     }
+    //   })
+    // )
   }
   listPrice () {
     let ticketList = this.state.tickets.map(ticket => {
@@ -171,6 +237,28 @@ class SeatMapDisplay extends PureComponent {
     }, 150)
   }
   componentWillMount () {
+    this.state.areas.map(area => {
+      if (this.state.seatColMax < area.ColumnCount) this.state.seatColMax = area.ColumnCount
+      if (this.state.seatRowMax < area.RowCount) this.state.seatRowMax = area.RowCount
+    })
+    this.state.seatMatrix = new Array(this.state.seatRowMax)
+    for (let row = 0; row < this.state.seatRowMax; row++) {
+      this.state.seatMatrix[row] = new Array(this.state.seatColMax)
+    }
+        
+    this.state.areas.forEach(area => {      
+      for (let row = 0; row < area.Rows.length; row++) {        
+        let seatsObj = area.Rows[row].Seats        
+        if (seatsObj.length) {
+          for (let col = 0; col < seatsObj.length; col++) {
+            this.state.seatMatrix[row][seatsObj[col].Position.ColumnIndex] = {
+              ...seatsObj[col],
+              AreaCategoryCode: area.AreaCategoryCode
+            }
+          }
+        }  
+      }
+    })
     this.setState({ 
       renderSeats: this.listGroups(),
       renderListPrice: this.listPrice()
