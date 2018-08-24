@@ -44,11 +44,9 @@ class CinemaTimeTable extends PureComponent {
       let now = new Date()
       let nowtime = now.getTime()      
       //Get date and time each schedule
-      let date = new Date(time)
       let arrayDate
       while ((arrayDate = regex1.exec(time)) !== null) {}
       arrayDate = regex1.exec(time);
-      let movienowtime = date.getTime()
       if (today === arrayDate[3]) {
         let splitHours = arrayDate[4].slice(0,2)
         let splitMins= arrayDate[4].slice(-2)
@@ -84,6 +82,7 @@ class CinemaTimeTable extends PureComponent {
       )
     }
   }
+
   render() {
     return (    
       <Fragment>

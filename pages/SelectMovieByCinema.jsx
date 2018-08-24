@@ -6,7 +6,6 @@ import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
 import Swal from 'sweetalert2'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class CinemaMovieInfo extends PureComponent {
   state = {
@@ -27,12 +26,6 @@ class CinemaMovieInfo extends PureComponent {
             <a className="movie-card__more-detail" onClick={this.toggleDetail.bind(this)}>{this.state.isToggle? 'ซ่อนรายละเอียด':'แสดงรายละเอียด'}</a>
           </div>
         </div>
-        {/* <ReactCSSTransitionGroup
-         transitionName="example"
-         transitionAppear={true}
-         transitionAppearTimeout={500}
-         transitionEnter={false}
-         transitionLeave={true}> */}
           <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container isHide'}>
             <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
             <video className="movie-card__trailer" width="320" controls>
@@ -44,7 +37,6 @@ class CinemaMovieInfo extends PureComponent {
             <div className="movie-card__actor-label">นักแสดงนำ</div>
             <div className="movie-card__actor">{this.props.item.actor}</div>
           </div>
-        {/* </ReactCSSTransitionGroup> */}
     </Fragment>
     );
   }
@@ -177,6 +169,40 @@ class MainSelectMovieByCinema extends PureComponent {
     return resultsArray
   }
 
+  filterThisDay(){
+    let dayretrive = this.refs.showtoday.classList.value
+    console.log(dayretrive);
+  }
+
+  renderByDate(){
+    let dateArray = []
+    let pureDateArray = []
+    let todaydate = new Date().getDate()
+    if(this.state.dataSchedule != null){
+      Object.keys(this.state.dataSchedule).map(date=>{
+        dateArray.push(this.state.dataSchedule[date])
+      })
+      dateArray.map((item,i)=>{
+        for(var i=0; i < item.showtimes.length; i++){
+          let toDateFormat = new Date(item.showtimes[i])
+          let getDate = toDateFormat.getDate()
+          pureDateArray.push(getDate)
+        }
+      })
+      console.log(dateArray,'dateArray');
+    }
+    let uniArr = [...(new Set(pureDateArray))];
+   return(
+    uniArr.map(item=>{
+      let isToday = ''
+      if(todaydate === item){isToday = true}else{isToday = false}
+        return (
+          <a onClick={this.filterThisDay.bind(this)} ref="showtoday" className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span>วันที่ {item}</span></a>
+        )
+    })
+   )
+  }
+
   goToHome() {
     Router.push({
       pathname: '/'
@@ -196,6 +222,9 @@ class MainSelectMovieByCinema extends PureComponent {
     }    
     return (      
       <Layout title="Select Movie">
+        <section className="date-filter">
+        {this.renderByDate()}
+        </section>
         <article className="movie-card"> 
           {this.getTimetable().info}
         </article>
