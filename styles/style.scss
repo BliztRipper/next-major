@@ -366,13 +366,16 @@ body{
     white-space: nowrap;
   }
   &__more-detail-container{
-    transition:300ms;
-    opacity: 0;
-    display: none;
+    transition:0.2s;
     &.isActive{
-      transition:300ms;
       opacity: 1;
-      display: block;
+      visibility: visible; 
+      height: 100%;
+    }
+    &.isHide{
+      height: 0;
+      opacity: 0;
+      visibility: hidden; 
     }
   }
   &__synopsis{
@@ -383,6 +386,22 @@ body{
     display: block;
     margin-left: auto;
     margin-right: auto;
+  }
+  &__director{
+    font-size: 0.875rem;
+    color:#6d7079;
+    &-label{
+      color:#000;
+      padding-top: 1.5rem;
+    }
+  }
+  &__actor{
+    font-size: 0.875rem;
+    color:#6d7079;
+    &-label{
+      color:#000;
+      padding-top: 1.5rem;
+    }
   }
   &__theatre-wrapper{
     display: flex;
@@ -534,4 +553,16 @@ body{
       } 
     }
 }
-  
+
+.date-filter{
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  &__item{
+    text-decoration: none;
+    color:#000;
+    &.active{
+      color:#ff8200;
+    }
+  }
+}

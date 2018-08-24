@@ -41,7 +41,9 @@ class CinemaFavoriteList extends PureComponent {
         if(this.state.dataObj.data.CinemaIds != null) {
           this.state.dataObj.data.CinemaIds.map(cineID=>{
             if(cineID === item.ID){
-              resultsArray.push(<CardCinema item={item} key={item.ID}/>)
+              let brand = item.DescriptionInside.brand_name_en
+              let brandname = brand.replace(/ +/g, "")
+              resultsArray.push(<CardCinema item={item} brandname={brandname} key={item.ID}/>)
             }
           })
         }
