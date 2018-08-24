@@ -6,13 +6,14 @@ import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
 import Swal from 'sweetalert2'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class CinemaMovieInfo extends PureComponent {
   state = {
     isToggle: false
   }
   toggleDetail(){
-    this.setState({isToggle:!this.state.isToggle})
+    this.setState(prev => ({ isToggle: !prev.isToggle }))
   }
   render() {
     return (
@@ -26,19 +27,30 @@ class CinemaMovieInfo extends PureComponent {
             <a className="movie-card__more-detail" onClick={this.toggleDetail.bind(this)}>{this.state.isToggle? 'ซ่อนรายละเอียด':'แสดงรายละเอียด'}</a>
           </div>
         </div>
-        <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container'}>
-          <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
-          <video className="movie-card__trailer" width="320" controls>
-            <source src={this.props.item.trailer} />
-            Your browser does not support the video tag.
-          </video>
-        </div>
+        {/* <ReactCSSTransitionGroup
+         transitionName="example"
+         transitionAppear={true}
+         transitionAppearTimeout={500}
+         transitionEnter={false}
+         transitionLeave={true}> */}
+          <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container isHide'}>
+            <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
+            <video className="movie-card__trailer" width="320" controls>
+              <source src={this.props.item.trailer} />
+              Your browser does not support the video tag.
+            </video>
+            <div className="movie-card__director-label">ผู้กำกับ</div>
+            <div className="movie-card__director">{this.props.item.director}</div>
+            <div className="movie-card__actor-label">นักแสดงนำ</div>
+            <div className="movie-card__actor">{this.props.item.actor}</div>
+          </div>
+        {/* </ReactCSSTransitionGroup> */}
     </Fragment>
     );
   }
 }
 
-class MainSelectMovieByCinema extends PureComponent {
+class MainSelectMovieByCinema extends PureComponent { 
   constructor(props) {
     super(props);
     this.state = {
@@ -126,6 +138,8 @@ class MainSelectMovieByCinema extends PureComponent {
               duration: info.duration,
               synopsis_th: info.synopsis_th,
               trailer: info.trailer,
+              actor: info.actor,
+              director: info.director,
               theaters: []
             }
           }
@@ -150,7 +164,6 @@ class MainSelectMovieByCinema extends PureComponent {
         cinemaTimetable.push(this.state.dataSchedule[item])
       })
       cinemaTimetable.map((theaters,i)=>{
-        console.log(theaters)
         resultsArray.info.push(<CinemaMovieInfo key={i} item={theaters}/>, resultsArray.time)
         theaters.theaters.forEach((element,j) => {
           if(element.SessionAttributesNames = 'EN/TH'){
