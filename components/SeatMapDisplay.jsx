@@ -98,14 +98,6 @@ class SeatMapDisplay extends PureComponent {
       alert('กรุณาเลือกที่นั่ง')
     }
   }
-  manageDescription (str) {
-    let word = 'hair'
-    if (str.search(word) >= 0) {
-      return str.substring(0, str.indexOf(word) - 1)
-    } else {
-      return str
-    }
-  }
   listGroups () {
     let ticketZone = 0
     let prevAreaCategoryCode = ''
@@ -145,7 +137,7 @@ class SeatMapDisplay extends PureComponent {
           return (
             <div className={ 'seatMapDisplay__group ' + classNameSelected} data-area={ticketZone} key={areaCategoryCode + rowsIndex}>
               <div className="seatMapDisplay__title">{physicalName}</div>
-              <div className={'seatMapDisplay__row'} ref={this.refSeatsRow} style={ {'--total-seat': this.state.seatColMax} }> 
+              <div className={'seatMapDisplay__row'} ref={this.refSeatsRow} style={ {'--total-seat': this.state.seatColMax - 1} }> 
                 {seatMapCell}
               </div>
             </div>
@@ -154,55 +146,10 @@ class SeatMapDisplay extends PureComponent {
       }
       </Fragment>
     )
-    // return (
-      // this.state.areas.map(area => {
-        
-      //   let ticket = this.state.tickets.filter(ticket => { if (ticket) return ticket.AreaCategoryCode === area.AreaCategoryCode })
-      //   ticket = ticket[0]
-      //   let classNameSelected = ''
-      //   let totalSeatsEachRow = area.ColumnCount - 1
-      //   classNameSelected = area.AreaCategoryCode === this.state.areaSelected && this.state.seatsSelected.length ? ' selected' : ''
-      //   let listItems = area.Rows.slice().reverse().map((row, rowIndex) => {
-      //     if (row.PhysicalName !== null) {
-      //       let seatMapCell = row.Seats.map((aSeat, aSeatIndex) => {
-      //         let classNameCell = 'seatMapDisplay__cell'
-      //         if (aSeat.Status !== 0) {
-      //           if (aSeat.Status === 99) {
-      //             classNameCell = classNameCell + ' ' + 'selected'
-      //           } else {
-      //             classNameCell = classNameCell + ' ' + 'notAllowed'
-      //           }
-      //         }
-      //         return (
-      //           <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={area.AreaCategoryCode + row.PhysicalName + aSeatIndex} onClick={this.handleSelectSeats.bind(this, aSeat, area, row, ticket)} >
-      //             <div>{(aSeat.Id)}</div>
-      //           </div>
-      //         )
-      //       })
-      //       return (
-      //         <Fragment key={'Fragment' + row.PhysicalName + rowIndex}>
-      //           <div className="seatMapDisplay__title"  key={area.AreaCategoryCode + row.PhysicalName }><div>{row.PhysicalName}</div></div>
-      //           <div className="seatMapDisplay__row" ref={this.refSeatsRow} style={ {'--total-seat': totalSeatsEachRow} } key={'row' + area.AreaCategoryCode + row.PhysicalName }>
-      //             {seatMapCell}
-      //           </div>
-      //         </Fragment>
-      //       )
-      //     }
-      //   })
-      //   if (ticket) {
-      //     return (
-      //       <div className={ 'seatMapDisplay__group ' + classNameSelected} key={area.AreaCategoryCode}>
-      //         {listItems}
-      //       </div>
-      //     )
-      //   }
-      // })
-    // )
   }
   listPrice () {
     let ticketList = this.state.tickets.map(ticket => {
       let classNameTicketList = 'ticketResult__list'
-      // let Description = this.manageDescription(ticket.Description)
       let Description = ticket.Description
       classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
       return (
