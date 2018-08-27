@@ -1,63 +1,66 @@
-import React, { PureComponent } from 'react';
-import CardCinema from './CardCinema'
+import React, { PureComponent, Fragment } from 'react';
+import CinemaSystemComp from "./CinemaSystemComp";
 import loading from '../static/loading.gif'
 
 class CinemaSystemList extends PureComponent {
   constructor(props) {
     super(props);
-    this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
       dataObj: [],
       isLoading: true,
       error: null,
-      favActive: false,
+      SystemType:[],
+      renderSystem:[],
+      favActive:false
     }
   }
 
-  favAddActiveClass() {
-    this.setState({
-      favActive: !this.state.favActive
-    })
-  }
-
-  componentDidMount(){
+  componentWillMount(){
     try{
-      fetch(`https://api-cinema.truemoney.net/Cinemas`)
+      fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    } catch(err){
+    } catch(error){
       error => this.setState({ error, isLoading: false })
     }
   }
 
-  renderCinema(){
-    let resultsArray = [];
-    this.state.dataObj.map((item, i) => {
-      resultsArray.push(<CardCinema item={item} key={i}/>)
-    });
-    return resultsArray;
-  }
   render() {
-    const {isLoading, error} = this.state;
+    const {dataObj, isLoading, error, SystemType, renderSystem,} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
-    if (isLoading) {
+    if (isLoading) { 
       return <img src={loading} className="loading"/>
     }
+    dataObj.map(system=>{
+      system.System.map(item => {
+        let key = item
+        if (key in SystemType == false){
+          SystemType[key] = []
+        } 
+        let brand = system.DescriptionInside.brand_name_en
+        brand = brand.replace(/ +/g, "")
+        SystemType[key].push({
+          zoneId: system.DescriptionInside.zone_id,
+          title:system.DescriptionInside.zone_name,
+          name:system.Name,
+          cinemaId:system.ID,
+          brandName:brand,
+        })
+      })
+    })
+
+    {(() => {
+      for (var system in SystemType) {
+        renderSystem.push(<CinemaSystemComp zone_name={system} key={system} items={SystemType[system]} cinemaId={SystemType[system].cinemaId} brandName={SystemType[system].brandName}/>)
+      }
+    })()}
     return (
-      <div className="card-cinema">
-        <div className="card-cinema__header" onClick={this.favAddActiveClass}>
-          <div className="sprite-favCinema"></div>
-            <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
-          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} ></div>
-        </div>
-        <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
-          {this.renderCinema()}
-        </div>
-    </div>
+      <Fragment>{renderSystem}</Fragment>
+      // <Fragment>{console.log(this.state.SystemType)}</Fragment>
     );
   }
 }
 
-export default CinemaSystemList;
+export default CinemaSystemList; 

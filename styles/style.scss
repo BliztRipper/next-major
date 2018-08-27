@@ -297,7 +297,7 @@ body{
   &__header{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    // justify-content: space-between;
     position: relative;
     box-shadow: 0 1px 0 0 #e9ebef;
     border: 1px solid #F5F6F8;
@@ -491,6 +491,7 @@ body{
       } 
     }
   &__cinema{
+    margin-top: 70px;
     .react-tabs{
       &__tab-list{
         top: 0;

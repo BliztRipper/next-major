@@ -170,7 +170,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   filterThisDay(){
-    let dayretrive = this.refs.showtoday.classList.value
+    let dayretrive = this.refs.showtoday.innerText
     console.log(dayretrive);
   }
 

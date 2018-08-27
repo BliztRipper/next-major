@@ -38,11 +38,15 @@ class CinemaTimeTable extends PureComponent {
     var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     this.props.item.Showtimes.map((time,i)=>{
       //Sync with Server Time      
+      // let d = new Date('2018-08-29T00:55:00')
       let d = new Date(this.props.serverTime)
       let today = d.getDate().toString()
       //Get date and time for today
+      // let now = new Date('2018-08-29T00:55:00')
       let now = new Date()
-      let nowtime = now.getTime()      
+      let nowtime = now.getTime()
+      console.log(today,'today');
+            
       //Get date and time each schedule
       let arrayDate
       while ((arrayDate = regex1.exec(time)) !== null) {}
