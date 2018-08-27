@@ -76,9 +76,7 @@ class seatMap extends PureComponent {
       .then(response => response.json())
       .then(data => {
         let matchTicketData = this.state.dataSeatPlan.SeatLayoutData.Areas.map((area, areaIndex) => {
-          if (area.AreaCategoryCode === data.data.Tickets[areaIndex].AreaCategoryCode) {
-            return data.data.Tickets[areaIndex]
-          }
+          if (data.data.Tickets[areaIndex]) return area.AreaCategoryCode === data.data.Tickets[areaIndex].AreaCategoryCode ? data.data.Tickets[areaIndex] : false
         }).filter(ticket => ticket ? ticket: '' )
         this.setState({
           dataSeatPlan: this.state.dataSeatPlan,
