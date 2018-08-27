@@ -98,7 +98,7 @@ class Ticket extends PureComponent {
           </div>
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
-        <div className={buttonProgressClassName} onClick={this.props.submitPayment}>{buttonProgressText}</div>
+        <div className={buttonProgressClassName} onClick={this.props.submitPayment}><div>{buttonProgressText}</div></div>
         <Link prefetch href="/">
           <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
         </Link>  
