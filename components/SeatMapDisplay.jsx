@@ -31,6 +31,7 @@ class SeatMapDisplay extends PureComponent {
     if (this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
     let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
     let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
+    let ticketBookedMax = 6
     let canBook = (column) => {
       if (column < 0) { //out of bound
         return false
@@ -58,15 +59,19 @@ class SeatMapDisplay extends PureComponent {
           bookingStatus = 99
         }
         if (allowBook) {
-          this.state.areaSelected = aSeat.AreaCategoryCode
-          aSeat.Status = bookingStatus
-          this.state.seatsSelected.push({
-            ...aSeat,
-            ticket: ticket
-          })
-          this.setState({
-            seatsSelected: this.state.seatsSelected
-          })
+          if (this.state.seatsSelected.length >= ticketBookedMax) {
+            alert(`จำกัดการจอง ${ticketBookedMax} ที่นั่ง`)
+          } else {
+            this.state.areaSelected = aSeat.AreaCategoryCode
+            aSeat.Status = bookingStatus
+            this.state.seatsSelected.push({
+              ...aSeat,
+              ticket: ticket
+            })
+            this.setState({
+              seatsSelected: this.state.seatsSelected
+            })
+          }
         }
       }
     }
