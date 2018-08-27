@@ -28,9 +28,9 @@ class SeatMapDisplay extends PureComponent {
     return this.state.areas.filter(area => area.AreaCategoryCode === AreaCategoryCode)[0]
   }
   handleSelectSeats (aSeat) {
-    if (this.state.seatsSelected.length && this.state.areaSelected !== aSeat.AreaCategoryCode) return false
-    let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
+    if (this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
     let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
+    let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
     let canBook = (column) => {
       if (column < 0) { //out of bound
         return false
@@ -262,19 +262,24 @@ class SeatMapDisplay extends PureComponent {
       this.state.seatMatrix[row] = new Array(this.state.seatColMax)
     }
     let seatsObj = ''
+    let prevAreaCategoryCode = ''
+    let statusAllowByTicket = ''
     this.state.areas.forEach(area => {      
       for (let rowIndex = 0; rowIndex < area.Rows.length; rowIndex++) {        
         seatsObj = area.Rows[rowIndex].Seats        
         if (seatsObj.length) {
           for (let col = 0; col < seatsObj.length; col++) {
-            let aSeat = seatsObj[col]
-            if (this.getTicketByAreaCode(aSeat.AreaCategoryCode) && this.getTicketByAreaCode(aSeat.AreaCategoryCode) !== prevAreaCategoryCode) {
+            statusAllowByTicket = 'noTicket'
+            if (this.getTicketByAreaCode(area.AreaCategoryCode)) {
+              prevAreaCategoryCode = this.getTicketByAreaCode(area.AreaCategoryCode)
               console.log('has ticket')
+              statusAllowByTicket = seatsObj[col].OriginalStatus
             }
             this.state.seatMatrix[rowIndex][seatsObj[col].Position.ColumnIndex] = {
               ...seatsObj[col],
               AreaCategoryCode: area.AreaCategoryCode,
-              PhysicalName: area.Rows[rowIndex].PhysicalName
+              PhysicalName: area.Rows[rowIndex].PhysicalName,
+              Status: statusAllowByTicket
             }
           }
         }  

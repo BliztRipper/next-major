@@ -48,14 +48,15 @@ $colorSeat3: #a0b0f4;
   }
 }
 .seatMapDisplay {
-  // display: grid;
-  // grid-template-rows: repeat(var(--row-seat),28px);
   &.selected {
     .seatMapDisplay__group {
       &:not(.selected) {
         opacity: 0.3;
       }
     }    
+  }
+  &__inner {
+    margin-bottom: 5rem;
   }
 }
 .seatMapDisplay__group {
@@ -105,7 +106,6 @@ $colorSeat3: #a0b0f4;
   grid-template-columns: repeat(var(--total-seat), 28px);
   grid-column-gap: 0.3rem;
   grid-row-gap: 0.3rem;
-  // direction: rtl;
   text-align: center;
   margin-bottom: 0.3rem;
   font-size: 0.5rem;
