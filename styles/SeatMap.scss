@@ -48,8 +48,8 @@ $colorSeat3: #a0b0f4;
   }
 }
 .seatMapDisplay {
-  display: grid;
-  grid-template-rows: repeat(var(--row-seat),28px);
+  // display: grid;
+  // grid-template-rows: repeat(var(--row-seat),28px);
   &.selected {
     .seatMapDisplay__group {
       &:not(.selected) {
@@ -65,7 +65,7 @@ $colorSeat3: #a0b0f4;
   align-items: stretch;
   grid-template-columns: 2rem auto;
   grid-column-gap: 1.4vw;
-  &:nth-child(1) {
+  &[data-area="1"] {
     .seatMapDisplay__cell {
       &:not(.selected) {
         background-color: $colorSeat1;
@@ -73,7 +73,7 @@ $colorSeat3: #a0b0f4;
       }
     }
   }
-  &:nth-child(2) {
+  &[data-area="2"] {
     .seatMapDisplay__cell {
       &:not(.selected) {
         background-color: $colorSeat2;
@@ -81,7 +81,7 @@ $colorSeat3: #a0b0f4;
       }
     }
   }
-  &:nth-child(3) {
+  &[data-area="3"] {
     .seatMapDisplay__cell {
       &:not(.selected) {
         background-color: $colorSeat3;
