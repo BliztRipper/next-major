@@ -55,6 +55,7 @@ class HighlightCarousel extends PureComponent {
       arrows: false,
       slidesToShow: 1,
       slidesToScroll: 1,
+      touchThreshold: 8
     }
     
     return (

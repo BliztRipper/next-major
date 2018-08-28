@@ -41,16 +41,29 @@ class Ticket extends PureComponent {
       success: this.props.dataTicket.VistaBookingId ? true : false
     })
   }
+  renderButtons (success, buttonProgressText, buttonProgressClassName) {
+    if (this.props.hideButton) return false
+    return (
+      <Fragment>
+        <div className={buttonProgressClassName} onClick={this.props.submitPayment}><div>{buttonProgressText}</div></div>
+        <Link prefetch href="/">
+          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
+        </Link>
+      </Fragment>
+    )
+  }
   renderCinemaMovieInfo () {
     const {success, postingTicket} = this.state;     
     let buttonProgressText = 'ดำเนินการ'
     let buttonProgressClassName = success? 'movie-cashier__confirm success':'movie-cashier__confirm'
     buttonProgressClassName += postingTicket? ' posting' : ''
-    if (postingTicket) {
-      buttonProgressText = 'กรุณารอสักครู่'
-    } 
+    buttonProgressText = postingTicket ? 'กรุณารอสักครู่' : buttonProgressText
+
+    let containerClassName = 'movie-cashier__container'
+    containerClassName = this.props.expired ? containerClassName + ' expired' : containerClassName
+    
     return (
-      <div className="movie-cashier__container">
+      <div className={containerClassName}>
         <div className="movie-cashier__movie-info">
           <img className="movie-cashier__poster" src={this.state.BookingPoster}/>
           <div className="movie-cashier__wrapper">
@@ -98,10 +111,7 @@ class Ticket extends PureComponent {
           </div>
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>
-        <div className={buttonProgressClassName} onClick={this.props.submitPayment}><div>{buttonProgressText}</div></div>
-        <Link prefetch href="/">
-          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
-        </Link>  
+        {this.renderButtons(success, buttonProgressText, buttonProgressClassName)}
       </div>
     );    
   }

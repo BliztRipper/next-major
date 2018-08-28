@@ -19,16 +19,28 @@ class MainNavBar extends PureComponent {
     let documents = [document.documentElement, document.body]
     documents.forEach(element => element.style.cssText = styles);
   }
+  preventBehavior(enable) {
+    document.addEventListener("touchmove", function (e) {
+      e.preventDefault(); 
+      return enable
+    });
+  }
+
   onSelectTabs (index) {
     this.currentTabsIndex = index
     if (this.currentTabsIndex !== 0) {
-      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable, 'enable onSelectTabs')
+      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable)
+      this.preventBehavior(true)
     } else {
-      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable, 'disable onSelectTabs')
+      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
+      this.preventBehavior(false)
     }
   }
   componentDidMount () {
-    if (this.currentTabsIndex === 0) this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable, 'componentDidMount')
+    if (this.currentTabsIndex === 0) {
+      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
+      this.preventBehavior(true)
+    }
   }
   render() {
     resetIdCounter()
