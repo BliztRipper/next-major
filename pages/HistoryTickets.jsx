@@ -1,19 +1,29 @@
 import { PureComponent } from 'react'
+import '../styles/style.scss'
 import GlobalHeader from '../components/GlobalHeader'
 import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
-import '../styles/style.scss'
+import empty from '../static/emptyTicket.png'
+import Router from 'next/router'
 
 class HistoryTickets extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       isLoading: true,
-      error: null
+      isEmpty:true,
+      error: null,
     }
   }
+  handleBackButton () {
+    Router.push({
+      pathname: '/'
+    })
+  }
   goToDetailHistory () {
-    
+    Router.push({
+      pathname: '/HistoryTicketDetail'
+    })
   }
   renderEachList (key, index) {
     return (
@@ -41,20 +51,7 @@ class HistoryTickets extends PureComponent {
     }
   }
   renderHistoryGroupByMonth () {
-    let listsMonth = [
-      'มกราคม',
-      'กุมภาพันธ์',
-      'มีนาคม',
-      'เมษายน',
-      'พฤษภาคม',
-      'มิถุนายน',
-      'กรกฎาคม',
-      'สิงหาคม',
-      'กันยายน',
-      'ตุลาคม',
-      'พฤศจิกายน',
-      'ธันวาคม'
-    ]
+    let listsMonth = [ 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ]
     return listsMonth.map((aMonth, aMonthIndex) => {
       return (
       <div className="historyTickets__group" key={aMonth}>
@@ -67,20 +64,22 @@ class HistoryTickets extends PureComponent {
     })
   }
   componentWillMount() {
-    this.setState({
-      isLoading: false
-    })
+    this.state.isLoading = false
+    this.state.isEmpty = false
   }
   render () {
-    const {isLoading, error} = this.state;
+    const {isLoading, error, isEmpty} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
+    }   
     return (
-      <Layout title="History Ticketss">
+      <Layout title="History Tickets">
         <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ประวัติการใช้งาน"></GlobalHeader>
         <div className="historyTickets">
           {this.renderHistoryGroupByMonth()}

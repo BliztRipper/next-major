@@ -27,6 +27,18 @@
     box-shadow: 0 1px 60px -15px #999;
     padding: 1rem;
     margin-bottom: 75px;
+    &.expired {
+      background-image: url('../static/exp-badge.png');
+      background-repeat: no-repeat;
+      background-position: 9rem 3rem;
+      background-size: 220px auto;
+      .qrContainer {
+        opacity: 0.2;
+      }
+      .qrContainer__ref {
+        color: #000;
+      }
+    }
   }
   &__movie-info{
     display: flex;
