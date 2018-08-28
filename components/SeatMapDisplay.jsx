@@ -224,7 +224,6 @@ class SeatMapDisplay extends PureComponent {
             statusAllowByTicket = 'noTicket'
             if (this.getTicketByAreaCode(area.AreaCategoryCode)) {
               prevAreaCategoryCode = this.getTicketByAreaCode(area.AreaCategoryCode)
-              console.log('has ticket')
               statusAllowByTicket = seatsObj[col].OriginalStatus
             }
             this.state.seatMatrix[rowIndex][seatsObj[col].Position.ColumnIndex] = {
