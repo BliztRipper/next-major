@@ -1,0 +1,35 @@
+.historyTickets {
+  padding: 0.4rem;
+  &__title {
+    margin-bottom: 0.6rem;
+    color: #333;
+    font-weight: bold;
+  }
+  &__lists {
+    margin-bottom: 3rem;
+  }
+  &__list {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: 0 0.2rem 1rem rgba(#000, 0.15);
+    &-titleEN {
+      font-weight: bold;
+      margin-bottom: 0.4rem;
+      font-size: 0.9em;
+      color: #666;
+    }
+    &-titleTH {
+      color: #999;
+      font-size: 0.9em;
+      margin-bottom: 0.4rem;
+    }
+    &-locationAndDate {
+      color: #999;
+      padding-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85em;
+    }
+  }
+}
