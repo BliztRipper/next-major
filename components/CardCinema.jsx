@@ -38,7 +38,7 @@ class CardCinema extends PureComponent {
     const cineIdHide = {display:'none'}
     return (
         <div ref="searchCine" className="card-cinema__body" onClick={this.getCineId.bind(this)}>
-            <div className={this.props.brandname}></div>
+            <div className={this.props.brandname!=""? this.props.brandname:'sprite-blank'}></div>
             <Link prefetch href="/SelectMovieByCinema">
               <div className="card-cinema__CineTitle">
                 <div ref="cineName" className="card-cinema__CineName">{this.props.item.Name}</div>

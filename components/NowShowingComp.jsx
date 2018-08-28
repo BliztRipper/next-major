@@ -1,5 +1,27 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import loading from '../static/loading.gif'
+import Link from 'next/link'
+
+class RenderShowing extends PureComponent {
+  render(){
+    return(
+      <Fragment>
+          <Link prefetch href="/SelectMovieByCinema">
+            <div className='showing__cell'>
+              <img className='showing__poster' src={this.props.item.poster_ori}/>
+              {(()=>{
+                if(new Date().getTime() < new Date(this.props.item.release_date).getTime()) {
+                  return(<img className='showing__advance' src='../static/advanceTicket.png'/>)
+                }
+              })()}
+              <span className='showing__title'>{this.props.item.title_th}</span>
+            </div>
+          </Link>  
+      </Fragment>
+    )
+  }
+}
+
 
 class NowShowingComp extends PureComponent {
   constructor(props) {
@@ -10,12 +32,22 @@ class NowShowingComp extends PureComponent {
       error: null,
     }
   }
-  componentDidMount(){
+  componentWillMount(){
     fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
   }
+
+  sortTime(){
+    let sorting = []
+    this.state.dataObj.now_showing.map((item,i)=>{
+      sorting.push(<RenderShowing item={item} release={item.release_date} key={i}/>)
+    })
+    let numArray = [...sorting].sort((a,b) => new Date(b.props.item.release_date) - new Date(a.props.item.release_date))
+    return numArray
+  }
+
   render() {
     const {dataObj, isLoading, error} = this.state;
     if (error) {
@@ -24,15 +56,24 @@ class NowShowingComp extends PureComponent {
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
+    
     return (
         <section>
           <div className='showing__container'>
-              {dataObj.now_showing.map((item,i) =>
-                <div className='showing__cell' key={i}>
-                  <img className='showing__poster' src={item.poster_ori}/>
-                  <span className='showing__title'>{item.title_th}</span>
-                </div>
-              )}
+          {this.sortTime()}
+              {/* {dataObj.now_showing.map((item,i) =>
+                <Link prefetch href="/SelectMovieByCinema">
+                  <div className='showing__cell' key={i}>
+                    <img className='showing__poster' src={item.poster_ori}/>
+                    {(()=>{
+                      if(new Date().getTime() < new Date(item.release_date).getTime()) {
+                        return(<img className='showing__advance' src='../static/advanceTicket.png'/>)
+                      }
+                    })()}
+                    <span className='showing__title'>{item.title_th}</span>
+                  </div>
+                </Link>  
+              )}    */}
           </div>
         </section>
     );

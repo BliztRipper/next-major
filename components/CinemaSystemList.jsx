@@ -58,8 +58,7 @@ class CinemaSystemList extends PureComponent {
     })()}
     return (
       <Fragment>{renderSystem}</Fragment>
-      // <Fragment>{console.log(this.state.SystemType)}</Fragment>
-    );
+    )
   }
 }
 

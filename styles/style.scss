@@ -107,6 +107,12 @@ body{
         transform: rotate(180deg);
       }
     }
+  &-blank{
+    @extend .sprite;
+    background-position: 400px 400px; 
+    width: 50px;
+    height: 50px;
+  }  
   }
 
   .VS00000001{
@@ -153,6 +159,7 @@ body{
     margin-left: auto;
     margin-right: auto;
     display: block;
+    width: 56.25vw;
   }
   &__title{
     display: block
@@ -192,16 +199,18 @@ body{
     display: flex !important;
     flex-direction: column;
     align-items: center;
+    position: relative;
   }
   &__poster{
     width: 90px;
     height: 140px;
     box-shadow: #505050 0px 5px 10px 0;
-    &--lazy{
-      width: 90px;
-      height: 140px;  
-      box-shadow: 0;
-    }
+  }
+  &__advance{
+    position: absolute;
+    top:0;
+    left: 50%;
+    transform: translateX(-50%);
   }
   &__title{
     padding: 0.5rem 0;
