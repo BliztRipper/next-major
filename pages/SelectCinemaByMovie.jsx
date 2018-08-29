@@ -74,10 +74,26 @@ class MainSelectCinemaByMovie extends PureComponent {
     }
   }
 
+  getTimetable(){
+    let resultsArray = {
+      info:[],
+      time:[]
+    }
+    resultsArray.info.push(<CinemaMovieInfo item={this.state.nowShowing}/>)
+    this.state.data.map(theaters=>{
+        Object.keys(theaters.Theaters).map(key => {
+        if(theaters.Theaters[key].SessionAttributesNames = 'EN/TH'){
+          theaters.Theaters[key].SessionAttributesNames = 'อังกฤษ'
+        }
+        resultsArray.time.push(<CinemaTimeTable key={theaters.Theaters[key].ScreenName} name='fromMovie' itemTheaterInfo={theaters.Theaters[key]} item={theaters.Theaters[key]} serverTime={this.state.serverTime}/>)   
+      });    
+    })
+    return resultsArray
+  }
+
+
   renderMovie(){
-    // <CinemaMovieInfo item={this.state.data}/>
-    console.log(this.state.data);
-    
+    return(<CinemaMovieInfo item={this.state.nowShowing}/>)
   }
 
   render() {      
@@ -91,14 +107,21 @@ class MainSelectCinemaByMovie extends PureComponent {
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }    
+    sessionStorage.setItem('BookingMovie',this.state.nowShowing.title_en)
+    sessionStorage.setItem('BookingMovieTH',this.state.nowShowing.title_th)
+    sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
+    sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
+    sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
+    console.log(this.state.data);
+    
     return (      
       <Layout title="Select Movie">
         {/* <section className="date-filter">
         {this.renderByDate()}
         </section> */}
         <article className="movie-card"> 
-          <CinemaMovieInfo item={this.state.nowShowing}/>
-          {this.renderMovie()}
+        {this.getTimetable().info}
+        {this.getTimetable().time}
         </article>
       </Layout>
     );

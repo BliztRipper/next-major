@@ -15,20 +15,29 @@ class CinemaTimeTable extends PureComponent {
     }
   }
   
-
-  handleScheduleSelected (itemTheaterInfo, event, ) {
-    let target = event.target || event.srcElement
-    target = target.innerHTML
-    sessionStorage.setItem('BookingTime',target)
-    sessionStorage.setItem('BookingMovie',itemTheaterInfo.title_en)
-    sessionStorage.setItem('BookingMovieTH',itemTheaterInfo.title_th)
-    sessionStorage.setItem('BookingGenre',itemTheaterInfo.genre)
-    sessionStorage.setItem('BookingDuration',itemTheaterInfo.duration)
-    sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
-    sessionStorage.setItem('BookingPoster',itemTheaterInfo.poster_ori)
-    sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
+  handleScheduleSelected (itemTheaterInfo, event) {
+    if(this.props.name ==='fromMovie'){
+      let target = event.target || event.srcElement
+      target = target.innerHTML
+      sessionStorage.setItem('BookingTime',target)
+      sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
+      sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
+      sessionStorage.setItem('CinemaID',this.props.cinemaID)
+      // sessionStorage.setItem('BookingCinema',name)
+    } else {
+      let target = event.target || event.srcElement
+      target = target.innerHTML
+      sessionStorage.setItem('BookingTime',target)
+      sessionStorage.setItem('BookingMovie',itemTheaterInfo.title_en)
+      sessionStorage.setItem('BookingMovieTH',itemTheaterInfo.title_th)
+      sessionStorage.setItem('BookingGenre',itemTheaterInfo.genre)
+      sessionStorage.setItem('BookingDuration',itemTheaterInfo.duration)
+      sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
+      sessionStorage.setItem('BookingPoster',itemTheaterInfo.poster_ori)
+      sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
+    }
   }
-
+ 
   renderSchedule(){
     let dataToSeatMap = {
       pathname: '/seatMap',
@@ -45,7 +54,6 @@ class CinemaTimeTable extends PureComponent {
       // let now = new Date('2018-08-29T00:55:00')
       let now = new Date()
       let nowtime = now.getTime()
-      console.log(today,'today');
             
       //Get date and time each schedule
       let arrayDate
