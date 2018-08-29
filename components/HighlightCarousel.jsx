@@ -64,7 +64,7 @@ class HighlightCarousel extends PureComponent {
           {dataObj.map((item,i) =>
                 <Fragment key={i}>
                   <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-                  <Link prefetch href="/">
+                  <Link prefetch href="/SelectMovieByCinema">
                     <a className="highlight__book-btn">ซื้อตั๋ว</a>
                   </Link>
                   {(() => {

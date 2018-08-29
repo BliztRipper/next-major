@@ -189,7 +189,6 @@ class MainSelectMovieByCinema extends PureComponent {
           pureDateArray.push(getDate)
         }
       })
-      console.log(dateArray,'dateArray');
     }
     let uniArr = [...(new Set(pureDateArray))];
    return(
@@ -197,7 +196,7 @@ class MainSelectMovieByCinema extends PureComponent {
       let isToday = ''
       if(todaydate === item){isToday = true}else{isToday = false}
         return (
-          <a onClick={this.filterThisDay.bind(this)} ref="showtoday" className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.filterThisDay.bind(this)} ref="showtoday" name={item}>วันที่ {item}</span></a>
         )
     })
    )

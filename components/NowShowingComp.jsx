@@ -3,11 +3,15 @@ import loading from '../static/loading.gif'
 import Link from 'next/link'
 
 class RenderShowing extends PureComponent {
+  movieProps(){
+    let item = JSON.stringify(this.props.item)
+    sessionStorage.setItem('movieSelect',item)
+  }
   render(){
     return(
       <Fragment>
-          <Link prefetch href="/SelectMovieByCinema">
-            <div className='showing__cell'>
+          <Link  prefetch href="/SelectCinemaByMovie">
+            <div onClick={this.movieProps.bind(this)} className='showing__cell'>
               <img className='showing__poster' src={this.props.item.poster_ori}/>
               {(()=>{
                 if(new Date().getTime() < new Date(this.props.item.release_date).getTime()) {
@@ -61,19 +65,6 @@ class NowShowingComp extends PureComponent {
         <section>
           <div className='showing__container'>
           {this.sortTime()}
-              {/* {dataObj.now_showing.map((item,i) =>
-                <Link prefetch href="/SelectMovieByCinema">
-                  <div className='showing__cell' key={i}>
-                    <img className='showing__poster' src={item.poster_ori}/>
-                    {(()=>{
-                      if(new Date().getTime() < new Date(item.release_date).getTime()) {
-                        return(<img className='showing__advance' src='../static/advanceTicket.png'/>)
-                      }
-                    })()}
-                    <span className='showing__title'>{item.title_th}</span>
-                  </div>
-                </Link>  
-              )}    */}
           </div>
         </section>
     );
