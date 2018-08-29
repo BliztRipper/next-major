@@ -155,12 +155,11 @@ body{
   margin-bottom: 5vh;
   text-align: center;
   &__poster{
-    width:auto;
-    height: calc((100vh / 100) * 40);
     margin-left: auto;
     margin-right: auto;
     display: block;
     width: 56.25vw;
+    height: auto;
   }
   &__title{
     display: block
