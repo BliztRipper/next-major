@@ -36,7 +36,7 @@ class NowShowingComp extends PureComponent {
       error: null,
     }
   }
-  componentWillMount(){
+  componentDidMount(){
     fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))

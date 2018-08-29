@@ -29,6 +29,15 @@
 body{
   box-sizing: border-box;
 }
+.loadingWrap {
+  position: fixed; 
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#fff, 0.5);
+  z-index: 1000;
+}
 .loading{
   position: fixed;top: 30%;left: 50%;transform: translateX(-50%);
 }
