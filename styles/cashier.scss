@@ -32,11 +32,10 @@
       background-repeat: no-repeat;
       background-position: 9rem 3rem;
       background-size: 220px auto;
-      .qrContainer {
-        opacity: 0.2;
-      }
+      .qrContainer__qrcode,
       .qrContainer__ref {
         color: #000;
+        opacity: 0.2;
       }
     }
   }

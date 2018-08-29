@@ -5,7 +5,7 @@ export default ({ children, title = 'True Major Cineplex' }) => (
   <Fragment>
     <Head>
       <title>{title}</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
       <meta name="description" content="" />
       <link rel="manifest" href="/static/manifest.webmanifest" />
       <meta name="theme-color" content="#ff6600" />

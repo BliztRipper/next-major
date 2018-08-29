@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react'
+import isDblTouchTap from "../scripts/isDblTouchTap"
+
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import OTP from '../components/OTP'
 import GlobalHeader from '../components/GlobalHeader'
@@ -7,7 +9,6 @@ import loading from '../static/loading.gif'
 import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
-
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
@@ -22,6 +23,7 @@ class seatMap extends PureComponent {
       dataBookedSeats: null,
       seatsSelected: null,
       otpShow: false,
+      entrySeatMap: false,
       userPhoneNumber: '0891916415',
       userAuthData: null,
       apiOtpHeader: {
@@ -96,6 +98,15 @@ class seatMap extends PureComponent {
   handleBackButton () {
     Router.back()
   }
+  handleEntryMap (e) {
+    if (isDblTouchTap(e)) {
+      this.setState({
+        entrySeatMap: true
+      }, () => {
+        this.refSeatMapDisplay.current.styleSeatsContainer()
+      })
+    }
+  }
   authOtpHasToken (seatSelected) {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
@@ -156,6 +167,7 @@ class seatMap extends PureComponent {
     }
   }
   authOtpVerify (otpCode) {
+    this.setState({isLoading: true})
     let userAuthData = this.state.userAuthData
     let dataToStorage = {
       otp_ref: userAuthData.otp_ref,
@@ -215,6 +227,8 @@ class seatMap extends PureComponent {
       .then((data) =>  {
         if (isChaining) {
           this.refSeatMapDisplay.current.setState({postingTicket: false})
+        } else {
+          this.setState({isLoading: false})
         }
         console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
@@ -236,16 +250,31 @@ class seatMap extends PureComponent {
       console.error('error', error);
     }
   }
+  renderEducate () {
+    const {entrySeatMap} = this.state
+    if (!entrySeatMap) {
+      return(
+      <div className="seatMap__educate" onClick={this.handleEntryMap.bind(this)}>
+        <div className="seatMap__educate-inner">
+          ดับเบิ้ลคลิก
+        </div>
+      </div>)
+    }
+  }
   componentDidMount() {
     this.getTheatre()
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap} = this.state;
+    let seatMapClassName = 'seatMap'
+    if (!entrySeatMap) {
+      seatMapClassName = seatMapClassName + ' beforeEntry'
+    }
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return <div className="loadingWrap"><img src={loading} className="loading"/></div>
     }
     if (!areaData) {
       return false
@@ -264,10 +293,10 @@ class seatMap extends PureComponent {
     }
     return (
       <Layout title="Select Seats">
-        <div className="seatMap">
+        <div className={seatMapClassName}>
           <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
           <SeatMapDisplay 
-            ref={this.refSeatMapDisplay} 
+            ref={this.refSeatMapDisplay}
             areaData={areaData} 
             SessionId={SessionId} 
             ticketData={ticketData} 
@@ -275,6 +304,7 @@ class seatMap extends PureComponent {
             bookSelectedSeats={this.bookSelectedSeats.bind(this)}
           ></SeatMapDisplay>
         </div>
+        {this.renderEducate()}
       </Layout>
     )
   }
