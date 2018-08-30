@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import isDblTouchTap from "../scripts/isDblTouchTap"
-
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import OTP from '../components/OTP'
 import GlobalHeader from '../components/GlobalHeader'
@@ -9,6 +8,7 @@ import loading from '../static/loading.gif'
 import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
+import { CSSTransition } from 'react-transition-group'
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
@@ -259,15 +259,13 @@ class seatMap extends PureComponent {
     }
   }
   renderEducate () {
-    const {entrySeatMap} = this.state
-    if (!entrySeatMap) {
-      return(
+    return(
       <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
         <div className="seatMap__educate-inner">
           ดับเบิ้ลคลิก
         </div>
-      </div>)
-    }
+      </div>
+    )
   }
   componentDidMount() {
     this.getTheatre()
@@ -313,7 +311,14 @@ class seatMap extends PureComponent {
             handleToggleZoomSeatsMap={this.handleToggleZoomSeatsMap.bind(this)}
           ></SeatMapDisplay>
         </div>
-        {this.renderEducate()}
+        <CSSTransition
+          in={!entrySeatMap}
+          classNames="overlayEducate"
+          timeout={300}
+          unmountOnExit
+        >
+          {this.renderEducate()}
+        </CSSTransition>
       </Layout>
     )
   }

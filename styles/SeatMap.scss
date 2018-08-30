@@ -365,9 +365,26 @@ $colorSeat3: #a0b0f4;
   justify-content: center;
   font-size: 1.4rem;
   color: #fff;
-  text-shadow: 0 1px 2px rgba(#000, 0.3);
-  background-color: rgba(#000, 0.45);
-
-  // opacity: 0;
-  // z-index: -1;
+  text-shadow: 0 2px 2px rgba(#000, 0.5);
+  background-color: rgba(#000, 0.4);
+  &.overlayEducate-enter {
+    .seatMap__educate-inner {
+      opacity: 0;
+      transform: translateY(30vh) scale(0.8);
+    }
+  }
+  &.overlayEducate-enter-active {
+    .seatMap__educate-inner {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition: all .3s;
+    }
+  }
+  &.overlayEducate-exit-active {
+    .seatMap__educate-inner {
+      opacity: 0;
+      transform: translateY(30vh) scale(0.8);
+      transition: all .3s;
+    }
+  }
 }
