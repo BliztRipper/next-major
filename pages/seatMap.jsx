@@ -24,7 +24,7 @@ class seatMap extends PureComponent {
       seatsSelected: null,
       otpShow: false,
       entrySeatMap: false,
-      userPhoneNumber: '0891916415',
+      userPhoneNumber: '0863693746',
       userAuthData: null,
       apiOtpHeader: {
         'Accept': 'application/json',
@@ -98,13 +98,21 @@ class seatMap extends PureComponent {
   handleBackButton () {
     Router.back()
   }
-  handleEntryMap (e) {
+  handleToggleZoomSeatsMap (e) {
     if (isDblTouchTap(e)) {
-      this.setState({
-        entrySeatMap: true
-      }, () => {
-        this.refSeatMapDisplay.current.styleSeatsContainer()
-      })
+      if (!this.state.entrySeatMap) {
+        this.setState({
+          entrySeatMap: true
+        }, () => {
+          this.refSeatMapDisplay.current.styleSeatsContainer()
+        })
+      } else {
+        this.setState({
+          entrySeatMap: false
+        }, () => {
+          this.refSeatMapDisplay.current.styleSeatsContainer()
+        })
+      }
     }
   }
   authOtpHasToken (seatSelected) {
@@ -254,7 +262,7 @@ class seatMap extends PureComponent {
     const {entrySeatMap} = this.state
     if (!entrySeatMap) {
       return(
-      <div className="seatMap__educate" onClick={this.handleEntryMap.bind(this)}>
+      <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
         <div className="seatMap__educate-inner">
           ดับเบิ้ลคลิก
         </div>
@@ -302,6 +310,7 @@ class seatMap extends PureComponent {
             ticketData={ticketData} 
             authOtpHasToken={this.authOtpHasToken.bind(this)}
             bookSelectedSeats={this.bookSelectedSeats.bind(this)}
+            handleToggleZoomSeatsMap={this.handleToggleZoomSeatsMap.bind(this)}
           ></SeatMapDisplay>
         </div>
         {this.renderEducate()}

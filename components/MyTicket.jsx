@@ -11,7 +11,7 @@ class MyTicket extends PureComponent {
       isLoading: true,
       isEmpty:true,
       error: null,
-      userPhoneNumber: '0891916415',
+      userPhoneNumber: '0863693746',
       dataMyTicket: {}
     }
     this.refTicket = React.createRef()

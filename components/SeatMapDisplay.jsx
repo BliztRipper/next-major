@@ -199,10 +199,12 @@ class SeatMapDisplay extends PureComponent {
     this.refSeatsMainInner.current.style.width = containerWidth + 'px'
     this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
   }
-  componentDidMount () {
-    setTimeout(() => {
-      this.styleSeatsContainer()
-    }, 150)
+  disableStyleSeatsContainer () {
+    let titleRowSpace = 50
+    document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
+    let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
+    this.refSeatsMainInner.current.style.width = containerWidth + 'px'
+    this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
   }
   componentWillMount () {
     this.state.areas.map(area => {
@@ -252,7 +254,7 @@ class SeatMapDisplay extends PureComponent {
     }
     return (
       <Fragment>
-        <div className="seatMapMain" ref={this.refSeatsMain}>
+        <div className="seatMapMain" ref={this.refSeatsMain} onClick={this.props.handleToggleZoomSeatsMap}>
           <div className="seatMapMain__inner" ref={this.refSeatsMainInner}>
             <div className="seatMapScreenWrap">
               <div className="seatMapScreen" ref={this.refScreen}>

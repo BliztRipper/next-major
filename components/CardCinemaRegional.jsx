@@ -20,7 +20,7 @@ class CardCinemaRegional extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/0891916415`)
+      fetch(`https://api-cinema.truemoney.net/FavCinemas/0863693746`)
       .then(response => response.json())
       .then(data => this.setState({dataCine:data}, function(){
         if(this.state.dataCine.data.CinemaIds != null){
@@ -38,7 +38,7 @@ class CardCinemaRegional extends PureComponent {
 
   favCineActiveClass() {
     let CinemaID = this.refs.cineIdProp.innerText
-    let phoneNum = '0891916415'
+    let phoneNum = '0863693746'
     if(this.state.favCineActive == true){
       this.setState({favCineActive: !this.state.favCineActive})
       fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${phoneNum}/${CinemaID}`)

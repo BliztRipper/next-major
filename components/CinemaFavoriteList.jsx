@@ -23,7 +23,7 @@ class CinemaFavoriteList extends PureComponent {
 
   componentDidMount(){
     try{
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/0891916415`)
+      fetch(`https://api-cinema.truemoney.net/FavCinemas/0863693746`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data, isLoading: false}))
       fetch(`https://api-cinema.truemoney.net/Branches`)
