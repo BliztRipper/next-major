@@ -2,6 +2,9 @@ import { PureComponent, Fragment } from 'react';
 import '../styles/cashier.scss'
 import QRCode from 'qrcode.react'
 import Link from 'next/link'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+const SweetAlert = withReactContent(Swal)
 
 class Ticket extends PureComponent {
   constructor(props) {
@@ -28,6 +31,12 @@ class Ticket extends PureComponent {
       VistaBookingNumber:''
     }
   }
+  handleClickQR () {
+    if (this.props.expired) return false
+    SweetAlert.fire({
+      html: this.renderQR(600)
+    })
+  }
   componentWillMount() {
     let dateObj = new Date();
     let month = dateObj.getUTCMonth() + 1; 
@@ -49,6 +58,16 @@ class Ticket extends PureComponent {
         <Link prefetch href="/">
           <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
         </Link>
+      </Fragment>
+    )
+  }
+  renderQR (size) {
+    return (
+      <Fragment>
+        <div className="qrContainer__qrcode">
+          <QRCode size={size} level={"H"} value={this.state.VistaBookingNumber}/>
+        </div>
+        <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
       </Fragment>
     )
   }
@@ -107,7 +126,7 @@ class Ticket extends PureComponent {
         </div>
         <div className={success? 'qrContainer success':'qrContainer'}>
           <div className="qrContainer__qrcode">
-            <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} />
+            <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} onClick={this.handleClickQR.bind(this)} />
           </div>
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>

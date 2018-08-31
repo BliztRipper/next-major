@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import isDblTouchTap from "../scripts/isDblTouchTap"
-
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import OTP from '../components/OTP'
 import GlobalHeader from '../components/GlobalHeader'
@@ -9,6 +8,7 @@ import loading from '../static/loading.gif'
 import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
+import { CSSTransition } from 'react-transition-group'
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
@@ -24,7 +24,7 @@ class seatMap extends PureComponent {
       seatsSelected: null,
       otpShow: false,
       entrySeatMap: false,
-      userPhoneNumber: '0891916415',
+      userPhoneNumber: '0863693746',
       userAuthData: null,
       apiOtpHeader: {
         'Accept': 'application/json',
@@ -98,13 +98,21 @@ class seatMap extends PureComponent {
   handleBackButton () {
     Router.back()
   }
-  handleEntryMap (e) {
+  handleToggleZoomSeatsMap (e) {
     if (isDblTouchTap(e)) {
-      this.setState({
-        entrySeatMap: true
-      }, () => {
-        this.refSeatMapDisplay.current.styleSeatsContainer()
-      })
+      if (!this.state.entrySeatMap) {
+        this.setState({
+          entrySeatMap: true
+        }, () => {
+          this.refSeatMapDisplay.current.styleSeatsContainer()
+        })
+      } else {
+        this.setState({
+          entrySeatMap: false
+        }, () => {
+          this.refSeatMapDisplay.current.styleSeatsContainer()
+        })
+      }
     }
   }
   authOtpHasToken (seatSelected) {
@@ -251,15 +259,13 @@ class seatMap extends PureComponent {
     }
   }
   renderEducate () {
-    const {entrySeatMap} = this.state
-    if (!entrySeatMap) {
-      return(
-      <div className="seatMap__educate" onClick={this.handleEntryMap.bind(this)}>
+    return(
+      <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
         <div className="seatMap__educate-inner">
           ดับเบิ้ลคลิก
         </div>
-      </div>)
-    }
+      </div>
+    )
   }
   componentDidMount() {
     this.getTheatre()
@@ -302,9 +308,17 @@ class seatMap extends PureComponent {
             ticketData={ticketData} 
             authOtpHasToken={this.authOtpHasToken.bind(this)}
             bookSelectedSeats={this.bookSelectedSeats.bind(this)}
+            handleToggleZoomSeatsMap={this.handleToggleZoomSeatsMap.bind(this)}
           ></SeatMapDisplay>
         </div>
-        {this.renderEducate()}
+        <CSSTransition
+          in={!entrySeatMap}
+          classNames="overlayEducate"
+          timeout={300}
+          unmountOnExit
+        >
+          {this.renderEducate()}
+        </CSSTransition>
       </Layout>
     )
   }

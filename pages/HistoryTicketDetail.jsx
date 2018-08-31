@@ -25,7 +25,6 @@ class HistoryTicketDetail extends PureComponent {
   renderTickets () {
     if (this.state.dataMyTicket) {
       return this.state.dataMyTicket.map((aTicket) => {
-        console.log(aTicket, 'aTicket')
         return (
           <Ticket ref={this.refTicket} dataTicket={aTicket} key={aTicket.VistaBookingId} hideButton={true} expired={true}></Ticket>
         )

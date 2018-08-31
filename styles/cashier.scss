@@ -29,9 +29,9 @@
     margin-bottom: 75px;
     &.expired {
       background-image: url('../static/exp-badge.png');
+      background-position: right 3rem;
       background-repeat: no-repeat;
-      background-position: 9rem 3rem;
-      background-size: 220px auto;
+      background-size: 45vw auto;
       .qrContainer__qrcode,
       .qrContainer__ref {
         color: #000;
@@ -243,5 +243,26 @@ $size: 10px;
   }
   &.success{
     display: block;
+  }
+}
+
+.swal2-content {
+  .qrContainer__qrcode {
+    position: relative;
+    padding-bottom: 100%;
+    margin-bottom: 5vw;
+    canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: 100% !important;
+      width: 100% !important;
+      margin: 0 !important;
+    }
+  } 
+  .qrContainer__ref {
+    font-size: 4vw;
   }
 }

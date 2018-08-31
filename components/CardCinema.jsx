@@ -10,14 +10,14 @@ class CardCinema extends PureComponent {
     }
   }
   componentDidMount() {
-    if(fetch(`https://api-cinema.truemoney.net/FavCinemas/0891916415`).then(response => response.json()).then(data => data != null)){
+    if(fetch(`https://api-cinema.truemoney.net/FavCinemas/0863693746`).then(response => response.json()).then(data => data != null)){
         this.setState({favCineActive:true})
       }
   }
   
   favCineActiveClass() {
     let CinemaID = this.props.item.ID
-    let phoneNum = '0891916415'
+    let phoneNum = '0863693746'
     if(this.state.favCineActive == false) {
       fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
       .then(this.setState({favCineActive: true}))
