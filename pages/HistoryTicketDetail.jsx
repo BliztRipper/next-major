@@ -35,23 +35,21 @@ class HistoryTicketDetail extends PureComponent {
     // dummy api
     this.state.isLoading = false
     this.state.isEmpty = false
-    for (let index = 0; index < 3; index++) {
-      this.state.dataMyTicket.push({
-        BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
-        BookingMovie: 'Destination Wedding',
-        BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
-        BookingGenre: 'Comedy/Drama/Romance',
-        BookingDuration: 86,
-        BookingCinema: 'Dummy Cinema',
-        BookingTime: '00:01',
-        BookingScreenName: 'Dummy Screen Name',
-        BookingSeat: 'Dummy Seats',
-        BookingAttributesNames: 'Dummy AttributesNames',
-        BookingPriceDisplay: 100,
-        VistaBookingNumber: 'VistaBookingNumber',
-        VistaBookingId: 'VistaBookingId'
-      })
-    }
+    this.state.dataMyTicket.push({
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
+      BookingMovie: 'Destination Wedding',
+      BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
+      BookingGenre: 'Comedy/Drama/Romance',
+      BookingDuration: 86,
+      BookingCinema: 'Dummy Cinema',
+      BookingTime: '00:01',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 100,
+      VistaBookingNumber: 'VistaBookingNumber',
+      VistaBookingId: 'VistaBookingId'
+    })
     
   }
   render () {
