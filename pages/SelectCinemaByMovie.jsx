@@ -7,6 +7,10 @@ import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
 import Swal from 'sweetalert2'
 
+const TheaterHead = (props) => (
+  <h4>โรงภาพยนต์ {props.name}</h4>
+)
+
 class CinemaMovieInfo extends PureComponent {
   state = {
     isToggle: true
@@ -51,7 +55,9 @@ class MainSelectCinemaByMovie extends PureComponent {
       error: null,
       serverTime:'',
       isEmpty:false,
-      nowShowing:[]
+      nowShowing:[],
+      branchData:[],
+      theaterArr:[],
     }
   }
 
@@ -68,36 +74,63 @@ class MainSelectCinemaByMovie extends PureComponent {
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
-      .then(data =>  this.setState({data:data.data, serverTime:data.server_time,isLoading: false}))
+      .then(data =>  {
+        this.setState({data:data.data, serverTime:data.server_time})
+        let dataSchedule = data.data
+        fetch(`https://api-cinema.truemoney.net/Branches`).then(response => response.json())
+        .then(data=> {
+          let dataBranch = data.data
+          this.renderHeadCinema(dataSchedule, dataBranch)
+          this.setState({branchData:data.data, isLoading: false})
+        })
+      })
+
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
   }
 
+  renderHeadCinema(dataSchedule, dataBranch){
+    dataSchedule.map(cineid=>{
+      dataBranch.map(branch=>{
+        if(branch.ID === cineid.CinemaId){
+          this.state.theaterArr.push( {
+            Name:branch.Name,
+            Id:branch.ID,
+            Theaters:cineid.Theaters
+          })
+        }
+      })
+    })
+    this.setState({theaterArr: this.state.theaterArr})
+  }
+
+  
   getTimetable(){
     let resultsArray = {
       info:[],
-      time:[]
+      theater:[],
+      time:[],
     }
     resultsArray.info.push(<CinemaMovieInfo item={this.state.nowShowing}/>)
-    this.state.data.map(theaters=>{
-        Object.keys(theaters.Theaters).map(key => {
-        if(theaters.Theaters[key].SessionAttributesNames = 'EN/TH'){
-          theaters.Theaters[key].SessionAttributesNames = 'อังกฤษ'
-        }
-        resultsArray.time.push(<CinemaTimeTable key={theaters.Theaters[key].ScreenName} name='fromMovie' itemTheaterInfo={theaters.Theaters[key]} item={theaters.Theaters[key]} serverTime={this.state.serverTime}/>)   
-      });    
+    this.state.theaterArr.map(theaters=>{
+      resultsArray.theater.push(<TheaterHead name={theaters.Name} id={theaters.Id}/>, resultsArray.time)
+          Object.keys(theaters.Theaters).map(key => {
+          if(theaters.Theaters[key].SessionAttributesNames = 'EN/TH'){
+            theaters.Theaters[key].SessionAttributesNames = 'อังกฤษ'
+          }
+          this.state.nowShowing.movieCode.map(movieCode => {
+            if(theaters.Theaters[key].ScheduledFilmId === movieCode) {
+              resultsArray.time.push(<CinemaTimeTable key={theaters.Theaters[key].ScreenName} cineName={theaters.Name} cineId={theaters.Id} name='fromMovie' item={theaters.Theaters[key]} serverTime={this.state.serverTime}/>)   
+            }
+          })
+        })
     })
     return resultsArray
   }
 
-
-  renderMovie(){
-    return(<CinemaMovieInfo item={this.state.nowShowing}/>)
-  }
-
   render() {      
-    const {isLoading, error, isEmpty} = this.state;    
+    const {isLoading, error, isEmpty, theaterArr} = this.state;    
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -112,19 +145,20 @@ class MainSelectCinemaByMovie extends PureComponent {
     sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
-    console.log(this.state.data);
-    
-    return (      
-      <Layout title="Select Movie">
-        {/* <section className="date-filter">
-        {this.renderByDate()}
-        </section> */}
-        <article className="movie-card"> 
-        {this.getTimetable().info}
-        {this.getTimetable().time}
-        </article>
-      </Layout>
-    );
+    if (theaterArr.length) {
+      return (      
+        <Layout title="Select Movie">
+          {/* <section className="date-filter">
+          {this.renderByDate()}
+          </section> */}
+          <article className="movie-card"> 
+          {this.getTimetable().info}
+          {this.getTimetable().theater}
+          </article>
+        </Layout>
+      );
+
+    }
   }
 }
 

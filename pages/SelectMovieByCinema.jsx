@@ -140,7 +140,7 @@ class MainSelectMovieByCinema extends PureComponent {
       })
     }) 
     this.setState({dataSchedule:movies})
-    if(this.state.data.length <= 0){
+    if(this.state.data.length <= 0 || this.state.dataSchedule.length <= 0){
       this.setState({isEmpty:true})
     }
   }

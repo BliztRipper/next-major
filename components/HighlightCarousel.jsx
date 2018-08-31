@@ -3,6 +3,18 @@ import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
 
+// const PosterItem = (props) => (
+//   <Fragment>
+//     <img className='highlight__poster' src={props.item.poster_ori != "" ? props.item.poster_ori:'./static/img-placeholder.png'}/>
+//     <Link prefetch href="/SelectCinemaByMovie">
+//       <a className="highlight__book-btn">ซื้อตั๋ว</a>
+//     </Link>
+//     <span className='highlight__title'>{props.item.title_en}</span>
+//     <span className='highlight__subtitle'>{props.item.title_th}</span>
+//     <span className='highlight__genre'>{props.item.genre}</span>
+//   </Fragment>
+// )
+
 class HighlightCarousel extends PureComponent {
   constructor(props) {
     super(props);
@@ -23,6 +35,12 @@ class HighlightCarousel extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
+
+  movieDetails(item){
+    let props = JSON.stringify(item)
+    sessionStorage.setItem('movieSelect',props)
+  }
+
   render() {
     const {dataObj, isLoading, error} = this.state;
     if (error) {
@@ -43,7 +61,6 @@ class HighlightCarousel extends PureComponent {
       sessionStorage.setItem("now_showing", JSON.stringify(items))
     })()}
     
-
     const settings = {
       className: "center",
       centerMode: true,
@@ -57,15 +74,15 @@ class HighlightCarousel extends PureComponent {
       slidesToScroll: 1,
       touchThreshold: 8
     }
-    
     return (
       <div className='highlight'>
         <Slider {...settings}>
+          {/* {this.movieProps()} */}
           {dataObj.map((item,i) =>
                 <Fragment key={i}>
                   <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-                  <Link prefetch href="/SelectMovieByCinema">
-                    <a className="highlight__book-btn">ซื้อตั๋ว</a>
+                  <Link prefetch href="/SelectCinemaByMovie">
+                    <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
                   </Link>
                   {(() => {
                     if(item.title_en === item.title_th){

@@ -10,6 +10,7 @@ const PostLink = (props) => (
 class CinemaTimeTable extends PureComponent {
   constructor(props) {
     super(props);
+    console.log(this.props.item)
     this.state = {
       dataToSeatmap: ''
     }
@@ -22,8 +23,8 @@ class CinemaTimeTable extends PureComponent {
       sessionStorage.setItem('BookingTime',target)
       sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
       sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
-      sessionStorage.setItem('CinemaID',this.props.cinemaID)
-      // sessionStorage.setItem('BookingCinema',name)
+      sessionStorage.setItem('CinemaID',this.props.cineId)
+      sessionStorage.setItem('BookingCinema',this.props.cineName)
     } else {
       let target = event.target || event.srcElement
       target = target.innerHTML
