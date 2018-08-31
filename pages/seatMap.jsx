@@ -9,10 +9,12 @@ import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
+
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      serverTime: '',
       CinemaId: '',
       SessionId: '',
       dataSeatPlan: null,
@@ -34,11 +36,24 @@ class seatMap extends PureComponent {
     }
     this.refSeatMapDisplay = React.createRef()
     this.refOTP = React.createRef()
+    this.getStringDateTime('2018-08-31T06:03:09Z')
   }
   goToHome () {
     Router.push({
       pathname: '/'
     })
+  }
+  getStringDateTime (time) {
+    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
+    let dateTimeArr = regexDateTime.exec(time)
+    console.log(dateTimeArr);
+    return {
+      origin: dateTimeArr[0],
+      year: dateTimeArr[1],
+      month: dateTimeArr[2],
+      day: dateTimeArr[3],
+      time: dateTimeArr[4]
+    }
   }
   getTheatre () {
     this.state.CinemaId = sessionStorage.getItem('CinemaID')
@@ -84,6 +99,7 @@ class seatMap extends PureComponent {
           })
           if (tickets[0]) matchTicketData.push(tickets[0])
         })
+
         this.setState({
           dataSeatPlan: this.state.dataSeatPlan,
           areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,

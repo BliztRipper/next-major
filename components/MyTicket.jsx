@@ -1,4 +1,4 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import Ticket from './Ticket'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
@@ -8,6 +8,7 @@ class MyTicket extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      serverTime: '2018-08-31T01:04:09Z',
       isLoading: true,
       isEmpty:true,
       error: null,
@@ -15,6 +16,19 @@ class MyTicket extends PureComponent {
       dataMyTicket: {}
     }
     this.refTicket = React.createRef()
+  }
+  getStringDateTime (time) {
+    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
+    let dateTimeArr = regexDateTime.exec(time)
+    return {
+      origin: dateTimeArr[0],
+      year: dateTimeArr[1],
+      month: dateTimeArr[2],
+      day: dateTimeArr[3],
+      time: dateTimeArr[4],
+      hour: dateTimeArr[4].split(':')[0],
+      minute: dateTimeArr[4].split(':')[1]
+    }
   }
   getTickets () {
     try{
@@ -35,10 +49,17 @@ class MyTicket extends PureComponent {
     }    
   }
   renderTickets () {
+    let expired = false
+    let maxHourForExpried = 3
+    let serverHourToMinute = (parseInt(this.getStringDateTime(this.state.serverTime).hour) + maxHourForExpried) * 60
+    let serverMinute = parseInt(this.getStringDateTime(this.state.serverTime).minute)
     if (this.state.dataMyTicket) {
-      return this.state.dataMyTicket.map((item) => {
+      return this.state.dataMyTicket.map((ticket, ticketIndex) => {
+        let ticketBookedFromHourToMinute = parseInt(ticket.BookingTime.split(':')[0]) * 60
+        let ticketBookedMinute = parseInt(ticket.BookingTime.split(':')[1]) - ticketIndex
+        expired = ( ticketBookedFromHourToMinute + ticketBookedMinute ) > ( serverHourToMinute + serverMinute )
         return (
-          <Ticket ref={this.refTicket} dataTicket={item} key={item.VistaBookingId} hideButton={true}></Ticket>
+          <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId} expired={expired} hideButton={true}></Ticket>
         )
       })
     }
@@ -58,7 +79,7 @@ class MyTicket extends PureComponent {
         BookingGenre: 'Comedy/Drama/Romance',
         BookingDuration: 86,
         BookingCinema: 'Dummy Cinema',
-        BookingTime: '00:01',
+        BookingTime: '04:05',
         BookingScreenName: 'Dummy Screen Name',
         BookingSeat: 'Dummy Seats',
         BookingAttributesNames: 'Dummy AttributesNames',

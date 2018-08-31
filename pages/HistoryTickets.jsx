@@ -13,6 +13,20 @@ class HistoryTickets extends PureComponent {
       isLoading: true,
       isEmpty:true,
       error: null,
+      serverTime: '2018-03-31T01:04:09Z'
+    }
+  }
+  getStringDateTime (time) {
+    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
+    let dateTimeArr = regexDateTime.exec(time)
+    return {
+      origin: dateTimeArr[0],
+      year: dateTimeArr[1],
+      month: dateTimeArr[2],
+      day: dateTimeArr[3],
+      time: dateTimeArr[4],
+      hour: dateTimeArr[4].split(':')[0],
+      minute: dateTimeArr[4].split(':')[1]
     }
   }
   handleBackButton () {
@@ -39,7 +53,7 @@ class HistoryTickets extends PureComponent {
   }
   renderHistoryLists (aMonthIndex) {
     let lists = []
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 3; index++) {
       lists[index] = index
     }
     if (aMonthIndex === 0) {
@@ -51,16 +65,22 @@ class HistoryTickets extends PureComponent {
     }
   }
   renderHistoryGroupByMonth () {
+    let maxMonths = 3
+    let year = 2018
     let listsMonth = [ 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ]
+    let serverYearToMonth = parseInt(this.getStringDateTime(this.state.serverTime).year) * 12
+    let serverMonth = parseInt(this.getStringDateTime(this.state.serverTime).month) + maxMonths
     return listsMonth.map((aMonth, aMonthIndex) => {
-      return (
-      <div className="historyTickets__group" key={aMonth}>
-        <div className="historyTickets__title">{aMonth} 2017</div>
-        <div className="historyTickets__lists">
-          {this.renderHistoryLists(aMonthIndex)}
-        </div>
-      </div>
-      )
+      if ((year * 12) + aMonthIndex < serverYearToMonth + serverMonth) {
+        return (
+          <div className="historyTickets__group" key={aMonth}>
+            <div className="historyTickets__title">{aMonth} {year}</div>
+            <div className="historyTickets__lists">
+              {this.renderHistoryLists(aMonthIndex)}
+            </div>
+          </div>
+        )
+      }
     })
   }
   componentWillMount() {
