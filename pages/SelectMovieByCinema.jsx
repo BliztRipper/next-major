@@ -140,7 +140,7 @@ class MainSelectMovieByCinema extends PureComponent {
       })
     }) 
     this.setState({dataSchedule:movies})
-    if(this.state.data.length <= 0 || this.state.dataSchedule.length <= 0){
+    if(this.state.data.length <= 0){
       this.setState({isEmpty:true})
     }
   }
@@ -156,7 +156,11 @@ class MainSelectMovieByCinema extends PureComponent {
         cinemaTimetable.push(this.state.dataSchedule[item])
       })
       cinemaTimetable.map((theaters,i)=>{
-        resultsArray.info.push(<CinemaMovieInfo key={i} item={theaters}/>, resultsArray.time)
+          theaters.showtimes.map(showtime=>{
+            if(new Date(showtime).getDate() === new Date().getDate()){
+              resultsArray.info.push(<CinemaMovieInfo key={i} item={theaters}/>, resultsArray.time)
+            }
+          })
         theaters.theaters.forEach((element,j) => {
           if(element.SessionAttributesNames = 'EN/TH'){
             element.SessionAttributesNames = 'อังกฤษ'
