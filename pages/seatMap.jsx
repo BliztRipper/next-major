@@ -140,7 +140,7 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 200) {
+        if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats(true)
         } else {
           this.authOtpGetOtp(true)
@@ -249,15 +249,11 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if (isChaining) {
-          this.refSeatMapDisplay.current.setState({postingTicket: false})
-        } else {
-          this.setState({isLoading: false})
-        }
         console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
           Router.push({ pathname: '/Cashier' })
+          sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userPhoneNumber)
         } else if(data.status_code === 400 && data.description === 'Selected seats unavailable.') {
@@ -268,6 +264,11 @@ class seatMap extends PureComponent {
             showConfirmButton: false,
             timer: 4000
           })
+        }
+        if (isChaining) {
+          this.refSeatMapDisplay.current.setState({postingTicket: false})
+        } else {
+          this.setState({isLoading: false})
         }
       })
     } catch (error) {
