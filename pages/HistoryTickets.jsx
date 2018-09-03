@@ -72,7 +72,7 @@ class HistoryTickets extends PureComponent {
     let serverYearToMonth = parseInt(this.getStringDateTime(this.state.serverTime).year) * 12
     let serverMonth = parseInt(this.getStringDateTime(this.state.serverTime).month) + maxMonths
     return listsMonth.map((aMonth, aMonthIndex) => {
-      if ((year * 12) + aMonthIndex < serverYearToMonth + serverMonth) {
+      if ((year * 12) + aMonthIndex > serverYearToMonth + serverMonth) {
         return (
           <div className="historyTickets__group" key={aMonth}>
             <div className="historyTickets__title">{aMonth} {year}</div>
