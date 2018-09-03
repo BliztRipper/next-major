@@ -12,6 +12,7 @@
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-display: swap;
+  --colorTheme: #ff8300;
 }
 
 body{
@@ -172,7 +173,7 @@ body{
     display: block
   }
   &__book-btn{
-    @include buttonTheme(#ff8300, #ffffff);
+    @include buttonTheme(var(--colorTheme), #ffffff);
   }
 }
 .showing{

@@ -1,3 +1,3 @@
 .btnTheme {
-  @include buttonTheme(#ff8300, #ffffff);
+  @include buttonTheme(var(--colorTheme), #ffffff);
 }

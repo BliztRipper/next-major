@@ -16,6 +16,27 @@ class HistoryTickets extends PureComponent {
       serverTime: '2018-03-31T01:04:09Z'
     }
   }
+  sortTicketByTime (arr) {
+    function compareNumerically (a, b) {
+      function convertTimeToMins(timeStr) {
+        return parseInt(timeStr.split(':')[0]) * 60 + parseInt(timeStr.split(':')[1])
+      }
+      let timeA = convertTimeToMins(a.BookingTime)
+      let timeB = convertTimeToMins(b.BookingTime)
+      return timeA - timeB
+    }
+    return arr.sort(compareNumerically)
+  }
+  sortTicketByTitleEN (arr) {
+    function compareAlphabet (a, b) {
+      if (a.BookingMovie < b.BookingMovie)
+        return -1;
+      if (a.BookingMovie > b.BookingMovie)
+        return 1;
+      return 0;
+    }
+    return arr.sort(compareAlphabet)
+  }
   getStringDateTime (time) {
     let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     let dateTimeArr = regexDateTime.exec(time)
