@@ -60,11 +60,9 @@ class CinemaTimeTable extends PureComponent {
       // let d = new Date('2018-08-29T00:55:00')
       let d = new Date(this.props.serverTime)
       let today = '0'+this.props.pickedDate.toString()
-      
       //Get date and time for today
       let now = new Date()
       let nowtime = now.getTime()
-            
       //Get date and time each schedule
       let arrayDate
       while ((arrayDate = regex1.exec(time)) !== null) {}

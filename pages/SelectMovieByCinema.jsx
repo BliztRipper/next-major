@@ -53,7 +53,7 @@ class MainSelectMovieByCinema extends PureComponent {
       dataSchedule:null,
       serverTime:'',
       isEmpty:false,
-      pickThisDay: new Date().getDate()
+      pickThisDay: new Date().getDate().toString()
     }
   }
 
@@ -112,15 +112,13 @@ class MainSelectMovieByCinema extends PureComponent {
 
   getShowtimesInMovie(movie, serverTime){
     let countShowtime = 0
-    var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
+    var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g')
     movie.theaters.forEach(theather => {
       theather.Showtimes.map(time=>{
         //Sync with Server Time      
-        // let d = new Date('2018-08-29T00:55:00')
         let d = new Date(serverTime)
         let today = this.dd(d)
         //Get date and time for today
-        // let now = new Date('2018-08-29T00:55:00')
         let now = new Date()
         let nowtime = now.getTime()
         
@@ -128,7 +126,6 @@ class MainSelectMovieByCinema extends PureComponent {
         let arrayDate
         while ((arrayDate = regex1.exec(time)) !== null) {}
         arrayDate = regex1.exec(time)
-        
         if (today === arrayDate[3]) {
           let splitHours = arrayDate[4].slice(0,2)
           let splitMins= arrayDate[4].slice(-2)
@@ -230,7 +227,7 @@ class MainSelectMovieByCinema extends PureComponent {
       dateArray.map((item,i)=>{
         for(var i=0; i < item.showtimes.length; i++){
           let toDateFormat = new Date(item.showtimes[i])
-          let getDate = toDateFormat.getDate()
+          let getDate = toDateFormat.getDate().toString()
           pureDateArray.push(getDate)
         }
       })

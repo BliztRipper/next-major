@@ -57,7 +57,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       nowShowing:[],
       branchData:[],
       theaterArr:[],
-      pickThisDay: new Date().getDate()
+      pickThisDay: '0'+new Date().getDate()
     }
   }
 
@@ -132,9 +132,9 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   filterByDate(){
+    let regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     let dateArray = []
     let pureDateArray = []
-    console.log(this.state.data,'state data')
     if(this.state.data != null){
       this.state.data.map(date=>{
         Object.keys(date.Theaters).map(key => {
@@ -143,9 +143,11 @@ class MainSelectCinemaByMovie extends PureComponent {
       }) 
       dateArray.map((item,i)=>{
         for(var i=0; i < item.length; i++){
-          let toDateFormat = new Date(item[i])
-          let getDate = toDateFormat.getDate()
-          pureDateArray.push(getDate)
+          let toDateFormat = item[i]
+          let arrayDate
+          while ((arrayDate = regex1.exec(toDateFormat)) !== null) {}
+          arrayDate = regex1.exec(toDateFormat)
+          pureDateArray.push(arrayDate[3])
         }
       })
     }
