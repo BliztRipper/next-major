@@ -29,8 +29,6 @@ class seatMap extends PureComponent {
       userPhoneNumber: '0863693746',
       userAuthData: null,
       apiOtpHeader: {
-        // 'Accept': 'application/json',
-        // 'Content-Type': 'application/json',
         'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae'
       }
     }
