@@ -3,6 +3,7 @@ import Ticket from './Ticket'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
 import Link from 'next/link'
+import sortTickets from '../scripts/sortTickets'
 
 class ButtonHistory extends PureComponent {
   render () {
@@ -25,27 +26,6 @@ class MyTicket extends PureComponent {
       dataMyTicket: []
     }
     this.refTicket = React.createRef()
-  }
-  sortTicketByTime (arr) {
-    function compareNumerically (a, b) {
-      function convertTimeToMins(timeStr) {
-        return parseInt(timeStr.split(':')[0]) * 60 + parseInt(timeStr.split(':')[1])
-      }
-      let timeA = convertTimeToMins(a.BookingTime)
-      let timeB = convertTimeToMins(b.BookingTime)
-      return timeA - timeB
-    }
-    return arr.sort(compareNumerically)
-  }
-  sortTicketByTitleEN (arr) {
-    function compareAlphabet (a, b) {
-      if (a.BookingMovie < b.BookingMovie)
-        return -1;
-      if (a.BookingMovie > b.BookingMovie)
-        return 1;
-      return 0;
-    }
-    return arr.sort(compareAlphabet)
   }
   getStringDateTime (time) {
     let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
@@ -145,8 +125,8 @@ class MyTicket extends PureComponent {
       VistaBookingNumber: 'VistaBookingNumber Khun-Pun 2',
       VistaBookingId: 'VistaBookingId Khun-Pun 2'
     })
-    // this.state.dataMyTicket = this.sortTicketByTime(this.state.dataMyTicket)
-    this.state.dataMyTicket = this.sortTicketByTitleEN(this.state.dataMyTicket)
+    // this.state.dataMyTicket = sortTickets.byTime(this.state.dataMyTicket)
+    this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }
   render () {
     const {isLoading, error,isEmpty} = this.state;
