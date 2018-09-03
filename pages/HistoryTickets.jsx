@@ -5,6 +5,7 @@ import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
 import Router from 'next/router'
+import utilities from '../scripts/utilities'
 import sortTickets from '../scripts/sortTickets'
 
 class HistoryTickets extends PureComponent {
@@ -15,19 +16,6 @@ class HistoryTickets extends PureComponent {
       isEmpty:true,
       error: null,
       serverTime: '2018-03-31T01:04:09Z'
-    }
-  }
-  getStringDateTime (time) {
-    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
-    let dateTimeArr = regexDateTime.exec(time)
-    return {
-      origin: dateTimeArr[0],
-      year: dateTimeArr[1],
-      month: dateTimeArr[2],
-      day: dateTimeArr[3],
-      time: dateTimeArr[4],
-      hour: dateTimeArr[4].split(':')[0],
-      minute: dateTimeArr[4].split(':')[1]
     }
   }
   handleBackButton () {
@@ -69,8 +57,8 @@ class HistoryTickets extends PureComponent {
     let maxMonths = 3
     let year = 2018
     let listsMonth = [ 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ]
-    let serverYearToMonth = parseInt(this.getStringDateTime(this.state.serverTime).year) * 12
-    let serverMonth = parseInt(this.getStringDateTime(this.state.serverTime).month) + maxMonths
+    let serverYearToMonth = parseInt(utilities.getStringDateTime(this.state.serverTime).year) * 12
+    let serverMonth = parseInt(utilities.getStringDateTime(this.state.serverTime).month) + maxMonths
     return listsMonth.map((aMonth, aMonthIndex) => {
       if ((year * 12) + aMonthIndex > serverYearToMonth + serverMonth) {
         return (

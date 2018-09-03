@@ -4,6 +4,7 @@ import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
 import Link from 'next/link'
 import sortTickets from '../scripts/sortTickets'
+import utilities from '../scripts/utilities'
 
 class ButtonHistory extends PureComponent {
   render () {
@@ -27,19 +28,7 @@ class MyTicket extends PureComponent {
     }
     this.refTicket = React.createRef()
   }
-  getStringDateTime (time) {
-    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
-    let dateTimeArr = regexDateTime.exec(time)
-    return {
-      origin: dateTimeArr[0],
-      year: dateTimeArr[1],
-      month: dateTimeArr[2],
-      day: dateTimeArr[3],
-      time: dateTimeArr[4],
-      hour: dateTimeArr[4].split(':')[0],
-      minute: dateTimeArr[4].split(':')[1]
-    }
-  }
+
   getTickets () {
     try{
       fetch(`https://api-cinema.truemoney.net/MyTickets/${this.state.userPhoneNumber}`)
@@ -61,8 +50,8 @@ class MyTicket extends PureComponent {
   renderTickets () {
     let expired = false
     let maxHourForExpried = 3
-    let serverHourToMinute = (parseInt(this.getStringDateTime(this.state.serverTime).hour) + maxHourForExpried) * 60
-    let serverMinute = parseInt(this.getStringDateTime(this.state.serverTime).minute)
+    let serverHourToMinute = (parseInt(utilities.getStringDateTime(this.state.serverTime).hour) + maxHourForExpried) * 60
+    let serverMinute = parseInt(utilities.getStringDateTime(this.state.serverTime).minute)
     if (this.state.dataMyTicket) {
       return this.state.dataMyTicket.map((ticket, ticketIndex) => {
         let ticketBookedFromHourToMinute = parseInt(ticket.BookingTime.split(':')[0]) * 60
