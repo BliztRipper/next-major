@@ -10,7 +10,6 @@ const PostLink = (props) => (
 class CinemaTimeTable extends PureComponent {
   constructor(props) {
     super(props);
-    console.log(this.props.item)
     this.state = {
       dataToSeatmap: ''
     }
@@ -50,7 +49,9 @@ class CinemaTimeTable extends PureComponent {
       //Sync with Server Time      
       // let d = new Date('2018-08-29T00:55:00')
       let d = new Date(this.props.serverTime)
-      let today = d.getDate().toString()
+      let today = this.props.pickedDate.toString()
+      console.log(today,'today');
+      
       //Get date and time for today
       // let now = new Date('2018-08-29T00:55:00')
       let now = new Date()
@@ -75,9 +76,9 @@ class CinemaTimeTable extends PureComponent {
           ...this.props.item,
           SessionId: this.props.item.SessionIds[i]
         }
-        resultArray.push(          
-        <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
-      )
+        resultArray.push(
+          <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
+        )
       }
     })
     if (resultArray.length > 0) {

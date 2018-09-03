@@ -334,6 +334,9 @@ body{
   &__container{
     display: flex;
     margin-top: 1rem;
+    &.active{
+      display: none;
+    }
   }
   &__wrapper{
     flex-direction: column;
@@ -540,6 +543,7 @@ body{
         display: flex;
         justify-content: space-around;
         background-color: #fff;
+        z-index: 1;
       }
       &__tabs-container{
         display: flex;

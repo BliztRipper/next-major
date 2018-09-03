@@ -77,7 +77,6 @@ class HighlightCarousel extends PureComponent {
     return (
       <div className='highlight'>
         <Slider {...settings}>
-          {/* {this.movieProps()} */}
           {dataObj.map((item,i) =>
                 <Fragment key={i}>
                   <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>

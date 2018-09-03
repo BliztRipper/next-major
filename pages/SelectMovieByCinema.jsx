@@ -53,11 +53,12 @@ class MainSelectMovieByCinema extends PureComponent {
       dataSchedule:null,
       serverTime:'',
       isEmpty:false,
+      pickThisDay: new Date().getDate()
     }
   }
 
   //this function done after render
-  componentWillMount() {
+  componentDidMount() {
     try {
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("now_showing"))})
       fetch(`https://api-cinema.truemoney.net/Schedule`,{
@@ -77,6 +78,10 @@ class MainSelectMovieByCinema extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
+
+  componentDidUpdate() {
+    
+ }
 
   getTitleById(filmId) {
     let info = null
@@ -101,6 +106,42 @@ class MainSelectMovieByCinema extends PureComponent {
       })
       return info
     }
+  }
+
+  getShowtimesInMovie(movie, serverTime){
+    let countShowtime = 0
+    var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
+    movie.theaters.forEach((theather,j) => {
+      theather.Showtimes.map((time,i)=>{
+        //Sync with Server Time      
+        // let d = new Date('2018-08-29T00:55:00')
+        let d = new Date(serverTime)
+        let today = d.getDate().toString()
+        //Get date and time for today
+        // let now = new Date('2018-08-29T00:55:00')
+        let now = new Date()
+        let nowtime = now.getTime()
+              
+        //Get date and time each schedule
+        let arrayDate
+        while ((arrayDate = regex1.exec(time)) !== null) {}
+        arrayDate = regex1.exec(time);
+        if (today === arrayDate[3]) {
+          let splitHours = arrayDate[4].slice(0,2)
+          let splitMins= arrayDate[4].slice(-2)
+          let movieTime = now.setHours(splitHours,splitMins)
+          let format = arrayDate[4]
+          let movienowtimeMoreThanNowtime = ''
+          if(movieTime > nowtime){
+            movienowtimeMoreThanNowtime = false
+          } else {
+            movienowtimeMoreThanNowtime = true
+          }
+          countShowtime++
+        }
+      })
+    })
+    return countShowtime
   }
 
   dataForSchedule(){
@@ -144,7 +185,6 @@ class MainSelectMovieByCinema extends PureComponent {
       this.setState({isEmpty:true})
     }
   }
-
   getTimetable(){
     let cinemaTimetable = []
     let resultsArray = {
@@ -155,33 +195,32 @@ class MainSelectMovieByCinema extends PureComponent {
       Object.keys(this.state.dataSchedule).map(item=> {
         cinemaTimetable.push(this.state.dataSchedule[item])
       })
-      cinemaTimetable.map((theaters,i)=>{
-          theaters.showtimes.map(showtime=>{
-            if(new Date(showtime).getDate() === new Date().getDate()){
-              resultsArray.info.push(<CinemaMovieInfo key={i} item={theaters}/>, resultsArray.time)
+      cinemaTimetable.map((movie,i)=>{
+        let countShowtimes = this.getShowtimesInMovie(movie, this.state.serverTime)
+        if (countShowtimes > 0) {          
+          //push loop in movies
+          resultsArray.info.push(<CinemaMovieInfo key={i} item={movie}/>, resultsArray.time)
+          movie.theaters.forEach((element,j) => {
+            if(element.SessionAttributesNames = 'EN/TH'){
+              element.SessionAttributesNames = 'อังกฤษ'
             }
-          })
-        theaters.theaters.forEach((element,j) => {
-          if(element.SessionAttributesNames = 'EN/TH'){
-            element.SessionAttributesNames = 'อังกฤษ'
-          }
-        resultsArray.time.push(<CinemaTimeTable key={'theaters' + i + 'element' + j} itemTheaterInfo={theaters} item={element} serverTime={this.state.serverTime}/>)   
-        });    
+            //push loop in theaters
+            resultsArray.time.push(<CinemaTimeTable key={'theaters' + i + 'element' + j} itemTheaterInfo={movie} pickedDate={this.state.pickThisDay} item={element} serverTime={this.state.serverTime} showtimeCount={0}/>)
+          })  
+        }
         resultsArray.time = []
       })
     }
     return resultsArray
   }
 
-  filterThisDay(){
-    let dayretrive = this.refs.showtoday.innerText
-    console.log(dayretrive);
+  pickThisDay(item){
+    this.setState({pickThisDay:item})
   }
 
-  renderByDate(){
+  filterByDate(){
     let dateArray = []
     let pureDateArray = []
-    let todaydate = new Date().getDate()
     if(this.state.dataSchedule != null){
       Object.keys(this.state.dataSchedule).map(date=>{
         dateArray.push(this.state.dataSchedule[date])
@@ -198,9 +237,9 @@ class MainSelectMovieByCinema extends PureComponent {
    return(
     uniArr.map(item=>{
       let isToday = ''
-      if(todaydate === item){isToday = true}else{isToday = false}
+      if(this.state.pickThisDay === item){isToday = true}else{isToday = false}
         return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.filterThisDay.bind(this)} ref="showtoday" name={item}>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>วันที่ {item}</span></a>
         )
     })
    )
@@ -226,7 +265,7 @@ class MainSelectMovieByCinema extends PureComponent {
     return (      
       <Layout title="Select Movie">
         <section className="date-filter">
-        {this.renderByDate()}
+        {this.filterByDate()}
         </section>
         <article className="movie-card"> 
           {this.getTimetable().info}
