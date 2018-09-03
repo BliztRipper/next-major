@@ -3,18 +3,6 @@ import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
 
-// const PosterItem = (props) => (
-//   <Fragment>
-//     <img className='highlight__poster' src={props.item.poster_ori != "" ? props.item.poster_ori:'./static/img-placeholder.png'}/>
-//     <Link prefetch href="/SelectCinemaByMovie">
-//       <a className="highlight__book-btn">ซื้อตั๋ว</a>
-//     </Link>
-//     <span className='highlight__title'>{props.item.title_en}</span>
-//     <span className='highlight__subtitle'>{props.item.title_th}</span>
-//     <span className='highlight__genre'>{props.item.genre}</span>
-//   </Fragment>
-// )
-
 class HighlightCarousel extends PureComponent {
   constructor(props) {
     super(props);
@@ -78,21 +66,21 @@ class HighlightCarousel extends PureComponent {
       <div className='highlight'>
         <Slider {...settings}>
           {dataObj.map((item,i) =>
-                <Fragment key={i}>
-                  <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-                  <Link prefetch href="/SelectCinemaByMovie">
-                    <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
-                  </Link>
-                  {(() => {
-                    if(item.title_en === item.title_th){
-                       item.title_th = ''
-                    } 
-                  })()}
-                  <span className='highlight__title'>{item.title_en}</span>
-                  <span className='highlight__subtitle'>{item.title_th}</span>
-                  <span className='highlight__genre'>{item.genre}</span>
-                </Fragment>
-              )}
+            <Fragment key={i}>
+              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
+              <Link prefetch href="/SelectCinemaByMovie">
+                <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+              </Link>
+              {(() => {
+                if(item.title_en === item.title_th){
+                    item.title_th = ''
+                } 
+              })()}
+              <span className='highlight__title'>{item.title_en}</span>
+              <span className='highlight__subtitle'>{item.title_th}</span>
+              <span className='highlight__genre'>{item.genre}</span>
+            </Fragment>
+          )}
         </Slider>
       </div>
     );

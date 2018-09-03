@@ -38,6 +38,16 @@ class CinemaTimeTable extends PureComponent {
     }
   }
  
+  dd(x) {
+    var y = x.getFullYear().toString();
+    var m = (x.getMonth() + 1).toString();
+    var d = x.getDate().toString();
+    (d.length == 1) && (d = '0' + d);
+    (m.length == 1) && (m = '0' + m);
+    var yyyymmdd = y + m + d;
+    return d;
+  }
+
   renderSchedule(){
     let dataToSeatMap = {
       pathname: '/seatMap',
@@ -49,18 +59,16 @@ class CinemaTimeTable extends PureComponent {
       //Sync with Server Time      
       // let d = new Date('2018-08-29T00:55:00')
       let d = new Date(this.props.serverTime)
-      let today = this.props.pickedDate.toString()
-      console.log(today,'today');
+      let today = '0'+this.props.pickedDate.toString()
       
       //Get date and time for today
-      // let now = new Date('2018-08-29T00:55:00')
       let now = new Date()
       let nowtime = now.getTime()
             
       //Get date and time each schedule
       let arrayDate
       while ((arrayDate = regex1.exec(time)) !== null) {}
-      arrayDate = regex1.exec(time);
+      arrayDate = regex1.exec(time)
       if (today === arrayDate[3]) {
         let splitHours = arrayDate[4].slice(0,2)
         let splitMins= arrayDate[4].slice(-2)

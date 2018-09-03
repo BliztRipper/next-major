@@ -28,7 +28,7 @@ class CinemaMovieInfo extends PureComponent {
         </div>
           <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container isHide'}>
             <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
-            <video className="movie-card__trailer" width="320" controls>
+            <video className="movie-card__trailer" width="320" poster="../static/icon.png" controls>
               <source src={this.props.item.trailer} />
               Your browser does not support the video tag.
             </video>
@@ -79,10 +79,6 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    
- }
-
   getTitleById(filmId) {
     let info = null
     if(!this.state.nowShowing) {
@@ -108,36 +104,42 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
+   dd(x) {
+    var y = x.getFullYear().toString();
+    var m = (x.getMonth() + 1).toString();
+    var d = x.getDate().toString();
+    (d.length == 1) && (d = '0' + d);
+    (m.length == 1) && (m = '0' + m);
+    var yyyymmdd = y + m + d;
+    return d;
+  }
+
   getShowtimesInMovie(movie, serverTime){
     let countShowtime = 0
     var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
-    movie.theaters.forEach((theather,j) => {
-      theather.Showtimes.map((time,i)=>{
+    movie.theaters.forEach(theather => {
+      theather.Showtimes.map(time=>{
         //Sync with Server Time      
         // let d = new Date('2018-08-29T00:55:00')
         let d = new Date(serverTime)
-        let today = d.getDate().toString()
+        let today = this.dd(d)
         //Get date and time for today
         // let now = new Date('2018-08-29T00:55:00')
         let now = new Date()
         let nowtime = now.getTime()
-              
+        
         //Get date and time each schedule
         let arrayDate
         while ((arrayDate = regex1.exec(time)) !== null) {}
-        arrayDate = regex1.exec(time);
+        arrayDate = regex1.exec(time)
+        
         if (today === arrayDate[3]) {
           let splitHours = arrayDate[4].slice(0,2)
           let splitMins= arrayDate[4].slice(-2)
           let movieTime = now.setHours(splitHours,splitMins)
-          let format = arrayDate[4]
-          let movienowtimeMoreThanNowtime = ''
-          if(movieTime > nowtime){
-            movienowtimeMoreThanNowtime = false
-          } else {
-            movienowtimeMoreThanNowtime = true
-          }
-          countShowtime++
+          if(movieTime <= nowtime){
+            countShowtime++
+          } 
         }
       })
     })
@@ -185,6 +187,7 @@ class MainSelectMovieByCinema extends PureComponent {
       this.setState({isEmpty:true})
     }
   }
+
   getTimetable(){
     let cinemaTimetable = []
     let resultsArray = {
@@ -211,11 +214,14 @@ class MainSelectMovieByCinema extends PureComponent {
         resultsArray.time = []
       })
     }
-    return resultsArray
+    // if(resultsArray.info <= 0){
+    //   this.setState({isEmpty:true})
+    // } 
+      return resultsArray
   }
 
-  pickThisDay(item){
-    this.setState({pickThisDay:item})
+  pickThisDay(day){
+    this.setState({pickThisDay:day})
   }
 
   filterByDate(){

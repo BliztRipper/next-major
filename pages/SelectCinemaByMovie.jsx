@@ -4,8 +4,7 @@ import Link from 'next/link'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
-import Router from 'next/router'
-import Swal from 'sweetalert2'
+
 
 const TheaterHead = (props) => (
   <h4>โรงภาพยนต์ {props.name}</h4>
@@ -58,6 +57,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       nowShowing:[],
       branchData:[],
       theaterArr:[],
+      pickThisDay: new Date().getDate()
     }
   }
 
@@ -123,12 +123,46 @@ class MainSelectCinemaByMovie extends PureComponent {
           }
           this.state.nowShowing.movieCode.map(movieCode => {
             if(theaters.Theaters[key].ScheduledFilmId === movieCode) {
-              resultsArray.time.push(<CinemaTimeTable key={theaters.Theaters[key].ScreenName} cineName={theaters.Name} cineId={theaters.Id} name='fromMovie' item={theaters.Theaters[key]} serverTime={this.state.serverTime}/>)   
+              resultsArray.time.push(<CinemaTimeTable key={theaters.Theaters[key].ScreenName} cineName={theaters.Name} pickedDate={this.state.pickThisDay} cineId={theaters.Id} name='fromMovie' item={theaters.Theaters[key]} serverTime={this.state.serverTime}/>)   
             }
           })
         })
     })
     return resultsArray
+  }
+
+  pickThisDay(day){
+    this.setState({pickThisDay:day})
+  }
+
+  filterByDate(){
+    let dateArray = []
+    let pureDateArray = []
+    console.log(this.state.data,'state data')
+    if(this.state.data != null){
+      this.state.data.map(date=>{
+        Object.keys(date.Theaters).map(key => {
+          dateArray.push(date.Theaters[key].Showtimes)
+        })
+      }) 
+      dateArray.map((item,i)=>{
+        for(var i=0; i < item.length; i++){
+          let toDateFormat = new Date(item[i])
+          let getDate = toDateFormat.getDate()
+          pureDateArray.push(getDate)
+        }
+      })
+    }
+  let uniArr = [...(new Set(pureDateArray))]
+   return(
+    uniArr.map(item=>{
+      let isToday = ''
+      if(this.state.pickThisDay === item){isToday = true}else{isToday = false}
+        return (
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>วันที่ {item}</span></a>
+        )
+    })
+   )
   }
 
   render() {      
@@ -150,9 +184,9 @@ class MainSelectCinemaByMovie extends PureComponent {
     if (theaterArr.length) {
       return (      
         <Layout title="Select Movie">
-          {/* <section className="date-filter">
-          {this.renderByDate()}
-          </section> */}
+          <section className="date-filter">
+          {this.filterByDate()}
+          </section>
           <article className="movie-card"> 
           {this.getTimetable().info}
           {this.getTimetable().theater}
