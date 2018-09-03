@@ -4,6 +4,15 @@ import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
 import Link from 'next/link'
 
+class ButtonHistory extends PureComponent {
+  render () {
+    return (
+      <Link prefetch href="/HistoryTickets">
+        <a href="" className="btnTheme"><span>ดูประวัติการใช้งาน</span></a>
+      </Link>
+    )
+  }
+}
 class MyTicket extends PureComponent {
   constructor(props) {
     super(props)
@@ -13,9 +22,30 @@ class MyTicket extends PureComponent {
       isEmpty:true,
       error: null,
       userPhoneNumber: '0863693746',
-      dataMyTicket: {}
+      dataMyTicket: []
     }
     this.refTicket = React.createRef()
+  }
+  sortTicketByTime (arr) {
+    function compareNumerically (a, b) {
+      function convertTimeToMins(timeStr) {
+        return parseInt(timeStr.split(':')[0]) * 60 + parseInt(timeStr.split(':')[1])
+      }
+      let timeA = convertTimeToMins(a.BookingTime)
+      let timeB = convertTimeToMins(b.BookingTime)
+      return timeA - timeB
+    }
+    return arr.sort(compareNumerically)
+  }
+  sortTicketByTitleEN (arr) {
+    function compareAlphabet (a, b) {
+      if (a.BookingMovie < b.BookingMovie)
+        return -1;
+      if (a.BookingMovie > b.BookingMovie)
+        return 1;
+      return 0;
+    }
+    return arr.sort(compareAlphabet)
   }
   getStringDateTime (time) {
     let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
@@ -70,24 +100,53 @@ class MyTicket extends PureComponent {
     // dummy api
     this.state.isLoading = false
     this.state.isEmpty = false
-    this.state.dataMyTicket = []
-    for (let index = 0; index < 3; index++) {
-      this.state.dataMyTicket.push({
-        BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
-        BookingMovie: 'Destination Wedding',
-        BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
-        BookingGenre: 'Comedy/Drama/Romance',
-        BookingDuration: 86,
-        BookingCinema: 'Dummy Cinema',
-        BookingTime: '04:05',
-        BookingScreenName: 'Dummy Screen Name',
-        BookingSeat: 'Dummy Seats',
-        BookingAttributesNames: 'Dummy AttributesNames',
-        BookingPriceDisplay: 100,
-        VistaBookingNumber: 'VistaBookingNumber',
-        VistaBookingId: 'VistaBookingId'
-      })
-    }
+    this.state.dataMyTicket.push({
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
+      BookingMovie: 'Destination Wedding',
+      BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
+      BookingGenre: 'Comedy/Drama/Romance',
+      BookingDuration: 86,
+      BookingCinema: 'Dummy Cinema',
+      BookingTime: '04:10',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 100,
+      VistaBookingNumber: 'VistaBookingNumber Destination Wedding',
+      VistaBookingId: 'VistaBookingId Destination Wedding'
+    },
+    {
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2226/thumb_2226.jpg',
+      BookingMovie: 'The Nun',
+      BookingMovieTH: 'เดอะ นัน',
+      BookingGenre: 'Horror/Thriller',
+      BookingDuration: 96,
+      BookingCinema: '0000000002',
+      BookingTime: '04:12',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 600,
+      VistaBookingNumber: 'VistaBookingNumber The Nun',
+      VistaBookingId: 'VistaBookingId The Nun'
+    },
+    {
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2253/thumb_2253.jpg',
+      BookingMovie: 'Khun-Pun 2',
+      BookingMovieTH: 'ขุนพันธ์ 2',
+      BookingGenre: 'Action',
+      BookingDuration: 130,
+      BookingCinema: '0000000002',
+      BookingTime: '04:07',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 400,
+      VistaBookingNumber: 'VistaBookingNumber Khun-Pun 2',
+      VistaBookingId: 'VistaBookingId Khun-Pun 2'
+    })
+    // this.state.dataMyTicket = this.sortTicketByTime(this.state.dataMyTicket)
+    this.state.dataMyTicket = this.sortTicketByTitleEN(this.state.dataMyTicket)
   }
   render () {
     const {isLoading, error,isEmpty} = this.state;
@@ -98,13 +157,19 @@ class MyTicket extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
+      return (
+        <section className="empty">
+          <img src={empty}/>
+          <h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5>
+          <ButtonHistory></ButtonHistory>
+        </section>
+      )
     }   
     return (
       <div className="myTickets">
         <header className="cashier-header">ตั๋วของฉัน</header>
         {this.renderTickets()}
-        <Link prefetch href="/HistoryTickets"><u>ดูประวัติการใช้งาน</u></Link>
+        <ButtonHistory></ButtonHistory>
       </div>
     )
   }

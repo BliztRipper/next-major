@@ -1,4 +1,6 @@
 
+@import 'mixins';
+@import 'button';
 @import 'SeatMap';
 @import 'OTP';
 @import 'cashier';
@@ -170,15 +172,7 @@ body{
     display: block
   }
   &__book-btn{
-    background-color: #ff8300;
-    display: flex;
-    justify-content: center;
-    padding: .6rem 0;
-    margin: 0.5rem auto;
-    width: 200px;
-    color:#fff;
-    border-radius: 4px;
-    text-decoration: none;
+    @include buttonTheme(#ff8300, #ffffff);
   }
 }
 .showing{
