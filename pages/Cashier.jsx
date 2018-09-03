@@ -38,6 +38,7 @@ class Cashier extends PureComponent {
       BookingPriceDisplay: '',
       BookingUserSessionId: '',
       BookingUserPhoneNumber: '',
+      BookingCurrentServerTime: '',
       success: false, 
       VistaBookingId:'',
       VistaBookingNumber:''
@@ -57,7 +58,7 @@ class Cashier extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         console.log(data, 'data RESPONSE submitPayment')
-        if(data.status_code == 200){
+        if(data.status_code === 0 || data.description === 'Success'){
           let dataPaymentSuccess = {
             success: true,
             VistaBookingId:data.data.data.VistaBookingId,
@@ -109,7 +110,8 @@ class Cashier extends PureComponent {
         BookingPrice: sessionStorage.getItem('BookingPrice'),
         BookingPriceDisplay: sessionStorage.getItem('BookingPriceDisplay'),
         BookingUserSessionId: sessionStorage.getItem('BookingUserSessionId'),
-        BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber')
+        BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber'),
+        BookingCurrentServerTime: sessionStorage.getItem('BookingCurrentServerTime')
       },
         () => {
           let filterPattern = 'Booking'

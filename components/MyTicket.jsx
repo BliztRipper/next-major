@@ -1,21 +1,34 @@
-import {PureComponent} from 'react'
+import { PureComponent } from 'react'
 import Ticket from './Ticket'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
 import Link from 'next/link'
+import sortTickets from '../scripts/sortTickets'
+import utilities from '../scripts/utilities'
 
+class ButtonHistory extends PureComponent {
+  render () {
+    return (
+      <Link prefetch href="/HistoryTickets">
+        <a href="" className="btnTheme"><span>ดูประวัติการใช้งาน</span></a>
+      </Link>
+    )
+  }
+}
 class MyTicket extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      serverTime: '2018-08-31T01:04:09Z',
       isLoading: true,
       isEmpty:true,
       error: null,
       userPhoneNumber: '0863693746',
-      dataMyTicket: {}
+      dataMyTicket: []
     }
     this.refTicket = React.createRef()
   }
+
   getTickets () {
     try{
       fetch(`https://api-cinema.truemoney.net/MyTickets/${this.state.userPhoneNumber}`)
@@ -35,10 +48,17 @@ class MyTicket extends PureComponent {
     }    
   }
   renderTickets () {
+    let expired = false
+    let maxHourForExpried = 3
+    let serverHourToMinute = (parseInt(utilities.getStringDateTime(this.state.serverTime).hour) + maxHourForExpried) * 60
+    let serverMinute = parseInt(utilities.getStringDateTime(this.state.serverTime).minute)
     if (this.state.dataMyTicket) {
-      return this.state.dataMyTicket.map((item) => {
+      return this.state.dataMyTicket.map((ticket, ticketIndex) => {
+        let ticketBookedFromHourToMinute = parseInt(ticket.BookingTime.split(':')[0]) * 60
+        let ticketBookedMinute = parseInt(ticket.BookingTime.split(':')[1]) - ticketIndex
+        expired = ( ticketBookedFromHourToMinute + ticketBookedMinute ) > ( serverHourToMinute + serverMinute )
         return (
-          <Ticket ref={this.refTicket} dataTicket={item} key={item.VistaBookingId} hideButton={true}></Ticket>
+          <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId} expired={expired} hideButton={true}></Ticket>
         )
       })
     }
@@ -49,24 +69,53 @@ class MyTicket extends PureComponent {
     // dummy api
     this.state.isLoading = false
     this.state.isEmpty = false
-    this.state.dataMyTicket = []
-    for (let index = 0; index < 3; index++) {
-      this.state.dataMyTicket.push({
-        BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
-        BookingMovie: 'Destination Wedding',
-        BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
-        BookingGenre: 'Comedy/Drama/Romance',
-        BookingDuration: 86,
-        BookingCinema: 'Dummy Cinema',
-        BookingTime: '00:01',
-        BookingScreenName: 'Dummy Screen Name',
-        BookingSeat: 'Dummy Seats',
-        BookingAttributesNames: 'Dummy AttributesNames',
-        BookingPriceDisplay: 100,
-        VistaBookingNumber: 'VistaBookingNumber',
-        VistaBookingId: 'VistaBookingId'
-      })
-    }
+    this.state.dataMyTicket.push({
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
+      BookingMovie: 'Destination Wedding',
+      BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
+      BookingGenre: 'Comedy/Drama/Romance',
+      BookingDuration: 86,
+      BookingCinema: 'Dummy Cinema',
+      BookingTime: '04:10',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 100,
+      VistaBookingNumber: 'VistaBookingNumber Destination Wedding',
+      VistaBookingId: 'VistaBookingId Destination Wedding'
+    },
+    {
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2226/thumb_2226.jpg',
+      BookingMovie: 'The Nun',
+      BookingMovieTH: 'เดอะ นัน',
+      BookingGenre: 'Horror/Thriller',
+      BookingDuration: 96,
+      BookingCinema: '0000000002',
+      BookingTime: '04:12',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 600,
+      VistaBookingNumber: 'VistaBookingNumber The Nun',
+      VistaBookingId: 'VistaBookingId The Nun'
+    },
+    {
+      BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2253/thumb_2253.jpg',
+      BookingMovie: 'Khun-Pun 2',
+      BookingMovieTH: 'ขุนพันธ์ 2',
+      BookingGenre: 'Action',
+      BookingDuration: 130,
+      BookingCinema: '0000000002',
+      BookingTime: '04:07',
+      BookingScreenName: 'Dummy Screen Name',
+      BookingSeat: 'Dummy Seats',
+      BookingAttributesNames: 'Dummy AttributesNames',
+      BookingPriceDisplay: 400,
+      VistaBookingNumber: 'VistaBookingNumber Khun-Pun 2',
+      VistaBookingId: 'VistaBookingId Khun-Pun 2'
+    })
+    // this.state.dataMyTicket = sortTickets.byTime(this.state.dataMyTicket)
+    this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }
   render () {
     const {isLoading, error,isEmpty} = this.state;
@@ -77,13 +126,19 @@ class MyTicket extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
+      return (
+        <section className="empty">
+          <img src={empty}/>
+          <h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5>
+          <ButtonHistory></ButtonHistory>
+        </section>
+      )
     }   
     return (
       <div className="myTickets">
         <header className="cashier-header">ตั๋วของฉัน</header>
         {this.renderTickets()}
-        <Link prefetch href="/HistoryTickets"><u>ดูประวัติการใช้งาน</u></Link>
+        <ButtonHistory></ButtonHistory>
       </div>
     )
   }

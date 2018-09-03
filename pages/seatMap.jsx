@@ -9,10 +9,12 @@ import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
+
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      serverTime: '',
       CinemaId: '',
       SessionId: '',
       dataSeatPlan: null,
@@ -27,18 +29,29 @@ class seatMap extends PureComponent {
       userPhoneNumber: '0863693746',
       userAuthData: null,
       apiOtpHeader: {
-        'Accept': 'application/json',
-        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
-        'Content-Type': 'application/json'
+        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae'
       }
     }
     this.refSeatMapDisplay = React.createRef()
     this.refOTP = React.createRef()
+    this.getStringDateTime('2018-08-31T06:03:09Z')
   }
   goToHome () {
     Router.push({
       pathname: '/'
     })
+  }
+  getStringDateTime (time) {
+    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
+    let dateTimeArr = regexDateTime.exec(time)
+    console.log(dateTimeArr);
+    return {
+      origin: dateTimeArr[0],
+      year: dateTimeArr[1],
+      month: dateTimeArr[2],
+      day: dateTimeArr[3],
+      time: dateTimeArr[4]
+    }
   }
   getTheatre () {
     this.state.CinemaId = sessionStorage.getItem('CinemaID')
@@ -84,6 +97,7 @@ class seatMap extends PureComponent {
           })
           if (tickets[0]) matchTicketData.push(tickets[0])
         })
+
         this.setState({
           dataSeatPlan: this.state.dataSeatPlan,
           areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
@@ -124,7 +138,7 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 200) {
+        if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats(true)
         } else {
           this.authOtpGetOtp(true)
@@ -233,15 +247,11 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if (isChaining) {
-          this.refSeatMapDisplay.current.setState({postingTicket: false})
-        } else {
-          this.setState({isLoading: false})
-        }
         console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
           Router.push({ pathname: '/Cashier' })
+          sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userPhoneNumber)
         } else if(data.status_code === 400 && data.description === 'Selected seats unavailable.') {
@@ -252,6 +262,11 @@ class seatMap extends PureComponent {
             showConfirmButton: false,
             timer: 4000
           })
+        }
+        if (isChaining) {
+          this.refSeatMapDisplay.current.setState({postingTicket: false})
+        } else {
+          this.setState({isLoading: false})
         }
       })
     } catch (error) {

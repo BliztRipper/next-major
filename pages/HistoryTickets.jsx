@@ -5,6 +5,8 @@ import Layout from '../components/Layout'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
 import Router from 'next/router'
+import utilities from '../scripts/utilities'
+import sortTickets from '../scripts/sortTickets'
 
 class HistoryTickets extends PureComponent {
   constructor(props) {
@@ -13,6 +15,7 @@ class HistoryTickets extends PureComponent {
       isLoading: true,
       isEmpty:true,
       error: null,
+      serverTime: '2018-03-31T01:04:09Z'
     }
   }
   handleBackButton () {
@@ -39,7 +42,7 @@ class HistoryTickets extends PureComponent {
   }
   renderHistoryLists (aMonthIndex) {
     let lists = []
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 3; index++) {
       lists[index] = index
     }
     if (aMonthIndex === 0) {
@@ -51,21 +54,29 @@ class HistoryTickets extends PureComponent {
     }
   }
   renderHistoryGroupByMonth () {
+    let maxMonths = 3
+    let year = 2018
     let listsMonth = [ 'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม' ]
+    let serverYearToMonth = parseInt(utilities.getStringDateTime(this.state.serverTime).year) * 12
+    let serverMonth = parseInt(utilities.getStringDateTime(this.state.serverTime).month) + maxMonths
     return listsMonth.map((aMonth, aMonthIndex) => {
-      return (
-      <div className="historyTickets__group" key={aMonth}>
-        <div className="historyTickets__title">{aMonth} 2017</div>
-        <div className="historyTickets__lists">
-          {this.renderHistoryLists(aMonthIndex)}
-        </div>
-      </div>
-      )
+      if ((year * 12) + aMonthIndex > serverYearToMonth + serverMonth) {
+        return (
+          <div className="historyTickets__group" key={aMonth}>
+            <div className="historyTickets__title">{aMonth} {year}</div>
+            <div className="historyTickets__lists">
+              {this.renderHistoryLists(aMonthIndex)}
+            </div>
+          </div>
+        )
+      }
     })
   }
   componentWillMount() {
     this.state.isLoading = false
     this.state.isEmpty = false
+    // this.state.dataMyTicket = sortTickets.byTime(this.state.dataMyTicket)
+    // this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }
   render () {
     const {isLoading, error, isEmpty} = this.state;
