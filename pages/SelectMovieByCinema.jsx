@@ -6,6 +6,7 @@ import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
 import Swal from 'sweetalert2'
+import utilities from '../scripts/utilities';
 
 class CinemaMovieInfo extends PureComponent {
   state = {
@@ -101,35 +102,20 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
-   dd(x) {
-    var y = x.getFullYear().toString();
-    var m = (x.getMonth() + 1).toString();
-    var d = x.getDate().toString();
-    (d.length == 1) && (d = '0' + d);
-    (m.length == 1) && (m = '0' + m);
-    var yyyymmdd = y + m + d;
-    return d;
-  }
-
   getShowtimesInMovie(movie, serverTime){
     let countShowtime = 0
-    var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g')
     movie.theaters.forEach(theather => {
       theather.Showtimes.map(time=>{
         //Sync with Server Time      
-        let d = new Date(serverTime)
-        let today = this.dd(d)
+        let today = parseInt(utilities.getStringDateTime(serverTime).day)
         //Get date and time for today
         let now = new Date()
         let nowtime = now.getTime()
-        
         //Get date and time each schedule
-        let arrayDate
-        while ((arrayDate = regex1.exec(time)) !== null) {}
-        arrayDate = regex1.exec(time)
-        if (today === arrayDate[3]) {
-          let splitHours = arrayDate[4].slice(0,2)
-          let splitMins= arrayDate[4].slice(-2)
+        let movieDay = parseInt(utilities.getStringDateTime(time).day)
+        if (today === movieDay) {
+          let splitHours = utilities.getStringDateTime(time).hour
+          let splitMins= utilities.getStringDateTime(time).minute
           let movieTime = now.setHours(splitHours,splitMins)
           if(movieTime <= nowtime){
             countShowtime++
@@ -208,9 +194,6 @@ class MainSelectMovieByCinema extends PureComponent {
         resultsArray.time = []
       })
     }
-    // if(resultsArray.info <= 0){
-    //   this.setState({isEmpty:true})
-    // } 
       return resultsArray
   }
 

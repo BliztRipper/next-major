@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import Link from 'next/link'
+import utilities from '../scripts/utilities';
 
 const PostLink = (props) => (
   <Link prefetch href={props.link}>
@@ -37,42 +38,33 @@ class CinemaTimeTable extends PureComponent {
       sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
     }
   }
- 
-  dd(x) {
-    var y = x.getFullYear().toString();
-    var m = (x.getMonth() + 1).toString();
-    var d = x.getDate().toString();
-    (d.length == 1) && (d = '0' + d);
-    (m.length == 1) && (m = '0' + m);
-    var yyyymmdd = y + m + d;
-    return d;
-  }
-
+  
   renderSchedule(){
     let dataToSeatMap = {
       pathname: '/seatMap',
       query: ''
     }
     let resultArray = []
-    var regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     this.props.item.Showtimes.map((time,i)=>{
-      //Sync with Server Time      
-      // let d = new Date('2018-08-29T00:55:00')
-      let d = new Date(this.props.serverTime)
-      let today = '0'+this.props.pickedDate.toString()
+      //Sync with Server Time
+      if(this.props.pickedDate < 10){
+        var today = '0'+this.props.pickedDate.toString()
+      } else {
+        var today = this.props.pickedDate.toString()
+      }
+      today = parseInt(today)
       //Get date and time for today
-      let now = new Date()
+      let now = new Date(this.props.serverTime)
       let nowtime = now.getTime()
+      let nowDate = now.getDate()
       //Get date and time each schedule
-      let arrayDate
-      while ((arrayDate = regex1.exec(time)) !== null) {}
-      arrayDate = regex1.exec(time)
-      let splitHours = arrayDate[4].slice(0,2)
-      let splitMins= arrayDate[4].slice(-2)
+      let splitHours = utilities.getStringDateTime(time).hour
+      let splitMins= utilities.getStringDateTime(time).minute
       let movieTime = now.setHours(splitHours,splitMins)
-      let format = arrayDate[4]
+      let format = utilities.getStringDateTime(time).time
+      let movieDay = parseInt(utilities.getStringDateTime(time).day)
       let movienowtimeMoreThanNowtime = ''
-      if (today === arrayDate[3]) {  
+      if (today === movieDay) {  
         if(movieTime > nowtime){
           movienowtimeMoreThanNowtime = false
         } else {
@@ -83,12 +75,16 @@ class CinemaTimeTable extends PureComponent {
           accid: this.props.accid,
           SessionId: this.props.item.SessionIds[i]
         }
-        resultArray.push(
-          <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={false} time={format}/>
-        )
-      } else {
-        resultArray = []
-        resultArray.push(<PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={false} time={format}/>)
+        if(nowDate === today){
+          resultArray.push(
+            <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
+          )
+        } else {
+          resultArray = []
+          resultArray.push(
+            <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={false} time={format}/>
+          )
+        }
       }
     }) 
     if (resultArray.length > 0) {

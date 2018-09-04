@@ -53,7 +53,7 @@ class CinemaSystemList extends PureComponent {
 
     {(() => {
       for (var system in SystemType) {
-        renderSystem.push(<CinemaSystemComp zone_name={system} key={system} items={SystemType[system]} cinemaId={SystemType[system].cinemaId} brandName={SystemType[system].brandName}/>)
+        renderSystem.push(<CinemaSystemComp zoneName={system} key={system} items={SystemType[system]} cinemaId={SystemType[system].cinemaId} brandName={SystemType[system].brandName}/>)
       }
     })()}
     return (

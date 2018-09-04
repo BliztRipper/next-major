@@ -18,13 +18,12 @@ class CinemaSystemComp extends PureComponent {
     })
   }
  
-  RenderHeader(zone_name) {
-    let zone_name_logo = zone_name.replace(/ +/g, "")
+  RenderHeader(zoneName) {
     return (
-      <div className="cinema__regional" onClick={this.favAddActiveClass} key={zone_name}>
+      <div className="cinema__regional" onClick={this.favAddActiveClass} key={zoneName}>
         <div className="cinema__regional__header">
-          <img src={`./static/${zone_name}.png`} />
-          <h5 className="cinema__regional__title">{zone_name}</h5>
+          <img src={`./static/${zoneName}.png`} />
+          <h5 className="cinema__regional__title">{zoneName}</h5>
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} ></div>
         </div>
       </div>
@@ -34,7 +33,7 @@ class CinemaSystemComp extends PureComponent {
   render() {
     var ToggleHeader = []
     var CardRegionalBody = []
-    ToggleHeader.push(this.RenderHeader(this.props.zone_name))
+    ToggleHeader.push(this.RenderHeader(this.props.zoneName))
     this.props.items.map((item) => {
       CardRegionalBody.push(<CardCinemaSystem item={item} name={item.name} key={item.cinemaId} cineId={item.cinemaId} brandname={item.brandName} accid={this.props.accid} />)
     })

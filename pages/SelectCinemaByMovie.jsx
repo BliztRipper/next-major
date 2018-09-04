@@ -57,7 +57,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       nowShowing:[],
       branchData:[],
       theaterArr:[],
-      pickThisDay: '0'+new Date().getDate()
+      pickThisDay: parseInt(new Date().getDate())
     }
   }
 

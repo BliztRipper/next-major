@@ -26,7 +26,6 @@ class RenderShowing extends PureComponent {
   }
 }
 
-
 class NowShowingComp extends PureComponent {
   constructor(props) {
     super(props);
@@ -60,7 +59,6 @@ class NowShowingComp extends PureComponent {
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
-    
     return (
         <section>
           <div className='showing__container'>
