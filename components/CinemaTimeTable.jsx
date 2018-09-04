@@ -67,12 +67,12 @@ class CinemaTimeTable extends PureComponent {
       let arrayDate
       while ((arrayDate = regex1.exec(time)) !== null) {}
       arrayDate = regex1.exec(time)
-      if (today === arrayDate[3]) {
-        let splitHours = arrayDate[4].slice(0,2)
-        let splitMins= arrayDate[4].slice(-2)
-        let movieTime = now.setHours(splitHours,splitMins)
-        let format = arrayDate[4]
-        let movienowtimeMoreThanNowtime = ''
+      let splitHours = arrayDate[4].slice(0,2)
+      let splitMins= arrayDate[4].slice(-2)
+      let movieTime = now.setHours(splitHours,splitMins)
+      let format = arrayDate[4]
+      let movienowtimeMoreThanNowtime = ''
+      if (today === arrayDate[3]) {  
         if(movieTime > nowtime){
           movienowtimeMoreThanNowtime = false
         } else {
@@ -83,10 +83,13 @@ class CinemaTimeTable extends PureComponent {
           SessionId: this.props.item.SessionIds[i]
         }
         resultArray.push(
-          <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
+          <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={false} time={format}/>
         )
+      } else {
+        resultArray = []
+        resultArray.push(<PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={false} time={format}/>)
       }
-    })
+    }) 
     if (resultArray.length > 0) {
       return (
         <div className="movie-card__theatre-container">
