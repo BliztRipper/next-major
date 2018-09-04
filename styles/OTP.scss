@@ -1,0 +1,75 @@
+.otp {
+  text-align: center;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 51px auto;
+  .globalHeader {
+    position: relative;
+  }
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    &-msg {
+      color: #808080;
+      font-size: 0.8rem;
+    }
+  }
+  &__input {
+    padding-top: 2rem;
+    margin-bottom: 1rem;
+    > * {
+      width: 165px;
+      margin: auto;
+    }
+    input {
+      border: none;
+      border-bottom: 2px solid #dddddd;
+      width: 100%;
+      text-align: center;
+      letter-spacing: 1rem;
+      text-indent: 1rem;
+      outline: none;
+      font-size: 1rem;
+      &:focus {
+        border-color: #ffa534;
+      }
+    }
+  }
+  &__help {
+    font-size: 0.8rem;
+    color: #bababa;
+  }
+  &__resend {
+    padding-top: 2rem;
+    font-size: 0.8em;
+    > * {
+      display: inline-block;
+      padding: 1rem;
+      color: #147bd1;
+    }
+  }
+  &.sending {
+    .otp__resend {
+      animation-name: flash;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+@keyframes flash {
+  from,
+  50%,
+  to {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.6;
+  }
+}

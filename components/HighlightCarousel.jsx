@@ -16,11 +16,19 @@ class HighlightCarousel extends PureComponent {
     try{
       fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
-      .then((data) => this.setState({dataObj:data.data.now_showing, isLoading: false}))
+      .then((data) => {
+        this.setState({dataObj:data.data.now_showing, isLoading: false})
+      })
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
   }
+
+  movieDetails(item){
+    let props = JSON.stringify(item)
+    sessionStorage.setItem('movieSelect',props)
+  }
+
   render() {
     const {dataObj, isLoading, error} = this.state;
     if (error) {
@@ -41,7 +49,6 @@ class HighlightCarousel extends PureComponent {
       sessionStorage.setItem("now_showing", JSON.stringify(items))
     })()}
     
-
     const settings = {
       className: "center",
       centerMode: true,
@@ -53,27 +60,27 @@ class HighlightCarousel extends PureComponent {
       arrows: false,
       slidesToShow: 1,
       slidesToScroll: 1,
+      touchThreshold: 8
     }
-    
     return (
       <div className='highlight'>
         <Slider {...settings}>
           {dataObj.map((item,i) =>
-                <Fragment key={i}>
-                  <img className='highlight__poster' src={item.poster_ori}/>
-                  <Link prefetch href="/">
-                    <a className="highlight__book-btn">ซื้อตั๋ว</a>
-                  </Link>
-                  {(() => {
-                    if(item.title_en === item.title_th){
-                       item.title_th = ''
-                    } 
-                  })()}
-                  <span className='highlight__title'>{item.title_en}</span>
-                  <span className='highlight__subtitle'>{item.title_th}</span>
-                  <span className='highlight__genre'>{item.genre}</span>
-                </Fragment>
-              )}
+            <Fragment key={i}>
+              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
+              <Link prefetch href="/SelectCinemaByMovie">
+                <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+              </Link>
+              {(() => {
+                if(item.title_en === item.title_th){
+                    item.title_th = ''
+                } 
+              })()}
+              <span className='highlight__title'>{item.title_en}</span>
+              <span className='highlight__subtitle'>{item.title_th}</span>
+              <span className='highlight__genre'>{item.genre}</span>
+            </Fragment>
+          )}
         </Slider>
       </div>
     );

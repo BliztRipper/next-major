@@ -1,28 +1,52 @@
 import React, { PureComponent } from 'react';
+import Link from 'next/link'
 
 class CardCinema extends PureComponent {
   constructor(props) {
     super(props);
     this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
-      favCineActive:false
+      favCineActive:true,
     }
   }
-
+  
   favCineActiveClass() {
-    this.setState({
-      favCineActive: !this.state.favCineActive
-    })
+    let CinemaID = this.props.item.ID
+    let phoneNum = this.props.accid
+    if(this.state.favCineActive == false) {
+      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
+      .then(this.setState({favCineActive: true}))
+    } else{
+      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${phoneNum}/${CinemaID}`)
+      .then(this.setState({favCineActive: false}))
+    }
   }
-
+  
+  getCineId(){
+    let id = this.refs.cineIdProp.innerText
+    let name = this.refs.cineName.innerText
+    sessionStorage.setItem('CinemaID',id)
+    sessionStorage.setItem('BookingCinema',name)
+  }
+  
   render() {
+    const cineIdHide = {display:'none'}
+    let dataToSelectCinema = {
+      pathname: '/SelectMovieByCinema',
+      query: {
+        accid: this.props.accid
+      }
+    }
     return (
-        <div className="card-cinema__body">
-            <div className="sprite-quatierCine"></div>
+        <div ref="searchCine" className="card-cinema__body" onClick={this.getCineId.bind(this)}>
+            <div className={this.props.brandname!=""? this.props.brandname:'sprite-blank'}></div>
+            <Link prefetch href={ dataToSelectCinema }>
               <div className="card-cinema__CineTitle">
-                <div className="card-cinema__CineName">{this.props.item.Name}</div>
-                <div className="card-cinema__CineDistant">100 m</div>
+                <div ref="cineName" className="card-cinema__CineName">{this.props.item.Name}</div>
+                {/* <div className="card-cinema__CineDistant">100 m</div> */}
+                <div ref="cineIdProp" style={cineIdHide}>{this.props.item.ID}</div>
               </div>
+            </Link>    
               <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );

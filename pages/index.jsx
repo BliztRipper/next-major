@@ -1,10 +1,20 @@
 import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
+import Router from 'next/router'
 import '../styles/style.scss'
 
-export default class extends PureComponent {
+export default class home extends PureComponent {
+
   componentDidMount () {
+    if (!this.props.url.query.accid) {
+      Router.push({
+        pathname: '/',
+        query: {
+          accid: '0863693746'
+        }
+      })
+    }
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
@@ -19,7 +29,7 @@ export default class extends PureComponent {
   render() {
     return(
       <Layout>
-        <MainNavBar/>
+        <MainNavBar accid={this.props.url.query.accid}/>
       </Layout>
     )
    }
