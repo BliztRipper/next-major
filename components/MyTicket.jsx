@@ -52,26 +52,16 @@ class MyTicket extends PureComponent {
   renderTickets () {
     let expired = false
     let serverDate = new Date(this.state.serverTime)
-    let offsetTime = (3600 * 3 * 1000) // 3 hours
+    let expiredMaxHours = 3
+    let offsetTime = expiredMaxHours * 3600 * 1000
     
     let serverResulTime = serverDate.getTime()
-    console.log(serverResulTime, 'serverResulTime');
-    
     if (this.state.dataMyTicket) {
       return this.state.dataMyTicket.map((ticket, ticketIndex) => {
-        // let ticketBookedFromHourToMinute = parseInt(ticket.BookingTime.split(':')[0]) * 60
-
-
-        let ticketBookedYear = parseInt(ticket.BookingDate.split('/')[2])
-        let ticketBookedMonth = parseInt(ticket.BookingDate.split('/')[1]) - 1
-        let ticketBookedDay = parseInt(ticket.BookingDate.split('/')[0])
-        let ticketBookedHour = parseInt(ticket.BookingTime.split(':')[0])
-        let ticketBookedMinute = parseInt(ticket.BookingTime.split(':')[1]) - ticketIndex
-        let ticketBookedDate = new Date(ticketBookedYear, ticketBookedMonth, ticketBookedDay, ticketBookedHour, ticketBookedMinute)
-        let ticketBookedResultTime = ticketBookedDate.getTime()
+        let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime()
         expired = serverResulTime - ticketBookedResultTime > offsetTime
         return (
-          <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId} expired={expired} hideButton={true}></Ticket>
+          <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId + ticketIndex} expired={expired} hideButton={true}></Ticket>
         )
       })
     }
@@ -79,54 +69,6 @@ class MyTicket extends PureComponent {
   componentWillMount() {
     this.getTickets()
 
-    // dummy api
-    // this.state.isLoading = false
-    // this.state.isEmpty = false
-    // this.state.dataMyTicket.push({
-    //   BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2418/thumb_2418.jpg',
-    //   BookingMovie: 'Destination Wedding',
-    //   BookingMovieTH: 'ไปงานแต่งเขา แต่เรารักกัน',
-    //   BookingGenre: 'Comedy/Drama/Romance',
-    //   BookingDuration: 86,
-    //   BookingCinema: 'Dummy Cinema',
-    //   BookingTime: '01:10',
-    //   BookingScreenName: 'Dummy Screen Name',
-    //   BookingSeat: 'Dummy Seats',
-    //   BookingAttributesNames: 'Dummy AttributesNames',
-    //   BookingPriceDisplay: 100,
-    //   VistaBookingNumber: 'VistaBookingNumber Destination Wedding',
-    //   VistaBookingId: 'VistaBookingId Destination Wedding'
-    // },
-    // {
-    //   BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2226/thumb_2226.jpg',
-    //   BookingMovie: 'The Nun',
-    //   BookingMovieTH: 'เดอะ นัน',
-    //   BookingGenre: 'Horror/Thriller',
-    //   BookingDuration: 96,
-    //   BookingCinema: '0000000002',
-    //   BookingTime: '01:12',
-    //   BookingScreenName: 'Dummy Screen Name',
-    //   BookingSeat: 'Dummy Seats',
-    //   BookingAttributesNames: 'Dummy AttributesNames',
-    //   BookingPriceDisplay: 600,
-    //   VistaBookingNumber: 'VistaBookingNumber The Nun',
-    //   VistaBookingId: 'VistaBookingId The Nun'
-    // },
-    // {
-    //   BookingPoster: 'https://www.majorcineplex.com/uploads/movie/2253/thumb_2253.jpg',
-    //   BookingMovie: 'Khun-Pun 2',
-    //   BookingMovieTH: 'ขุนพันธ์ 2',
-    //   BookingGenre: 'Action',
-    //   BookingDuration: 130,
-    //   BookingCinema: '0000000002',
-    //   BookingTime: '04:07',
-    //   BookingScreenName: 'Dummy Screen Name',
-    //   BookingSeat: 'Dummy Seats',
-    //   BookingAttributesNames: 'Dummy AttributesNames',
-    //   BookingPriceDisplay: 400,
-    //   VistaBookingNumber: 'VistaBookingNumber Khun-Pun 2',
-    //   VistaBookingId: 'VistaBookingId Khun-Pun 2'
-    // })
     this.state.dataMyTicket = sortTickets.byTime(this.state.dataMyTicket)
     // this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }
