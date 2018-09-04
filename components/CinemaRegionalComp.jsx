@@ -14,7 +14,7 @@ class CinemaRegionalComp extends PureComponent {
   
   hasFav(cineId) {
     let found = false
-    if (this.state.dataFav.data.CinemaIds) {
+    if (this.state.dataFav && this.state.dataFav.data.CinemaIds) {
       this.state.dataFav.data.CinemaIds.map(favId=>{
         if(favId === cineId) {
           found = true

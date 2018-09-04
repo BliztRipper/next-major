@@ -7,34 +7,14 @@ class CardCinemaSystem extends PureComponent {
     super(props);
     this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
-      dataObj: [],
-      dataCine: [],
+      dataObj: this.props.dataCine,
+      dataCine: this.props.dataFav,
       isLoading: true,
       error: null,
-      favCineActive:false,
+      favCineActive:this.props.favCineActive,
     }
   }
 
-  componentWillMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/Branches`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`)
-      .then(response => response.json())
-      .then(data => this.setState({dataCine:data}, function(){
-        if(this.state.dataCine.data.CinemaIds != null){
-          this.state.dataCine.data.CinemaIds.map(item=>{
-            if(item === this.props.item.cinemaId ){
-              this.setState({favCineActive:true})
-            }
-          })
-        }
-      }))
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
-    }
-  }
   favCineActiveClass() {
     let CinemaID = this.refs.cineIdProp.innerText
     let phoneNum = this.props.accid
@@ -56,28 +36,20 @@ class CardCinemaSystem extends PureComponent {
 
   render() {
     const cineIdHide = {display:'none'}
-    const {isLoading, error} = this.state;
     let dataToSelectCinema = {
       pathname: '/SelectMovieByCinema',
       query: {
         accid: this.props.accid
       }
     }
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) { 
-      return <img src={loading} className="loading"/>
-    }
-    
     return (
           <div ref="searchCine" className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
-            <div className={this.props.brandname!=""? this.props.brandname:'sprite-blank'}></div>
+            <div className={this.props.item.brandname!=""? this.props.item.brandname:'sprite-blank'}></div>
             <Link prefetch href={dataToSelectCinema}>
               <div className="card-cinema__CineTitle">
-                <div ref="cineName" className="card-cinema__CineName">{this.props.name}</div>
+                <div ref="cineName" className="card-cinema__CineName">{this.props.item.name}</div>
                 {/* <div className="card-cinema__CineDistant">100m</div> */}
-                <div ref="cineIdProp" style={cineIdHide}>{this.props.cineId}</div>
+                <div ref="cineIdProp" style={cineIdHide}>{this.props.item.cinemaId}</div>
               </div>
             </Link>  
             <div ref="classname" className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>

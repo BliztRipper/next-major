@@ -87,7 +87,7 @@ class MainCinemaListing extends PureComponent {
             {this.renderList()}
           </TabPanel>
           <TabPanel>
-            <CinemaSystemList accid={this.props.accid} />
+            <CinemaSystemList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine}/>
           </TabPanel>
         </Tabs>
       </div>
