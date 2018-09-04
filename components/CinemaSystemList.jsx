@@ -6,33 +6,16 @@ class CinemaSystemList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      dataObj: [],
-      isLoading: true,
-      error: null,
+      dataObj: this.props.dataCine,
+      dataFav: this.props.dataFav,
       SystemType:[],
       renderSystem:[],
       favActive:false
     }
   }
 
-  componentWillMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/Branches`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    } catch(error){
-      error => this.setState({ error, isLoading: false })
-    }
-  }
-
   render() {
-    const {dataObj, isLoading, error, SystemType, renderSystem,} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) { 
-      return <img src={loading} className="loading"/>
-    }
+    const {dataObj, SystemType, renderSystem,} = this.state;
     dataObj.map(system=>{
       system.System.map(item => {
         let key = item
@@ -53,7 +36,8 @@ class CinemaSystemList extends PureComponent {
 
     {(() => {
       for (var system in SystemType) {
-        renderSystem.push(<CinemaSystemComp zoneName={system} key={system} items={SystemType[system]} cinemaId={SystemType[system].cinemaId} brandName={SystemType[system].brandName}/>)
+        console.log(SystemType[system],'log system')
+        renderSystem.push(<CinemaSystemComp zoneName={system} dataCine={this.props.dataCine} dataFav={this.props.dataFav} key={system} items={SystemType[system]}/>)
       }
     })()}
     return (
