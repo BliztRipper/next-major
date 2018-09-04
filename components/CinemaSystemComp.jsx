@@ -36,7 +36,7 @@ class CinemaSystemComp extends PureComponent {
     var CardRegionalBody = []
     ToggleHeader.push(this.RenderHeader(this.props.zone_name))
     this.props.items.map((item) => {
-      CardRegionalBody.push(<CardCinemaSystem item={item} name={item.name} key={item.cinemaId} cineId={item.cinemaId} brandname={item.brandName}/>)
+      CardRegionalBody.push(<CardCinemaSystem item={item} name={item.name} key={item.cinemaId} cineId={item.cinemaId} brandname={item.brandName} accid={this.props.accid} />)
     })
     ToggleHeader.push(
       <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'} key={'ToggleHeader'}>

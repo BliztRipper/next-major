@@ -16,11 +16,11 @@ class MainCinemaListing extends PureComponent {
             </TabList>
           <TabPanel>
             {/* <SearchCinema/> */}
-            <CinemaFavoriteList/>
-            <CinemaRegionalList/>
+            <CinemaFavoriteList accid={this.props.accid}/>
+            <CinemaRegionalList accid={this.props.accid}/>
           </TabPanel>
           <TabPanel>
-            <CinemaSystemList/>
+            <CinemaSystemList accid={this.props.accid}/>
           </TabPanel>
         </Tabs>
       </div>

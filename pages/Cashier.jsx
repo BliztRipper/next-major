@@ -19,9 +19,7 @@ class Cashier extends PureComponent {
       },
       dataToTicket: '',
       apiOtpHeader: {
-        'Accept': 'application/json',
-        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
-        'Content-Type': 'application/json'
+        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae'
       },
       BookingMovie: '',
       BookingDuration: '',
@@ -131,7 +129,10 @@ class Cashier extends PureComponent {
 
   goToHome() {
     Router.push({
-      pathname: '/'
+      pathname: '/',
+      query: {
+        accid: this.props.url.query.accid
+      }
     })
   }
 

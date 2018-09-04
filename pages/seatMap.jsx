@@ -26,7 +26,7 @@ class seatMap extends PureComponent {
       seatsSelected: null,
       otpShow: false,
       entrySeatMap: false,
-      userPhoneNumber: '0863693746',
+      userPhoneNumber: this.props.url.query.accid,
       userAuthData: null,
       apiOtpHeader: {
         'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae'
@@ -35,6 +35,7 @@ class seatMap extends PureComponent {
     this.refSeatMapDisplay = React.createRef()
     this.refOTP = React.createRef()
     this.getStringDateTime('2018-08-31T06:03:09Z')
+    
   }
   goToHome () {
     Router.push({
@@ -44,7 +45,6 @@ class seatMap extends PureComponent {
   getStringDateTime (time) {
     let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     let dateTimeArr = regexDateTime.exec(time)
-    console.log(dateTimeArr);
     return {
       origin: dateTimeArr[0],
       year: dateTimeArr[1],
@@ -250,7 +250,12 @@ class seatMap extends PureComponent {
         console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
-          Router.push({ pathname: '/Cashier' })
+          Router.push({ 
+            pathname: '/Cashier',
+            query: {
+              accid: this.state.userPhoneNumber
+            }
+           })
           sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userPhoneNumber)

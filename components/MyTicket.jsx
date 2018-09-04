@@ -23,12 +23,12 @@ class MyTicket extends PureComponent {
       isLoading: true,
       isEmpty:true,
       error: null,
-      userPhoneNumber: '0863693746',
+      userPhoneNumber: this.props.accid,
       dataMyTicket: []
     }
     this.refTicket = React.createRef()
   }
-
+  
   getTickets () {
     try{
       fetch(`https://api-cinema.truemoney.net/MyTickets/${this.state.userPhoneNumber}`)
@@ -68,7 +68,7 @@ class MyTicket extends PureComponent {
   }
   componentWillMount() {
     this.getTickets()
-
+    
     this.state.dataMyTicket = sortTickets.byTime(this.state.dataMyTicket)
     // this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }

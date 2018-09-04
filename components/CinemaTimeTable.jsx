@@ -80,6 +80,7 @@ class CinemaTimeTable extends PureComponent {
         }
         dataToSeatMap.query = {
           ...this.props.item,
+          accid: this.props.accid,
           SessionId: this.props.item.SessionIds[i]
         }
         resultArray.push(

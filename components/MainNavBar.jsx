@@ -54,10 +54,10 @@ class MainNavBar extends PureComponent {
             <HighlightCarousel/>
           </TabPanel>
           <TabPanel>
-            <MainCinemaListing/>
+            <MainCinemaListing accid={this.props.accid}/>
           </TabPanel>
           <TabPanel>
-            <MyTicket></MyTicket>
+            <MyTicket accid={this.props.accid}></MyTicket>
           </TabPanel>
           <TabList>
             <div className="react-tabs__tabs-container">

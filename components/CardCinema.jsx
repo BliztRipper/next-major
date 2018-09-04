@@ -10,14 +10,14 @@ class CardCinema extends PureComponent {
     }
   }
   componentDidMount() {
-    if(fetch(`https://api-cinema.truemoney.net/FavCinemas/0863693746`).then(response => response.json()).then(data => data != null)){
+    if(fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`).then(response => response.json()).then(data => data != null)){
         this.setState({favCineActive:true})
       }
   }
   
   favCineActiveClass() {
     let CinemaID = this.props.item.ID
-    let phoneNum = '0863693746'
+    let phoneNum = this.props.accid
     if(this.state.favCineActive == false) {
       fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
       .then(this.setState({favCineActive: true}))
@@ -36,10 +36,16 @@ class CardCinema extends PureComponent {
   
   render() {
     const cineIdHide = {display:'none'}
+    let dataToSelectCinema = {
+      pathname: '/SelectMovieByCinema',
+      query: {
+        accid: this.props.accid
+      }
+    }
     return (
         <div ref="searchCine" className="card-cinema__body" onClick={this.getCineId.bind(this)}>
             <div className={this.props.brandname!=""? this.props.brandname:'sprite-blank'}></div>
-            <Link prefetch href="/SelectMovieByCinema">
+            <Link prefetch href={ dataToSelectCinema }>
               <div className="card-cinema__CineTitle">
                 <div ref="cineName" className="card-cinema__CineName">{this.props.item.Name}</div>
                 {/* <div className="card-cinema__CineDistant">100 m</div> */}

@@ -20,7 +20,7 @@ class CardCinemaRegional extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/Branches`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data.data, isLoading: false}))
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/0863693746`)
+      fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`)
       .then(response => response.json())
       .then(data => this.setState({dataCine:data}, function(){
         if(this.state.dataCine.data.CinemaIds != null){
@@ -38,7 +38,7 @@ class CardCinemaRegional extends PureComponent {
 
   favCineActiveClass() {
     let CinemaID = this.refs.cineIdProp.innerText
-    let phoneNum = '0863693746'
+    let phoneNum = this.props.accid
     if(this.state.favCineActive == true){
       this.setState({favCineActive: !this.state.favCineActive})
       fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${phoneNum}/${CinemaID}`)
@@ -58,6 +58,12 @@ class CardCinemaRegional extends PureComponent {
   render() {
     const cineIdHide = {display:'none'}
     const {isLoading, error} = this.state;
+    let dataToSelectCinema = {
+      pathname: '/SelectMovieByCinema',
+      query: {
+        accid: this.props.accid
+      }
+    }
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -68,7 +74,7 @@ class CardCinemaRegional extends PureComponent {
     return (
           <div ref="searchCine" className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
             <div className={this.props.brandname!=""? this.props.brandname:'sprite-blank'}></div>
-            <Link prefetch href="/SelectMovieByCinema">
+            <Link prefetch href={dataToSelectCinema}>
               <div className="card-cinema__CineTitle">
                 <div ref="cineName" className="card-cinema__CineName">{this.props.name}</div>
                 {/* <div className="card-cinema__CineDistant">100m</div> */}

@@ -53,7 +53,8 @@ class MainSelectMovieByCinema extends PureComponent {
       dataSchedule:null,
       serverTime:'',
       isEmpty:false,
-      pickThisDay: new Date().getDate().toString()
+      pickThisDay: new Date().getDate().toString(),
+      accid: this.props.url.query.accid
     }
   }
 
@@ -201,7 +202,7 @@ class MainSelectMovieByCinema extends PureComponent {
               element.SessionAttributesNames = 'อังกฤษ'
             }
             //push loop in theaters
-            resultsArray.time.push(<CinemaTimeTable key={'theaters' + i + 'element' + j} itemTheaterInfo={movie} pickedDate={this.state.pickThisDay} item={element} serverTime={this.state.serverTime} showtimeCount={0}/>)
+            resultsArray.time.push(<CinemaTimeTable accid={this.state.accid} key={'theaters' + i + 'element' + j} itemTheaterInfo={movie} pickedDate={this.state.pickThisDay} item={element} serverTime={this.state.serverTime} showtimeCount={0}/>)
           })  
         }
         resultsArray.time = []

@@ -23,7 +23,7 @@ class CinemaFavoriteList extends PureComponent {
 
   componentDidMount(){
     try{
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/0863693746`)
+      fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`)
       .then(response => response.json())
       .then(data => this.setState({dataObj:data, isLoading: false}))
       fetch(`https://api-cinema.truemoney.net/Branches`)
@@ -43,7 +43,7 @@ class CinemaFavoriteList extends PureComponent {
             if(cineID === item.ID){
               let brand = item.DescriptionInside.brand_name_en
               let brandname = brand.replace(/ +/g, "")
-              resultsArray.push(<CardCinema item={item} brandname={brandname} key={item.ID}/>)
+              resultsArray.push(<CardCinema item={item} brandname={brandname} key={item.ID} accid={this.props.accid}/>)
             }
           })
         }
