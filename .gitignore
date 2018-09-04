@@ -63,3 +63,5 @@ typings/
 next
 # next.js static export
 out
+
+.DS_Store
