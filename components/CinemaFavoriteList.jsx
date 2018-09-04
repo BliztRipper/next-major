@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
 import CardCinema from './CardCinema'
-import loading from '../static/loading.gif'
 
 class CinemaFavoriteList extends PureComponent {
   constructor(props) {
     super(props);
     this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
-      dataObj: [],
-      dataCine: [],
-      isLoading: true,
-      error: null,
+      dataFav: this.props.dataFav,
+      dataCine: this.props.dataCine,
       favActive: false,
     }
   }
@@ -21,25 +18,12 @@ class CinemaFavoriteList extends PureComponent {
     })
   }
 
-  componentDidMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data, isLoading: false}))
-      fetch(`https://api-cinema.truemoney.net/Branches`)
-      .then(response => response.json())
-      .then(data => this.setState({dataCine:data.data}))
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
-    }
-  }
-
-  renderCinema(){
+  renderFav(){    
     let resultsArray = []
-    if(this.state.dataCine.length != 0){
+    if(this.state.dataFav && this.state.dataCine){
       this.state.dataCine.map(item=>{
-        if(this.state.dataObj.data.CinemaIds != null) {
-          this.state.dataObj.data.CinemaIds.map(cineID=>{
+        if(this.state.dataFav.data.CinemaIds != null) {
+          this.state.dataFav.data.CinemaIds.map(cineID=>{
             if(cineID === item.ID){
               let brand = item.DescriptionInside.brand_name_en
               let brandname = brand.replace(/ +/g, "")
@@ -53,14 +37,10 @@ class CinemaFavoriteList extends PureComponent {
   }
 
   render() {
-    const {isLoading, error} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
+    if (!this.state.dataFav.data.CinemaIds) {
+      return false
     }
-    if (isLoading) { 
-      return <img src={loading} className="loading"/>
-    }
-
+    
     return (
       <div className="card-cinema">
         <div className="card-cinema__header" onClick={this.favAddActiveClass}> 
@@ -69,7 +49,7 @@ class CinemaFavoriteList extends PureComponent {
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'}></div>
         </div>
         <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
-          {this.renderCinema()}
+          {this.renderFav()}
         </div>
     </div>
     );

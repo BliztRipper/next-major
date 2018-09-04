@@ -6,13 +6,8 @@ class CardCinema extends PureComponent {
     super(props);
     this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
-      favCineActive:false,
+      favCineActive:true,
     }
-  }
-  componentDidMount() {
-    if(fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`).then(response => response.json()).then(data => data != null)){
-        this.setState({favCineActive:true})
-      }
   }
   
   favCineActiveClass() {

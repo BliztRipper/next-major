@@ -15,7 +15,7 @@ class SearchCinema extends PureComponent {
     return (
       <section>
         <div className="search-cinema">
-          <input onClick={this.searchItem.bind(this)} className="search-cinema__searchbox" placeholder="ค้นหาโรงภาพยนต์ที่ต้องการ" type="text" name="" id=""/>
+          <input onClick={this.searchItem.bind(this)} onChange={this.props.onSearchChange} className="search-cinema__searchbox" placeholder="ค้นหาโรงภาพยนต์ที่ต้องการ" type="text" name="" id=""/>
         </div>
       </section>
     )

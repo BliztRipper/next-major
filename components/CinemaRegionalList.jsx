@@ -1,39 +1,22 @@
 import React, { PureComponent, Fragment } from 'react';
 import CinemaRegionalComp from "./CinemaRegionalComp";
-import loading from '../static/loading.gif'
 
 class CinemaRegionalList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      dataObj: [],
-      isLoading: true,
-      error: null,
+      dataFav: this.props.dataFav,
+      dataCine: this.props.dataCine,
       branchRegion:[],
       renderRegion:[],
       favActive:false
     }
   }
 
-  componentWillMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/Branches`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    } catch(error){
-      error => this.setState({ error, isLoading: false })
-    }
-  }
-
   render() {
-    const {dataObj, isLoading, error, branchRegion, renderRegion} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) { 
-      return <img src={loading} className="loading"/>
-    }
-    dataObj.map(region=>{
+    const {dataCine, branchRegion, renderRegion} = this.state;
+
+    dataCine.map(region=>{
       let key = region.DescriptionInside.zone_name
       if (key in branchRegion == false){
         branchRegion[key] = []
@@ -61,7 +44,7 @@ class CinemaRegionalList extends PureComponent {
 
     {(() => {
       for (var region in branchRegion) {
-        renderRegion.push(<CinemaRegionalComp zone_name={region} key={region} items={branchRegion[region]} cinemaId={branchRegion[region].cinemaId} brandName={branchRegion[region].brandName} accid={this.props.accid}/>)
+        renderRegion.push(<CinemaRegionalComp zone_name={region} key={region} items={branchRegion[region]} accid={this.props.accid} dataFav={this.state.dataFav}/>)
       }
     })()}
     return (

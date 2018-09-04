@@ -7,33 +7,12 @@ class CardCinemaRegional extends PureComponent {
     super(props);
     this.favCineActiveClass= this.favCineActiveClass.bind(this);
     this.state = {
-      dataObj: [],
-      dataCine: [],
-      isLoading: true,
-      error: null,
-      favCineActive:false,
+      favCineActive: this.props.favCineActive,
     }
   }
 
   componentWillMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/Branches`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`)
-      .then(response => response.json())
-      .then(data => this.setState({dataCine:data}, function(){
-        if(this.state.dataCine.data.CinemaIds != null){
-          this.state.dataCine.data.CinemaIds.map(item=>{
-            if(item === this.props.item.cinemaId ){
-              this.setState({favCineActive:true})
-            }
-          })
-        }
-      }))
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
-    }
+    
   }
 
   favCineActiveClass() {
@@ -57,18 +36,12 @@ class CardCinemaRegional extends PureComponent {
 
   render() {
     const cineIdHide = {display:'none'}
-    const {isLoading, error} = this.state;
+
     let dataToSelectCinema = {
       pathname: '/SelectMovieByCinema',
       query: {
         accid: this.props.accid
       }
-    }
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) { 
-      return <img src={loading} className="loading"/>
     }
     
     return (
@@ -77,7 +50,6 @@ class CardCinemaRegional extends PureComponent {
             <Link prefetch href={dataToSelectCinema}>
               <div className="card-cinema__CineTitle">
                 <div ref="cineName" className="card-cinema__CineName">{this.props.name}</div>
-                {/* <div className="card-cinema__CineDistant">100m</div> */}
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.cineId}</div>
               </div>
             </Link>  

@@ -8,9 +8,23 @@ class CinemaRegionalComp extends PureComponent {
     this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
       favActive: false,
+      dataFav: this.props.dataFav,
     }
   }
   
+  hasFav(cineId) {
+    let found = false
+    if (this.state.dataFav.data.CinemaIds) {
+      this.state.dataFav.data.CinemaIds.map(favId=>{
+        if(favId === cineId) {
+          found = true
+          return found
+        }
+      })
+    }
+
+    return found
+  }
 
   favAddActiveClass() {
     this.setState({
@@ -34,7 +48,7 @@ class CinemaRegionalComp extends PureComponent {
     var CardRegionalBody = []
     ToggleHeader.push(this.RenderHeader(this.props.zone_name))
     this.props.items.map((item) => {
-      CardRegionalBody.push(<CardCinemaRegional accid={this.props.accid} item={item} name={item.name} key={item.cinemaId} cineId={item.cinemaId} brandname={item.brandName}/>)
+      CardRegionalBody.push(<CardCinemaRegional accid={this.props.accid} name={item.name} cineId={item.cinemaId} brandname={item.brandName} favCineActive={this.hasFav(item.cinemaId)}/>)
     })
     ToggleHeader.push(
       <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'} key={'ToggleHeader'}>
