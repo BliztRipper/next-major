@@ -4,6 +4,7 @@ import Link from 'next/link'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
+import utilities from '../scripts/utilities';
 
 
 const TheaterHead = (props) => (
@@ -132,7 +133,6 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   filterByDate(){
-    let regex1 = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     let dateArray = []
     let pureDateArray = []
     if(this.state.data != null){
@@ -143,11 +143,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       }) 
       dateArray.map((item,i)=>{
         for(var i=0; i < item.length; i++){
-          let toDateFormat = item[i]
-          let arrayDate
-          while ((arrayDate = regex1.exec(toDateFormat)) !== null) {}
-          arrayDate = regex1.exec(toDateFormat)
-          pureDateArray.push(arrayDate[3])
+          pureDateArray.push(utilities.getStringDateTime(item[i]).day)
         }
       })
     }

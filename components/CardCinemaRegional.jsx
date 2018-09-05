@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import loading from '../static/loading.gif'
 import Link from 'next/link'
 
 class CardCinemaRegional extends PureComponent {
