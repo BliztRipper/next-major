@@ -13,7 +13,10 @@ class AllMovie extends PureComponent {
       dataObj: [],
       isLoading: true,
       error: null,
+      accid: this.props.url.query.accid
     }
+    console.log(this.props.url.query.accid);
+    
   } 
 
   componentDidMount(){
@@ -41,7 +44,7 @@ class AllMovie extends PureComponent {
           <Tab>เร็วๆนี้</Tab>
         </TabList>
         <TabPanel>
-        <NowShowingComp dataObj={this.state.dataObj} />
+          <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
         </TabPanel>
         <TabPanel>
           <CominSoonComp dataObj={this.state.dataObj} />

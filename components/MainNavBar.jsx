@@ -35,11 +35,17 @@ class MainNavBar extends PureComponent {
   }
   render() {
     resetIdCounter()
+    let dataToAllMovies = {
+      pathname: '/AllMovie',
+      query: {
+        accid: this.props.accid
+      }
+    }
     return (
       <div className="indexTab">
         <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
           <TabPanel>
-            <Link prefetch href="/AllMovie">
+            <Link prefetch href={dataToAllMovies}>
               <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
             </Link>
             <HighlightCarousel/>

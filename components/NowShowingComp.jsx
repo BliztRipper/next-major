@@ -7,9 +7,15 @@ class RenderShowing extends PureComponent {
     sessionStorage.setItem('movieSelect',item)
   }
   render(){
+    let dataToSelectCinemaByMovie = {
+      pathname: '/SelectCinemaByMovie',
+      query: {
+        accid: this.props.accid
+      }
+    }
     return(
       <Fragment>
-          <Link  prefetch href="/SelectCinemaByMovie">
+          <Link  prefetch href={dataToSelectCinemaByMovie}>
             <div onClick={this.movieProps.bind(this)} className='showing__cell'>
               <img className='showing__poster' src={this.props.item.poster_ori}/>
               {(()=>{
@@ -36,7 +42,7 @@ class NowShowingComp extends PureComponent {
   sortTime(){
     let sorting = []
     this.state.dataObj.now_showing.map((item,i)=>{
-      sorting.push(<RenderShowing item={item} release={item.release_date} key={i}/>)
+      sorting.push(<RenderShowing item={item} release={item.release_date} key={i} accid={this.props.accid} />)
     })
     let numArray = [...sorting].sort((a,b) => new Date(b.props.item.release_date) - new Date(a.props.item.release_date))
     return numArray
