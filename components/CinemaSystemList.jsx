@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import CinemaSystemComp from "./CinemaSystemComp";
-import loading from '../static/loading.gif'
 
 class CinemaSystemList extends PureComponent {
   constructor(props) {
@@ -36,12 +35,13 @@ class CinemaSystemList extends PureComponent {
 
     {(() => {
       for (var system in SystemType) {
-        console.log(SystemType[system],'log system')
         renderSystem.push(<CinemaSystemComp zoneName={system} dataCine={this.props.dataCine} dataFav={this.props.dataFav} key={system} items={SystemType[system]}/>)
       }
     })()}
     return (
-      <Fragment>{renderSystem}</Fragment>
+      <Fragment>
+        {renderSystem}
+      </Fragment>
     )
   }
 }

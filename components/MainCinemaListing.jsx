@@ -75,10 +75,21 @@ class MainCinemaListing extends PureComponent {
   renderList() {    
     if (!this.state.HideList) {
       return (
-        <Fragment>
-          <CinemaFavoriteList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
-          <CinemaRegionalList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
-        </Fragment>
+        <div className="indexTab__cinema">        
+          <Tabs>
+            <TabList>
+              <Tab>สาขา</Tab>
+              <Tab>รูปแบบโรง</Tab>
+            </TabList>
+            <TabPanel>            
+              <CinemaFavoriteList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
+              <CinemaRegionalList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
+              </TabPanel>
+            <TabPanel>
+              <CinemaSystemList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine}/>
+            </TabPanel>
+          </Tabs>
+        </div>
       )
     } else {
       return (
@@ -99,21 +110,12 @@ class MainCinemaListing extends PureComponent {
     }
 
     return (
-      <div className="indexTab__cinema">
-        <Tabs>
-          <TabList>
-            <Tab>สาขา</Tab>
-            <Tab>รูปแบบโรง</Tab>
-          </TabList>
-          <TabPanel>
-            <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
-            {this.renderList()}
-          </TabPanel>
-          <TabPanel>
-            <CinemaSystemList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine}/>
-          </TabPanel>
-        </Tabs>
-      </div>
+      <Fragment>
+        <div className="searchTab">
+          <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
+        </div>
+        {this.renderList()}
+      </Fragment>
     )
   }
 }

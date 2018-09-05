@@ -494,14 +494,14 @@ body{
       } 
     }
   &__cinema{
-    margin-top: 70px;
     .react-tabs{
       &__tab-list{
         top: 0;
         display: flex;
-        z-index: 2;
+        z-index: 3;
         height: 62px;
         background-color: #fff;
+        position: relative;
       }
       &__tab{
         text-align: center;
@@ -524,7 +524,6 @@ body{
     }
   }
 }
-
 .allmovieTab{
   .react-tabs{
       &__tab-list{
