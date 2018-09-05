@@ -447,7 +447,7 @@ body{
   position: relative;
   z-index: 0;
   .react-tabs{
-    margin-bottom: 50px;
+    padding-bottom: 90px;
       &__tab-list{
         position: fixed;
         bottom: 0;
@@ -568,5 +568,26 @@ body{
     &.active{
       color:#ff8200;
     }
+  }
+}
+.globalHeader {
+  position: relative;
+  background-color: #fff;
+  &__button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: .5rem;
+    z-index: 1;
+    padding: 0.5rem;
+  }
+  &__title {
+    text-align: center;
+    position: relative;
+    z-index: 0;
+    padding: 1rem 0;
+  }
+  + .movie-cashier__container {
+    margin-top: 1.1rem;
   }
 }

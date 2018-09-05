@@ -27,7 +27,7 @@ class CinemaFavoriteList extends PureComponent {
             if(cineID === item.ID){
               let brand = item.DescriptionInside.brand_name_en
               let brandname = brand.replace(/ +/g, "")
-              resultsArray.push(<CardCinema item={item} brandname={brandname} key={item.ID} accid={this.props.accid}/>)
+              resultsArray.push(<CardCinema item={item} brandname={brandname} key={item.ID} accid={this.props.accid} favCineActive={true} />)
             }
           })
         }

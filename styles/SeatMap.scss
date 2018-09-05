@@ -3,6 +3,7 @@ $colorSeat1: #9ce0bb;
 $colorSeat2: #ecbbbc;
 $colorSeat3: #a0b0f4;
 .seatMap {
+  user-select: none;
   height: 100%;
   position: fixed;
   top: 0;
@@ -47,24 +48,6 @@ $colorSeat3: #a0b0f4;
 .seatMapDisplay__row,
 .seatMapDisplay__cell {
   transition: all 0.4s;
-}
-.globalHeader {
-  position: relative;
-  background-color: #fff;
-  &__button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: .5rem;
-    z-index: 1;
-    padding: 0.5rem;
-  }
-  &__title {
-    text-align: center;
-    position: relative;
-    z-index: 0;
-    padding: 1rem 0;
-  }
 }
 .seatMapScreen {
   margin-bottom: 1rem;
@@ -354,6 +337,7 @@ $colorSeat3: #a0b0f4;
 }
 
 .seatMap__educate {
+  user-select: none;
   position: fixed;
   z-index: 99;
   left: 0;

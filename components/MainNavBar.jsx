@@ -19,36 +19,33 @@ class MainNavBar extends PureComponent {
     let documents = [document.documentElement, document.body]
     documents.forEach(element => element.style.cssText = styles);
   }
-  preventBehavior(enable) {
-    document.addEventListener("touchmove", function (e) {
-      e.preventDefault(); 
-      return enable
-    });
-  }
 
   onSelectTabs (index) {
     this.currentTabsIndex = index
     if (this.currentTabsIndex !== 0) {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable)
-      this.preventBehavior(true)
     } else {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
-      this.preventBehavior(false)
     }
   }
   componentDidMount () {
     if (this.currentTabsIndex === 0) {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
-      this.preventBehavior(true)
     }
   }
   render() {
     resetIdCounter()
+    let dataToAllMovies = {
+      pathname: '/AllMovie',
+      query: {
+        accid: this.props.accid
+      }
+    }
     return (
       <div className="indexTab">
         <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
           <TabPanel>
-            <Link prefetch href="/AllMovie">
+            <Link prefetch href={dataToAllMovies}>
               <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
             </Link>
             <HighlightCarousel/>
@@ -70,8 +67,8 @@ class MainNavBar extends PureComponent {
                 <span className="tab-menu-title">โรงภาพยนต์</span>
               </Tab>
               <Tab>
-              <div className="sprite-tab-menu3"></div>
-              <span className="tab-menu-title">ตั๋วหนัง</span>
+                <div className="sprite-tab-menu3"></div>
+                <span className="tab-menu-title">ตั๋วหนัง</span>
               </Tab>
             </div>
           </TabList>

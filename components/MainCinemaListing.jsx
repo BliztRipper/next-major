@@ -58,18 +58,30 @@ class MainCinemaListing extends PureComponent {
     }
   }
 
+  hasFav(cineId) {    
+    let found = false
+    if (this.state.dataFav && this.state.dataFav.data.CinemaIds) {
+      this.state.dataFav.data.CinemaIds.map(favId=>{
+        if(favId === cineId) {
+          found = true
+          return found
+        }
+      })
+    }
+
+    return found
+  }
+
   getDataSearch(keyword) {
     let cinemas = []
     this.state.dataCine.map(cinema=>{
       if (cinema.Name.toLowerCase().indexOf(keyword) != -1 || 
           cinema.NameAlt.toLowerCase().indexOf(keyword) != -1) {
-            cinemas.push(<CardCinema item={cinema} brandname={cinema.DescriptionInside.brandname} key={cinema.ID} accid={this.props.accid}/>)
+            cinemas.push(<CardCinema item={cinema} brandname={cinema.DescriptionInside.brandname} key={cinema.ID} accid={this.props.accid} favCineActive={this.hasFav(cinema.ID)} />)
       }
     })
 
-    if (cinemas.length) {
-      this.setState({dataSearch: cinemas})
-    }
+    this.setState({dataSearch: cinemas})
   }
 
   renderList() {    
