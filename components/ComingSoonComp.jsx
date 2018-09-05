@@ -1,25 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import MovieOfMonth from './MovieOfMonth'
-import MoviePoster from './MoviePoster';
-import loading from '../static/loading.gif'
+import MoviePoster from './MoviePoster'
 
 class CominSoonComp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      dataObj: [],
-      isLoading: true,
-      error: null,
+      dataObj: this.props.dataObj,
       monthMovie:[],
       renderMovie: [],
     }
-  } 
-
-  componentDidMount(){
-    fetch(`https://api-cinema.truemoney.net/MovieList`)
-    .then(response => response.json())
-    .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    .catch(error => this.setState({ error, isLoading: false }))
   }
 
   convertToYearMonth(dateString) {
@@ -38,16 +28,9 @@ class CominSoonComp extends PureComponent {
     return monthNames[d.getMonth()]+' '+d.getFullYear()
   }
 
-
   render() {
-    const {dataObj, isLoading, error, monthMovie, renderMovie} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) {
-      return <img src={loading} className="loading"/>
-    }
-
+    const {dataObj, monthMovie, renderMovie} = this.state;
+    
     dataObj.comingsoon.map(movie => {
       let key = this.convertToYearMonth(movie.release_date)
       if (key in monthMovie == false){
