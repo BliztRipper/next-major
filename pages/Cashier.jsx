@@ -88,11 +88,11 @@ class Cashier extends PureComponent {
   }
   componentDidMount() {
     try {
-      let dateObj = new Date();
+      let dateObj = new Date(sessionStorage.getItem('BookingDate'));
       let month = dateObj.getUTCMonth() + 1; 
       let day = dateObj.getUTCDate();
       let year = dateObj.getUTCFullYear();
-      let newdate = day + "/" + month + "/" + year;
+      let bookingDate = day + "/" + month + "/" + year;
       this.setState({
         BookingMovie: sessionStorage.getItem('BookingMovie'),
         BookingDuration: sessionStorage.getItem('BookingDuration'),
@@ -102,7 +102,7 @@ class Cashier extends PureComponent {
         BookingPoster: sessionStorage.getItem('BookingPoster'),
         BookingScreenName: sessionStorage.getItem('BookingScreenName'),
         BookingSeat: sessionStorage.getItem('BookingSeat'),
-        BookingDate: newdate,
+        BookingDate: bookingDate,
         BookingAttributesNames: sessionStorage.getItem('BookingAttributesNames'),
         BookingTime: sessionStorage.getItem('BookingTime'),
         BookingPrice: sessionStorage.getItem('BookingPrice'),

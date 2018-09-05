@@ -30,22 +30,21 @@ class CinemaMovieInfo extends PureComponent {
             <a className="movie-card__more-detail" onClick={this.toggleDetail.bind(this)}>{this.state.isToggle? 'ซ่อนรายละเอียด':'แสดงรายละเอียด'}</a>
           </div>
         </div>
-          <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container isHide'}>
-            <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
-            <video className="movie-card__trailer" width="320" controls>
-              <source src={this.props.item.trailer} />
-              Your browser does not support the video tag.
-            </video>
-            <div className="movie-card__director-label">ผู้กำกับ</div>
-            <div className="movie-card__director">{this.props.item.director}</div>
-            <div className="movie-card__actor-label">นักแสดงนำ</div>
-            <div className="movie-card__actor">{this.props.item.actor}</div>
-          </div>
-    </Fragment>
-    );
+        <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container isHide'}>
+          <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
+          <video className="movie-card__trailer" width="320" preload="auto" controls>
+            <source src={`${this.props.item.trailer}.mp4#t=10`} />
+            Your browser does not support the video tag.
+          </video>
+          <div className="movie-card__director-label">ผู้กำกับ</div>
+          <div className="movie-card__director">{this.props.item.director}</div>
+          <div className="movie-card__actor-label">นักแสดงนำ</div>
+          <div className="movie-card__actor">{this.props.item.actor}</div>
+        </div>
+      </Fragment>
+    )
   }
 }
-
 class MainSelectCinemaByMovie extends PureComponent { 
   constructor(props) {
     super(props);
@@ -58,7 +57,8 @@ class MainSelectCinemaByMovie extends PureComponent {
       nowShowing:[],
       branchData:[],
       theaterArr:[],
-      pickThisDay: parseInt(new Date().getDate())
+      pickThisDay: 0,
+      uniArr: [],
     }
   }
 
@@ -79,11 +79,30 @@ class MainSelectCinemaByMovie extends PureComponent {
         fetch(`https://api-cinema.truemoney.net/Branches`).then(response => response.json())
         .then(data=> {
           let dataBranch = data.data
-          this.renderHeadCinema(dataSchedule, dataBranch)
-          this.setState({branchData:data.data, isLoading: false})
+          this.renderHeadCinema(dataSchedule, dataBranch)          
         })
+        .then(
+          () => {
+            let dateArray = []
+            let pureDateArray = []
+            if(this.state.data != null){
+              this.state.data.map(date=>{
+                Object.keys(date.Theaters).map(key => {
+                  dateArray.push(date.Theaters[key].Showtimes)
+                })
+              }) 
+              dateArray.map((item,i)=>{
+                for(var i=0; i < item.length; i++){
+                  pureDateArray.push(parseInt(utilities.getStringDateTime(item[i]).day)) 
+                }
+              })
+            }
+  
+            this.state.uniArr = [...(new Set(pureDateArray))]
+            this.setState({branchData:data.data, isLoading: false})
+          }
+        )
       })
-
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
@@ -113,14 +132,15 @@ class MainSelectCinemaByMovie extends PureComponent {
     }
     resultsArray.info.push(<CinemaMovieInfo item={this.state.nowShowing}/>)
     this.state.theaterArr.map(theaters=>{
-      resultsArray.theater.push(<TheaterHead name={theaters.Name} id={theaters.Id}/>, resultsArray.time)
+      resultsArray.theater.push(
+          <TheaterHead name={theaters.Name} id={theaters.Id}/>, resultsArray.time)
           Object.keys(theaters.Theaters).map(key => {
           if(theaters.Theaters[key].SessionAttributesNames = 'EN/TH'){
             theaters.Theaters[key].SessionAttributesNames = 'อังกฤษ'
           }
           this.state.nowShowing.movieCode.map(movieCode => {
             if(theaters.Theaters[key].ScheduledFilmId === movieCode) {
-              resultsArray.time.push(<CinemaTimeTable key={theaters.Theaters[key].ScreenName} cineName={theaters.Name} pickedDate={this.state.pickThisDay} cineId={theaters.Id} name='fromMovie' item={theaters.Theaters[key]} serverTime={this.state.serverTime}/>)   
+              resultsArray.time.push(<CinemaTimeTable cineId={theaters.Id} cineName={theaters.Name} name='fromMovie' pickedDate={this.state.uniArr[this.state.pickThisDay]} item={theaters.Theaters[key]} serverTime={this.state.serverTime} accid={this.props.url.query.accid}/>)   
             }
           })
         })
@@ -133,28 +153,12 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   filterByDate(){
-    let dateArray = []
-    let pureDateArray = []
-    if(this.state.data != null){
-      this.state.data.map(date=>{
-        Object.keys(date.Theaters).map(key => {
-          dateArray.push(date.Theaters[key].Showtimes)
-        })
-      }) 
-      dateArray.map((item,i)=>{
-        for(var i=0; i < item.length; i++){
-          pureDateArray.push(parseInt(utilities.getStringDateTime(item[i]).day))
-        }
-      })
-    }
-  let uniArr = [...(new Set(pureDateArray))]
    return(
-    uniArr.map(item=>{
-      console.log(item)
+    this.state.uniArr.map((item,i)=>{
       let isToday = ''
-      if(this.state.pickThisDay === item){isToday = true}else{isToday = false}
+      if(this.state.pickThisDay === i){isToday = true}else{isToday = false}
         return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,i)}>วันที่ {item}</span></a>
         )
     })
    )

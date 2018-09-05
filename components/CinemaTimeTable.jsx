@@ -16,19 +16,16 @@ class CinemaTimeTable extends PureComponent {
     }
   }
   
-  handleScheduleSelected (itemTheaterInfo, event) {
+  handleScheduleSelected (itemTheaterInfo, format, time) {
     if(this.props.name ==='fromMovie'){
-      let target = event.target || event.srcElement
-      target = target.innerHTML
-      sessionStorage.setItem('BookingTime',target)
+      sessionStorage.setItem('BookingTime',format)
       sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
       sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
       sessionStorage.setItem('CinemaID',this.props.cineId)
       sessionStorage.setItem('BookingCinema',this.props.cineName)
+      sessionStorage.setItem('BookingDate',time)
     } else {
-      let target = event.target || event.srcElement
-      target = target.innerHTML
-      sessionStorage.setItem('BookingTime',target)
+      sessionStorage.setItem('BookingTime',format)
       sessionStorage.setItem('BookingMovie',itemTheaterInfo.title_en)
       sessionStorage.setItem('BookingMovieTH',itemTheaterInfo.title_th)
       sessionStorage.setItem('BookingGenre',itemTheaterInfo.genre)
@@ -36,6 +33,7 @@ class CinemaTimeTable extends PureComponent {
       sessionStorage.setItem('BookingScreenName',this.props.item.ScreenName)
       sessionStorage.setItem('BookingPoster',itemTheaterInfo.poster_ori)
       sessionStorage.setItem('BookingAttributesNames',this.props.item.SessionAttributesNames)
+      sessionStorage.setItem('BookingDate',time)
     }
   }
   
@@ -44,15 +42,11 @@ class CinemaTimeTable extends PureComponent {
       pathname: '/seatMap',
       query: ''
     }
+
     let resultArray = []
     this.props.item.Showtimes.map((time,i)=>{
-      //Sync with Server Time
-      if(this.props.pickedDate < 10){
-        var today = '0'+this.props.pickedDate.toString()
-      } else {
-        var today = this.props.pickedDate.toString()
-      }
-      today = parseInt(today)
+      var today = this.props.pickedDate
+      
       //Get date and time for today
       let now = new Date(this.props.serverTime)
       let nowtime = now.getTime()
@@ -63,8 +57,8 @@ class CinemaTimeTable extends PureComponent {
       let movieTime = now.setHours(splitHours,splitMins)
       let format = utilities.getStringDateTime(time).time
       let movieDay = parseInt(utilities.getStringDateTime(time).day)
-      let movienowtimeMoreThanNowtime = ''
-      if (today === movieDay) {  
+      let movienowtimeMoreThanNowtime = ''      
+      if (today === movieDay) {   
         if(movieTime > nowtime){
           movienowtimeMoreThanNowtime = false
         } else {
@@ -75,14 +69,14 @@ class CinemaTimeTable extends PureComponent {
           accid: this.props.accid,
           SessionId: this.props.item.SessionIds[i]
         }
+
         if(nowDate === today){
           resultArray.push(
-            <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={movienowtimeMoreThanNowtime} time={format}/>
+            <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo, format, time)} class={movienowtimeMoreThanNowtime} time={format}/>
           )
         } else {
-          resultArray = []
           resultArray.push(
-            <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo)} class={false} time={format}/>
+            <PostLink key={i} link={dataToSeatMap} handleScheduleSelected={this.handleScheduleSelected.bind(this, this.props.itemTheaterInfo, format, time)} class={false} time={format} />
           )
         }
       }
