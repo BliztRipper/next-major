@@ -9,6 +9,7 @@ import HistoryTicketDetail from '../components/HistoryTicketDetail'
 
 class ButtonHistory extends PureComponent {
   render () {
+    if (!this.props.hideButton) return false
     return (
       <div className="btnTheme" onClick={this.props.goToHistoryLists}><span>ดูประวัติการใช้งาน</span></div>
     )
@@ -68,7 +69,7 @@ class MyTicket extends PureComponent {
         this.state.serverTime = data.server_time
 
         let expired = false
-        if (data.data.length) {
+        if (data.data) {
           data.data.forEach((ticket) => {
             expired = this.hasExpired(ticket)
             if (!expired) {
@@ -86,6 +87,13 @@ class MyTicket extends PureComponent {
               isLoading: false 
             })
           }
+        } else {
+
+          this.setState({ 
+            dataMyTicket: false,
+            isLoading: false,
+            isEmpty: true
+          })
         }
       })
     } catch(err){
@@ -121,7 +129,7 @@ class MyTicket extends PureComponent {
     // this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }
   render () {
-    const {isLoading, error, isEmpty, historyListsShow, historyDetailShow} = this.state;
+    const {isLoading, error, isEmpty, historyListsShow, historyDetailShow, dataMyTicket} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -133,7 +141,7 @@ class MyTicket extends PureComponent {
         <section className="empty">
           <img src={empty}/>
           <h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5>
-          <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)}></ButtonHistory>
+          <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicket}></ButtonHistory>
         </section>
       )
     }   
