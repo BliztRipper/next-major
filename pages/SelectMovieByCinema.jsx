@@ -54,7 +54,7 @@ class MainSelectMovieByCinema extends PureComponent {
       dataSchedule:null,
       serverTime:'',
       isEmpty:false,
-      pickThisDay: new Date().getDate().toString(),
+      pickThisDay: new Date().getDate(),
       accid: this.props.url.query.accid
     }
   }
@@ -198,7 +198,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   pickThisDay(day){
-    this.setState({pickThisDay:day})
+    this.setState({pickThisDay:parseInt(day)})
   }
 
   filterByDate(){
@@ -220,7 +220,7 @@ class MainSelectMovieByCinema extends PureComponent {
    return(
     uniArr.map(item=>{
       let isToday = ''
-      if(this.state.pickThisDay === item){isToday = true}else{isToday = false}
+      if(this.state.pickThisDay === parseInt(item)){isToday = true}else{isToday = false}
         return (
           <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>วันที่ {item}</span></a>
         )
