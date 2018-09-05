@@ -143,13 +143,14 @@ class MainSelectCinemaByMovie extends PureComponent {
       }) 
       dateArray.map((item,i)=>{
         for(var i=0; i < item.length; i++){
-          pureDateArray.push(utilities.getStringDateTime(item[i]).day)
+          pureDateArray.push(parseInt(utilities.getStringDateTime(item[i]).day))
         }
       })
     }
   let uniArr = [...(new Set(pureDateArray))]
    return(
     uniArr.map(item=>{
+      console.log(item)
       let isToday = ''
       if(this.state.pickThisDay === item){isToday = true}else{isToday = false}
         return (
