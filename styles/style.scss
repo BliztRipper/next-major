@@ -463,7 +463,11 @@ body{
         justify-content: space-around;
         box-shadow: #000 0 2px 4px 0;
         background-color: #fff;
-        height: 65px;
+        height: 80px;
+        bottom: 0;
+        justify-content: space-around;
+        width: 100%;
+        position: absolute;
       }
       &__tab{
         text-align: center;

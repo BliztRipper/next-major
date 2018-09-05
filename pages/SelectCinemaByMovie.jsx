@@ -12,12 +12,6 @@ const TheaterHead = (props) => (
 )
 
 class CinemaMovieInfo extends PureComponent {
-  state = {
-    isToggle: true
-  }
-  toggleDetail(){
-    this.setState(prev => ({ isToggle: !prev.isToggle }))
-  }
   render() {
     return (
       <Fragment>
@@ -27,10 +21,12 @@ class CinemaMovieInfo extends PureComponent {
             <h2 className="movie-card__title">{this.props.item.title_en}</h2>
             <h3 className="movie-card__subtitle">{this.props.item.title_th}</h3>
             <span className="movie-card__genre">{this.props.item.genre} | {this.props.item.duration} นาที</span>
-            <a className="movie-card__more-detail" onClick={this.toggleDetail.bind(this)}>{this.state.isToggle? 'ซ่อนรายละเอียด':'แสดงรายละเอียด'}</a>
+            <Link prefetch href='MovieInfo'>
+              <a className="movie-card__more-detail">แสดงรายละเอียด</a>
+            </Link>
           </div>
         </div>
-        <div className={this.state.isToggle? 'movie-card__more-detail-container isActive':'movie-card__more-detail-container isHide'}>
+        <div className="movie-card__more-detail-container isHide">
           <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
           <video className="movie-card__trailer" width="320" preload="auto" controls>
             <source src={`${this.props.item.trailer}.mp4#t=10`} />
@@ -45,6 +41,7 @@ class CinemaMovieInfo extends PureComponent {
     )
   }
 }
+
 class MainSelectCinemaByMovie extends PureComponent { 
   constructor(props) {
     super(props);
