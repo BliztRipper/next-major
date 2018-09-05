@@ -2,16 +2,15 @@ import { PureComponent } from 'react'
 import Ticket from './Ticket'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyTicket.png'
-import Link from 'next/link'
 import sortTickets from '../scripts/sortTickets'
 import utilities from '../scripts/utilities'
+import HistoryTickets from '../components/HistoryTickets'
+import HistoryTicketDetail from '../components/HistoryTicketDetail'
 
 class ButtonHistory extends PureComponent {
   render () {
     return (
-      <Link prefetch href="/HistoryTickets">
-        <a href="" className="btnTheme"><span>ดูประวัติการใช้งาน</span></a>
-      </Link>
+      <div className="btnTheme" onClick={this.props.goToHistoryLists}><span>ดูประวัติการใช้งาน</span></div>
     )
   }
 }
@@ -24,56 +23,105 @@ class MyTicket extends PureComponent {
       isEmpty:true,
       error: null,
       userPhoneNumber: this.props.accid,
-      dataMyTicket: []
+      dataMyTicket: [],
+      dataTicketsActive: [],
+      dataHistoryLists: [],
+      dataHistoryDetail: '',
+      historyListsShow: false,
+      historyDetailShow: false
     }
     this.refTicket = React.createRef()
   }
-  
+  handleBackButton (from) {
+    if (from === 'HistoryTickets') {
+      this.goToMyTickets()
+    } else if (from === 'HistoryTicketDetail') {
+      this.goToHistoryLists()
+    }
+  }
+  goToMyTickets () {
+    this.setState({
+      historyListsShow: false,
+      historyDetailShow: false
+    })
+  }
+  goToHistoryLists () {
+    this.setState({
+      historyListsShow: true,
+      historyDetailShow: false,
+      isEmpty: false
+    })
+  }
+  goToHistoryDetail (ticket) {
+    this.setState({
+      historyListsShow: false,
+      historyDetailShow: true,
+      dataHistoryDetail: ticket
+    })
+  }
   getTickets () {
     try{
       fetch(`https://api-cinema.truemoney.net/MyTickets/${this.state.userPhoneNumber}`)
       .then(response => response.json())
       .then(data => {
         console.log(data, 'data RESPONSE MyTickets')
-        this.setState({ 
-          dataMyTicket: data.data,
-          serverTime: data.server_time,
-          isEmpty: false,
-          isLoading: false 
-        })
-        if(this.state.dataMyTicket.length <= 0){
-          this.setState({isEmpty:true})
+        this.state.serverTime = data.server_time
+
+        let expired = false
+        if (data.data.length) {
+          data.data.forEach((ticket) => {
+            expired = this.hasExpired(ticket)
+            if (!expired) {
+              this.state.dataMyTicket.push(ticket) 
+            } else {
+              this.state.dataHistoryLists.push(ticket)
+            }
+          })
+          if (this.state.dataMyTicket.length === 0){
+            this.setState({isEmpty:true})
+          } else {
+            this.setState({ 
+              dataMyTicket: this.state.dataMyTicket,
+              isEmpty: false,
+              isLoading: false 
+            })
+          }
         }
       })
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }    
   }
-  renderTickets () {
-    let expired = false
+  hasExpired (ticket) {
     let serverDate = new Date(this.state.serverTime)
     let expiredMaxHours = 3
     let offsetTime = expiredMaxHours * 3600 * 1000
     
     let serverResulTime = serverDate.getTime()
-    if (this.state.dataMyTicket) {
-      return this.state.dataMyTicket.map((ticket, ticketIndex) => {
-        let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime()
-        expired = serverResulTime - ticketBookedResultTime > offsetTime
-        return (
-          <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId + ticketIndex} expired={expired} hideButton={true}></Ticket>
-        )
-      })
-    }
+    let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime();
+
+    return serverResulTime - ticketBookedResultTime > offsetTime
+  }
+  renderMyTickets () {
+    return this.state.dataMyTicket.map((ticket, ticketIndex) => {
+      return (
+        <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId + ticketIndex} expired={false} hideButton={true}></Ticket>
+      )
+    })
+  }
+  renderHistoryLists () {
+    return <HistoryTickets dataTickets={this.state.dataHistoryLists} serverTime={this.state.serverTime} handleBackButton={this.handleBackButton.bind(this, 'HistoryTickets')} goToHistoryDetail={this.goToHistoryDetail.bind(this)}></HistoryTickets>
+  }
+  renderHistoryDetail () {
+    return <HistoryTicketDetail dataTicket={this.state.dataHistoryDetail} handleBackButton={this.handleBackButton.bind(this, 'HistoryTicketDetail')}></HistoryTicketDetail>
   }
   componentWillMount() {
     this.getTickets()
-    
     this.state.dataMyTicket = sortTickets.byTime(this.state.dataMyTicket)
     // this.state.dataMyTicket = sortTickets.byName(this.state.dataMyTicket)
   }
   render () {
-    const {isLoading, error,isEmpty} = this.state;
+    const {isLoading, error, isEmpty, historyListsShow, historyDetailShow} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -85,15 +133,21 @@ class MyTicket extends PureComponent {
         <section className="empty">
           <img src={empty}/>
           <h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5>
-          <ButtonHistory></ButtonHistory>
+          <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)}></ButtonHistory>
         </section>
       )
     }   
+    if (historyListsShow && !historyDetailShow) {
+      return this.renderHistoryLists()
+    } 
+    if (!historyListsShow && historyDetailShow) {
+      return this.renderHistoryDetail()
+    }
     return (
       <div className="myTickets">
         <header className="cashier-header">ตั๋วของฉัน</header>
-        {this.renderTickets()}
-        <ButtonHistory></ButtonHistory>
+        {this.renderMyTickets()}
+        <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)}></ButtonHistory>
       </div>
     )
   }

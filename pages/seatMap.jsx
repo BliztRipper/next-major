@@ -239,10 +239,6 @@ class seatMap extends PureComponent {
     try {
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
         body:JSON.stringify(dataToStorage)
       })
       .then(response => response.json())
