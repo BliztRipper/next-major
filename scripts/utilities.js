@@ -13,18 +13,18 @@ export default {
     }
   },
   getStringDateTimeFromTicket (date, time) {
-    let year = parseInt(date.split('/')[2])
-    let month = parseInt(date.split('/')[1]) - 1
-    let day = parseInt(date.split('/')[0])
-    let hour = parseInt(time.split(':')[0])
-    let minute = parseInt(time.split(':')[1]) 
+    let year = date ? parseInt(date.split('/')[2]) : false
+    let month = date ? parseInt(date.split('/')[1]) : false
+    let day = date ? parseInt(date.split('/')[0]) : false
+    let hour = time ? parseInt(time.split(':')[0]) : false
+    let minute = time ? parseInt(time.split(':')[1])  : false
     return {
       year: year,
       month: month,
       day: day,
       hour: hour,
       minute: minute,
-      date : new Date(year, month, day, hour, minute)
+      date : new Date(year, month -= 1, day, hour, minute)
     }
   }
 }
