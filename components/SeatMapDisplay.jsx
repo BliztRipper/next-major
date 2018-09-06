@@ -1,4 +1,5 @@
 import { PureComponent, Fragment } from 'react'
+import Swal from 'sweetalert2'
 
 class SeatMapDisplay extends PureComponent {
   constructor(props) {
@@ -60,7 +61,10 @@ class SeatMapDisplay extends PureComponent {
         }
         if (allowBook) {
           if (this.state.seatsSelected.length >= ticketBookedMax) {
-            alert(`จำกัดการจอง ${ticketBookedMax} ที่นั่ง`)
+            Swal({
+              title: 'ขออภัย',
+              text: `ลูกค้าสามารถจองที่นั่งได้ไม่เกิน ${ticketBookedMax} ที่นั่ง ต่อการซื้อตั๋วหนึ่งครั้ง`
+            })
           } else {
             this.state.areaSelected = aSeat.AreaCategoryCode
             aSeat.Status = bookingStatus

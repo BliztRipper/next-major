@@ -597,3 +597,16 @@ body{
     margin-top: 1.1rem;
   }
 }
+
+.swal2-popup {
+  .swal2-styled {
+    &.swal2-confirm {
+      background-color: var(--colorTheme) !important;
+      color: #fff !important;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(#ff8300, 0.2);
+      }
+    }
+  }
+}

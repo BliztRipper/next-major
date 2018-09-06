@@ -155,7 +155,7 @@ class MyTicket extends PureComponent {
       <div className="myTickets">
         <header className="cashier-header">ตั๋วของฉัน</header>
         {this.renderMyTickets()}
-        <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)}></ButtonHistory>
+        <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicket}></ButtonHistory>
       </div>
     )
   }
