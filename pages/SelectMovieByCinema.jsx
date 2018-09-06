@@ -217,6 +217,8 @@ class MainSelectMovieByCinema extends PureComponent {
       })
     }
     let uniArr = [...(new Set(pureDateArray))];
+    const numberSorter = (a, b) => a - b;
+    uniArr.sort(numberSorter)
    return(
     uniArr.map(item=>{
       let isToday = ''
