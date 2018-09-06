@@ -15,10 +15,8 @@ class AllMovie extends PureComponent {
       error: null,
       accid: this.props.url.query.accid
     }
-    console.log(this.props.url.query.accid);
     
   } 
-
   componentDidMount(){
     fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())

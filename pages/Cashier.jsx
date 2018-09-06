@@ -4,6 +4,7 @@ import Ticket from '../components/Ticket'
 import '../styles/cashier.scss'
 import Swal from 'sweetalert2'
 import loading from '../static/loading.gif'
+import Router from 'next/router'
 
 class Cashier extends PureComponent {
   constructor(props) {
@@ -126,7 +127,6 @@ class Cashier extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
-
   goToHome() {
     Router.push({
       pathname: '/',

@@ -62,13 +62,19 @@ class HighlightCarousel extends PureComponent {
       slidesToScroll: 1,
       touchThreshold: 8
     }
+    let dataToSelectCinemaByMovie = {
+      pathname: '/SelectCinemaByMovie',
+      query: {
+        accid: this.props.accid
+      }
+    }
     return (
       <div className='highlight'>
         <Slider {...settings}>
           {dataObj.map((item,i) =>
             <Fragment key={i}>
               <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-              <Link prefetch href="/SelectCinemaByMovie">
+              <Link prefetch href={dataToSelectCinemaByMovie}>
                 <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
               </Link>
               {(() => {

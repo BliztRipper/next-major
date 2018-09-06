@@ -4,17 +4,21 @@ import MainNavBar from '../components/MainNavBar'
 import Router from 'next/router'
 import '../styles/style.scss'
 
-export default class home extends PureComponent {
-
+class home extends PureComponent {
   componentDidMount () {
-    if (!this.props.url.query.accid) {
-      Router.push({
-        pathname: '/',
-        query: {
-          accid: '0863693746'
-        }
-      })
+    let urlParams = (new URL(document.location)).searchParams;
+    let urlParamsAccid = urlParams.get("accid");
+    let accid = '0863693746'
+    if (urlParamsAccid) {
+      accid = urlParamsAccid
     }
+    Router.push({
+      pathname: '/',
+      query: {
+        accid: accid
+      }
+    })
+    console.log(this, 'this componentDidMount index');
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
@@ -34,3 +38,4 @@ export default class home extends PureComponent {
     )
    }
  }
+ export default home

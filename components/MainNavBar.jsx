@@ -48,7 +48,7 @@ class MainNavBar extends PureComponent {
             <Link prefetch href={dataToAllMovies}>
               <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
             </Link>
-            <HighlightCarousel/>
+            <HighlightCarousel accid={this.props.accid}/>
           </TabPanel>
           <TabPanel>
             <MainCinemaListing accid={this.props.accid}/>
