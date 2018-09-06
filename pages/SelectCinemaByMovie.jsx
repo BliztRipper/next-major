@@ -94,7 +94,8 @@ class MainSelectCinemaByMovie extends PureComponent {
                 }
               })
             }
-  
+            const numberSorter = (a, b) => a - b;
+            pureDateArray.sort(numberSorter)
             this.state.uniArr = [...(new Set(pureDateArray))]
             this.setState({branchData:data.data, isLoading: false})
           }
@@ -119,7 +120,6 @@ class MainSelectCinemaByMovie extends PureComponent {
     })
     this.setState({theaterArr: this.state.theaterArr})
   }
-
   
   getTimetable(){
     let resultsArray = {
@@ -144,7 +144,6 @@ class MainSelectCinemaByMovie extends PureComponent {
     })
     return resultsArray
   }
-
   pickThisDay(day){
     this.setState({pickThisDay:day})
   }
