@@ -245,6 +245,8 @@ class MainSelectMovieByCinema extends PureComponent {
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }    
+    // {history.pushState(null, null, location.href)
+    //   window.onpopstate = ()=>Swal('ห้ามกดฉันนะ ฉันเจ็บ')}
     return (      
       <Layout title="Select Movie">
         <section className="date-filter">

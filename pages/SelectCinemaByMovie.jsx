@@ -119,7 +119,6 @@ class MainSelectCinemaByMovie extends PureComponent {
     })
     this.setState({theaterArr: this.state.theaterArr})
   }
-
   
   getTimetable(){
     let resultsArray = {
@@ -144,7 +143,6 @@ class MainSelectCinemaByMovie extends PureComponent {
     })
     return resultsArray
   }
-
   pickThisDay(day){
     this.setState({pickThisDay:day})
   }

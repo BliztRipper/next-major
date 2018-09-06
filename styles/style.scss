@@ -7,6 +7,7 @@
 @import 'myTickets';
 @import 'searchCinema';
 @import 'history';
+@import 'responsive';
 
 :root{
   font-size: 16px;
@@ -153,13 +154,6 @@ body{
   margin-top: 2vh;
   margin-bottom: 5vh;
   text-align: center;
-  &__poster{
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    width: 166px;
-    height: 250px;
-  }
   &__title{
     display: block
   }
@@ -441,6 +435,45 @@ body{
     }
   }
 
+}
+
+.movie-info{
+  &__title{
+    font-size: 1.5rem;
+    color:#1F232A;
+  }
+  &__subtitle{
+    font-size: 1.25rem;
+    color:#1F232A;
+  }
+  &__genre{
+    font-size: 0.875rem;
+    color:#383D48;
+  }
+  &__relaese{
+    font-size: 1rem;
+    color:#383D48;
+    &-label{
+      color:#757D8C;
+      padding-top: 0.875rem;
+    }
+  }
+  &__director{
+    font-size: 0.875rem;
+    color:#383D48;
+    &-label{
+      color:#757D8C;
+      padding-top: 1.5rem;
+    }
+  }
+  &__actor{
+    font-size: 0.875rem;
+    color:#383D48;
+    &-label{
+      color:#757D8C;
+      padding-top: 1.5rem;
+    }
+  }
 }
 
 /* Wrapper for Tab*/

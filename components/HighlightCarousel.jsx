@@ -10,6 +10,7 @@ class HighlightCarousel extends PureComponent {
       dataObj: [],
       isLoading: true,
       error: null,
+      background:"",
     }
   }
   componentDidMount(){
@@ -27,6 +28,47 @@ class HighlightCarousel extends PureComponent {
   movieDetails(item){
     let props = JSON.stringify(item)
     sessionStorage.setItem('movieSelect',props)
+  }
+
+  renderPoster(){
+    const settings = {
+      className: "center",
+      centerMode: false,
+      lazyLoad: true,
+      infinite: false,
+      centerPadding: "30px",
+      speed: 150,
+      dots: false,
+      arrows: false,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      touchThreshold: 8
+    }
+    let renderItem = [];
+    renderItem.push(
+      <Slider {...settings}>
+        {this.state.dataObj.map((item,i) =>
+          <Fragment key={i}>
+            <div className="poster-container">
+              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
+            </div>
+            <Link prefetch href="/SelectCinemaByMovie">
+              <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+            </Link>
+            {(() => {
+              if(item.title_en === item.title_th){
+                  item.title_th = ''
+              } 
+            })()}
+            <span className='highlight__title'>{item.title_en}</span>
+            <span className='highlight__subtitle'>{item.title_th}</span>
+            <span className='highlight__genre'>{item.genre}</span>
+          </Fragment>
+        )}
+      </Slider>
+    )
+    console.log(this.state.background)
+    return renderItem
   }
 
   render() {
@@ -49,41 +91,11 @@ class HighlightCarousel extends PureComponent {
       sessionStorage.setItem("now_showing", JSON.stringify(items))
     })()}
     
-    const settings = {
-      className: "center",
-      centerMode: true,
-      lazyLoad: true,
-      infinite: false,
-      centerPadding: "30px",
-      speed: 300,
-      dots: false,
-      arrows: false,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      touchThreshold: 8
-    }
     return (
       <div className='highlight'>
-        <Slider {...settings}>
-          {dataObj.map((item,i) =>
-            <Fragment key={i}>
-              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-              <Link prefetch href="/SelectCinemaByMovie">
-                <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
-              </Link>
-              {(() => {
-                if(item.title_en === item.title_th){
-                    item.title_th = ''
-                } 
-              })()}
-              <span className='highlight__title'>{item.title_en}</span>
-              <span className='highlight__subtitle'>{item.title_th}</span>
-              <span className='highlight__genre'>{item.genre}</span>
-            </Fragment>
-          )}
-        </Slider>
+      {this.renderPoster()}
       </div>
-    );
+    )
   }
 }
 
