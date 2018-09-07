@@ -66,7 +66,6 @@ class MyTicket extends PureComponent {
       .then(response => response.json())
       .then(data => {
         this.state.serverTime = data.server_time
-
         let expired = false
         if (data.data) {
           data.data.forEach((ticket) => {
@@ -78,7 +77,10 @@ class MyTicket extends PureComponent {
             }
           })
           if (this.state.dataMyTicket.length === 0){
-            this.setState({isEmpty:true})
+            this.setState({
+              isLoading: false,
+              isEmpty:true
+            })
           } else {
             this.setState({ 
               dataMyTicket: this.state.dataMyTicket,
@@ -87,7 +89,6 @@ class MyTicket extends PureComponent {
             })
           }
         } else {
-
           this.setState({ 
             dataMyTicket: false,
             isLoading: false,
