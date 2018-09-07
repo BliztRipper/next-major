@@ -35,6 +35,7 @@ class AllMovie extends PureComponent {
 
     return (
       <Layout title='All Movie'>
+      <h1 className="allmovieTab__header">ภาพยนต์ทั้งหมด</h1>
       <div className="allmovieTab">
       <Tabs>
         <TabList>
