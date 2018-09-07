@@ -154,13 +154,29 @@ class MainSelectCinemaByMovie extends PureComponent {
     this.setState({pickThisDay:day})
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    // let d = date.slice(8,10)
+    // let day = parseInt(d)
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    // if(monthIndex < 10){monthIndex.slice(1,2)}
+    return monthNames[month]
+  }
+
   filterByDate(){
    return(
     this.state.uniArr.map((item,i)=>{
+      let releaseDate = this.formatDate(this.state.nowShowing.release_date)
       let isToday = ''
       if(this.state.pickThisDay === i){isToday = true}else{isToday = false}
         return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,i)}>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,i)}>{`${item} ${releaseDate}`}</span></a>
         )
     })
    )

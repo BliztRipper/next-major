@@ -55,7 +55,8 @@ class MainSelectMovieByCinema extends PureComponent {
       serverTime:'',
       isEmpty:false,
       pickThisDay: new Date().getDate(),
-      accid: this.props.url.query.accid
+      accid: this.props.url.query.accid,
+      getMonth:''
     }
   }
 
@@ -205,18 +206,47 @@ class MainSelectMovieByCinema extends PureComponent {
     this.setState({pickThisDay:parseInt(day)})
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    let d = date.slice(8,10)
+    let day = parseInt(d)
+    // let monthIndex = date.slice(5,7)
+    // let month = parseInt(monthIndex)
+    // if(monthIndex < 10){monthIndex.slice(1,2)}
+    return day
+  }
+
+  formatMonth(date) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    if(monthIndex < 10){monthIndex.slice(1,2)}
+    return monthNames[month]
+  }
+
   filterByDate(){
-    let dateArray = []
+    var dateArray = []
     let pureDateArray = []
     if(this.state.dataSchedule != null){
+      console.log(this.state.dataSchedule)
       Object.keys(this.state.dataSchedule).map(date=>{
         dateArray.push(this.state.dataSchedule[date])
       })
       dateArray.map((item,i)=>{
         for(var i=0; i < item.showtimes.length; i++){
-          let toDateFormat = new Date(item.showtimes[i])
-          let getDate = toDateFormat.getDate().toString()
+          let getDate = this.formatDate(item.showtimes[i])
           pureDateArray.push(getDate)
+          this.setState({getMonth:this.formatMonth(item.showtimes[0])})
         }
       })
     }
@@ -228,7 +258,7 @@ class MainSelectMovieByCinema extends PureComponent {
       let isToday = ''
       if(this.state.pickThisDay === parseInt(item)){isToday = true}else{isToday = false}
         return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>{`${item} ${this.state.getMonth}`}</span></a>
         )
     })
    )

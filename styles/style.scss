@@ -636,12 +636,23 @@ body{
 .date-filter{
   display: flex;
   justify-content: space-around;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   &__item{
     text-decoration: none;
-    color:#000;
+    color:#757D8C;
     &.active{
       color:#ff8200;
+      font-size: 20px;
+      position: relative;
+      &::after{
+        content: "";
+        border-bottom: 3px solid #ff8300;
+        position: absolute;
+        width: 100%;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
 }
