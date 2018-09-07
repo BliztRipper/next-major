@@ -50,6 +50,26 @@ class HighlightCarousel extends PureComponent {
         accid: this.props.accid
       }
     }
+
+    let arr = [];
+    let items = []
+    for( let i = 0; i < this.state.dataObj.length; i++) {
+      let string = this.state.dataObj[i].title_en
+      string = string.replace(/ +/g, "")
+      arr.push(
+        this.state.dataObj[i].movieCode,
+        this.state.dataObj[i].title_en,
+        this.state.dataObj[i].title_th,
+        this.state.dataObj[i].poster_ori,
+        this.state.dataObj[i].rating,
+        this.state.dataObj[i].genre,
+        this.state.dataObj[i].duration,
+        this.state.dataObj[i].synopsis_th,
+        this.state.dataObj[i].trailer)
+      items.push(this.state.dataObj[i])
+    }
+    sessionStorage.setItem("now_showing", JSON.stringify(items))
+
     let renderItem = [];
     renderItem.push(
       <Slider {...settings}>
@@ -77,24 +97,13 @@ class HighlightCarousel extends PureComponent {
   }
 
   render() {
-    const {dataObj, isLoading, error} = this.state;
+    const {isLoading, error} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
-    {(()=>{ 
-      let arr = [];
-      let items = []
-      for( let i = 0; i < dataObj.length; i++) {
-        let string = dataObj[i].title_en
-        string = string.replace(/ +/g, "")
-        arr.push(dataObj[i].movieCode,dataObj[i].title_en,dataObj[i].title_th,dataObj[i].poster_ori,dataObj[i].rating,dataObj[i].genre,dataObj[i].duration,dataObj[i].synopsis_th,dataObj[i].trailer)
-        items.push(dataObj[i])
-      }
-      sessionStorage.setItem("now_showing", JSON.stringify(items))
-    })()}
     return (
       <div className='highlight'>
       {this.renderPoster()}
