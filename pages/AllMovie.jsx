@@ -51,7 +51,7 @@ class AllMovie extends PureComponent {
       </Tabs>
       </div>    
       </Layout>
-    );
+    )
   }
 }
 
