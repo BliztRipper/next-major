@@ -497,7 +497,13 @@ body{
 
 /* Wrapper for Tab*/
 .indexTab{
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
   z-index: 0;
   .react-tabs{
     padding-bottom: 90px;
