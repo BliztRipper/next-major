@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import MovieOfMonth from './MovieOfMonth'
 import MoviePoster from './MoviePoster'
 
+
 class CominSoonComp extends PureComponent {
   constructor(props) {
     super(props);
@@ -28,6 +29,22 @@ class CominSoonComp extends PureComponent {
     return monthNames[d.getMonth()]+' '+d.getFullYear()
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
+      "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
+      "สิงหาคม", "กันยายน", "ตุลาคม",
+      "พฤษจิกายน", "ธันวาคม"
+    ]
+    let d = date.slice(8,10)
+    let day = parseInt(d)
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    console.log(month)
+    // if(monthIndex < 10){monthIndex.slice(1,2)}
+    return day + ' ' + monthNames[month]
+  }
+
   render() {
     const {dataObj, monthMovie, renderMovie} = this.state;
     
@@ -36,15 +53,15 @@ class CominSoonComp extends PureComponent {
       if (key in monthMovie == false){
         monthMovie[key] = []
       } 
-      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori})
+      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori, release:movie.release_date})
     })
-    
     var cells = []
     {(() => {
-      for (var month in monthMovie) {
+      for (var month in monthMovie) { 
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
-          cells.push(<MoviePoster title={movie.title} poster={movie.poster} key={movie.title+i}/>)
+          let releaseDate = this.formatDate(movie.release)
+          cells.push(<MoviePoster title={movie.title} release={releaseDate} poster={movie.poster} key={movie.title+i}/>)
         })
         renderMovie.push(
           <div className="comingsoon__container" key={month+'comingsoon__container'}>
@@ -54,7 +71,6 @@ class CominSoonComp extends PureComponent {
         cells = []
       }
     })()}
-
     return (
       <section className="comingsoon">
           {renderMovie}

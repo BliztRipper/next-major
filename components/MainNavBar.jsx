@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'

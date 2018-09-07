@@ -16,6 +16,10 @@
   --colorTheme: #ff8300;
 }
 
+.isHide{
+  display: none;
+}
+
 body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -113,8 +117,17 @@ body{
     background-position: 400px 400px; 
     width: 50px;
     height: 50px;
-  }  
   }
+  &-table{
+    @extend .sprite;
+    background-position: -42px -370px; 
+    width: 12.5px;
+    height: 12.5px;
+    position: absolute;
+    top: 10px;
+    left: 25%;
+  }
+}
 
   .VS00000001{
     background: url('../static/MajorGroupSprite.png') no-repeat;
@@ -135,8 +148,8 @@ body{
     width: 50px;
     height: 50px;
   }
-
   .allmovie-btn{
+    position: relative;
     text-align:center;
     display:block;
     padding:10px;
@@ -178,7 +191,7 @@ body{
     grid-template-rows: auto;
     grid-gap: .5rem;
     padding-bottom: 4rem;
-    margin-top: 65px;
+    margin-top: 120px;
   }
   &__cell{
     display: flex !important;
@@ -207,7 +220,7 @@ body{
 }
 
 .comingsoon{
-  margin-top: 75px;
+  margin-top: 120px;
   &__header{
     text-align: center;
     font-size: 1.125rem;
@@ -234,9 +247,15 @@ body{
     padding: 0.5rem 0;
     text-align: center;
     text-overflow: ellipsis; 
-    line-clamp: 2;
+    height: 30px;
     font-size: 0.875rem;
     color:#383D48;
+  }
+  &__date{
+    font-size: 0.75rem;
+    color:#878E9D;
+    text-align: center;
+    padding-top: 5px;
   }
 }
 
@@ -571,7 +590,7 @@ body{
       &__tab-list{
         position: fixed;
         list-style: none;
-        top: 0;
+        top: 45px;
         left: 0;
         padding-left: 0;
         margin: 0 0;
@@ -596,20 +615,47 @@ body{
         &--selected{
           border-bottom: 3px solid #ff8200;
           color:#ff8200;
+          font-weight: bold;
+          font-size: 1.2rem;
         }
       } 
+    }
+    &__header{
+      color: #383d48;
+      font-size: 1rem;
+      font-weight: 700;
+      position: fixed;
+      text-align: center;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      width: 100%;
+      z-index: 2;
+      margin: 0;
+      padding: 1rem 0;
     }
 }
 
 .date-filter{
   display: flex;
   justify-content: space-around;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   &__item{
     text-decoration: none;
-    color:#000;
+    color:#757D8C;
     &.active{
       color:#ff8200;
+      font-size: 20px;
+      position: relative;
+      &::after{
+        content: "";
+        border-bottom: 3px solid #ff8300;
+        position: absolute;
+        width: 100%;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
 }
