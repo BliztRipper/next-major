@@ -69,28 +69,7 @@ class HighlightCarousel extends PureComponent {
       items.push(this.state.dataObj[i])
     }
     sessionStorage.setItem("now_showing", JSON.stringify(items))
-
-    let renderItem = [];
-
-    let arr = [];
-    let items = []
-    for( let i = 0; i < this.state.dataObj.length; i++) {
-      let string = this.state.dataObj[i].title_en
-      string = string.replace(/ +/g, "")
-      arr.push(
-        this.state.dataObj[i].movieCode,
-        this.state.dataObj[i].title_en,
-        this.state.dataObj[i].title_th,
-        this.state.dataObj[i].poster_ori,
-        this.state.dataObj[i].rating,
-        this.state.dataObj[i].genre,
-        this.state.dataObj[i].duration,
-        this.state.dataObj[i].synopsis_th,
-        this.state.dataObj[i].trailer)
-      items.push(this.state.dataObj[i])
-    }
-    sessionStorage.setItem("now_showing", JSON.stringify(items))
-
+    let renderItem = []
     renderItem.push(
       <Slider {...settings}>
         {this.state.dataObj.map((item,i) =>
