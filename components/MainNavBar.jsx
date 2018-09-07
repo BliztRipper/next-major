@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'
@@ -46,7 +46,10 @@ class MainNavBar extends PureComponent {
         <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
           <TabPanel>
             <Link prefetch href={dataToAllMovies}>
-              <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
+              <div>
+                <div className="sprite-table"></div>
+                <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
+              </div>
             </Link>
             <HighlightCarousel accid={this.props.accid}/>
           </TabPanel>
