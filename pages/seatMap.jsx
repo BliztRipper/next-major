@@ -49,7 +49,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data RESPONSE CancelOrder');
         this.setState({
           isLoading: false
         })
@@ -166,7 +165,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data RESPONSE HasToken');
         if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats(true)
         } else {
@@ -190,7 +188,6 @@ class seatMap extends PureComponent {
         otpResending: true
       })
     }
-    console.log(dataToStorage, 'data POST AuthApply');
     
     try {
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userPhoneNumber}`,{
@@ -200,7 +197,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data RESPONSE AuthApply');
         this.state.userAuthData = {
           phoneNumber: this.state.userPhoneNumber,
           ...data
@@ -267,7 +263,6 @@ class seatMap extends PureComponent {
         ...item.Position
       })
     });
-    console.log(dataToStorage, 'data POST AddTicket')
     try {
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
@@ -275,7 +270,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data RESPONSE AddTicket')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
           Router.push({ 
