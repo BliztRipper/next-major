@@ -6,6 +6,7 @@ class MoviePoster extends PureComponent {
         <div className='comingsoon__cell'>
           <img className='comingsoon__poster' src={this.props.poster}/>
           <span className='comingsoon__title'>{this.props.title}</span>  
+          <span className='comingsoon__date'>{this.props.release}</span> 
         </div>
     );
   }
