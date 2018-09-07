@@ -88,15 +88,14 @@ class MainNavBar extends PureComponent {
     this.currentTabsIndex = index
     if (this.currentTabsIndex !== 0) {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable)
+      document.removeEventListener('touchmove', (e) => { e.preventDefault()})
     } else {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
+      document.addEventListener('touchmove', (e) => { e.preventDefault()})
     }
   }
   componentDidMount () {
     utilities.removeBookingInfoInSessionStorage()
-    if (this.currentTabsIndex === 0) {
-      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
-    }
   }
   goToMyTickets () {
     Router.push({
@@ -133,6 +132,10 @@ class MainNavBar extends PureComponent {
       }
     }
     if (dataMyTicketsDone) {
+      if (this.currentTabsIndex === 0) {
+        this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
+        document.addEventListener('touchmove', (e) => { e.preventDefault()})
+      }
       return (
         <div className="indexTab">
           <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
