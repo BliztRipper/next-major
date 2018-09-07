@@ -65,7 +65,6 @@ class MyTicket extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/MyTickets/${this.state.userPhoneNumber}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data, 'data RESPONSE MyTickets')
         this.state.serverTime = data.server_time
 
         let expired = false

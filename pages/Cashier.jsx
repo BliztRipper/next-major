@@ -48,7 +48,6 @@ class Cashier extends PureComponent {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
     try {
-      console.log(this.state.dataToPayment, 'data POST to Payment')
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
@@ -56,7 +55,6 @@ class Cashier extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data RESPONSE submitPayment')
         if(data.status_code === 0 || data.description === 'Success'){
           let dataPaymentSuccess = {
             success: true,

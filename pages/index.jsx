@@ -8,17 +8,9 @@ class home extends PureComponent {
   componentDidMount () {
     let urlParams = (new URL(document.location)).searchParams;
     let urlParamsAccid = urlParams.get("accid");
-    let accid = '0863693746'
-    if (urlParamsAccid) {
-      accid = urlParamsAccid
-    }
-    Router.push({
-      pathname: '/',
-      query: {
-        accid: accid
-      }
-    })
-    console.log(this, 'this componentDidMount index');
+    let accid = urlParamsAccid ? urlParamsAccid : '0863693746'
+    Router.push({ pathname: '/', query: { accid: accid } })
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
