@@ -107,18 +107,22 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   renderHeadCinema(dataSchedule, dataBranch){
-    dataSchedule.map(cineid=>{
-      dataBranch.map(branch=>{
-        if(branch.ID === cineid.CinemaId){
-          this.state.theaterArr.push( {
-            Name:branch.Name,
-            Id:branch.ID,
-            Theaters:cineid.Theaters
-          })
-        }
+    if(dataSchedule != undefined){
+      dataSchedule.map(cineid=>{
+        dataBranch.map(branch=>{
+          if(branch.ID === cineid.CinemaId){
+            this.state.theaterArr.push( {
+              Name:branch.Name,
+              Id:branch.ID,
+              Theaters:cineid.Theaters
+            })
+          }
+        })
       })
-    })
-    this.setState({theaterArr: this.state.theaterArr})
+      this.setState({theaterArr: this.state.theaterArr})
+    } else {
+      this.setState({isEmpty:true})
+    }
   }
   
   getTimetable(){
