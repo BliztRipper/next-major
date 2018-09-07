@@ -15,7 +15,7 @@ class HistoryTicketsPage extends PureComponent {
     
   }
   handleBackButton () {
-    Router.push('/')
+    Router.push('/MyTickets')
   }
   goToHistoryDetail (ticketIndex) {
     Router.push({

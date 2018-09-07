@@ -110,7 +110,7 @@ class MainNavBar extends PureComponent {
     if (this.state.dataMyTicketsTotal) return <div className="indexTab__floatButton-badge">{this.state.dataMyTicketsTotal}</div>
     return false
   }
-  renderFloatButton (dataMyTicketsDone) {
+  renderFloatButton () {
     return (
       <div className="indexTab__floatButton" onClick={this.goToMyTickets.bind(this)}>
         <div className="indexTab__floatButtonInner">
@@ -157,7 +157,7 @@ class MainNavBar extends PureComponent {
                 </Tab>
                 <li className="isBlank">ตั้วหนัง</li>
               </div>
-              { this.renderFloatButton(dataMyTicketsDone) }
+              { this.renderFloatButton() }
             </TabList>
           </Tabs>
         </div>
