@@ -5,6 +5,7 @@ import '../styles/cashier.scss'
 import Swal from 'sweetalert2'
 import loading from '../static/loading.gif'
 import Router from 'next/router'
+import utilities from '../scripts/utilities'
 
 class Cashier extends PureComponent {
   constructor(props) {
@@ -44,24 +45,6 @@ class Cashier extends PureComponent {
     }
     this.refTicket = React.createRef()
   }
-  removeBookingInfoInSessionStorage () {
-    sessionStorage.removeItem('BookingDate')
-    sessionStorage.removeItem('BookingMovie')
-    sessionStorage.removeItem('BookingDuration')
-    sessionStorage.removeItem('BookingGenre')
-    sessionStorage.removeItem('BookingCinema')
-    sessionStorage.removeItem('BookingMovieTH')
-    sessionStorage.removeItem('BookingPoster')
-    sessionStorage.removeItem('BookingScreenName')
-    sessionStorage.removeItem('BookingSeat')
-    sessionStorage.removeItem('BookingAttributesNames')
-    sessionStorage.removeItem('BookingTime')
-    sessionStorage.removeItem('BookingPrice')
-    sessionStorage.removeItem('BookingPriceDisplay')
-    sessionStorage.removeItem('BookingUserSessionId')
-    sessionStorage.removeItem('BookingUserPhoneNumber')
-    sessionStorage.removeItem('BookingCurrentServerTime')
-  }
   submitPayment () {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
@@ -81,7 +64,7 @@ class Cashier extends PureComponent {
           }
           this.setState({...dataPaymentSuccess})
           this.refTicket.current.setState({postingTicket: false, ...dataPaymentSuccess})
-          this.removeBookingInfoInSessionStorage()
+          utilities.removeBookingInfoInSessionStorage()
           Swal({
             type: 'success',
             title: 'ทำรายการเสร็จสิ้น!',

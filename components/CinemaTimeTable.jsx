@@ -57,7 +57,7 @@ class CinemaTimeTable extends PureComponent {
       let movieTime = now.setHours(splitHours,splitMins)
       let format = utilities.getStringDateTime(time).time
       let movieDay = parseInt(utilities.getStringDateTime(time).day)
-      let movienowtimeMoreThanNowtime = ''      
+      let movienowtimeMoreThanNowtime = ''
       if (today === movieDay) {   
         if(movieTime > nowtime){
           movienowtimeMoreThanNowtime = false

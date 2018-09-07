@@ -502,6 +502,9 @@ body{
         justify-content: space-around;
         width: 100%;
         position: absolute;
+        .isBlank {
+          opacity: 0;
+        }
       }
       &__tab{
         text-align: center;
@@ -642,5 +645,42 @@ body{
         box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(#ff8300, 0.2);
       }
     }
+  }
+}
+
+.indexTab__floatButton {
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  border-radius: 100%;
+  background-color: #383d48;
+  position: fixed;
+  right: -50px;
+  bottom: -50px;
+  &Inner {
+    position: relative;
+    z-index: 1;
+    transform: translate(-20px, -18px);
+  }
+  &-icon {
+    width: 40px;
+    height: auto;
+  }
+  .indexTab__floatButton-badge {
+    font-size: 0.8rem;
+    background-color: $colorTheme;
+    color: #fff;
+    position: absolute;
+    right: -14px;
+    top: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
