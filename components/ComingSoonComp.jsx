@@ -21,12 +21,21 @@ class CominSoonComp extends PureComponent {
   }
 
   tryParseDateFromString(dateString){
-    const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-    ];
+    let monthly = this.formatMonthly(dateString)
+    return monthly
+  }
 
-    const d = new Date(dateString);
-    return monthNames[d.getMonth()]+' '+d.getFullYear()
+  formatMonthly(date) {
+    var monthNames = [
+      "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
+      "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
+      "สิงหาคม", "กันยายน", "ตุลาคม",
+      "พฤษจิกายน", "ธันวาคม"
+    ]
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    let year = date.slice(0,4)
+    return monthNames[month]+" "+year
   }
 
   formatDate(date) {
@@ -40,8 +49,6 @@ class CominSoonComp extends PureComponent {
     let day = parseInt(d)
     let monthIndex = date.slice(5,7)
     let month = parseInt(monthIndex)
-    console.log(month)
-    // if(monthIndex < 10){monthIndex.slice(1,2)}
     return day + ' ' + monthNames[month]
   }
 
@@ -58,6 +65,7 @@ class CominSoonComp extends PureComponent {
     var cells = []
     {(() => {
       for (var month in monthMovie) { 
+        console.log(month)
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
           let releaseDate = this.formatDate(movie.release)

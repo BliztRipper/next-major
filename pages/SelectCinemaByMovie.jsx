@@ -21,7 +21,7 @@ class CinemaMovieInfo extends PureComponent {
             <h2 className="movie-card__title">{this.props.item.title_en}</h2>
             <h3 className="movie-card__subtitle">{this.props.item.title_th}</h3>
             <span className="movie-card__genre">{this.props.item.genre} | {this.props.item.duration} นาที</span>
-            <Link prefetch href='./MovieInfo'>
+            <Link prefetch href='/MovieInfo'>
               <a className="movie-card__more-detail">ดูรายละเอียดเพิ่ม</a>
             </Link>
           </div>
