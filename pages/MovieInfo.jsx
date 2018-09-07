@@ -30,11 +30,13 @@ export default class MovieInfo extends PureComponent {
     return (
       <Layout title="Movie Infomation">
         <div className="movie-card__container" style={divStyle}>
-            <video className="movie-card__trailer" width="320" controls="true" preload="yes" type='video/mp4' poster={this.state.movieInfo.poster_ori}>
-              <source src={this.state.movieInfo.trailer} type="video/webm"/>
-              <source src={this.state.movieInfo.trailer} type="video/mp4"/>
-              Your browser does not support the video tag.
-            </video>   
+          <video className="movie-card__trailer" width="320" preload="yes" poster={this.state.movieInfo.poster_ori} controls>
+          <source src={this.state.movieInfo.trailer} type="video/mp4" />
+            <source src={this.state.movieInfo.trailer} type="video/webm" />
+            <source src={this.state.movieInfo.trailer} type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
+          {/* <img className="movie-card__poster" src={this.state.movieInfo.poster_ori} /> */}
           <div className="movie-card__wrapper" style={titleStyle}>
             <h2 className="movie-info__title">{this.state.movieInfo.title_en}</h2>
             <h3 className="movie-info__subtitle">{this.state.movieInfo.title_th}</h3>

@@ -69,8 +69,7 @@ class HighlightCarousel extends PureComponent {
       items.push(this.state.dataObj[i])
     }
     sessionStorage.setItem("now_showing", JSON.stringify(items))
-
-    let renderItem = [];
+    let renderItem = []
     renderItem.push(
       <Slider {...settings}>
         {this.state.dataObj.map((item,i) =>

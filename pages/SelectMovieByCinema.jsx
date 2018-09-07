@@ -127,43 +127,47 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   dataForSchedule(){
-    var movies = []
-    this.state.data.map(item => {
-      let info = ''
-      Object.keys(item.Theaters).map(key => {
-        info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
-        if (info == null) {
-          console.log("fileId is not found in now showing wait to fix"); 
-        } else {
-          let title = info.title_en.replace(/ +/g, "")
-          if (title == "") {
-            title = "unknown"
-          }
-          if (!(title in movies)) {
-            movies[title] = []
-            movies[title] = {
-              title_en: info.title_en,
-              title_th: info.title_th,
-              poster_ori: info.poster_ori,
-              cinema_id: item.CinemaId,
-              showtimes: item.Theaters[key].Showtimes,
-              sessionids: item.Theaters[key].SessionIds,
-              formatCode: item.Theaters[key].FormatCode,
-              genre: info.genre,
-              duration: info.duration,
-              synopsis_th: info.synopsis_th,
-              trailer: info.trailer,
-              actor: info.actor,
-              director: info.director,
-              theaters: []
+    if(this.state.data != undefined){
+      var movies = []
+      this.state.data.map(item => {
+        let info = ''
+        Object.keys(item.Theaters).map(key => {
+          info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
+          if (info == null) {
+            console.log("fileId is not found in now showing wait to fix"); 
+          } else {
+            let title = info.title_en.replace(/ +/g, "")
+            if (title == "") {
+              title = "unknown"
             }
+            if (!(title in movies)) {
+              movies[title] = []
+              movies[title] = {
+                title_en: info.title_en,
+                title_th: info.title_th,
+                poster_ori: info.poster_ori,
+                cinema_id: item.CinemaId,
+                showtimes: item.Theaters[key].Showtimes,
+                sessionids: item.Theaters[key].SessionIds,
+                formatCode: item.Theaters[key].FormatCode,
+                genre: info.genre,
+                duration: info.duration,
+                synopsis_th: info.synopsis_th,
+                trailer: info.trailer,
+                actor: info.actor,
+                director: info.director,
+                theaters: []
+              }
+            }
+            movies[title].theaters.push(item.Theaters[key])
           }
-          movies[title].theaters.push(item.Theaters[key])
-        }
-      })
-    }) 
-    this.setState({dataSchedule:movies})
-    if(this.state.data.length <= 0){
+        })
+      }) 
+      this.setState({dataSchedule:movies})
+      if(this.state.data.length <= 0){
+        this.setState({isEmpty:true})
+      }
+    } else {
       this.setState({isEmpty:true})
     }
   }
