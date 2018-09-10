@@ -35,7 +35,7 @@ class OTP extends PureComponent {
         <GlobalHeader titleMsg="กรอกรหัสยืนยัน" hideBtnBack={true}></GlobalHeader>
         <div className="otp__inner">
           <div className="otp__info">
-            <div className="otp__info-msg">รหัสยืนยันจะถูกส่งไปที่เบอร์</div>
+            <div className="otp__info-msg">รหัสยืนยันจะถูกส่ง SMS ไปที่เบอร์</div>
             <div className="otp__info-telNumber">{userNumber}</div>
           </div>
           <div className="otp__input"><div><input type="number" maxLength="6" value={otpNumberValue} onInput={this.handleOtpInput.bind(this)}/></div></div>
