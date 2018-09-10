@@ -55,7 +55,8 @@ class MainSelectMovieByCinema extends PureComponent {
       serverTime:'',
       isEmpty:false,
       pickThisDay: new Date().getDate(),
-      accid: this.props.url.query.accid
+      accid: this.props.url.query.accid,
+      getMonth:''
     }
   }
 
@@ -127,43 +128,47 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   dataForSchedule(){
-    var movies = []
-    this.state.data.map(item => {
-      let info = ''
-      Object.keys(item.Theaters).map(key => {
-        info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
-        if (info == null) {
-          console.log("fileId is not found in now showing wait to fix"); 
-        } else {
-          let title = info.title_en.replace(/ +/g, "")
-          if (title == "") {
-            title = "unknown"
-          }
-          if (!(title in movies)) {
-            movies[title] = []
-            movies[title] = {
-              title_en: info.title_en,
-              title_th: info.title_th,
-              poster_ori: info.poster_ori,
-              cinema_id: item.CinemaId,
-              showtimes: item.Theaters[key].Showtimes,
-              sessionids: item.Theaters[key].SessionIds,
-              formatCode: item.Theaters[key].FormatCode,
-              genre: info.genre,
-              duration: info.duration,
-              synopsis_th: info.synopsis_th,
-              trailer: info.trailer,
-              actor: info.actor,
-              director: info.director,
-              theaters: []
+    if(this.state.data != undefined){
+      var movies = []
+      this.state.data.map(item => {
+        let info = ''
+        Object.keys(item.Theaters).map(key => {
+          info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
+          if (info == null) {
+            console.log("fileId is not found in now showing wait to fix"); 
+          } else {
+            let title = info.title_en.replace(/ +/g, "")
+            if (title == "") {
+              title = "unknown"
             }
+            if (!(title in movies)) {
+              movies[title] = []
+              movies[title] = {
+                title_en: info.title_en,
+                title_th: info.title_th,
+                poster_ori: info.poster_ori,
+                cinema_id: item.CinemaId,
+                showtimes: item.Theaters[key].Showtimes,
+                sessionids: item.Theaters[key].SessionIds,
+                formatCode: item.Theaters[key].FormatCode,
+                genre: info.genre,
+                duration: info.duration,
+                synopsis_th: info.synopsis_th,
+                trailer: info.trailer,
+                actor: info.actor,
+                director: info.director,
+                theaters: []
+              }
+            }
+            movies[title].theaters.push(item.Theaters[key])
           }
-          movies[title].theaters.push(item.Theaters[key])
-        }
-      })
-    }) 
-    this.setState({dataSchedule:movies})
-    if(this.state.data.length <= 0){
+        })
+      }) 
+      this.setState({dataSchedule:movies})
+      if(this.state.data.length <= 0){
+        this.setState({isEmpty:true})
+      }
+    } else {
       this.setState({isEmpty:true})
     }
   }
@@ -201,28 +206,59 @@ class MainSelectMovieByCinema extends PureComponent {
     this.setState({pickThisDay:parseInt(day)})
   }
 
+  formatDate(date) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    let d = date.slice(8,10)
+    let day = parseInt(d)
+    // let monthIndex = date.slice(5,7)
+    // let month = parseInt(monthIndex)
+    // if(monthIndex < 10){monthIndex.slice(1,2)}
+    return day
+  }
+
+  formatMonth(date) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    if(monthIndex < 10){monthIndex.slice(1,2)}
+    return monthNames[month]
+  }
+
   filterByDate(){
-    let dateArray = []
+    var dateArray = []
     let pureDateArray = []
     if(this.state.dataSchedule != null){
+      console.log(this.state.dataSchedule)
       Object.keys(this.state.dataSchedule).map(date=>{
         dateArray.push(this.state.dataSchedule[date])
       })
       dateArray.map((item,i)=>{
         for(var i=0; i < item.showtimes.length; i++){
-          let toDateFormat = new Date(item.showtimes[i])
-          let getDate = toDateFormat.getDate().toString()
+          let getDate = this.formatDate(item.showtimes[i])
           pureDateArray.push(getDate)
+          this.setState({getMonth:this.formatMonth(item.showtimes[0])})
         }
       })
     }
     let uniArr = [...(new Set(pureDateArray))];
+    const numberSorter = (a, b) => a - b;
+    uniArr.sort(numberSorter)
    return(
     uniArr.map(item=>{
       let isToday = ''
       if(this.state.pickThisDay === parseInt(item)){isToday = true}else{isToday = false}
         return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,item)}>{`${item} ${this.state.getMonth}`}</span></a>
         )
     })
    )
@@ -245,6 +281,8 @@ class MainSelectMovieByCinema extends PureComponent {
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }    
+    // {history.pushState(null, null, location.href)
+    //   window.onpopstate = ()=>Swal('ห้ามกดฉันนะ ฉันเจ็บ')}
     return (      
       <Layout title="Select Movie">
         <section className="date-filter">

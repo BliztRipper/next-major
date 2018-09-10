@@ -10,6 +10,7 @@ class HighlightCarousel extends PureComponent {
       dataObj: [],
       isLoading: true,
       error: null,
+      background:"",
     }
   }
   componentDidMount(){
@@ -29,61 +30,84 @@ class HighlightCarousel extends PureComponent {
     sessionStorage.setItem('movieSelect',props)
   }
 
-  render() {
-    const {dataObj, isLoading, error} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) {
-      return <img src={loading} className="loading"/>
-    }
-    {(()=>{ 
-      let arr = [];
-      let items = []
-      for( let i = 0; i < dataObj.length; i++) {
-        let string = dataObj[i].title_en
-        string = string.replace(/ +/g, "")
-        arr.push(dataObj[i].movieCode,dataObj[i].title_en,dataObj[i].title_th,dataObj[i].poster_ori,dataObj[i].rating,dataObj[i].genre,dataObj[i].duration,dataObj[i].synopsis_th,dataObj[i].trailer)
-        items.push(dataObj[i])
-      }
-      sessionStorage.setItem("now_showing", JSON.stringify(items))
-    })()}
-    
+  renderPoster(){
     const settings = {
       className: "center",
-      centerMode: true,
+      centerMode: false,
       lazyLoad: true,
       infinite: false,
       centerPadding: "30px",
-      speed: 300,
+      speed: 150,
       dots: false,
       arrows: false,
       slidesToShow: 1,
       slidesToScroll: 1,
       touchThreshold: 8
     }
+    let dataToSelectCinemaByMovie = {
+      pathname: '/SelectCinemaByMovie',
+      query: {
+        accid: this.props.accid
+      }
+    }
+
+    let arr = [];
+    let items = []
+    for( let i = 0; i < this.state.dataObj.length; i++) {
+      let string = this.state.dataObj[i].title_en
+      string = string.replace(/ +/g, "")
+      arr.push(
+        this.state.dataObj[i].movieCode,
+        this.state.dataObj[i].title_en,
+        this.state.dataObj[i].title_th,
+        this.state.dataObj[i].poster_ori,
+        this.state.dataObj[i].rating,
+        this.state.dataObj[i].genre,
+        this.state.dataObj[i].duration,
+        this.state.dataObj[i].synopsis_th,
+        this.state.dataObj[i].trailer)
+      items.push(this.state.dataObj[i])
+    }
+    sessionStorage.setItem("now_showing", JSON.stringify(items))
+    let renderItem = []
+    renderItem.push(
+      <Slider {...settings}>
+        {this.state.dataObj.map((item,i) =>
+          <Fragment key={i}>
+            <div className="poster-container">
+              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
+            </div>
+            <Link prefetch href="/SelectCinemaByMovie">
+              <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+            </Link>
+            {(() => {
+              if(item.title_en === item.title_th){
+                  item.title_th = ''
+              } 
+            })()}
+            <span className='highlight__title'>{item.title_en}</span>
+            <span className='highlight__subtitle'>{item.title_th}</span>
+            <span className='highlight__genre'>{item.genre}</span>
+          </Fragment>
+        )}
+      </Slider>
+    )
+    return renderItem
+  }
+
+  render() {
+    const {isLoading, error} = this.state;
+    if (error) {
+      return <p>{error.message}</p>;
+    }
+    if (isLoading) {
+      return <img src={loading} className="loading"/>
+    }
     return (
       <div className='highlight'>
-        <Slider {...settings}>
-          {dataObj.map((item,i) =>
-            <Fragment key={i}>
-              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-              <Link prefetch href="/SelectCinemaByMovie">
-                <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
-              </Link>
-              {(() => {
-                if(item.title_en === item.title_th){
-                    item.title_th = ''
-                } 
-              })()}
-              <span className='highlight__title'>{item.title_en}</span>
-              <span className='highlight__subtitle'>{item.title_th}</span>
-              <span className='highlight__genre'>{item.genre}</span>
-            </Fragment>
-          )}
-        </Slider>
+      {this.renderPoster()}
       </div>
-    );
+    )
   }
 }
 

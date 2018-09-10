@@ -29,13 +29,40 @@ class seatMap extends PureComponent {
       userPhoneNumber: this.props.url.query.accid,
       userAuthData: null,
       apiOtpHeader: {
-        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae'
+        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
       }
     }
     this.refSeatMapDisplay = React.createRef()
     this.refOTP = React.createRef()
     this.getStringDateTime('2018-08-31T06:03:09Z')
     
+  }
+  cancelOrder (UserSessionId) {
+    let dataToCancelOrder =  {
+      UserSessionId: UserSessionId
+    }
+    try{
+      fetch(`http://api-cinema.truemoney.net/CancelOrder`,{
+        method: 'POST',
+        headers: this.state.apiOtpHeader,
+        body: JSON.stringify(dataToCancelOrder)
+      })
+      .then(response => response.json())
+      .then((data) =>  {
+        this.setState({
+          isLoading: false
+        })
+      })
+      sessionStorage.removeItem('BookingCurrentServerTime')
+      sessionStorage.removeItem('BookingUserSessionId')
+      sessionStorage.removeItem('BookingUserPhoneNumber')
+      sessionStorage.removeItem('BookingPrice')
+      sessionStorage.removeItem('BookingPriceDisplay')
+      sessionStorage.removeItem('BookingSeat')
+      sessionStorage.removeItem('BookingSeatTotal')
+    } catch(err){
+      error => this.setState({ error, isLoading: false })
+    }
   }
   goToHome () {
     Router.push({
@@ -161,6 +188,7 @@ class seatMap extends PureComponent {
         otpResending: true
       })
     }
+    
     try {
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userPhoneNumber}`,{
         method: 'POST',
@@ -235,7 +263,6 @@ class seatMap extends PureComponent {
         ...item.Position
       })
     });
-    console.log(dataToStorage, 'data POST AddTicket')
     try {
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
@@ -243,7 +270,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data RESPONSE bookSelectedSeats')
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
           Router.push({ 
@@ -283,8 +309,15 @@ class seatMap extends PureComponent {
       </div>
     )
   }
-  componentDidMount() {
+  componentDidMount () {
     this.getTheatre()
+    let userSessionId = sessionStorage.getItem('BookingUserSessionId')
+    if (userSessionId) {
+      this.setState({
+        isLoading: true
+      })
+      this.cancelOrder(userSessionId)
+    }
   }
   render () {
     const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap} = this.state;

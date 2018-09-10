@@ -1,14 +1,21 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'
-import MyTicket from '../components/MyTicket'
+import utilities from '../scripts/utilities'
 import Link from 'next/link'
-
+import Router from 'next/router'
 
 class MainNavBar extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      dataMyTicketsDone: false,
+      dataMyTicketServerTime: '',
+      dataMyTickets: '',
+      dataMyTicketsTotal: '',
+      dataMyTicketsExpired: ''
+    }
     this.currentTabsIndex = 0
     this.bounceOnScrollStyles = {
       disable: 'position: fixed; top: 0; left: 0; margin: 0; padding: 8px; width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;',
@@ -82,11 +89,35 @@ class MainNavBar extends PureComponent {
     }
   }
   componentDidMount () {
-    if (this.currentTabsIndex === 0) {
-      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
-    }
+    utilities.removeBookingInfoInSessionStorage()
+  }
+  goToMyTickets () {
+    Router.push({
+      pathname: '/MyTickets',
+      query: {
+        accid: this.props.accid
+      }
+    })
+  }
+  renderFloatButtonBadge () {
+    if (this.state.dataMyTicketsTotal) return <div className="indexTab__floatButton-badge">{this.state.dataMyTicketsTotal}</div>
+    return false
+  }
+  renderFloatButton () {
+    return (
+      <div className="indexTab__floatButton" onClick={this.goToMyTickets.bind(this)}>
+        <div className="indexTab__floatButtonInner">
+          <img className="indexTab__floatButton-icon" src="static/icon-ticket.svg" alt=""/>
+          { this.renderFloatButtonBadge() }
+        </div>
+      </div>
+    )
+  }
+  componentDidMount () {
+    this.getTickets()
   }
   render() {
+    const {dataMyTicketsDone} = this.state
     resetIdCounter()
     let dataToAllMovies = {
       pathname: '/AllMovie',

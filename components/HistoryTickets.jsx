@@ -15,9 +15,9 @@ class HistoryTickets extends PureComponent {
     }
     
   }
-  renderEachList (ticket) {
+  renderEachList (ticket, ticketIndex) {
     return (
-      <div className="historyTickets__list" onClick={this.props.goToHistoryDetail.bind(this, ticket)} key={ticket.BookingMovie + ticket.BookingDate + ticket.BookingTime}>
+      <div className="historyTickets__list" onClick={this.props.goToHistoryDetail.bind(this, ticketIndex)} key={ticket.BookingMovie + ticket.BookingDate + ticket.BookingTime}>
         <div className="historyTickets__list-titleEN">{ticket.BookingMovie}</div>
         <div className="historyTickets__list-titleTH">{ticket.BookingMovieTH}</div>
         <div className="historyTickets__list-locationAndDate">
@@ -28,8 +28,8 @@ class HistoryTickets extends PureComponent {
     )
   }
   renderHistoryLists (ticketsGroupByMonth) {
-    let lists = ticketsGroupByMonth.tickets.map((ticket) => {
-      return this.renderEachList(ticket)
+    let lists = ticketsGroupByMonth.tickets.map((ticket, ticketIndex) => {
+      return this.renderEachList(ticket, ticketIndex)
     })
     return lists
   }

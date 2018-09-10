@@ -35,5 +35,23 @@ export default {
       minute: convertedMinute,
       date : new Date(convertedYear, convertedMonth -= 1, convertedDay, convertedHour, convertedMinute)
     }
+  },
+  removeBookingInfoInSessionStorage () {
+    sessionStorage.removeItem('BookingDate')
+    sessionStorage.removeItem('BookingMovie')
+    sessionStorage.removeItem('BookingDuration')
+    sessionStorage.removeItem('BookingGenre')
+    sessionStorage.removeItem('BookingCinema')
+    sessionStorage.removeItem('BookingMovieTH')
+    sessionStorage.removeItem('BookingPoster')
+    sessionStorage.removeItem('BookingScreenName')
+    sessionStorage.removeItem('BookingSeat')
+    sessionStorage.removeItem('BookingAttributesNames')
+    sessionStorage.removeItem('BookingTime')
+    sessionStorage.removeItem('BookingPrice')
+    sessionStorage.removeItem('BookingPriceDisplay')
+    sessionStorage.removeItem('BookingUserSessionId')
+    sessionStorage.removeItem('BookingUserPhoneNumber')
+    sessionStorage.removeItem('BookingCurrentServerTime')
   }
 }

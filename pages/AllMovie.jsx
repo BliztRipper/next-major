@@ -15,10 +15,8 @@ class AllMovie extends PureComponent {
       error: null,
       accid: this.props.url.query.accid
     }
-    console.log(this.props.url.query.accid);
     
   } 
-
   componentDidMount(){
     fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
@@ -37,6 +35,7 @@ class AllMovie extends PureComponent {
 
     return (
       <Layout title='All Movie'>
+      <h1 className="allmovieTab__header">ภาพยนต์ทั้งหมด</h1>
       <div className="allmovieTab">
       <Tabs>
         <TabList>
@@ -52,7 +51,7 @@ class AllMovie extends PureComponent {
       </Tabs>
       </div>    
       </Layout>
-    );
+    )
   }
 }
 

@@ -8,7 +8,7 @@ import utilities from '../scripts/utilities';
 
 
 const TheaterHead = (props) => (
-  <h4>โรงภาพยนต์ {props.name}</h4>
+  <h4 className={props.class? "":"isHide"}>โรงภาพยนต์ {props.name}</h4>
 )
 
 class CinemaMovieInfo extends PureComponent {
@@ -21,12 +21,12 @@ class CinemaMovieInfo extends PureComponent {
             <h2 className="movie-card__title">{this.props.item.title_en}</h2>
             <h3 className="movie-card__subtitle">{this.props.item.title_th}</h3>
             <span className="movie-card__genre">{this.props.item.genre} | {this.props.item.duration} นาที</span>
-            <Link prefetch href='MovieInfo'>
-              <a className="movie-card__more-detail">แสดงรายละเอียด</a>
+            <Link prefetch href='/MovieInfo'>
+              <a className="movie-card__more-detail">ดูรายละเอียดเพิ่ม</a>
             </Link>
           </div>
         </div>
-        <div className="movie-card__more-detail-container isHide">
+        {/* <div className={this.props.class? "movie-card__more-detail-container isHide":"movie-card__more-detail-container"}>
           <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
           <video className="movie-card__trailer" width="320" preload="auto" controls>
             <source src={`${this.props.item.trailer}.mp4#t=10`} />
@@ -36,7 +36,7 @@ class CinemaMovieInfo extends PureComponent {
           <div className="movie-card__director">{this.props.item.director}</div>
           <div className="movie-card__actor-label">นักแสดงนำ</div>
           <div className="movie-card__actor">{this.props.item.actor}</div>
-        </div>
+        </div> */}
       </Fragment>
     )
   }
@@ -56,11 +56,12 @@ class MainSelectCinemaByMovie extends PureComponent {
       theaterArr:[],
       pickThisDay: 0,
       uniArr: [],
+      class:true,
     }
   }
 
   //this function done after render
-  componentWillMount() {
+  componentDidMount() {
     try {
       sessionStorage.setItem('CinemaID','')
       sessionStorage.setItem('BookingCinema','')
@@ -94,7 +95,8 @@ class MainSelectCinemaByMovie extends PureComponent {
                 }
               })
             }
-  
+            const numberSorter = (a, b) => a - b;
+            pureDateArray.sort(numberSorter)
             this.state.uniArr = [...(new Set(pureDateArray))]
             this.setState({branchData:data.data, isLoading: false})
           }
@@ -106,20 +108,23 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   renderHeadCinema(dataSchedule, dataBranch){
-    dataSchedule.map(cineid=>{
-      dataBranch.map(branch=>{
-        if(branch.ID === cineid.CinemaId){
-          this.state.theaterArr.push( {
-            Name:branch.Name,
-            Id:branch.ID,
-            Theaters:cineid.Theaters
-          })
-        }
+    if(dataSchedule != undefined){
+      dataSchedule.map(cineid=>{
+        dataBranch.map(branch=>{
+          if(branch.ID === cineid.CinemaId){
+            this.state.theaterArr.push( {
+              Name:branch.Name,
+              Id:branch.ID,
+              Theaters:cineid.Theaters
+            })
+          }
+        })
       })
-    })
-    this.setState({theaterArr: this.state.theaterArr})
+      this.setState({theaterArr: this.state.theaterArr})
+    } else {
+      this.setState({isEmpty:true})
+    }
   }
-
   
   getTimetable(){
     let resultsArray = {
@@ -127,10 +132,9 @@ class MainSelectCinemaByMovie extends PureComponent {
       theater:[],
       time:[],
     }
-    resultsArray.info.push(<CinemaMovieInfo item={this.state.nowShowing}/>)
+    resultsArray.info.push(<CinemaMovieInfo class={this.state.class} item={this.state.nowShowing}/>)
     this.state.theaterArr.map(theaters=>{
-      resultsArray.theater.push(
-          <TheaterHead name={theaters.Name} id={theaters.Id}/>, resultsArray.time)
+      resultsArray.theater.push(<TheaterHead name={theaters.Name} id={theaters.Id} class={this.state.class}/>, resultsArray.time)
           Object.keys(theaters.Theaters).map(key => {
           if(theaters.Theaters[key].SessionAttributesNames = 'EN/TH'){
             theaters.Theaters[key].SessionAttributesNames = 'อังกฤษ'
@@ -138,24 +142,41 @@ class MainSelectCinemaByMovie extends PureComponent {
           this.state.nowShowing.movieCode.map(movieCode => {
             if(theaters.Theaters[key].ScheduledFilmId === movieCode) {
               resultsArray.time.push(<CinemaTimeTable cineId={theaters.Id} cineName={theaters.Name} name='fromMovie' pickedDate={this.state.uniArr[this.state.pickThisDay]} item={theaters.Theaters[key]} serverTime={this.state.serverTime} accid={this.props.url.query.accid}/>)   
+            } else {
+              this.setState({class:false})
             }
           })
         })
     })
     return resultsArray
   }
-
   pickThisDay(day){
     this.setState({pickThisDay:day})
+  }
+
+  formatDate(date) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    // let d = date.slice(8,10)
+    // let day = parseInt(d)
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    // if(monthIndex < 10){monthIndex.slice(1,2)}
+    return monthNames[month]
   }
 
   filterByDate(){
    return(
     this.state.uniArr.map((item,i)=>{
+      let releaseDate = this.formatDate(this.state.nowShowing.release_date)
       let isToday = ''
       if(this.state.pickThisDay === i){isToday = true}else{isToday = false}
         return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,i)}>วันที่ {item}</span></a>
+          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,i)}>{`${item} ${releaseDate}`}</span></a>
         )
     })
    )
