@@ -13,9 +13,9 @@
 :root{
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-display: swap;
   --colorTheme: #ff8300;
 }
+:lang(en){font-family: 'SanFranciscoText';} 
 
 .isHide{
   display: none;
@@ -24,7 +24,6 @@
 body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  font-family: 'SanFranciscoText';
 }
 .loadingWrap {
   position: fixed; 
@@ -234,7 +233,7 @@ body{
 .comingsoon{
   margin-top: 120px;
   &__header{
-    text-align: center;
+    padding-left: 1rem;
     font-size: 1.125rem;
     font-weight: bold;
   }
