@@ -128,7 +128,7 @@ class Ticket extends PureComponent {
         </div>
         {this.renderButtons(success, buttonProgressText, buttonProgressClassName)}
       </div>
-    );    
+    )
   }
   render() {
     return (

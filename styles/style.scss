@@ -126,8 +126,9 @@ body{
     width: 12.5px;
     height: 12.5px;
     position: absolute;
-    top: 10px;
-    left: 25%;
+    top: 28px;
+    left: 30%;
+    z-index: 1;
   }
   &-search{
     @extend .sprite;
