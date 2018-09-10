@@ -87,7 +87,9 @@ class CinemaTimeTable extends PureComponent {
           <div className="movie-card__theatre-wrapper">
             <div className="movie-card__theatre-title">{this.props.item.ScreenName}</div>
             <div className={this.props.item.FormatCode}></div>
+            <div className="sprite-sound"></div>
             <span>{this.props.item.SessionAttributesNames}</span>
+            {console.log(this.props.item.FormatCode)}
           </div>
           <div className="movie-card__timetable">
             {resultArray}

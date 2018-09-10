@@ -1,8 +1,9 @@
 const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const withFonts = require('next-fonts')
 
-module.exports = withSass(withImages({
+module.exports = withFonts(withSass(withImages({
   webpack: (config) => {
     config.plugins.push(
       new SWPrecacheWebpackPlugin({
@@ -18,4 +19,4 @@ module.exports = withSass(withImages({
     )
     return config
   }
-}))
+})))

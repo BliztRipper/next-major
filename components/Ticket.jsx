@@ -82,7 +82,7 @@ class Ticket extends PureComponent {
           <div className="movie-cashier__wrapper">
             <h2 className="movie-cashier__title">{this.state.BookingMovie}</h2>
             <h3 className="movie-cashier__subtitle">{this.state.BookingMovieTH}</h3>
-            <span className="movie-cashier__genre">{this.state.BookingGenre}<br/> {this.state.BookingDuration}</span>
+            <span className="movie-cashier__genre">{this.state.BookingGenre}<br/> {this.state.BookingDuration} นาที</span>
           </div>
         </div>
         <div className="movie-cashier__cine-info">
@@ -112,7 +112,9 @@ class Ticket extends PureComponent {
         </div>
         <div className="movie-cashier__seat-info">
           <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--title">เสียง {this.state.BookingAttributesNames}</span>
+            <span className="movie-cashier__seat-info--title">
+            <div className="sprite-sound"></div>{this.state.BookingAttributesNames}
+            </span>
           </div>
           <div className="movie-cashier__seat-info--wrapper">
             <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPriceDisplay} บาท</span>
@@ -126,7 +128,7 @@ class Ticket extends PureComponent {
         </div>
         {this.renderButtons(success, buttonProgressText, buttonProgressClassName)}
       </div>
-    );    
+    )
   }
   render() {
     return (

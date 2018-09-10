@@ -90,10 +90,11 @@ class Cashier extends PureComponent {
   componentDidMount() {
     try {
       let dateObj = new Date(sessionStorage.getItem('BookingDate'));
-      let month = dateObj.getUTCMonth() + 1; 
-      let day = dateObj.getUTCDate();
-      let year = dateObj.getUTCFullYear();
-      let bookingDate = day + "/" + month + "/" + year;
+      let month = dateObj.getUTCMonth() + 1
+      let day = dateObj.getUTCDate()
+      let year = dateObj.getUTCFullYear()
+      let monthFormated = this.formatMonth(month)
+      let bookingDate = day + " " + monthFormated
       this.setState({
         BookingMovie: sessionStorage.getItem('BookingMovie'),
         BookingDuration: sessionStorage.getItem('BookingDuration'),
@@ -127,6 +128,17 @@ class Cashier extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
+
+  formatMonth(month) {
+    var monthNames = [
+      "", "ม.ค.", "ก.พ.", "มี.ค.",
+      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
+      "ส.ค.", "ก.ย.", "ค.ค.",
+      "พฤ.ย.", "ธ.ค."
+    ]
+    return monthNames[month]
+  }
+
   goToHome() {
     Router.push({
       pathname: '/',

@@ -134,7 +134,10 @@ class MainNavBar extends PureComponent {
           <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
-                <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
+                <Fragment>
+                  <div className="sprite-table"></div> 
+                  <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
+                </Fragment>
               </Link>
               <HighlightCarousel accid={this.props.accid}/>
             </TabPanel>

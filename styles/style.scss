@@ -8,13 +8,14 @@
 @import 'searchCinema';
 @import 'history';
 @import 'responsive';
+@import 'fontface';
 
 :root{
   font-size: 16px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-display: swap;
   --colorTheme: #ff8300;
 }
+
 
 .isHide{
   display: none;
@@ -23,11 +24,12 @@
 body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  font-family: 'SanFranciscoText';
 }
 .loadingWrap {
   position: fixed; 
   left: 0;
-  top: 0;
+  top: 0; 
   right: 0;
   bottom: 0;
   background-color: rgba(#fff, 0.5);
@@ -124,8 +126,25 @@ body{
     width: 12.5px;
     height: 12.5px;
     position: absolute;
-    top: 10px;
-    left: 25%;
+    top: 28px;
+    left: 30%;
+    z-index: 1;
+  }
+  &-search{
+    @extend .sprite;
+    background-position: -67px -368px; 
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    top: 28px;
+    left: 15%;
+    z-index: 1;
+  }
+  &-sound{
+    @extend .sprite;
+    background-position: -70px -339px; 
+    width: 10px;
+    height: 15px;
   }
 }
 
@@ -134,9 +153,9 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin: 0 8px;
-    // background-position: -84px -230px; 
-    // width: 48px;
-    // height: 25px;
+    background-position: -84px -230px; 
+    width: 48px;
+    height: 25px;
   }
 
   .MajorCineplex{
@@ -189,7 +208,7 @@ body{
     display: grid; 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
-    grid-gap: .5rem;
+    grid-gap: 1rem;
     padding-bottom: 4rem;
     margin-top: 120px;
   }
@@ -222,7 +241,7 @@ body{
 .comingsoon{
   margin-top: 120px;
   &__header{
-    text-align: center;
+    padding-left: 1rem;
     font-size: 1.125rem;
     font-weight: bold;
   }
@@ -230,7 +249,7 @@ body{
     display: grid; 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
-    grid-gap: .5rem;
+    grid-gap: 2rem 0.5rem;
     padding-bottom: 4rem;
   }
   &__cell{
@@ -255,7 +274,6 @@ body{
     font-size: 0.75rem;
     color:#878E9D;
     text-align: center;
-    padding-top: 5px;
   }
 }
 
@@ -270,7 +288,7 @@ body{
     align-items: center;
     position: relative;
     box-shadow: 0 1px 0 0 #E9EBEF;
-    margin-top: 1rem;
+    // margin-top: 1rem;
     &__title{
       color:#757D8C;
       font-size: 0.875rem;
@@ -423,14 +441,14 @@ body{
   &__theatre-wrapper{
     display: flex;
     margin: 1rem 0 ;
-    align-items: baseline;
+    align-items: center;
     
   }
   &__theatre-title{
     color:#383D48;
     font-weight: 400;
   }
-  &__theatre-type{
+  &__theatre-type{ 
     margin: 0 10px;
   }
   &__timetable{
@@ -448,9 +466,10 @@ body{
     text-decoration: none;
     margin: 5px;
     &.disable{
-      border: 1px solid #ccc;
-      color:#ccc;
+      border: transparent;
+      color:#989FAE;
       pointer-events: none;
+      background-color: #E9EBEF;
     }
   }
 
