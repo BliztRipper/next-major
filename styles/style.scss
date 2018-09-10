@@ -139,6 +139,12 @@ body{
     left: 15%;
     z-index: 1;
   }
+  &-sound{
+    @extend .sprite;
+    background-position: -70px -339px; 
+    width: 10px;
+    height: 15px;
+  }
 }
 
   .VS00000001{
@@ -146,9 +152,9 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin: 0 8px;
-    // background-position: -84px -230px; 
-    // width: 48px;
-    // height: 25px;
+    background-position: -84px -230px; 
+    width: 48px;
+    height: 25px;
   }
 
   .MajorCineplex{
@@ -434,14 +440,14 @@ body{
   &__theatre-wrapper{
     display: flex;
     margin: 1rem 0 ;
-    align-items: baseline;
+    align-items: center;
     
   }
   &__theatre-title{
     color:#383D48;
     font-weight: 400;
   }
-  &__theatre-type{
+  &__theatre-type{ 
     margin: 0 10px;
   }
   &__timetable{
