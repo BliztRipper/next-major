@@ -15,7 +15,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --colorTheme: #ff8300;
 }
-:lang(en){font-family: 'SanFranciscoText';} 
+
 
 .isHide{
   display: none;
@@ -24,6 +24,7 @@
 body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  font-family: 'SanFranciscoText';
 }
 .loadingWrap {
   position: fixed; 
@@ -458,9 +459,10 @@ body{
     text-decoration: none;
     margin: 5px;
     &.disable{
-      border: 1px solid #ccc;
-      color:#ccc;
+      border: transparent;
+      color:#989FAE;
       pointer-events: none;
+      background-color: #E9EBEF;
     }
   }
 
