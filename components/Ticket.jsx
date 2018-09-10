@@ -112,7 +112,9 @@ class Ticket extends PureComponent {
         </div>
         <div className="movie-cashier__seat-info">
           <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--title">เสียง {this.state.BookingAttributesNames}</span>
+            <span className="movie-cashier__seat-info--title">
+            <div className="sprite-sound"></div>{this.state.BookingAttributesNames}
+            </span>
           </div>
           <div className="movie-cashier__seat-info--wrapper">
             <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPriceDisplay} บาท</span>
