@@ -30,52 +30,31 @@ class SeatMapDisplay extends PureComponent {
   }
   handleSelectSeats (aSeat) {
     if (this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
-    let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
-    let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
     let ticketBookedMax = 6
-    let canBook = (column) => {
-      if (column < 0) { //out of bound
-        return false
-      } else if (column > (selectRow.length - 1)) { //out of bound
-        return false
-      } else if (selectRow[column] == null) { //not seat in index
-        return false
-      }
-      return (selectRow[column].Status === 0)
-    }
-    
-    let toggleBooked = (aSeat, ticketIsPackageTicket) => {
-      if (aSeat.Status === 99) { // Already booked a seat
+    let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
+    let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
+    let toggleBooked = (aSeat) => {
+      if (aSeat.Status === '') { // Already booked a seat
         aSeat.Status = 0
         this.state.seatsSelected = this.state.seatsSelected.filter((aSeatSelected) => {
           return !(aSeatSelected.Id === aSeat.Id)
         })
       } else if (aSeat.Status === 0) { // Allow book a seat
-        let allowBook = false
-        let bookingStatus = aSeat.OriginalStatus
-        let cannotBookLeft = canBook(aSeat.Position.ColumnIndex-1) && !canBook(aSeat.Position.ColumnIndex-2)
-        let cannotBookRight = canBook(aSeat.Position.ColumnIndex+1) && !canBook(aSeat.Position.ColumnIndex+2)
-        if ((!cannotBookLeft && !cannotBookRight) || ticketIsPackageTicket) {
-          allowBook = true
-          bookingStatus = 99
-        }
-        if (allowBook) {
-          if (this.state.seatsSelected.length >= ticketBookedMax) {
-            Swal({
-              title: 'ขออภัย',
-              text: `ลูกค้าสามารถจองที่นั่งได้ไม่เกิน ${ticketBookedMax} ที่นั่ง ต่อการซื้อตั๋วหนึ่งครั้ง`
-            })
-          } else {
-            this.state.areaSelected = aSeat.AreaCategoryCode
-            aSeat.Status = bookingStatus
-            this.state.seatsSelected.push({
-              ...aSeat,
-              ticket: ticket
-            })
-            this.setState({
-              seatsSelected: this.state.seatsSelected
-            })
-          }
+        if (this.state.seatsSelected.length >= ticketBookedMax) {
+          Swal({
+            title: 'ขออภัย',
+            html: `ลูกค้าสามารถจองที่นั่งได้ไม่เกิน ${ticketBookedMax} ที่นั่ง <br/> ต่อการซื้อตั๋วหนึ่งครั้ง`
+          })
+        } else {
+          this.state.areaSelected = aSeat.AreaCategoryCode
+          aSeat.Status = ''
+          this.state.seatsSelected.push({
+            ...aSeat,
+            ticket: ticket
+          })
+          this.setState({
+            seatsSelected: this.state.seatsSelected
+          })
         }
       }
     }
@@ -83,12 +62,12 @@ class SeatMapDisplay extends PureComponent {
       aSeat.SeatsInGroup.forEach(seatInGroup => {
         selectRow.forEach((aSeatInSelectRow) => {
           if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
-            toggleBooked(aSeatInSelectRow, true)
+            toggleBooked(aSeatInSelectRow)
           }
         })
       })
     } else {
-      toggleBooked(aSeat, false)      
+      toggleBooked(aSeat)      
     }
     
     this.setState({
@@ -99,12 +78,44 @@ class SeatMapDisplay extends PureComponent {
   }
   handleSubmitTicket () {
     if (this.state.postingTicket) return false
+
+    let canBook = (column, selectRow) => {
+      if (column < 0) { //out of bound
+        return false
+      } else if (column > (selectRow.length - 1)) { //out of bound
+        return false
+      } else if (selectRow[column] == null) { //not seat in index
+        return false
+      }
+      return (selectRow[column].Status === 0)
+    }
+
+    let allowBook = true
+    
+    this.state.seatsSelected.forEach(aSeatSelected => {
+      let selectRow = this.state.seatMatrix[aSeatSelected.Position.RowIndex]
+      let cannotBookLeft = canBook(aSeatSelected.Position.ColumnIndex-1, selectRow) && !canBook(aSeatSelected.Position.ColumnIndex-2, selectRow)
+      let cannotBookRight = canBook(aSeatSelected.Position.ColumnIndex+1, selectRow) && !canBook(aSeatSelected.Position.ColumnIndex+2, selectRow)
+      if (!cannotBookLeft && !cannotBookRight && allowBook) {
+        allowBook = true
+      } else {
+        allowBook = false
+      }
+    });
+
     if (this.state.seatsSelected.length) {
-      this.props.authOtpHasToken(this.state.seatsSelected)
-      sessionStorage.setItem('BookingSeat',this.state.selectedList)
-      sessionStorage.setItem('BookingSeatTotal',this.state.seatsSelected.length)
+      if (allowBook) {
+        this.props.authOtpHasToken(this.state.seatsSelected)
+        sessionStorage.setItem('BookingSeat',this.state.selectedList)
+        sessionStorage.setItem('BookingSeatTotal',this.state.seatsSelected.length)
+      } else {
+        Swal({
+          customClass: 'notAllowedSelected',
+          html: `<figure class="image"><img src="static/seat-errer.png" alt=""/></figure> ขออภัย กรุณาไม่เว้นที่ว่าง <br/> ระหว่างที่นั่ง`
+        })
+      }
     } else {
-      alert('กรุณาเลือกที่นั่ง')
+      Swal('กรุณาเลือกที่นั่ง')
     }
   }
   listGroups () {
@@ -113,11 +124,11 @@ class SeatMapDisplay extends PureComponent {
     return (
       <Fragment>
       {
-        this.state.seatMatrix.slice().reverse().map((rows, rowsIndex, rowsArray) => {
+        this.state.seatMatrix.slice().reverse().map((rows, rowsIndex) => {
           let classNameSelected = ''
           let areaCategoryCode = ''
           let physicalName = ''
-          let seatMapCell = rows.map((aSeat, aSeatIndex, aSeatArray) => {
+          let seatMapCell = rows.map((aSeat, aSeatIndex) => {
             areaCategoryCode = aSeat.AreaCategoryCode
             physicalName = aSeat.PhysicalName
             if (this.getTicketByAreaCode(aSeat.AreaCategoryCode) && this.getTicketByAreaCode(aSeat.AreaCategoryCode) !== prevAreaCategoryCode) {
@@ -131,7 +142,7 @@ class SeatMapDisplay extends PureComponent {
             }
             let classNameCell = 'seatMapDisplay__cell'
             if (aSeat.Status !== 0) {
-              if (aSeat.Status === 99) {
+              if (aSeat.Status === '') {
                 classNameCell = classNameCell + ' ' + 'selected'
               } else {
                 classNameCell = classNameCell + ' ' + 'notAllowed'
@@ -220,7 +231,6 @@ class SeatMapDisplay extends PureComponent {
       this.state.seatMatrix[row] = new Array(this.state.seatColMax)
     }
     let seatsObj = ''
-    let prevAreaCategoryCode = ''
     let statusAllowByTicket = ''
     this.state.areas.forEach(area => {      
       for (let rowIndex = 0; rowIndex < area.Rows.length; rowIndex++) {        
@@ -229,7 +239,6 @@ class SeatMapDisplay extends PureComponent {
           for (let col = 0; col < seatsObj.length; col++) {
             statusAllowByTicket = 'noTicket'
             if (this.getTicketByAreaCode(area.AreaCategoryCode)) {
-              prevAreaCategoryCode = this.getTicketByAreaCode(area.AreaCategoryCode)
               statusAllowByTicket = seatsObj[col].OriginalStatus
             }
             this.state.seatMatrix[rowIndex][seatsObj[col].Position.ColumnIndex] = {

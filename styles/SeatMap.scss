@@ -372,3 +372,19 @@ $colorSeat3: #a0b0f4;
     }
   }
 }
+
+.swal2-popup {
+  &.notAllowedSelected {
+    .swal2-content {
+      margin-bottom: 1.1rem;
+    }
+    .image {
+      margin: 0 -1.25rem;
+      margin-bottom: 1.6rem;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
