@@ -8,6 +8,7 @@
 @import 'searchCinema';
 @import 'history';
 @import 'responsive';
+@import 'fontface';
 
 :root{
   font-size: 16px;
@@ -23,11 +24,13 @@
 body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  font-family: 'Thonburi';
+
 }
 .loadingWrap {
   position: fixed; 
   left: 0;
-  top: 0;
+  top: 0; 
   right: 0;
   bottom: 0;
   background-color: rgba(#fff, 0.5);
