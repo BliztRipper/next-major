@@ -24,8 +24,7 @@
 body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  font-family: 'Thonburi';
-
+  font-family: 'SanFranciscoText';
 }
 .loadingWrap {
   position: fixed; 
@@ -202,7 +201,7 @@ body{
     display: grid; 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
-    grid-gap: .5rem;
+    grid-gap: 1rem;
     padding-bottom: 4rem;
     margin-top: 120px;
   }
@@ -243,7 +242,7 @@ body{
     display: grid; 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
-    grid-gap: .5rem;
+    grid-gap: 2rem 0.5rem;
     padding-bottom: 4rem;
   }
   &__cell{
@@ -268,7 +267,6 @@ body{
     font-size: 0.75rem;
     color:#878E9D;
     text-align: center;
-    padding-top: 5px;
   }
 }
 
