@@ -502,12 +502,11 @@ body{
   top: 0;
   right: 0;
   bottom: 0;
-  height: 100%;
-  width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 0;
   -webkit-overflow-scrolling: touch;
+  padding: 8px;
   .react-tabs{
     padding-bottom: 90px;
       &__tab-list{
