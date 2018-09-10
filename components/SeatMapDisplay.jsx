@@ -1,5 +1,6 @@
 import { PureComponent, Fragment } from 'react'
 import Swal from 'sweetalert2'
+import Hammer from 'react-hammerjs'
 
 class SeatMapDisplay extends PureComponent {
   constructor(props) {
@@ -16,11 +17,35 @@ class SeatMapDisplay extends PureComponent {
         selectedList:'',
         seatColMax: 0,
         seatRowMax: 0,
-        seatMatrix: []
+        seatMatrix: [],
+        // ==== begin pinch pan zoom
+        minScale: 1,
+        maxScale: 4,
+        imageWidth: 0,
+        imageHeight: 0,
+        containerWidth: 0,
+        containerHeight: 0,
+        displayImageX: 0,
+        displayImageY: 0,
+        displayImageScale: 1,
+        displayDefaultWidth: 0,
+        displayDefaultHeight: 0,
+        rangeX: 0,
+        rangeMaxX: 0,
+        rangeMinX: 0,
+        rangeY: 0,
+        rangeMaxY: 0,
+        rangeMinY: 0,
+        displayImageRangeY: 0,
+        displayImageCurrentX: 0,
+        displayImageCurrentY: 0,
+        displayImageCurrentScale: 1,
+        // end pinch pan zoom ====
       }
       this.refSeatsRow = React.createRef()
       this.refSeatsMainInner = React.createRef()
       this.refSeatsMain = React.createRef()
+      this.refSeatsHammer = React.createRef()
   }
   getTicketByAreaCode (AreaCategoryCode) {
     return this.state.tickets.filter(ticket => ticket.AreaCategoryCode === AreaCategoryCode)[0]
@@ -207,19 +232,22 @@ class SeatMapDisplay extends PureComponent {
       </div>
     )
   }
-  styleSeatsContainer () {
-    let titleRowSpace = 50
-    document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
-    let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
-    this.refSeatsMainInner.current.style.width = containerWidth + 'px'
-    this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
-  }
-  disableStyleSeatsContainer () {
-    let titleRowSpace = 50
-    document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
-    let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
-    this.refSeatsMainInner.current.style.width = containerWidth + 'px'
-    this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
+  // styleSeatsContainer () {
+  //   let titleRowSpace = 50
+  //   document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
+  //   let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
+  //   this.refSeatsMainInner.current.style.width = containerWidth + 'px'
+  //   this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
+  // }
+  // disableStyleSeatsContainer () {
+  //   let titleRowSpace = 50
+  //   document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
+  //   let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
+  //   this.refSeatsMainInner.current.style.width = containerWidth + 'px'
+  //   this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
+  // }
+  componentDidMount () {
+    this.initPinchZoomPan()
   }
   componentWillMount () {
     this.state.areas.map(area => {
@@ -256,6 +284,80 @@ class SeatMapDisplay extends PureComponent {
       renderListPrice: this.listPrice()
     })
   }
+  initPinchZoomPan () {
+    this.state.imageContainer = this.refSeatsHammer.current.domElement
+    this.state.displayImage = this.state.imageContainer.children[0]
+    this.state.imageWidth = this.state.displayImage.clientWidth;
+    this.state.imageHeight = this.state.displayImage.clientHeight;
+    this.state.displayDefaultWidth = this.state.displayImage.offsetWidth;
+    this.state.displayDefaultHeight = this.state.displayImage.offsetHeight;
+    this.state.rangeX = Math.max(0, this.state.displayDefaultWidth - this.state.containerWidth);
+    this.state.rangeY = Math.max(0, this.state.displayDefaultHeight - this.state.containerHeight);
+  }
+  clamp(value, min, max) {
+    return Math.min(Math.max(min, value), max);
+  }
+  
+  clampScale(newScale) {
+    return this.clamp(newScale, this.state.minScale, this.state.maxScale);
+  }
+  updateRange() {
+    this.state.rangeX = Math.max(0, Math.round(this.state.displayDefaultWidth * this.state.displayImageCurrentScale) - this.state.containerWidth);
+    this.state.rangeY = Math.max(0, Math.round(this.state.displayDefaultHeight * this.state.displayImageCurrentScale) - this.state.containerHeight);
+    
+    this.state.rangeMaxX = Math.round(this.state.rangeX / 2);
+    this.state.rangeMinX = 0 - this.state.rangeMaxX;
+  
+    this.state.rangeMaxY = Math.round(this.state.rangeY / 2);
+    this.state.rangeMinY = 0 - this.state.rangeMaxY;
+    this.setState({
+      rangeX: this.state.rangeX,
+      rangeY: this.state.rangeY,
+      rangeMaxX: this.state.rangeMaxX,
+      rangeMinX: this.state.rangeMinX,
+      rangeMaxY: this.state.rangeMaxY,
+      rangeMinY: this.state.rangeMinY
+    })
+  }
+  updateDisplayImage(x, y, scale) {
+    const transform = 'translateX(' + x + 'px) translateY(' + y + 'px) translateZ(0px) scale(' + scale + ',' + scale + ')';
+    this.state.displayImage.style.transform = transform;
+    this.state.displayImage.style.WebkitTransform = transform;
+    this.state.displayImage.style.msTransform = transform;
+  }
+  handleSeatsPan (ev) {
+    this.state.displayImageCurrentX = this.clamp(this.state.displayImageX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);
+    this.state.displayImageCurrentY = this.clamp(this.state.displayImageY + ev.deltaY, this.state.rangeMinY, this.state.rangeMaxY);
+    this.updateDisplayImage(this.state.displayImageCurrentX, this.state.displayImageCurrentY, this.state.displayImageScale);
+
+    this.setState({
+      displayImageCurrentX: this.state.displayImageCurrentX,
+      displayImageCurrentY: this.state.displayImageCurrentY
+    })
+  }
+  handleSeatsPinch (ev) {
+    // alert(this.state.displayImageCurrentScale)
+    this.state.displayImageCurrentScale = this.clampScale(ev.scale * this.state.displayImageScale);
+    this.updateRange();
+    this.state.displayImageCurrentX = this.clamp(this.state.displayImageX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);
+    this.state.displayImageCurrentY = this.clamp(this.state.displayImageY + ev.deltaY, this.state.rangeMinY, this.state.rangeMaxY);
+    this.updateDisplayImage(this.state.displayImageCurrentX, this.state.displayImageCurrentY, this.state.displayImageCurrentScale);
+    this.setState({
+      displayImageCurrentScale: this.state.displayImageCurrentScale,
+      displayImageCurrentX: this.state.displayImageCurrentX,
+      displayImageCurrentY: this.state.displayImageCurrentY
+    })
+  }
+  handleSeatsPinchEnd () {
+    this.state.displayImageScale = this.state.displayImageCurrentScale;
+    this.state.displayImageX = this.state.displayImageCurrentX;
+    this.state.displayImageY = this.state.displayImageCurrentY;
+    this.setState({
+      displayImageScale: this.state.displayImageScale,
+      displayImageX: this.state.displayImageX,
+      displayImageY: this.state.displayImageY
+    })
+  }
   render () {
     const {renderSeats, renderListPrice} = this.state
     if (!renderSeats) return false
@@ -267,17 +369,34 @@ class SeatMapDisplay extends PureComponent {
     }
     return (
       <Fragment>
-        <div className="seatMapMain" ref={this.refSeatsMain} onClick={this.props.handleToggleZoomSeatsMap}>
-          <div className="seatMapMain__inner" ref={this.refSeatsMainInner}>
-            <div className="seatMapScreenWrap">
-              <div className="seatMapScreen" ref={this.refScreen}>
-                <div className="seatMapScreen__inner"></div>
+        <div className="seatMapMain" ref={this.refSeatsMain}>
+          <Hammer
+            onPan={this.handleSeatsPan.bind(this)}
+            onPinch={this.handleSeatsPinch.bind(this)}
+            onPanEnd = {this.handleSeatsPinchEnd.bind(this)}
+            onPanCancel = {this.handleSeatsPinchEnd.bind(this)}
+            onPinchEnd = {this.handleSeatsPinchEnd.bind(this)}
+            onPinchCancel = {this.handleSeatsPinchEnd.bind(this)}
+            ref={this.refSeatsHammer}
+            options={{
+              recognizers: {
+                  pinch: { enable: true }
+              }
+            }}
+          >
+            <div>
+              <div className="seatMapMain__inner" ref={this.refSeatsMainInner}>
+                <div className="seatMapScreenWrap">
+                  <div className="seatMapScreen" ref={this.refScreen}>
+                    <div className="seatMapScreen__inner"></div>
+                  </div>
+                </div>
+                <div className={'seatMapDisplay' + classNameSelected}>
+                  {renderSeats}
+                </div>
               </div>
             </div>
-            <div className={'seatMapDisplay' + classNameSelected}>
-              {renderSeats}
-            </div>
-          </div>
+          </Hammer>
         </div>
         <div className="seatMapFooter">
           <div className={'ticketResult' + classNameSelected}>

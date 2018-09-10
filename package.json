@@ -17,6 +17,7 @@
     "react": "^16.4.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.4.1",
+    "react-hammerjs": "^1.0.1",
     "react-slick": "^0.23.1",
     "react-tabs": "^2.2.2",
     "react-transition-group": "^2.4.0",

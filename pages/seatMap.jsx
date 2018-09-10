@@ -10,6 +10,7 @@ import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 
+
 class seatMap extends PureComponent {
   constructor(props) {
     super(props)
@@ -34,8 +35,6 @@ class seatMap extends PureComponent {
     }
     this.refSeatMapDisplay = React.createRef()
     this.refOTP = React.createRef()
-    this.getStringDateTime('2018-08-31T06:03:09Z')
-    
   }
   cancelOrder (UserSessionId) {
     let dataToCancelOrder =  {
@@ -68,17 +67,6 @@ class seatMap extends PureComponent {
     Router.push({
       pathname: '/'
     })
-  }
-  getStringDateTime (time) {
-    let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
-    let dateTimeArr = regexDateTime.exec(time)
-    return {
-      origin: dateTimeArr[0],
-      year: dateTimeArr[1],
-      month: dateTimeArr[2],
-      day: dateTimeArr[3],
-      time: dateTimeArr[4]
-    }
   }
   getTheatre () {
     this.state.CinemaId = sessionStorage.getItem('CinemaID')
@@ -140,21 +128,9 @@ class seatMap extends PureComponent {
     Router.back()
   }
   handleToggleZoomSeatsMap (e) {
-    if (isDblTouchTap(e)) {
-      if (!this.state.entrySeatMap) {
-        this.setState({
-          entrySeatMap: true
-        }, () => {
-          this.refSeatMapDisplay.current.styleSeatsContainer()
-        })
-      } else {
-        this.setState({
-          entrySeatMap: false
-        }, () => {
-          this.refSeatMapDisplay.current.styleSeatsContainer()
-        })
-      }
-    }
+    this.setState({
+      entrySeatMap: true
+    })
   }
   authOtpHasToken (seatSelected) {
     this.state.seatsSelected = seatSelected
@@ -304,7 +280,13 @@ class seatMap extends PureComponent {
     return(
       <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
         <div className="seatMap__educate-inner">
-          ดับเบิ้ลคลิก
+          <figure><img src="static/icon-pinch.png" alt=""/></figure>
+          <div className="seatMap__educate-desc">
+            ถ่างเพิ่มซูม
+          </div>
+          <div className="seatMap__educate-button">
+            <span className="btnTheme">เข้าใจแล้ว</span>
+          </div>
         </div>
       </div>
     )
@@ -321,10 +303,7 @@ class seatMap extends PureComponent {
   }
   render () {
     const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap} = this.state;
-    let seatMapClassName = 'seatMap'
-    if (!entrySeatMap) {
-      seatMapClassName = seatMapClassName + ' beforeEntry'
-    }
+    let seatMapClassName = 'seatMap beforeEntry'
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -357,7 +336,6 @@ class seatMap extends PureComponent {
             ticketData={ticketData} 
             authOtpHasToken={this.authOtpHasToken.bind(this)}
             bookSelectedSeats={this.bookSelectedSeats.bind(this)}
-            handleToggleZoomSeatsMap={this.handleToggleZoomSeatsMap.bind(this)}
           ></SeatMapDisplay>
         </div>
         <CSSTransition
