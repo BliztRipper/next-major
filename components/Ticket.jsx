@@ -82,7 +82,7 @@ class Ticket extends PureComponent {
           <div className="movie-cashier__wrapper">
             <h2 className="movie-cashier__title">{this.state.BookingMovie}</h2>
             <h3 className="movie-cashier__subtitle">{this.state.BookingMovieTH}</h3>
-            <span className="movie-cashier__genre">{this.state.BookingGenre}<br/> {this.state.BookingDuration}</span>
+            <span className="movie-cashier__genre">{this.state.BookingGenre}<br/> {this.state.BookingDuration} นาที</span>
           </div>
         </div>
         <div className="movie-cashier__cine-info">
