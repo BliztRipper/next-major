@@ -127,6 +127,16 @@ body{
     top: 10px;
     left: 25%;
   }
+  &-search{
+    @extend .sprite;
+    background-position: -67px -368px; 
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    top: 28px;
+    left: 15%;
+    z-index: 1;
+  }
 }
 
   .VS00000001{
@@ -270,7 +280,7 @@ body{
     align-items: center;
     position: relative;
     box-shadow: 0 1px 0 0 #E9EBEF;
-    margin-top: 1rem;
+    // margin-top: 1rem;
     &__title{
       color:#757D8C;
       font-size: 0.875rem;
