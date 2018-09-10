@@ -15,6 +15,59 @@ class MainNavBar extends PureComponent {
       enable: 'position: ; top: ; left: ; margin: ; padding: ; width: ; height: ; overflow-x: ; overflow-y: ; -webkit-overflow-scrolling: ;'
     }
   }
+  getTickets () {
+    try{
+      fetch(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
+      .then(response => response.json())
+      .then(data => {
+        this.state.dataMyTicketServerTime = data.server_time
+        let expired = false
+        if (data.data) {
+          this.state.dataMyTickets = []
+          this.state.dataMyTicketsExpired = []
+          data.data.forEach((ticket) => {
+            expired = this.ticketHasExpired(ticket)
+            if (!expired) {
+              this.state.dataMyTickets.push(ticket) 
+            } else {
+              this.state.dataMyTicketsExpired.push(ticket)
+            }
+          })
+          this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
+          this.state.dataMyTicketsExpired = JSON.stringify(this.state.dataMyTicketsExpired)
+          this.state.dataMyTickets = JSON.stringify(this.state.dataMyTickets)
+          if (this.state.dataMyTickets.length === 0) this.state.dataMyTickets = null
+          if (this.state.dataMyTicketsExpired.length === 0) this.state.dataMyTicketsExpired = null
+        } else {
+          this.state.dataMyTicketsExpired = null
+          this.state.dataMyTickets = null
+        }
+        sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
+        sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
+        sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
+        this.setState({ 
+          dataMyTicketsExpired: this.state.dataMyTicketsExpired,
+          dataMyTickets: this.state.dataMyTickets,
+          dataMyTicketsTotal: this.state.dataMyTicketsTotal,
+          dataMyTicketServerTime: this.state.dataMyTicketServerTime,
+          dataMyTicketsDone: true
+        })
+      })
+    } catch (err) {
+      error => {
+        console.error('error', error);
+        this.setState({ error})
+      }
+    }    
+  }
+  ticketHasExpired (ticket) {
+    let serverDate = new Date(this.state.dataMyTicketServerTime)
+    let expiredMaxHours = 3
+    let offsetTime = expiredMaxHours * 3600 * 1000
+    let serverResulTime = serverDate.getTime()
+    let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime();
+    return serverResulTime - ticketBookedResultTime > offsetTime
+  }
   setStyleBounceOnScroll (styles) {
     let documents = [document.documentElement, document.body]
     documents.forEach(element => element.style.cssText = styles);
@@ -41,40 +94,41 @@ class MainNavBar extends PureComponent {
         accid: this.props.accid
       }
     }
-    return (
-      <div className="indexTab">
-        <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
-          <TabPanel>
-            <Link prefetch href={dataToAllMovies}>
-              <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
-            </Link>
-            <HighlightCarousel/>
-          </TabPanel>
-          <TabPanel>
-            <MainCinemaListing accid={this.props.accid}/>
-          </TabPanel>
-          <TabPanel>
-            <MyTicket accid={this.props.accid}></MyTicket>
-          </TabPanel>
-          <TabList>
-            <div className="react-tabs__tabs-container">
-              <Tab>
-                <div className="sprite-tab-menu1"></div>
-                <span className="tab-menu-title">ภาพยนต์</span>
-              </Tab>
-              <Tab>
-                <div className="sprite-tab-menu2"></div>
-                <span className="tab-menu-title">โรงภาพยนต์</span>
-              </Tab>
-              <Tab>
-                <div className="sprite-tab-menu3"></div>
-                <span className="tab-menu-title">ตั๋วหนัง</span>
-              </Tab>
-            </div>
-          </TabList>
-        </Tabs>
-      </div>
-    );
+    if (dataMyTicketsDone) {
+      if (this.currentTabsIndex === 0) {
+        this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
+      }
+      return (
+        <div className="indexTab">
+          <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
+            <TabPanel>
+              <Link prefetch href={dataToAllMovies}>
+                <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
+              </Link>
+              <HighlightCarousel accid={this.props.accid}/>
+            </TabPanel>
+            <TabPanel>
+              <MainCinemaListing accid={this.props.accid}/>
+            </TabPanel>
+            <TabList>
+              <div className="react-tabs__tabs-container">
+                <Tab>
+                  <div className="sprite-tab-menu1"></div>
+                  <span className="tab-menu-title">ภาพยนต์</span>
+                </Tab>
+                <Tab>
+                  <div className="sprite-tab-menu2"></div>
+                  <span className="tab-menu-title">โรงภาพยนต์</span>
+                </Tab>
+                <li className="isBlank">ตั้วหนัง</li>
+              </div>
+              { this.renderFloatButton() }
+            </TabList>
+          </Tabs>
+        </div>
+      );
+    }
+    return false
   }
 }
 
