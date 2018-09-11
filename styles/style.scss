@@ -7,7 +7,6 @@
 @import 'myTickets';
 @import 'searchCinema';
 @import 'history';
-@import 'responsive';
 @import 'fontface';
 
 :root{
@@ -755,3 +754,5 @@ body{
     justify-content: center;
   }
 }
+
+@import 'responsive';
