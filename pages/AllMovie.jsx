@@ -5,6 +5,7 @@ import '../styles/style.scss'
 import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 import loading from '../static/loading.gif'
+import Router from 'next/router'
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -22,6 +23,11 @@ class AllMovie extends PureComponent {
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
+    // set previous route
+    Router.beforePopState(() => {
+      sessionStorage.setItem('previousRoute', this.props.url.pathname)
+      return true
+    })
   }
 
   render() {

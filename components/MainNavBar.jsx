@@ -14,9 +14,10 @@ class MainNavBar extends PureComponent {
       dataMyTicketServerTime: '',
       dataMyTickets: '',
       dataMyTicketsTotal: '',
-      dataMyTicketsExpired: ''
+      dataMyTicketsExpired: '',
+      previousRoute: '',
+      currentTabsIndex: 0
     }
-    this.currentTabsIndex = 0
     this.bounceOnScrollStyles = {
       disable: 'position: fixed; top: 0; left: 0; margin: 0; padding: 8px; width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;',
       enable: 'position: ; top: ; left: ; margin: ; padding: ; width: ; height: ; overflow-x: ; overflow-y: ; -webkit-overflow-scrolling: ;'
@@ -81,8 +82,8 @@ class MainNavBar extends PureComponent {
   }
 
   onSelectTabs (index) {
-    this.currentTabsIndex = index
-    if (this.currentTabsIndex !== 0) {
+    this.state.currentTabsIndex = index
+    if (this.state.currentTabsIndex !== 0) {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable)
     } else {
       this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
@@ -90,6 +91,23 @@ class MainNavBar extends PureComponent {
   }
   componentDidMount () {
     utilities.removeBookingInfoInSessionStorage()
+  }
+  getPreviousRoute () {
+    let instantPrevRoute = sessionStorage.getItem('previousRoute')
+    let instantTabsIndex = 0
+    switch (instantPrevRoute) {
+      case '/SelectMovieByCinema':
+        instantTabsIndex = 1
+        break;
+      default:
+        instantTabsIndex = 0
+        break;
+    }
+    this.setState({
+      previousRoute: instantPrevRoute,
+      currentTabsIndex: instantTabsIndex
+    })
+    sessionStorage.removeItem('previousRoute')
   }
   goToMyTickets () {
     Router.push({
@@ -115,6 +133,7 @@ class MainNavBar extends PureComponent {
   }
   componentDidMount () {
     this.getTickets()
+    this.getPreviousRoute()
   }
   render() {
     const {dataMyTicketsDone} = this.state
@@ -126,12 +145,16 @@ class MainNavBar extends PureComponent {
       }
     }
     if (dataMyTicketsDone) {
-      if (this.currentTabsIndex === 0) {
+      if (this.state.currentTabsIndex === 0) {
         this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
       }
       return (
         <div className="indexTab">
-          <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
+          <Tabs 
+            // activeKey={this.state.key}
+            onSelect={this.onSelectTabs.bind(this)} 
+            defaultIndex={this.state.currentTabsIndex}
+          >
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
                 <Fragment>

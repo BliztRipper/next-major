@@ -76,6 +76,11 @@ class MainSelectMovieByCinema extends PureComponent {
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
+    // set previous route
+    Router.beforePopState(() => {
+      sessionStorage.setItem('previousRoute', this.props.url.pathname)
+      return true
+    })
   }
 
   getTitleById(filmId) {
