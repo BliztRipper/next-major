@@ -1,28 +1,37 @@
 .highlight__poster{
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 .poster-container{
   margin-left: auto;
   margin-right: auto;
-  display: block;
-  @media(min-width:375px){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media(min-width:320px){
     width: 56.25vw;
-    height: 50vh;
+    height: auto;
+  }
+  @media(min-width:375px) and (min-height:812px){
+    width: 56.25vw;
+    height: auto;
   }
   @media(min-width:414px){
     width: 56.25vw;
-    height: 50vh;
+    height: 55vh;
   }
   @media(min-height:720px){
     width: 56.25vw;
-    height: 50vh;
+    height: 55vh;
   }
 }
 
-.highlight__book-btn{
-  @media(min-width:375px){
+.highlight__book-btn,.allmovie-btn{
+  @media(min-width:320px){
+    width: 56.25vw;
+  }
+  @media(min-width:375px) and (min-height:812px){
     width: 56.25vw;
   }
   @media(min-width:414px){

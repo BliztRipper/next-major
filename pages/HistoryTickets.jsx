@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import HistoryTickets from '../components/HistoryTickets'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import Router from 'next/router'
 
 class HistoryTicketsPage extends PureComponent {
@@ -12,7 +12,7 @@ class HistoryTicketsPage extends PureComponent {
       dataTickets: '',
       serverTime: ''
     }
-    
+
   }
   handleBackButton () {
     Router.push('/MyTickets')

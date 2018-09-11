@@ -14,7 +14,8 @@ class MainNavBar extends PureComponent {
       dataMyTicketServerTime: '',
       dataMyTickets: '',
       dataMyTicketsTotal: '',
-      dataMyTicketsExpired: ''
+      dataMyTicketsExpired: '',
+      bg:''
     }
     this.currentTabsIndex = 0
     this.bounceOnScrollStyles = {
@@ -30,20 +31,20 @@ class MainNavBar extends PureComponent {
         this.state.dataMyTicketServerTime = data.server_time
         let expired = false
         console.log(data.data, 'data.data getTickets');
-        
+
         if (data.data) {
           this.state.dataMyTickets = []
           this.state.dataMyTicketsExpired = []
           data.data.forEach((ticket) => {
             expired = this.ticketHasExpired(ticket)
             if (!expired) {
-              this.state.dataMyTickets.push(ticket) 
+              this.state.dataMyTickets.push(ticket)
             } else {
               this.state.dataMyTicketsExpired.push(ticket)
             }
           })
           console.log(this.state.dataMyTickets.length, 'this.state.dataMyTickets.length');
-          
+
           this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
           this.state.dataMyTicketsExpired = JSON.stringify(this.state.dataMyTicketsExpired)
           this.state.dataMyTickets = JSON.stringify(this.state.dataMyTickets)
@@ -56,7 +57,7 @@ class MainNavBar extends PureComponent {
         sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
         sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
         sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
-        this.setState({ 
+        this.setState({
           dataMyTicketsExpired: this.state.dataMyTicketsExpired,
           dataMyTickets: this.state.dataMyTickets,
           dataMyTicketsTotal: this.state.dataMyTicketsTotal,
@@ -69,7 +70,7 @@ class MainNavBar extends PureComponent {
         console.error('error', error);
         this.setState({ error})
       }
-    }    
+    }
   }
   ticketHasExpired (ticket) {
     let serverDate = new Date(this.state.dataMyTicketServerTime)
@@ -122,14 +123,27 @@ class MainNavBar extends PureComponent {
   componentDidMount () {
     this.getTickets()
   }
+
+  getBG(bg){
+    this.setState({
+      bg:bg
+    })
+  }
+
   render() {
-    const {dataMyTicketsDone} = this.state
+    const {dataMyTicketsDone, bg} = this.state
     resetIdCounter()
     let dataToAllMovies = {
       pathname: '/AllMovie',
       query: {
         accid: this.props.accid
       }
+    }
+    let bgblur = {
+      backgroundImage: `url(${bg})`,
+      backgroundSize:'cover',
+      filter: 'blur(16px)',
+      // opacity: '0.75',
     }
     if (dataMyTicketsDone) {
       if (this.currentTabsIndex === 0) {
@@ -138,15 +152,18 @@ class MainNavBar extends PureComponent {
       }
       return (
         <div className="indexTab">
+        <div className="background-blur__wrapper">
+          <div className="background-blur" style={bgblur}></div>
+        </div>
           <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
                 <Fragment>
-                  <div className="sprite-table"></div> 
+                  <div className="sprite-table"></div>
                   <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
                 </Fragment>
               </Link>
-              <HighlightCarousel accid={this.props.accid}/>
+              <HighlightCarousel bg={this.getBG.bind(this)} accid={this.props.accid}/>
             </TabPanel>
             <TabPanel>
               <MainCinemaListing accid={this.props.accid}/>
@@ -167,7 +184,7 @@ class MainNavBar extends PureComponent {
             </TabList>
           </Tabs>
         </div>
-      );
+      )
     }
     return false
   }

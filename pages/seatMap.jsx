@@ -4,7 +4,7 @@ import SeatMapDisplay from '../components/SeatMapDisplay'
 import OTP from '../components/OTP'
 import GlobalHeader from '../components/GlobalHeader'
 import Layout from '../components/Layout'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
@@ -35,7 +35,7 @@ class seatMap extends PureComponent {
     this.refSeatMapDisplay = React.createRef()
     this.refOTP = React.createRef()
     this.getStringDateTime('2018-08-31T06:03:09Z')
-    
+
   }
   cancelOrder (UserSessionId) {
     let dataToCancelOrder =  {
@@ -134,8 +134,8 @@ class seatMap extends PureComponent {
       })
     } catch(err){
       error => this.setState({ error, isLoading: false })
-    }    
-  }    
+    }
+  }
   handleBackButton () {
     Router.back()
   }
@@ -188,7 +188,7 @@ class seatMap extends PureComponent {
         otpResending: true
       })
     }
-    
+
     try {
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userPhoneNumber}`,{
         method: 'POST',
@@ -239,7 +239,7 @@ class seatMap extends PureComponent {
     } catch (error) {
       console.error('error', error);
     }
-  }  
+  }
   bookSelectedSeats (isChaining) {
     let dataToStorage = {
       cinemaId: '',
@@ -272,7 +272,7 @@ class seatMap extends PureComponent {
       .then((data) =>  {
         if (data.status_code !== 400) {
           this.setState({ dataBookedSeats: data })
-          Router.push({ 
+          Router.push({
             pathname: '/Cashier',
             query: {
               accid: this.state.userPhoneNumber
@@ -337,9 +337,9 @@ class seatMap extends PureComponent {
     if (otpShow) {
       return (
         <Layout title="One-Time Password">
-          <OTP 
+          <OTP
             ref={this.refOTP}
-            userAuthData={userAuthData} 
+            userAuthData={userAuthData}
             authOtpGetOtp={this.authOtpGetOtp.bind(this)}
             authOtpVerify={this.authOtpVerify.bind(this)}
           ></OTP>
@@ -350,11 +350,11 @@ class seatMap extends PureComponent {
       <Layout title="Select Seats">
         <div className={seatMapClassName}>
           <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
-          <SeatMapDisplay 
+          <SeatMapDisplay
             ref={this.refSeatMapDisplay}
-            areaData={areaData} 
-            SessionId={SessionId} 
-            ticketData={ticketData} 
+            areaData={areaData}
+            SessionId={SessionId}
+            ticketData={ticketData}
             authOtpHasToken={this.authOtpHasToken.bind(this)}
             bookSelectedSeats={this.bookSelectedSeats.bind(this)}
             handleToggleZoomSeatsMap={this.handleToggleZoomSeatsMap.bind(this)}

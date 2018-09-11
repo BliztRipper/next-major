@@ -4,7 +4,7 @@ import Layout from '../components/Layout'
 import '../styles/style.scss'
 import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -15,8 +15,8 @@ class AllMovie extends PureComponent {
       error: null,
       accid: this.props.url.query.accid
     }
-    
-  } 
+
+  }
   componentDidMount(){
     fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
@@ -37,19 +37,19 @@ class AllMovie extends PureComponent {
       <Layout title='All Movie'>
       <h1 className="allmovieTab__header">ภาพยนต์ทั้งหมด</h1>
       <div className="allmovieTab">
-      <Tabs> 
+      <Tabs>
         <TabList>
-          <Tab>กำลังฉาย</Tab>  
+          <Tab>กำลังฉาย</Tab>
           <Tab>เร็วๆนี้</Tab>
         </TabList>
         <TabPanel>
           <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
         </TabPanel>
-        <TabPanel> 
+        <TabPanel>
           <CominSoonComp dataObj={this.state.dataObj} />
         </TabPanel>
       </Tabs>
-      </div>    
+      </div>
       </Layout>
     )
   }

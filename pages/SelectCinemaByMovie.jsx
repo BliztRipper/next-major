@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import utilities from '../scripts/utilities';
@@ -42,7 +42,7 @@ class CinemaMovieInfo extends PureComponent {
   }
 }
 
-class MainSelectCinemaByMovie extends PureComponent { 
+class MainSelectCinemaByMovie extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,7 +77,7 @@ class MainSelectCinemaByMovie extends PureComponent {
         fetch(`https://api-cinema.truemoney.net/Branches`).then(response => response.json())
         .then(data=> {
           let dataBranch = data.data
-          this.renderHeadCinema(dataSchedule, dataBranch)          
+          this.renderHeadCinema(dataSchedule, dataBranch)
         })
         .then(
           () => {
@@ -88,10 +88,10 @@ class MainSelectCinemaByMovie extends PureComponent {
                 Object.keys(date.Theaters).map(key => {
                   dateArray.push(date.Theaters[key].Showtimes)
                 })
-              }) 
+              })
               dateArray.map((item,i)=>{
                 for(var i=0; i < item.length; i++){
-                  pureDateArray.push(parseInt(utilities.getStringDateTime(item[i]).day)) 
+                  pureDateArray.push(parseInt(utilities.getStringDateTime(item[i]).day))
                 }
               })
             }
@@ -125,7 +125,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       this.setState({isEmpty:true})
     }
   }
-  
+
   getTimetable(){
     let resultsArray = {
       info:[],
@@ -141,7 +141,7 @@ class MainSelectCinemaByMovie extends PureComponent {
           }
           this.state.nowShowing.movieCode.map(movieCode => {
             if(theaters.Theaters[key].ScheduledFilmId === movieCode) {
-              resultsArray.time.push(<CinemaTimeTable cineId={theaters.Id} cineName={theaters.Name} name='fromMovie' pickedDate={this.state.uniArr[this.state.pickThisDay]} item={theaters.Theaters[key]} serverTime={this.state.serverTime} accid={this.props.url.query.accid}/>)   
+              resultsArray.time.push(<CinemaTimeTable cineId={theaters.Id} cineName={theaters.Name} name='fromMovie' pickedDate={this.state.uniArr[this.state.pickThisDay]} item={theaters.Theaters[key]} serverTime={this.state.serverTime} accid={this.props.url.query.accid}/>)
             } else {
               this.setState({class:false})
             }
@@ -182,29 +182,29 @@ class MainSelectCinemaByMovie extends PureComponent {
    )
   }
 
-  render() {      
-    const {isLoading, error, isEmpty, theaterArr} = this.state;    
+  render() {
+    const {isLoading, error, isEmpty, theaterArr} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
-    if (isLoading) { 
+    if (isLoading) {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
-    }    
+    }
     sessionStorage.setItem('BookingMovie',this.state.nowShowing.title_en)
     sessionStorage.setItem('BookingMovieTH',this.state.nowShowing.title_th)
     sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
     if (theaterArr.length) {
-      return (      
+      return (
         <Layout title="Select Movie">
           <section className="date-filter">
           {this.filterByDate()}
           </section>
-          <article className="movie-card"> 
+          <article className="movie-card">
           {this.getTimetable().info}
           {this.getTimetable().theater}
           </article>

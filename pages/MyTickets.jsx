@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MyTicket from '../components/MyTicket'
 import GlobalHeader from '../components/GlobalHeader'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import Router from 'next/router'
 import '../styles/style.scss'
 
@@ -16,12 +16,12 @@ class MyTickets extends PureComponent {
       error: null,
       accid: this.props.url.query.accid
     }
-    
-  } 
+
+  }
   handleBackButton () {
     Router.push('/')
   }
-  
+
   componentDidMount(){
     this.setState({
       isLoading: false,

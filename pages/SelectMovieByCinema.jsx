@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import CinemaTimeTable from '../components/CinemaTimeTable'
 import Router from 'next/router'
@@ -43,7 +43,7 @@ class CinemaMovieInfo extends PureComponent {
   }
 }
 
-class MainSelectMovieByCinema extends PureComponent { 
+class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,7 +71,7 @@ class MainSelectMovieByCinema extends PureComponent {
       .then(response => response.json())
       .then(data =>  this.setState({data:data.data, serverTime:data.server_time,isLoading: false}))
       .then(()=>{
-        this.dataForSchedule() 
+        this.dataForSchedule()
       })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
@@ -93,7 +93,7 @@ class MainSelectMovieByCinema extends PureComponent {
       this.state.nowShowing.map(movie => {
         if (movie.movieCode != null) {
           movie.movieCode.map(movieId => {
-            if (filmId == movieId) {         
+            if (filmId == movieId) {
               info = movie
             }
           })
@@ -107,7 +107,7 @@ class MainSelectMovieByCinema extends PureComponent {
     let countShowtime = 0
     movie.theaters.forEach(theather => {
       theather.Showtimes.map(time=>{
-        //Sync with Server Time      
+        //Sync with Server Time
         let today = parseInt(utilities.getStringDateTime(serverTime).day)
         //Get date and time for today
         let now = new Date()
@@ -120,7 +120,7 @@ class MainSelectMovieByCinema extends PureComponent {
           let movieTime = now.setHours(splitHours,splitMins)
           if(movieTime <= nowtime){
             countShowtime++
-          } 
+          }
         }
       })
     })
@@ -133,9 +133,9 @@ class MainSelectMovieByCinema extends PureComponent {
       this.state.data.map(item => {
         let info = ''
         Object.keys(item.Theaters).map(key => {
-          info = this.getTitleById(item.Theaters[key].ScheduledFilmId)  
+          info = this.getTitleById(item.Theaters[key].ScheduledFilmId)
           if (info == null) {
-            console.log("fileId is not found in now showing wait to fix"); 
+            console.log("fileId is not found in now showing wait to fix");
           } else {
             let title = info.title_en.replace(/ +/g, "")
             if (title == "") {
@@ -163,7 +163,7 @@ class MainSelectMovieByCinema extends PureComponent {
             movies[title].theaters.push(item.Theaters[key])
           }
         })
-      }) 
+      })
       this.setState({dataSchedule:movies})
       if(this.state.data.length <= 0){
         this.setState({isEmpty:true})
@@ -185,7 +185,7 @@ class MainSelectMovieByCinema extends PureComponent {
       })
       cinemaTimetable.map((movie,i)=>{
         let countShowtimes = this.getShowtimesInMovie(movie, this.state.serverTime)
-        if (countShowtimes > 0) {          
+        if (countShowtimes > 0) {
           //push loop in movies
           resultsArray.info.push(<CinemaMovieInfo key={i} item={movie}/>, resultsArray.time)
           movie.theaters.forEach((element,j) => {
@@ -194,7 +194,7 @@ class MainSelectMovieByCinema extends PureComponent {
             }
             //push loop in theaters
             resultsArray.time.push(<CinemaTimeTable accid={this.state.accid} key={'theaters' + i + 'element' + j} itemTheaterInfo={movie} pickedDate={this.state.pickThisDay} item={element} serverTime={this.state.serverTime} showtimeCount={0}/>)
-          })  
+          })
         }
         resultsArray.time = []
       })
@@ -270,25 +270,25 @@ class MainSelectMovieByCinema extends PureComponent {
     })
   }
 
-  render() {      
-    const {isLoading, error, isEmpty} = this.state;    
+  render() {
+    const {isLoading, error, isEmpty} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
-    if (isLoading) { 
+    if (isLoading) {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
-    }    
+    }
     // {history.pushState(null, null, location.href)
     //   window.onpopstate = ()=>Swal('ห้ามกดฉันนะ ฉันเจ็บ')}
-    return (      
+    return (
       <Layout title="Select Movie">
         <section className="date-filter">
         {this.filterByDate()}
         </section>
-        <article className="movie-card"> 
+        <article className="movie-card">
           {this.getTimetable().info}
         </article>
       </Layout>

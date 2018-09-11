@@ -4,7 +4,7 @@ import CinemaFavoriteList from './CinemaFavoriteList'
 import CinemaSystemList from './CinemaSystemList'
 import CinemaRegionalList from './CinemaRegionalList'
 import SearchCinema from './SearchCinema'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import CardCinema from './CardCinema'
 
 class MainCinemaListing extends PureComponent {
@@ -52,13 +52,13 @@ class MainCinemaListing extends PureComponent {
   onSearchChange(event) {
     if (event.target.value.length) {
       this.getDataSearch(event.target.value.toLowerCase())
-      this.setState({ HideList: true })      
+      this.setState({ HideList: true })
     } else {
       this.setState({ HideList: false })
     }
   }
 
-  hasFav(cineId) {    
+  hasFav(cineId) {
     let found = false
     if (this.state.dataFav && this.state.dataFav.data.CinemaIds) {
       this.state.dataFav.data.CinemaIds.map(favId=>{
@@ -75,7 +75,7 @@ class MainCinemaListing extends PureComponent {
   getDataSearch(keyword) {
     let cinemas = []
     this.state.dataCine.map(cinema=>{
-      if (cinema.Name.toLowerCase().indexOf(keyword) != -1 || 
+      if (cinema.Name.toLowerCase().indexOf(keyword) != -1 ||
           cinema.NameAlt.toLowerCase().indexOf(keyword) != -1) {
             cinemas.push(<CardCinema item={cinema} brandname={cinema.DescriptionInside.brandname} key={cinema.ID} accid={this.props.accid} favCineActive={this.hasFav(cinema.ID)} />)
       }
@@ -84,16 +84,16 @@ class MainCinemaListing extends PureComponent {
     this.setState({dataSearch: cinemas})
   }
 
-  renderList() {    
+  renderList() {
     if (!this.state.HideList) {
       return (
-        <div className="indexTab__cinema">        
+        <div className="indexTab__cinema">
           <Tabs>
             <TabList>
               <Tab>สาขา</Tab>
               <Tab>รูปแบบโรง</Tab>
             </TabList>
-            <TabPanel>            
+            <TabPanel>
               <CinemaFavoriteList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
               <CinemaRegionalList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
               </TabPanel>
@@ -105,7 +105,7 @@ class MainCinemaListing extends PureComponent {
       )
     } else {
       return (
-        <Fragment>                
+        <Fragment>
           {this.state.dataSearch}
         </Fragment>
       )
@@ -117,7 +117,7 @@ class MainCinemaListing extends PureComponent {
     if (error) {
       return <p>{error.message}</p>;
     }
-    if (isLoading) { 
+    if (isLoading) {
       return <img src={loading} className="loading"/>
     }
 
