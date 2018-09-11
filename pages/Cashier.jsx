@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 import Ticket from '../components/Ticket'
 import '../styles/cashier.scss'
 import Swal from 'sweetalert2'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import Router from 'next/router'
 import utilities from '../scripts/utilities'
 
@@ -39,7 +39,7 @@ class Cashier extends PureComponent {
       BookingUserSessionId: '',
       BookingUserPhoneNumber: '',
       BookingCurrentServerTime: '',
-      success: false, 
+      success: false,
       VistaBookingId:'',
       VistaBookingNumber:''
     }
@@ -149,13 +149,13 @@ class Cashier extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, dataToTicket} = this.state;    
+    const {isLoading, error, dataToTicket} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
-    if (isLoading) { 
+    if (isLoading) {
       return <img src={loading} className="loading"/>
-    } 
+    }
     return (
       <Layout title="Cashier Page">
         <header className="cashier-header">ยืนยันที่นั่ง</header>

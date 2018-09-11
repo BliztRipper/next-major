@@ -16,7 +16,8 @@ class MainNavBar extends PureComponent {
       dataMyTicketsTotal: '',
       dataMyTicketsExpired: '',
       previousRoute: '',
-      currentTabsIndex: 0
+      currentTabsIndex: 0,
+      bg:''
     }
     this.bounceOnScrollStyles = {
       disable: 'position: fixed; top: 0; left: 0; margin: 0; padding: 8px; width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;',
@@ -36,7 +37,7 @@ class MainNavBar extends PureComponent {
           data.data.forEach((ticket) => {
             expired = this.ticketHasExpired(ticket)
             if (!expired) {
-              this.state.dataMyTickets.push(ticket) 
+              this.state.dataMyTickets.push(ticket)
             } else {
               this.state.dataMyTicketsExpired.push(ticket)
             }
@@ -53,7 +54,7 @@ class MainNavBar extends PureComponent {
         sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
         sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
         sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
-        this.setState({ 
+        this.setState({
           dataMyTicketsExpired: this.state.dataMyTicketsExpired,
           dataMyTickets: this.state.dataMyTickets,
           dataMyTicketsTotal: this.state.dataMyTicketsTotal,
@@ -66,7 +67,7 @@ class MainNavBar extends PureComponent {
         console.error('error', error);
         this.setState({ error})
       }
-    }    
+    }
   }
   ticketHasExpired (ticket) {
     let serverDate = new Date(this.state.dataMyTicketServerTime)
@@ -135,8 +136,15 @@ class MainNavBar extends PureComponent {
     this.getTickets()
     this.getPreviousRoute()
   }
+
+  getBG(bg){
+    this.setState({
+      bg:bg
+    })
+  }
+
   render() {
-    const {dataMyTicketsDone} = this.state
+    const {dataMyTicketsDone, bg} = this.state
     resetIdCounter()
     let dataToAllMovies = {
       pathname: '/AllMovie',
@@ -144,24 +152,30 @@ class MainNavBar extends PureComponent {
         accid: this.props.accid
       }
     }
+    let bgblur = {
+      backgroundImage: `url(${bg})`,
+      backgroundSize:'cover',
+      filter: 'blur(16px)',
+      // opacity: '0.75',
+    }
     if (dataMyTicketsDone) {
       if (this.state.currentTabsIndex === 0) {
         this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
       }
       return (
         <div className="indexTab">
-          <Tabs 
-            onSelect={this.onSelectTabs.bind(this)} 
-            defaultIndex={this.state.currentTabsIndex}
-          >
+        <div className="background-blur__wrapper">
+          <div className="background-blur" style={bgblur}></div>
+        </div>
+          <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
                 <Fragment>
-                  <div className="sprite-table"></div> 
+                  <div className="sprite-table"></div>
                   <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
                 </Fragment>
               </Link>
-              <HighlightCarousel accid={this.props.accid}/>
+              <HighlightCarousel bg={this.getBG.bind(this)} accid={this.props.accid}/>
             </TabPanel>
             <TabPanel>
               <MainCinemaListing accid={this.props.accid}/>
@@ -182,7 +196,7 @@ class MainNavBar extends PureComponent {
             </TabList>
           </Tabs>
         </div>
-      );
+      )
     }
     return false
   }

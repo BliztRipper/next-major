@@ -7,7 +7,6 @@
 @import 'myTickets';
 @import 'searchCinema';
 @import 'history';
-@import 'responsive';
 @import 'fontface';
 
 :root{
@@ -27,9 +26,9 @@ body{
   font-family: 'SanFranciscoText';
 }
 .loadingWrap {
-  position: fixed; 
+  position: fixed;
   left: 0;
-  top: 0; 
+  top: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(#fff, 0.5);
@@ -48,62 +47,62 @@ body{
   margin: 5px;
   &-tab-menu1{
     @extend .sprite;
-    background-position: -12px -403px; 
+    background-position: -12px -403px;
     width: 25px;
     height: 24px;
     margin: 0;
   }
   &-tab-menu2{
     @extend .sprite;
-    background-position: -44px -403px; 
+    background-position: -44px -403px;
     width: 16px;
     height: 22px;
     margin: 0;
   }
   &-tab-menu3{
     @extend .sprite;
-    background-position: -65px -402px; 
+    background-position: -65px -402px;
     width: 24px;
     height: 24px;
     margin: 0;
   }
   &-2dDigital{
     @extend .sprite;
-    background-position: -258px -300px; 
+    background-position: -258px -300px;
     width: 48px;
     height: 25px;
     }
   &-quatierCine{
     @extend .sprite;
-    background-position: -20px -20px; 
+    background-position: -20px -20px;
     width: 50px;
     height: 50px;
     }
   &-favCinema{
     @extend .sprite;
-    background-position: -11px -336px; 
+    background-position: -11px -336px;
     width: 18px;
     height: 18px;
       &.active{
-        background-position: -33px -336px; 
+        background-position: -33px -336px;
       }
     }
   &-favFilled{
     @extend .sprite;
-    background-position: -33px -336px; 
+    background-position: -33px -336px;
     width: 18px;
     height: 18px;
     margin: 5px;
     }
   &-nearestCinema{
     @extend .sprite;
-    background-position: -11px -359px; 
+    background-position: -11px -359px;
     width: 18px;
     height: 18px;
     }
   &-chevronDown{
     @extend .sprite;
-    background-position: -14px -382px; 
+    background-position: -14px -382px;
     width: 12px;
     height: 7px;
     margin: 5px;
@@ -116,33 +115,33 @@ body{
     }
   &-blank{
     @extend .sprite;
-    background-position: 400px 400px; 
+    background-position: 400px 400px;
     width: 50px;
     height: 50px;
   }
   &-table{
     @extend .sprite;
-    background-position: -42px -370px; 
+    background-position: -42px -370px;
     width: 12.5px;
     height: 12.5px;
     position: absolute;
-    top: 28px;
-    left: 30%;
+    top: 30px;
+    left: 28%;
     z-index: 1;
   }
   &-search{
     @extend .sprite;
-    background-position: -67px -368px; 
+    background-position: -67px -368px;
     width: 17px;
     height: 17px;
     position: absolute;
-    top: 28px;
+    top: 14px;
     left: 15%;
     z-index: 1;
   }
   &-sound{
     @extend .sprite;
-    background-position: -70px -339px; 
+    background-position: -70px -339px;
     width: 10px;
     height: 15px;
   }
@@ -153,7 +152,7 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin: 0 8px;
-    background-position: -84px -230px; 
+    background-position: -84px -230px;
     width: 48px;
     height: 25px;
   }
@@ -163,7 +162,7 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin: 5px;
-    background-position: -160px -160px; 
+    background-position: -160px -160px;
     width: 50px;
     height: 50px;
   }
@@ -171,12 +170,11 @@ body{
     position: relative;
     text-align:center;
     display:block;
-    padding:10px;
+    padding: 10px 0;
     text-decoration:none;
     border: 1px solid #bbb;
     border-radius: 8px;
-    color:#737373;
-    width: 250px;
+    color:#fff;
     margin-left: auto;
     margin-right: auto;
     margin-top: 1rem;
@@ -187,17 +185,18 @@ body{
   margin-bottom: 5vh;
   text-align: center;
   &__title{
-    display: block
+    display: block;
+    font-size: 1.125rem;
   }
   &__subtitle{
     color: #383D48;
-    font-size: 14px;
-    display: block
+    display: block;
+    font-size: 0.875rem;
   }
   &__genre{
     color: #989FAE;
-    font-size: 12px;
-    display: block
+    display: block;
+    font-size: 0.75rem;
   }
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
@@ -205,7 +204,7 @@ body{
 }
 .showing{
   &__container{
-    display: grid; 
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: 1rem;
@@ -246,7 +245,7 @@ body{
     font-weight: bold;
   }
   &__container{
-    display: grid; 
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: 2rem 0.5rem;
@@ -265,7 +264,7 @@ body{
   &__title{
     padding: 0.5rem 0;
     text-align: center;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     height: 30px;
     font-size: 0.875rem;
     color:#383D48;
@@ -288,6 +287,7 @@ body{
     align-items: center;
     position: relative;
     box-shadow: 0 1px 0 0 #E9EBEF;
+    background-color: #fff;
     // margin-top: 1rem;
     &__title{
       color:#757D8C;
@@ -309,6 +309,7 @@ body{
     transition: 500ms;
     position: relative;
     z-index: 5;
+    background-color: #fff;
   }
   &__CineTitle{
     width: 70%;
@@ -404,13 +405,13 @@ body{
     transition:0.2s;
     &.isActive{
       opacity: 1;
-      visibility: visible; 
+      visibility: visible;
       height: 100%;
     }
     &.isHide{
       height: 0;
       opacity: 0;
-      visibility: hidden; 
+      visibility: hidden;
     }
   }
   &__synopsis{
@@ -442,13 +443,13 @@ body{
     display: flex;
     margin: 1rem 0 ;
     align-items: center;
-    
+
   }
   &__theatre-title{
     color:#383D48;
     font-weight: 400;
   }
-  &__theatre-type{ 
+  &__theatre-type{
     margin: 0 10px;
   }
   &__timetable{
@@ -524,7 +525,29 @@ body{
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 0;
-  padding: 8px;
+  .background-blur{
+    background-image: url('../static/bgblur.png');
+    background-size: cover;
+    width: 120%;
+    height: 85vh;
+    position: absolute;
+    top: -5%;
+    left: 50%;
+    transform: translateX(-50%);
+    &::after{
+      content:'';
+      background-image: linear-gradient(0deg,#fff, transparent);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: block;
+      height: 30vh;
+    }
+    &__wrapper{
+      overflow: hidden;
+    }
+  }
   .react-tabs{
     padding-bottom: 90px;
       &__tab-list{
@@ -542,7 +565,7 @@ body{
         justify-content: space-around;
         box-shadow: #000 0 2px 4px 0;
         background-color: #fff;
-        height: 80px;
+        height: 70px;
         bottom: 0;
         justify-content: space-around;
         width: 100%;
@@ -566,19 +589,19 @@ body{
             color:#ff8200;
           }
           .sprite-tab-menu1{
-            background-position: -12px -430px; 
+            background-position: -12px -430px;
             margin: 0;
           }
           .sprite-tab-menu2{
             background-position: -44px -432px;
-            margin: 0; 
+            margin: 0;
           }
           .sprite-tab-menu3{
-            background-position: -66px -431px; 
+            background-position: -66px -431px;
             margin: 0;
           }
         }
-      } 
+      }
     }
   &__cinema{
     .react-tabs{
@@ -602,7 +625,7 @@ body{
           color:#ff8200;
           border-top: 0;
         }
-      } 
+      }
       &__tab-panel{
         &--selected{
           padding-bottom: 6rem;
@@ -644,7 +667,7 @@ body{
           font-weight: bold;
           font-size: 1.2rem;
         }
-      } 
+      }
     }
     &__header{
       color: #383d48;
@@ -756,3 +779,5 @@ body{
     justify-content: center;
   }
 }
+
+@import 'responsive';
