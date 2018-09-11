@@ -17,12 +17,12 @@ $colorSeat3: #a0b0f4;
     > div {
       overflow: hidden;
       height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   &.beforeEntry {
-    .seatMapMain__inner {
-      width: 100% !important;
-    }
     .seatMapScreenWrap {
       padding-left: 0 !important;
     }
@@ -57,6 +57,16 @@ $colorSeat3: #a0b0f4;
     padding-bottom: 3rem;
     transform: rotateX(-45deg);
     transform-style: preserve-3d;
+    position: relative;
+    &:after {
+      content: 'SCREEN';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: darken(#fff, 40%);
+      font-weight: bold;
+    }
   }
 }
 .seatMapDisplay {

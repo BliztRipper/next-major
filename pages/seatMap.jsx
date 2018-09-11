@@ -281,9 +281,7 @@ class seatMap extends PureComponent {
       <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
         <div className="seatMap__educate-inner">
           <figure><img src="static/icon-pinch.png" alt=""/></figure>
-          <div className="seatMap__educate-desc">
-            ถ่างเพื่อซูม
-          </div>
+          <div className="seatMap__educate-desc">ถ่างเพื่อซูม</div>
           <div className="seatMap__educate-button">
             <span className="btnTheme">เข้าใจแล้ว</span>
           </div>

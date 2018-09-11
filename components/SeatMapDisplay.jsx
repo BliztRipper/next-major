@@ -21,13 +21,11 @@ class SeatMapDisplay extends PureComponent {
         // ==== begin pinch pan zoom
         minScale: 1,
         maxScale: 4,
-        imageWidth: 0,
-        imageHeight: 0,
         containerWidth: 0,
         containerHeight: 0,
-        displayImageX: 0,
-        displayImageY: 0,
-        displayImageScale: 1,
+        displaySeatsX: 0,
+        displaySeatsY: 0,
+        displaySeatsScale: 1,
         displayDefaultWidth: 0,
         displayDefaultHeight: 0,
         rangeX: 0,
@@ -36,12 +34,14 @@ class SeatMapDisplay extends PureComponent {
         rangeY: 0,
         rangeMaxY: 0,
         rangeMinY: 0,
-        displayImageRangeY: 0,
-        displayImageCurrentX: 0,
-        displayImageCurrentY: 0,
-        displayImageCurrentScale: 1,
+        displaySeatsRangeY: 0,
+        displaySeatsCurrentX: 0,
+        displaySeatsCurrentY: 0,
+        displaySeatsCurrentScale: 1,
         // end pinch pan zoom ====
       }
+
+      // ref
       this.refSeatsRow = React.createRef()
       this.refSeatsMainInner = React.createRef()
       this.refSeatsMain = React.createRef()
@@ -232,20 +232,6 @@ class SeatMapDisplay extends PureComponent {
       </div>
     )
   }
-  // styleSeatsContainer () {
-  //   let titleRowSpace = 50
-  //   document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
-  //   let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
-  //   this.refSeatsMainInner.current.style.width = containerWidth + 'px'
-  //   this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
-  // }
-  // disableStyleSeatsContainer () {
-  //   let titleRowSpace = 50
-  //   document.querySelector('.seatMapScreenWrap').style.paddingLeft = titleRowSpace + 'px'
-  //   let containerWidth = this.refSeatsRow.current.clientWidth + titleRowSpace
-  //   this.refSeatsMainInner.current.style.width = containerWidth + 'px'
-  //   this.refSeatsMain.current.scrollLeft = ((containerWidth - window.innerWidth + titleRowSpace) * 0.5)
-  // }
   componentDidMount () {
     this.initPinchZoomPan()
   }
@@ -286,11 +272,11 @@ class SeatMapDisplay extends PureComponent {
   }
   initPinchZoomPan () {
     this.state.imageContainer = this.refSeatsHammer.current.domElement
-    this.state.displayImage = this.state.imageContainer.children[0]
-    this.state.imageWidth = this.state.displayImage.clientWidth;
-    this.state.imageHeight = this.state.displayImage.clientHeight;
-    this.state.displayDefaultWidth = this.state.displayImage.offsetWidth;
-    this.state.displayDefaultHeight = this.state.displayImage.offsetHeight;
+    this.state.containerWidth = this.state.imageContainer.clientWidth
+    this.state.containerHeight = this.state.imageContainer.clientHeight
+    this.state.displaySeats = this.state.imageContainer.children[0]
+    this.state.displayDefaultWidth = this.state.displaySeats.offsetWidth;
+    this.state.displayDefaultHeight = this.state.displaySeats.offsetHeight;
     this.state.rangeX = Math.max(0, this.state.displayDefaultWidth - this.state.containerWidth);
     this.state.rangeY = Math.max(0, this.state.displayDefaultHeight - this.state.containerHeight);
   }
@@ -302,8 +288,8 @@ class SeatMapDisplay extends PureComponent {
     return this.clamp(newScale, this.state.minScale, this.state.maxScale);
   }
   updateRange() {
-    this.state.rangeX = Math.max(0, Math.round(this.state.displayDefaultWidth * this.state.displayImageCurrentScale) - this.state.containerWidth);
-    this.state.rangeY = Math.max(0, Math.round(this.state.displayDefaultHeight * this.state.displayImageCurrentScale) - this.state.containerHeight);
+    this.state.rangeX = Math.max(0, Math.round(this.state.displayDefaultWidth * this.state.displaySeatsCurrentScale) - this.state.containerWidth);
+    this.state.rangeY = Math.max(0, Math.round(this.state.displayDefaultHeight * this.state.displaySeatsCurrentScale) - this.state.containerHeight);
     
     this.state.rangeMaxX = Math.round(this.state.rangeX / 2);
     this.state.rangeMinX = 0 - this.state.rangeMaxX;
@@ -319,43 +305,43 @@ class SeatMapDisplay extends PureComponent {
       rangeMinY: this.state.rangeMinY
     })
   }
-  updateDisplayImage(x, y, scale) {
+  updateDisplaySeats(x, y, scale) {
     const transform = 'translateX(' + x + 'px) translateY(' + y + 'px) translateZ(0px) scale(' + scale + ',' + scale + ')';
-    this.state.displayImage.style.transform = transform;
-    this.state.displayImage.style.WebkitTransform = transform;
-    this.state.displayImage.style.msTransform = transform;
+    this.state.displaySeats.style.transform = transform;
+    this.state.displaySeats.style.WebkitTransform = transform;
+    this.state.displaySeats.style.msTransform = transform;
   }
   handleSeatsPan (ev) {
-    this.state.displayImageCurrentX = this.clamp(this.state.displayImageX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);
-    this.state.displayImageCurrentY = this.clamp(this.state.displayImageY + ev.deltaY, this.state.rangeMinY, this.state.rangeMaxY);
-    this.updateDisplayImage(this.state.displayImageCurrentX, this.state.displayImageCurrentY, this.state.displayImageScale);
+    this.state.displaySeatsCurrentX = this.clamp(this.state.displaySeatsX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);
+    this.state.displaySeatsCurrentY = this.clamp(this.state.displaySeatsY + ev.deltaY, this.state.rangeMinY, this.state.rangeMaxY);
+    this.updateDisplaySeats(this.state.displaySeatsCurrentX, this.state.displaySeatsCurrentY, this.state.displaySeatsScale);
 
     this.setState({
-      displayImageCurrentX: this.state.displayImageCurrentX,
-      displayImageCurrentY: this.state.displayImageCurrentY
+      displaySeatsCurrentX: this.state.displaySeatsCurrentX,
+      displaySeatsCurrentY: this.state.displaySeatsCurrentY
     })
   }
   handleSeatsPinch (ev) {
-    // alert(this.state.displayImageCurrentScale)
-    this.state.displayImageCurrentScale = this.clampScale(ev.scale * this.state.displayImageScale);
+    // alert(this.state.displaySeatsCurrentScale)
+    this.state.displaySeatsCurrentScale = this.clampScale(ev.scale * this.state.displaySeatsScale);
     this.updateRange();
-    this.state.displayImageCurrentX = this.clamp(this.state.displayImageX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);
-    this.state.displayImageCurrentY = this.clamp(this.state.displayImageY + ev.deltaY, this.state.rangeMinY, this.state.rangeMaxY);
-    this.updateDisplayImage(this.state.displayImageCurrentX, this.state.displayImageCurrentY, this.state.displayImageCurrentScale);
+    this.state.displaySeatsCurrentX = this.clamp(this.state.displaySeatsX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);
+    this.state.displaySeatsCurrentY = this.clamp(this.state.displaySeatsY + ev.deltaY, this.state.rangeMinY, this.state.rangeMaxY);
+    this.updateDisplaySeats(this.state.displaySeatsCurrentX, this.state.displaySeatsCurrentY, this.state.displaySeatsCurrentScale);
     this.setState({
-      displayImageCurrentScale: this.state.displayImageCurrentScale,
-      displayImageCurrentX: this.state.displayImageCurrentX,
-      displayImageCurrentY: this.state.displayImageCurrentY
+      displaySeatsCurrentScale: this.state.displaySeatsCurrentScale,
+      displaySeatsCurrentX: this.state.displaySeatsCurrentX,
+      displaySeatsCurrentY: this.state.displaySeatsCurrentY
     })
   }
   handleSeatsPinchEnd () {
-    this.state.displayImageScale = this.state.displayImageCurrentScale;
-    this.state.displayImageX = this.state.displayImageCurrentX;
-    this.state.displayImageY = this.state.displayImageCurrentY;
+    this.state.displaySeatsScale = this.state.displaySeatsCurrentScale;
+    this.state.displaySeatsX = this.state.displaySeatsCurrentX;
+    this.state.displaySeatsY = this.state.displaySeatsCurrentY;
     this.setState({
-      displayImageScale: this.state.displayImageScale,
-      displayImageX: this.state.displayImageX,
-      displayImageY: this.state.displayImageY
+      displaySeatsScale: this.state.displaySeatsScale,
+      displaySeatsX: this.state.displaySeatsX,
+      displaySeatsY: this.state.displaySeatsY
     })
   }
   render () {
