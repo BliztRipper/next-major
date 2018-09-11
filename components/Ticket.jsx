@@ -66,7 +66,7 @@ class Ticket extends PureComponent {
     )
   }
   renderCinemaMovieInfo () {
-    const {success, postingTicket} = this.state;     
+    const {success, postingTicket} = this.state;
     let buttonProgressText = 'ดำเนินการ'
     let buttonProgressClassName = success? 'movie-cashier__confirm success':'movie-cashier__confirm'
     buttonProgressClassName += postingTicket? ' posting' : ''
@@ -74,7 +74,7 @@ class Ticket extends PureComponent {
 
     let containerClassName = 'movie-cashier__container'
     containerClassName = this.props.expired ? containerClassName + ' expired' : containerClassName
-    
+
     return (
       <div className={containerClassName}>
         <div className="movie-cashier__movie-info">
@@ -112,17 +112,20 @@ class Ticket extends PureComponent {
         </div>
         <div className="movie-cashier__seat-info">
           <div className="movie-cashier__seat-info--wrapper">
+            <span className="movie-cashier__seat-info--label">รวมเป็นเงิน</span>
+            <span className="movie-cashier__seat-info--title">{this.state.BookingPriceDisplay} บาท</span>
+          </div>
+          <div className="movie-cashier__seat-info--wrapper">
             <span className="movie-cashier__seat-info--title">
             <div className="sprite-sound"></div>{this.state.BookingAttributesNames}
             </span>
           </div>
-          <div className="movie-cashier__seat-info--wrapper">
-            <span className="movie-cashier__seat-info--title">ราคา {this.state.BookingPriceDisplay} บาท</span>
-          </div>
         </div>
         <div className={success? 'qrContainer success':'qrContainer'}>
           <div className="qrContainer__qrcode">
-            <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} onClick={this.handleClickQR.bind(this)} />
+            <div className="qrContainer__qrcodeInner">
+              <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} onClick={this.handleClickQR.bind(this)} />
+            </div>
           </div>
           <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
         </div>

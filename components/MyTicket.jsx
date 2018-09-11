@@ -1,8 +1,9 @@
-import { PureComponent } from 'react'
+import { PureComponent, Fragment } from 'react'
 import Ticket from './Ticket'
 import empty from '../static/emptyTicket.png'
 import sortTickets from '../scripts/sortTickets'
 import Router from 'next/router'
+import Slider from 'react-slick'
 
 class ButtonHistory extends PureComponent {
   render () {
@@ -19,9 +20,11 @@ class MyTicket extends PureComponent {
       isEmpty: this.props.dataMyTickets? false : this.props.dataMyTickets,
       error: null,
       dataMyTickets: this.props.dataMyTickets,
-      dataMyTicketsExpired: this.props.dataMyTicketsExpired
+      dataMyTicketsExpired: this.props.dataMyTicketsExpired,
+      sliderCurrentIndex: 0
     }
     this.refTicket = React.createRef()
+    this.refSlider = React.createRef()
   }
   goToHistoryLists () {
     Router.push('/HistoryTickets')
@@ -33,15 +36,25 @@ class MyTicket extends PureComponent {
       )
     })
   }
+  slideHandleAfterChange (index) {
+    this.setState({
+      sliderCurrentIndex: index
+    })
+  }
   componentWillMount() {
     if (this.state.dataMyTickets) {
       this.state.dataMyTickets = sortTickets.byTime(this.state.dataMyTickets)
-      // this.state.dataMyTickets = sortTickets.byName(this.state.dataMyTickets)
     }
-    
   }
   render () {
-    const {isEmpty, dataMyTicketsExpired} = this.state;
+    const {isEmpty, dataMyTicketsExpired, dataMyTickets, sliderCurrentIndex} = this.state;
+    let sliderSettings = {
+      dots: false,
+      infinite: false,
+      speed: 800,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
     if (isEmpty) {
       return (
         <section className="empty">
@@ -50,12 +63,24 @@ class MyTicket extends PureComponent {
           <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicketsExpired}></ButtonHistory>
         </section>
       )
-    }   
+    }
     return (
-      <div className="myTickets">
-        {this.renderMyTickets()}
-        <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicketsExpired}></ButtonHistory>
-      </div>
+      <Fragment>
+          <Slider
+            {...sliderSettings}
+            afterChange={this.slideHandleAfterChange.bind(this)}
+          >
+            {this.renderMyTickets()}
+          </Slider>
+          <div className="myTicketFeature">
+            <div className="myTicketFeatureCounter">
+              <span className="isHL1">{sliderCurrentIndex + 1}</span> / {dataMyTickets.length}
+            </div>
+            <div className="myTicketFeatureBtn">
+              <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicketsExpired}></ButtonHistory>
+            </div>
+          </div>
+      </Fragment>
     )
   }
 }

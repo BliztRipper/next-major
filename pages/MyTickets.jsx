@@ -16,12 +16,12 @@ class MyTickets extends PureComponent {
       error: null,
       accid: this.props.url.query.accid
     }
-    
-  } 
+
+  }
   handleBackButton () {
     Router.push('/')
   }
-  
+
   componentDidMount(){
     this.setState({
       isLoading: false,
@@ -40,8 +40,14 @@ class MyTickets extends PureComponent {
     }
     return (
       <Layout title='My Tickets'>
-        <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ตั๋วของฉัน"></GlobalHeader>
-        <MyTicket dataMyTickets={dataMyTickets} dataMyTicketsExpired={dataMyTicketsExpired}></MyTicket>
+        <div className="globalContent isMyTicket">
+          <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ตั๋วของฉัน"></GlobalHeader>
+          <div className="globalBody">
+            <div className="globalBodyInner">
+              <MyTicket dataMyTickets={dataMyTickets} dataMyTicketsExpired={dataMyTicketsExpired}></MyTicket>
+            </div>
+          </div>
+        </div>
       </Layout>
     );
   }

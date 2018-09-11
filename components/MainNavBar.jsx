@@ -77,8 +77,8 @@ class MainNavBar extends PureComponent {
     return serverResulTime - ticketBookedResultTime > offsetTime
   }
   setStyleBounceOnScroll (styles) {
-    let documents = [document.documentElement, document.body]
-    documents.forEach(element => element.style.cssText = styles);
+    // let documents = [document.documentElement, document.body]
+    // documents.forEach(element => element.style.cssText = styles);
   }
 
   onSelectTabs (index) {
