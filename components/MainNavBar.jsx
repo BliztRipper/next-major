@@ -151,7 +151,6 @@ class MainNavBar extends PureComponent {
       return (
         <div className="indexTab">
           <Tabs 
-            // activeKey={this.state.key}
             onSelect={this.onSelectTabs.bind(this)} 
             defaultIndex={this.state.currentTabsIndex}
           >
