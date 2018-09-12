@@ -1,7 +1,5 @@
 import { PureComponent } from 'react'
 import '../styles/style.scss'
-import GlobalHeader from '../components/GlobalHeader'
-import Layout from '../components/Layout'
 import empty from '../static/emptyTicket.png'
 import utilities from '../scripts/utilities'
 
@@ -13,18 +11,18 @@ class HistoryTickets extends PureComponent {
       error: null,
       serverTime: this.props.serverTime
     }
-    
+
   }
   renderEachList (ticket, ticketIndex) {
     return (
-      <div className="historyTickets__list" onClick={this.props.goToHistoryDetail.bind(this, ticketIndex)} key={ticket.BookingMovie + ticket.BookingDate + ticket.BookingTime}>
+      <div className="historyTickets__list" onClick={this.props.goToHistoryDetail.bind(this, ticketIndex)} key={ticket.BookingMovie + ticket.BookingDate + ticket.BookingTime + ticketIndex}>
         <div className="historyTickets__list-titleEN">{ticket.BookingMovie}</div>
         <div className="historyTickets__list-titleTH">{ticket.BookingMovieTH}</div>
         <div className="historyTickets__list-locationAndDate">
           <div className="historyTickets__list-location">{ticket.BookingCinema}</div>
           <div className="historyTickets__list-date">{ticket.BookingDate} ({ticket.BookingTime})</div>
         </div>
-      </div>   
+      </div>
     )
   }
   renderHistoryLists (ticketsGroupByMonth) {
@@ -55,7 +53,7 @@ class HistoryTickets extends PureComponent {
           ticketsGroupByMonths[year + '-' + month].tickets.push(ticket)
         }
       }
-      
+
     })
     return Object.keys(ticketsGroupByMonths).map((key) => {
       let aGroupMonth = ticketsGroupByMonths[key]
@@ -89,14 +87,11 @@ class HistoryTickets extends PureComponent {
     }
     if(isEmpty){
       return <section className="empty"><img src={empty}/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
-    }   
+    }
     return (
-      <Layout title="History Tickets">
-        <GlobalHeader handleBackButton={this.props.handleBackButton} titleMsg="ประวัติการใช้งาน"></GlobalHeader>
-        <div className="historyTickets">
-          {this.renderHistoryGroupByMonth()}
-        </div>
-      </Layout>
+      <div className="historyTickets">
+        {this.renderHistoryGroupByMonth()}
+      </div>
     )
   }
 }

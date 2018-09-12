@@ -9,10 +9,11 @@
   display: grid;
   grid-template-rows: auto 1fr;
   .globalHeader {
-    box-shadow: 0 0.2em 0.2em rgba(#000 , 0.1);
+    box-shadow: 0 0.1em 0.1em rgba(#000 , 0.1);
   }
   .globalHeader__title {
-    padding: 1em 0;
+    padding: .6em 0;
+    font-size: 1.2em;
   }
   .globalBody {
     overflow-x: hidden;
@@ -48,12 +49,28 @@
       margin-top: 0.8em;
       position: relative;
     }
+    .movie-cashier__cine-info--map {
+      padding-top: 0;
+      font-size: inherit;
+    }
+    .movie-cashier__seat-info--title,
+    .movie-cashier__date-info--title,
+    .movie-cashier__cine-info--title {
+      padding-top: 0.9em;
+      display: block;
+    }
+
+    .movie-cashier__seat-info--label,
+    .movie-cashier__date-info--label,
     .movie-cashier__cine-info--label {
       left: 0;
+      top: 0;
+      font-size: 0.75em;
     }
+    .movie-cashier__seat-info,
     .movie-cashier__date-info,
-    .movie-cashier__seat-info {
-      margin-top: 1.4em;
+    .movie-cashier__cine-info {
+      margin-top: 1em;
       align-items: flex-end;
     }
     .movie-cashier__seat-info--title {
@@ -91,7 +108,7 @@
   }
 }
 .globalBodyInner {
-  padding: 1em 0;
+  padding: 1em;
   .slick-slider {
     margin-top: -1em;
     .slick-list {

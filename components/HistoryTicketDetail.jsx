@@ -1,8 +1,6 @@
 import {PureComponent} from 'react'
 import '../styles/style.scss'
-import Layout from '../components/Layout'
 import Ticket from '../components/Ticket'
-import GlobalHeader from '../components/GlobalHeader'
 
 class HistoryTicketDetail extends PureComponent {
   renderTickets () {
@@ -14,13 +12,7 @@ class HistoryTicketDetail extends PureComponent {
     }
   }
   render () {
-    let movieNameEN = this.props.dataTicket.BookingMovie
-    return (
-      <Layout title={movieNameEN}>
-        <GlobalHeader handleBackButton={this.props.handleBackButton} titleMsg={movieNameEN}></GlobalHeader>
-        {this.renderTickets()}
-      </Layout>
-    )
-  } 
+    return this.renderTickets()
+  }
 }
 export default HistoryTicketDetail

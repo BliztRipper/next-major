@@ -1,5 +1,7 @@
 import { PureComponent } from 'react'
 import HistoryTickets from '../components/HistoryTickets'
+import GlobalHeader from '../components/GlobalHeader'
+import Layout from '../components/Layout'
 import loading from '../static/loading.svg'
 import Router from 'next/router'
 
@@ -37,7 +39,18 @@ class HistoryTicketsPage extends PureComponent {
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
-    return <HistoryTickets dataTickets={dataTickets} serverTime={serverTime} goToHistoryDetail={this.goToHistoryDetail.bind(this)} handleBackButton={this.handleBackButton.bind(this)} ></HistoryTickets>
+    return (
+      <Layout title="History Tickets">
+        <div className="globalContent isHistoryTickets">
+          <GlobalHeader handleBackButton={this.props.handleBackButton} titleMsg="ประวัติการใช้งาน"></GlobalHeader>
+          <div className="globalBody">
+            <div className="globalBodyInner">
+              <HistoryTickets dataTickets={dataTickets} serverTime={serverTime} goToHistoryDetail={this.goToHistoryDetail.bind(this)} handleBackButton={this.handleBackButton.bind(this)} ></HistoryTickets>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    )
   }
 }
 export default HistoryTicketsPage
