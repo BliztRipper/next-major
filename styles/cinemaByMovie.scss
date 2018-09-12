@@ -1,0 +1,48 @@
+.cinema__card-cbm{
+    &--title{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 5rem;
+        font-weight: bold;
+         .sprite-blank {
+            position: absolute;
+        }
+    }
+    &--branch{
+        text-align: center;
+        margin-left: 4rem;
+    }
+    &--theatre-container{
+
+    }
+    &--theatre-wrapper{
+        display: flex;
+        margin: 1rem 4rem;
+        align-items: center;
+    }
+    &--theatre-title{
+        font-weight: bold;
+    }
+    &--timetable-wrap {
+        text-align: center;
+    }
+    &--timetable{
+        display: inline-block;
+    }
+    &__showtime{
+        margin: 0 5px;
+        border: 1px solid #FF8300;
+        padding: 10px 16px;
+        border-radius: 4px;
+        color:#FF8300;
+        text-decoration: none;
+        margin: 5px;
+        display: inline-block;
+        &.disable{
+          border: 1px solid #ccc;
+          color:#ccc;
+          pointer-events: none;
+        }
+      }
+}

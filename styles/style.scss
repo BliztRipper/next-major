@@ -7,6 +7,7 @@
 @import 'myTickets';
 @import 'searchCinema';
 @import 'history';
+@import 'cinemaByMovie';
 @import 'responsive';
 
 :root{
@@ -25,7 +26,7 @@ body{
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 .loadingWrap {
-  position: fixed; 
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
@@ -46,62 +47,62 @@ body{
   margin: 5px;
   &-tab-menu1{
     @extend .sprite;
-    background-position: -12px -403px; 
+    background-position: -12px -403px;
     width: 25px;
     height: 24px;
     margin: 0;
   }
   &-tab-menu2{
     @extend .sprite;
-    background-position: -44px -403px; 
+    background-position: -44px -403px;
     width: 16px;
     height: 22px;
     margin: 0;
   }
   &-tab-menu3{
     @extend .sprite;
-    background-position: -65px -402px; 
+    background-position: -65px -402px;
     width: 24px;
     height: 24px;
     margin: 0;
   }
   &-2dDigital{
     @extend .sprite;
-    background-position: -258px -300px; 
+    background-position: -258px -300px;
     width: 48px;
     height: 25px;
     }
   &-quatierCine{
     @extend .sprite;
-    background-position: -20px -20px; 
+    background-position: -20px -20px;
     width: 50px;
     height: 50px;
     }
   &-favCinema{
     @extend .sprite;
-    background-position: -11px -336px; 
+    background-position: -11px -336px;
     width: 18px;
     height: 18px;
       &.active{
-        background-position: -33px -336px; 
+        background-position: -33px -336px;
       }
     }
   &-favFilled{
     @extend .sprite;
-    background-position: -33px -336px; 
+    background-position: -33px -336px;
     width: 18px;
     height: 18px;
     margin: 5px;
     }
   &-nearestCinema{
     @extend .sprite;
-    background-position: -11px -359px; 
+    background-position: -11px -359px;
     width: 18px;
     height: 18px;
     }
   &-chevronDown{
     @extend .sprite;
-    background-position: -14px -382px; 
+    background-position: -14px -382px;
     width: 12px;
     height: 7px;
     margin: 5px;
@@ -114,13 +115,14 @@ body{
     }
   &-blank{
     @extend .sprite;
-    background-position: 400px 400px; 
+    background-position: 400px 400px;
     width: 50px;
     height: 50px;
+
   }
   &-table{
     @extend .sprite;
-    background-position: -42px -370px; 
+    background-position: -42px -370px;
     width: 12.5px;
     height: 12.5px;
     position: absolute;
@@ -134,9 +136,9 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin: 0 8px;
-    // background-position: -84px -230px; 
-    // width: 48px;
-    // height: 25px;
+    background-position: -84px -230px;
+    width: 48px;
+    height: 25px;
   }
 
   .MajorCineplex{
@@ -144,7 +146,7 @@ body{
     display: inline-block;
     vertical-align: middle;
     margin: 5px;
-    background-position: -160px -160px; 
+    background-position: -160px -160px;
     width: 50px;
     height: 50px;
   }
@@ -186,7 +188,7 @@ body{
 }
 .showing{
   &__container{
-    display: grid; 
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: .5rem;
@@ -227,7 +229,7 @@ body{
     font-weight: bold;
   }
   &__container{
-    display: grid; 
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: .5rem;
@@ -246,7 +248,7 @@ body{
   &__title{
     padding: 0.5rem 0;
     text-align: center;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     height: 30px;
     font-size: 0.875rem;
     color:#383D48;
@@ -386,13 +388,13 @@ body{
     transition:0.2s;
     &.isActive{
       opacity: 1;
-      visibility: visible; 
+      visibility: visible;
       height: 100%;
     }
     &.isHide{
       height: 0;
       opacity: 0;
-      visibility: hidden; 
+      visibility: hidden;
     }
   }
   &__synopsis{
@@ -424,7 +426,7 @@ body{
     display: flex;
     margin: 1rem 0 ;
     align-items: baseline;
-    
+
   }
   &__theatre-title{
     color:#383D48;
@@ -453,7 +455,6 @@ body{
       pointer-events: none;
     }
   }
-
 }
 
 .movie-info{
@@ -546,19 +547,19 @@ body{
             color:#ff8200;
           }
           .sprite-tab-menu1{
-            background-position: -12px -430px; 
+            background-position: -12px -430px;
             margin: 0;
           }
           .sprite-tab-menu2{
             background-position: -44px -432px;
-            margin: 0; 
+            margin: 0;
           }
           .sprite-tab-menu3{
-            background-position: -66px -431px; 
+            background-position: -66px -431px;
             margin: 0;
           }
         }
-      } 
+      }
     }
   &__cinema{
     .react-tabs{
@@ -582,7 +583,7 @@ body{
           color:#ff8200;
           border-top: 0;
         }
-      } 
+      }
       &__tab-panel{
         &--selected{
           padding-bottom: 6rem;
@@ -624,7 +625,7 @@ body{
           font-weight: bold;
           font-size: 1.2rem;
         }
-      } 
+      }
     }
     &__header{
       color: #383d48;

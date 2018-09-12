@@ -9,7 +9,7 @@ export default {
     let convertedTime = dateTimeArr[4]
     let convertedHour = dateTimeArr[4].split(':')[0]
     let convertedMinute = dateTimeArr[4].split(':')[1]
-    
+
     return {
       origin: convertedOrigin,
       year: convertedYear,
@@ -53,5 +53,42 @@ export default {
     sessionStorage.removeItem('BookingUserSessionId')
     sessionStorage.removeItem('BookingUserPhoneNumber')
     sessionStorage.removeItem('BookingCurrentServerTime')
+  },
+
+  getSoundDisplay(sound) {
+    if(sound === 'EN/TH') {
+      sound = 'อังกฤษ'
+    }
+    return sound
+  },
+
+  getNameFromBranch(branch) {
+    if (branch.NameAlt === "") {
+      return branch.Name
+    }
+    return branch.NameAlt
+  },
+
+  getBrandName(brandName) {
+    return brandName.replace(/ +/g, "")
+  },
+
+  isFavorite(favorites, cinemaId) {
+    let found = false
+    if (favorites != null && favorites.CinemaIds != null) {
+      favorites.CinemaIds.forEach(fav => {
+        if (cinemaId === fav) {
+          found = true
+          return
+        }
+      })
+    }
+    return found
+  },
+
+  getSystemImg(formatCode) {
+    switch(formatCode) {
+      case 'VS00000001': return `./static/d2d.png`
+    }
   }
 }
