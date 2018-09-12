@@ -75,7 +75,7 @@ $colorSeat3: #a0b0f4;
       &:not(.selected) {
         opacity: 0.3;
       }
-    }    
+    }
   }
   &__inner {
     margin-bottom: 5rem;
@@ -123,7 +123,7 @@ $colorSeat3: #a0b0f4;
 }
 .seatMapDisplay__row {
   display: grid;
-  justify-content: center;	
+  justify-content: center;
   grid-template-columns: repeat(var(--total-seat), 28px);
   grid-column-gap: 0.3rem;
   grid-row-gap: 0.3rem;
@@ -154,7 +154,8 @@ $colorSeat3: #a0b0f4;
   }
 }
 .ticketResult {
-  font-size: 0.55rem;
+  font-size: 0.7rem;
+  line-height: 1;
   &__lists {
     display: flex;
     justify-content: space-around;
@@ -199,7 +200,7 @@ $colorSeat3: #a0b0f4;
         }
       }
     }
-    &:nth-child(1) { 
+    &:nth-child(1) {
       > div {
         &:before,
         &:after {
@@ -207,7 +208,7 @@ $colorSeat3: #a0b0f4;
         }
       }
     }
-    &:nth-child(2) { 
+    &:nth-child(2) {
       > div {
         &:before,
         &:after {
@@ -215,7 +216,7 @@ $colorSeat3: #a0b0f4;
         }
       }
     }
-    &:nth-child(3) { 
+    &:nth-child(3) {
       > div {
         &:before,
         &:after {
@@ -234,12 +235,12 @@ $colorSeat3: #a0b0f4;
     }
   }
   &__selectedLists {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     word-break: break-word;
   }
   &__totalPrice {
     font-weight: bold;
-    font-size: 0.7rem;
+    font-size: 1rem;
     white-space: nowrap;
     padding-left: 0.5rem;
   }

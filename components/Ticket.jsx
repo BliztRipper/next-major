@@ -1,5 +1,4 @@
 import { PureComponent, Fragment } from 'react';
-import '../styles/cashier.scss'
 import QRCode from 'qrcode.react'
 import Link from 'next/link'
 import Swal from 'sweetalert2'
@@ -50,7 +49,7 @@ class Ticket extends PureComponent {
       <Fragment>
         <div className={buttonProgressClassName} onClick={this.props.submitPayment}><div>{buttonProgressText}</div></div>
         <Link prefetch href="/">
-          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>เสร็จสิ้น</div>
+          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>กลับสู่หน้าแรก</div>
         </Link>
       </Fragment>
     )

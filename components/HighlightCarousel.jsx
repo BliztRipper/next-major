@@ -43,7 +43,7 @@ class HighlightCarousel extends PureComponent {
       lazyLoad: true,
       infinite: false,
       centerPadding: "30px",
-      speed: 150,
+      speed: 400,
       dots: false,
       arrows: false,
       slidesToShow: 1,

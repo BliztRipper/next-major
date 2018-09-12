@@ -1,11 +1,12 @@
 import { PureComponent } from 'react';
+import '../styles/style.scss'
 import Layout from '../components/Layout'
 import Ticket from '../components/Ticket'
-import '../styles/cashier.scss'
 import Swal from 'sweetalert2'
 import loading from '../static/loading.svg'
 import Router from 'next/router'
 import utilities from '../scripts/utilities'
+import GlobalHeader from '../components/GlobalHeader'
 
 class Cashier extends PureComponent {
   constructor(props) {
@@ -158,8 +159,14 @@ class Cashier extends PureComponent {
     }
     return (
       <Layout title="Cashier Page">
-        <header className="cashier-header">ยืนยันที่นั่ง</header>
-        <Ticket ref={this.refTicket} dataTicket={dataToTicket} submitPayment={this.submitPayment.bind(this)}></Ticket>
+        <div className="globalContent isCashier">
+          <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ยืนยันที่นั่ง"></GlobalHeader>
+          <div className="globalBody">
+            <div className="globalBodyInner">
+              <Ticket ref={this.refTicket} dataTicket={dataToTicket} submitPayment={this.submitPayment.bind(this)}></Ticket>
+            </div>
+          </div>
+        </div>
       </Layout>
     );
   }

@@ -51,7 +51,7 @@ class MyTicket extends PureComponent {
     let sliderSettings = {
       dots: false,
       infinite: false,
-      speed: 800,
+      speed: 400,
       slidesToShow: 1,
       slidesToScroll: 1
     }

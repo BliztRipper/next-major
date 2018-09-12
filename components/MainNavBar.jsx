@@ -172,7 +172,7 @@ class MainNavBar extends PureComponent {
           defaultIndex={currentTabsIndex}>
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
-                <div>
+                <div class="allmovie-btn-wrap">
                   <div className="sprite-table"></div>
                   <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
                 </div>

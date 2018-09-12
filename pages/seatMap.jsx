@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import isDblTouchTap from "../scripts/isDblTouchTap"
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import OTP from '../components/OTP'
 import GlobalHeader from '../components/GlobalHeader'
