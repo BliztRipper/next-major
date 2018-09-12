@@ -144,7 +144,7 @@ class MainNavBar extends PureComponent {
   }
 
   render() {
-    const {dataMyTicketsDone, bg} = this.state
+    const {dataMyTicketsDone, bg, currentTabsIndex} = this.state
     resetIdCounter()
     let dataToAllMovies = {
       pathname: '/AllMovie',
@@ -167,7 +167,9 @@ class MainNavBar extends PureComponent {
         <div className="background-blur__wrapper">
           <div className="background-blur" style={bgblur}></div>
         </div>
-          <Tabs onSelect={this.onSelectTabs.bind(this)} defaultIndex={this.currentTabsIndex}>
+          <Tabs
+          onSelect={this.onSelectTabs.bind(this)}
+          defaultIndex={currentTabsIndex}>
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
                 <Fragment>
