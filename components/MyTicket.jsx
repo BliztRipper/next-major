@@ -36,9 +36,9 @@ class MyTicket extends PureComponent {
       )
     })
   }
-  slideHandleAfterChange (index) {
+  slideHandleBeforeChange (prevIndex, newIndex) {
     this.setState({
-      sliderCurrentIndex: index
+      sliderCurrentIndex: newIndex
     })
   }
   componentWillMount() {
@@ -68,7 +68,7 @@ class MyTicket extends PureComponent {
       <Fragment>
           <Slider
             {...sliderSettings}
-            afterChange={this.slideHandleAfterChange.bind(this)}
+            beforeChange={this.slideHandleBeforeChange.bind(this)}
           >
             {this.renderMyTickets()}
           </Slider>

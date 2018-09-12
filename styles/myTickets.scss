@@ -6,6 +6,7 @@
   bottom: 0;
   overflow: hidden;
   font-size: 3.4vw;
+  line-height: 1.4;
   display: grid;
   grid-template-rows: auto 1fr;
   .globalHeader {
@@ -53,6 +54,10 @@
       padding-top: 0;
       font-size: inherit;
     }
+    .movie-cashier__seat-info--wrapper,
+    .movie-cashier__date-info--wrapper {
+      width: 50%;
+    }
     .movie-cashier__seat-info--title,
     .movie-cashier__date-info--title,
     .movie-cashier__cine-info--title {
@@ -70,12 +75,14 @@
     .movie-cashier__seat-info,
     .movie-cashier__date-info,
     .movie-cashier__cine-info {
-      margin-top: 1em;
+      margin-top: 0.7em;
       align-items: flex-end;
     }
     .movie-cashier__seat-info--title {
       align-items: center;
-
+      .sprite-sound {
+        margin: 0 0.6em 0 0;
+      }
     }
     .qrContainer {
       margin-top: 1.4em;
