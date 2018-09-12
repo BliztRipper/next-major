@@ -126,7 +126,7 @@ class MainNavBar extends PureComponent {
     return (
       <div className="indexTab__floatButton" onClick={this.goToMyTickets.bind(this)}>
         <div className="indexTab__floatButtonInner">
-          <img className="indexTab__floatButton-icon" src="static/icon-ticket.svg" alt=""/>
+          <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
           { this.renderFloatButtonBadge() }
         </div>
       </div>
