@@ -77,7 +77,7 @@ class MainNavBar extends PureComponent {
     let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime();
     return serverResulTime - ticketBookedResultTime > offsetTime
   }
-  setStyleBounceOnScroll (styles) {
+  setStyleBounceOnScroll () {
     // let documents = [document.documentElement, document.body]
     // documents.forEach(element => element.style.cssText = styles);
   }
@@ -110,21 +110,14 @@ class MainNavBar extends PureComponent {
     })
     sessionStorage.removeItem('previousRoute')
   }
-  goToMyTickets () {
-    Router.push({
-      pathname: '/MyTickets',
-      query: {
-        accid: this.props.accid
-      }
-    })
-  }
+
   renderFloatButtonBadge () {
     if (this.state.dataMyTicketsTotal) return <div className="indexTab__floatButton-badge">{this.state.dataMyTicketsTotal}</div>
     return false
   }
   renderFloatButton () {
     return (
-      <div className="indexTab__floatButton" onClick={this.goToMyTickets.bind(this)}>
+      <div className="indexTab__floatButton">
         <div className="indexTab__floatButtonInner">
           <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
           { this.renderFloatButtonBadge() }
@@ -152,6 +145,12 @@ class MainNavBar extends PureComponent {
         accid: this.props.accid
       }
     }
+    let dataToMyTicket = {
+      pathname: '/MyTickets',
+      query: {
+        accid: this.props.accid
+      }
+    }
     let bgblur = {
       backgroundImage: `url(${bg})`,
       backgroundSize:'cover',
@@ -164,15 +163,15 @@ class MainNavBar extends PureComponent {
       }
       return (
         <div className="indexTab">
-        <div className="background-blur__wrapper">
-          <div className="background-blur" style={bgblur}></div>
-        </div>
+          <div className="background-blur__wrapper">
+            <div className="background-blur" style={bgblur}></div>
+          </div>
           <Tabs
-          onSelect={this.onSelectTabs.bind(this)}
-          defaultIndex={currentTabsIndex}>
+            onSelect={this.onSelectTabs.bind(this)}
+            defaultIndex={currentTabsIndex}>
             <TabPanel>
               <Link prefetch href={dataToAllMovies}>
-                <div class="allmovie-btn-wrap">
+                <div className="allmovie-btn-wrap">
                   <div className="sprite-table"></div>
                   <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
                 </div>
@@ -194,9 +193,11 @@ class MainNavBar extends PureComponent {
                 </Tab>
                 <li className="isBlank">ตั้วหนัง</li>
               </div>
-              { this.renderFloatButton() }
             </TabList>
           </Tabs>
+          <Link prefetch href={dataToMyTicket}>
+            { this.renderFloatButton() }
+          </Link>
         </div>
       )
     }
