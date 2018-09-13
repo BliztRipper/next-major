@@ -3,10 +3,8 @@ import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.gif'
 import empty from '../static/emptyMovie.png'
-import CinemaTimeTable from '../components/CinemaTimeTable'
 import RegionCinemaComp from '../components/RegionCinemaComp'
 import utilities from '../scripts/utilities';
-import { log } from 'util';
 
 class CinemaMovieInfo extends PureComponent {
   render() {
@@ -53,6 +51,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       favorites: [],
       schedules: [],
       regions: [],
+      regionsFav: [],
       dates: [],
       pickThisDay: 0,
       accid: this.props.url.query.accid,
@@ -78,7 +77,9 @@ class MainSelectCinemaByMovie extends PureComponent {
         fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.state.accid}`)
         .then(response => response.json())
         .then(data => {
-          this.state.favorites = data.data
+          if (data.data.CinemaIds) {
+            this.state.favorites = data.data.CinemaIds
+          }
           this.state.loadFavorites = true
           this.loadComplete()
         })
@@ -159,6 +160,18 @@ class MainSelectCinemaByMovie extends PureComponent {
 
     this.setState({regions: toSetRegions})
     this.setState({isEmpty:(toSetRegions.length == 0)})
+
+    let regionsFav = []
+    toSetRegions.forEach((region, i) => {
+      if (utilities.isFavorite(this.state.favorites, region.schedule.CinemaId)) {
+        regionsFav.push({
+          ...region,
+          collapesShow: false
+        })
+      }
+    })
+
+    this.setState({regionsFav:regionsFav})
   }
 
   fillterDate() {
@@ -186,9 +199,33 @@ class MainSelectCinemaByMovie extends PureComponent {
     this.setState({isEmpty:(dates.length == 0)})
   }
 
-  favActive() {
-    console.log("Click Fav");
+  favActive(cinemaId) {
 
+    let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
+    if(newFav) {
+      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+      this.state.favorites.push(cinemaId)
+    } else{
+      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+      this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
+    }
+
+
+    let regions = this.state.regions.map((region, i) => {
+
+      region.region.forEach(cinema => {
+        if (cinemaId == cinema.cinemaId) {
+          cinema.isFavorite = newFav
+        }
+      })
+
+      return region
+    })
+
+    this.setState({
+      regions: regions,
+      favorites: this.state.favorites
+    })
   }
 
   pickThisDay(day){
@@ -222,32 +259,19 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   renderFavorite() {
-    let items = []
-    this.state.regions.forEach((region, i) => {
-      if (utilities.isFavorite(this.state.favorites, region.schedule.CinemaId)) {
-        items.push(<RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} favActive={this.favActive}/>)
-      }
+    return this.state.regionsFav.map((region, i) => {
+        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} favActive={this.favActive.bind(this)}/>
     })
-
-    return (
-      <Fragment>
-        {items}
-      </Fragment>
-    )
   }
 
   renderRegion() {
     return this.state.regions.map((region, i) => {
-      return (
-        <Fragment>
-          <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} favActive={this.favActive}/>
-        </Fragment>
-      )
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} favActive={this.favActive.bind(this)}/>
     })
   }
 
   render() {
-    const {isLoading, error, isEmpty, theaterArr} = this.state;
+    const {isLoading, error, isEmpty} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }

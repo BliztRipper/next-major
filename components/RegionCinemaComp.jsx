@@ -1,16 +1,25 @@
 import React, { PureComponent, Fragment } from 'react'
 import CinemaWithShowtimeComp from '../components/CinemaWithShowtimeComp'
-import { log } from 'util';
+import {Collapse} from 'react-collapse'
+import {presets} from 'react-motion'
 
 class RegionCinemaComp extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            favActive: this.props.favActive,
             region: this.props.region,
             isExpand: this.props.isExpand,
             iAmFav: this.props.iAmFav,
         }
     }
+
+    toggleCollapse () {
+        this.setState({
+            isExpand: !this.state.isExpand
+        })
+        console.log(this.state.isExpand, 'this.state.isExpand');
+      }
 
     getCinema(cinemaId) {
         if (this.state.region) {
@@ -23,17 +32,30 @@ class RegionCinemaComp extends PureComponent {
         return null
     }
 
+    renderFavStar() {
+        if (this.state.iAmFav) {
+            return (
+                <div className="cinema__regional__title-iconFav"><img src="../static/icon-star-orange-line.png" alt=""/></div>
+            )
+        }
+    }
+
     renderHeader() {
         let name = this.state.region.name
+        let classNameRegionTitle = 'cinema__regional__title'
         if (this.state.iAmFav) {
             name = "โรงภาพยนตร์ที่ชื่นชอบ"
+            classNameRegionTitle = classNameRegionTitle + ' hasIcon'
         }
         return (
-            <div className="cinema__regional" onClick={this.props.favActive.bind(this)} key={name}>
-            <div className="cinema__regional__header">
-                <h5 className="cinema__regional__title">{name}</h5>
-                <div className={this.state.isExpand? 'sprite-chevronDown active':'sprite-chevronDown'} ></div>
-            </div>
+            <div className="cinema__regional" key={name} onClick={this.toggleCollapse.bind(this)}>
+                <div className="cinema__regional__header">
+                    <h5 className={classNameRegionTitle}>
+                        {this.renderFavStar()}
+                        {name}
+                    </h5>
+                    <div className={this.state.isExpand? 'arrowIcon active':'arrowIcon'} > <img src="../static/ic-arrow-back.png" alt=""/></div>
+                </div>
             </div>
         )
     }
@@ -42,17 +64,29 @@ class RegionCinemaComp extends PureComponent {
         if (this.state.region && this.state.region.schedule) {
             let cinema = this.getCinema(this.state.region.schedule.CinemaId)
             if (cinema) {
-                return <CinemaWithShowtimeComp cinema={cinema} schedule={this.state.region.schedule}/>
+                return (
+                    <Fragment>
+                        <CinemaWithShowtimeComp cinema={cinema} schedule={this.state.region.schedule} favActive={this.state.favActive}/>
+                        <CinemaWithShowtimeComp cinema={cinema} schedule={this.state.region.schedule} favActive={this.state.favActive}/>
+                    </Fragment>
+                )
             }
         }
     }
 
     render() {
+        let classNameCardItem = 'cinema__cardItem'
+        if (this.state.isExpand) {
+            classNameCardItem = classNameCardItem + ' active'
+        }
+
         return (
-            <Fragment>
+            <div className={classNameCardItem} key={this.state.region.name + this.state.iAmFav}>
                 {this.renderHeader()}
-                {this.renderCinema()}
-            </Fragment>
+                <Collapse isOpened={this.state.isExpand} springConfig={presets.stiffness}>
+                    {this.renderCinema()}
+                </Collapse>
+            </div>
         )
     }
 }

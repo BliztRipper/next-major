@@ -1,20 +1,25 @@
 import React, { PureComponent, Fragment } from 'react'
 import Link from 'next/link'
 import { log } from 'util';
+import utilities from '../scripts/utilities';
 
 class CinemaWithShowtimeComp extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            favActive: this.props.favActive,
             cinema: this.props.cinema[0],
             schedule: this.props.schedule,
         }
+
     }
 
     renderSystem(sessionAttributesNames) {
         if (sessionAttributesNames) {
-            return sessionAttributesNames.map(system => {
-                return (<span>{system}</span>)
+            return sessionAttributesNames.filter(formatCode => {
+                if (utilities.getSystemImg(formatCode)) {
+                    return <img src={utilities.getSystemImg(formatCode)} />
+                }
             })
         }
     }
@@ -38,9 +43,10 @@ class CinemaWithShowtimeComp extends PureComponent {
                     <div className="cinema__card-cbm--theatre-container">
                         <div className="cinema__card-cbm--theatre-wrapper">
                             <div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-                            <div className="VS00000001"></div>
+                            <div className="cinema__card-cbm--theatre-type">
+                                {this.renderSystem(theater.SessionAttributesNames)}
+                            </div>
                             <div className="">อังกฤษ</div>
-                            {this.renderSystem(theater.SessionAttributesNames)}
                         </div>
                         <div className="cinema__card-cbm--timetable-wrap">
                             <div className="cinema__card-cbm--timetable">
@@ -54,7 +60,6 @@ class CinemaWithShowtimeComp extends PureComponent {
     }
 
     render() {
-        const cineIdHide = {display:'none'}
 
         let dataToSelectCinema = {
             pathname: '/SelectMovieByCinema',
@@ -63,15 +68,20 @@ class CinemaWithShowtimeComp extends PureComponent {
             }
           }
 
-        let fav = false
-
         return (
             <div ref="searchCine" className="cinema__card-cbm" >
                 <div className="cinema__card-cbm--title">
-                    <div className={this.state.cinema.brandName!=""? this.state.cinema.brandName:'sprite-blank'}></div>
-                    <div ref="cineName" className="cinema__card-cbm--branch">{this.state.cinema.branchName}</div>
-                    <div ref="cineIdProp" style={cineIdHide}>{this.state.cinema.cinemaId}</div>
-                    <div ref="classname" className={fav? 'sprite-favCinema active':'sprite-favCinema'}></div>
+                    <div className="cinema__card-cbm--titleIcon">
+                        <img src="../static/major.png" alt=""/>
+                    </div>
+                    <div ref="cineName" className="cinema__card-cbm--branch">
+                        <div>{this.state.cinema.branchName}</div>
+                        {/* <div>300 m</div> */}
+                    </div>
+                    <div ref="classname" className={this.state.cinema.isFavorite? 'favIcon active':'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
+                        <img src="../static/icon-star-orange-line.png" alt=""/>
+                        <img src="../static/icon-star-orange.png" alt=""/>
+                    </div>
                 </div>
 
                 {this.renderTheater()}
