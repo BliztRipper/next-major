@@ -155,7 +155,6 @@ class MainNavBar extends PureComponent {
       backgroundImage: `url(${bg})`,
       backgroundSize:'cover',
       filter: 'blur(16px)',
-      // opacity: '0.75',
     }
     if (dataMyTicketsDone) {
       if (this.state.currentTabsIndex === 0) {
