@@ -11,10 +11,10 @@ class HighlightCarousel extends PureComponent {
       isLoading: true,
       error: null,
       arrbg:[],
+      loaded:true,
     }
   }
   componentDidMount(){
-
     try{
       fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
@@ -39,10 +39,10 @@ class HighlightCarousel extends PureComponent {
   renderPoster(){
     const settings = {
       className: "center",
-      centerMode: false,
+      centerMode: true,
       lazyLoad: true,
       infinite: false,
-      centerPadding: "30px",
+      centerPadding: "50px",
       speed: 400,
       dots: false,
       arrows: false,
@@ -56,7 +56,6 @@ class HighlightCarousel extends PureComponent {
         accid: this.props.accid
       }
     }
-
     let arr = [];
     let items = []
     for( let i = 0; i < this.state.dataObj.length; i++) {
@@ -78,30 +77,42 @@ class HighlightCarousel extends PureComponent {
     let renderItem = []
     renderItem.push(
       <Slider {...settings} afterChange={this.sliderChange.bind(this)}>
-        {this.state.dataObj.map((item,i) =>
-          <Fragment key={i}>
-            <div className="poster-container">
-              <img className='highlight__poster' src={item.poster_ori!=""? item.poster_ori:'./static/img-placeholder.png'}/>
-            </div>
-            <Link prefetch href="/SelectCinemaByMovie">
-              <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
-            </Link>
-            {(() => {
-              this.state.arrbg.push(item.poster_ori)
-              if(item.title_en === item.title_th){
-                  item.title_th = ''
-              }
-            })()}
-            <span className='highlight__title'>{item.title_en}</span>
-            <span className='highlight__subtitle'>{item.title_th}</span>
-            <span className='highlight__genre'>{item.genre}</span>
-          </Fragment>
+        {this.state.dataObj.map(item =>
+            <Fragment>
+              <div className="poster-container">
+                {(()=>{
+                  const imageStyle = {
+                    backgroundImage: `url(${item.poster_ori}), url(./static/img-placeholder.svg) `,
+                    width:'100%',
+                    height:'50vh',
+                    backgroundSize: 'auto 85%',
+                    backgroundPosition: 'center center',
+                    backgroundRepeat: 'no-repeat',
+                  }
+                  return(
+                    <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                  )
+                })()}
+              </div>
+              <Link prefetch href="/SelectCinemaByMovie">
+                <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+              </Link>
+              {(() => {
+                this.state.arrbg.push(item.poster_ori)
+                if(item.title_en === item.title_th){
+                    item.title_th = ''
+                }
+              })()}
+              <span className='highlight__title'>{item.title_en}</span>
+              <span className='highlight__subtitle'>{item.title_th}</span>
+              <span className='highlight__genre'>{item.genre}</span>
+            </Fragment>
+
         )}
       </Slider>
     )
     return renderItem
   }
-
   render() {
     const {isLoading, error} = this.state;
     if (error) {
