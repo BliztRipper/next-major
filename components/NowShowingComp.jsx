@@ -39,20 +39,24 @@ class NowShowingComp extends PureComponent {
     }
   }
 
-  sortTime(){
-    let sorting = []
-    this.state.dataObj.now_showing.map((item,i)=>{
-      sorting.push(<RenderShowing item={item} release={item.release_date} key={i} accid={this.props.accid} />)
+  displayMovies() {
+    let displays = []
+    this.state.dataObj.advance_ticket.map((item, i) => {
+      displays.push(<RenderShowing item={item} release={item.release_date} key={"adv"+i} accid={this.props.accid} />)
     })
-    let numArray = [...sorting].sort((a,b) => new Date(b.props.item.release_date) - new Date(a.props.item.release_date))
-    return numArray
+
+    this.state.dataObj.now_showing.map((item, i) => {
+      displays.push(<RenderShowing item={item} release={item.release_date} key={"nowshow"+i} accid={this.props.accid} />)
+    })
+
+    return displays
   }
 
   render() {
     return (
         <section>
           <div className='showing__container'>
-          {this.sortTime()}
+          {this.displayMovies()}
           </div>
         </section>
     );

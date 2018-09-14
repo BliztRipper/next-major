@@ -8,6 +8,8 @@
 @import 'searchCinema';
 @import 'history';
 @import 'fontface';
+@import 'cinemaByMovie';
+@import 'responsive';
 
 :root{
   font-size: 16px;
@@ -118,6 +120,7 @@ body{
     background-position: 400px 400px;
     width: 50px;
     height: 50px;
+
   }
   &-table{
     @extend .sprite;
@@ -382,7 +385,6 @@ body{
   margin-bottom: 2rem;
   &__container{
     display: flex;
-    margin-top: 1rem;
     &.active{
       display: none;
     }
@@ -494,7 +496,6 @@ body{
       background-color: #E9EBEF;
     }
   }
-
 }
 
 .movie-info{
@@ -707,12 +708,17 @@ body{
 }
 
 .date-filter{
-  display: flex;
-  justify-content: space-around;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 0.5rem 0;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(#000, 0.1);
   &__item{
     text-decoration: none;
     color:#757D8C;
+    display: inline-block;
+    margin-left: 1rem;
+    margin-right: 1rem;
     &.active{
       color:#ff8200;
       font-size: 20px;

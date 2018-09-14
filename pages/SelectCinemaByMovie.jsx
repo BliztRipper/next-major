@@ -1,18 +1,15 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
-import loading from '../static/loading.svg'
+import loading from '../static/loading.gif'
 import empty from '../static/emptyMovie.png'
-import CinemaTimeTable from '../components/CinemaTimeTable'
+import RegionCinemaComp from '../components/RegionCinemaComp'
 import utilities from '../scripts/utilities';
-
-
-const TheaterHead = (props) => (
-  <h4 className={props.class? "":"isHide"}>โรงภาพยนต์ {props.name}</h4>
-)
 
 class CinemaMovieInfo extends PureComponent {
   render() {
+    console.log(this.props.item, 'this.props.item');
+
     return (
       <Fragment>
         <div className="movie-card__container">
@@ -46,144 +43,238 @@ class MainSelectCinemaByMovie extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
       isLoading: true,
+      loadFavorites: false,
+      loadBranches: false,
       error: null,
       serverTime:'',
       isEmpty:false,
-      nowShowing:[],
-      branchData:[],
-      theaterArr:[],
+      branches: [],
+      favorites: [],
+      schedules: [],
+      regions: [],
+      regionsFav: [],
+      dates: [],
       pickThisDay: 0,
-      uniArr: [],
-      class:true,
+      accid: this.props.url.query.accid,
+      movieInfo: ''
     }
   }
 
   //this function done after render
   componentDidMount() {
+    this.setState({
+      movieInfo: JSON.parse(sessionStorage.getItem('movieSelect'))
+    })
     try {
       sessionStorage.setItem('CinemaID','')
       sessionStorage.setItem('BookingCinema','')
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
-      fetch(`https://api-cinema.truemoney.net/Schedule`,{
+      fetch(`http://127.0.0.1:2324/Schedule`,{
+      // fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
       .then(data =>  {
-        this.setState({data:data.data, serverTime:data.server_time})
-        let dataSchedule = data.data
-        fetch(`https://api-cinema.truemoney.net/Branches`).then(response => response.json())
-        .then(data=> {
-          let dataBranch = data.data
-          this.renderHeadCinema(dataSchedule, dataBranch)
-        })
-        .then(
-          () => {
-            let dateArray = []
-            let pureDateArray = []
-            if(this.state.data != null){
-              this.state.data.map(date=>{
-                Object.keys(date.Theaters).map(key => {
-                  dateArray.push(date.Theaters[key].Showtimes)
-                })
-              })
-              dateArray.map((item,i)=>{
-                for(var i=0; i < item.length; i++){
-                  pureDateArray.push(parseInt(utilities.getStringDateTime(item[i]).day))
-                }
-              })
-            }
-            const numberSorter = (a, b) => a - b;
-            pureDateArray.sort(numberSorter)
-            this.state.uniArr = [...(new Set(pureDateArray))]
-            this.setState({branchData:data.data, isLoading: false})
+        this.state.schedules = data.data
+        this.state.serverTime = data.server_time
+
+        fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.state.accid}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.data.CinemaIds) {
+            this.state.favorites = data.data.CinemaIds
           }
-        )
+          this.state.loadFavorites = true
+          this.loadComplete()
+        })
+
+        fetch(`https://api-cinema.truemoney.net/Branches`)
+        .then(response => response.json())
+        .then(data=> {
+          this.state.branches = data.data
+          this.state.loadBranches = true
+          this.loadComplete()
+        })
       })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
   }
 
-  renderHeadCinema(dataSchedule, dataBranch){
-    if(dataSchedule != undefined){
-      dataSchedule.map(cineid=>{
-        dataBranch.map(branch=>{
-          if(branch.ID === cineid.CinemaId){
-            this.state.theaterArr.push( {
-              Name:branch.Name,
-              Id:branch.ID,
-              Theaters:cineid.Theaters
-            })
-          }
-        })
-      })
-      this.setState({theaterArr: this.state.theaterArr})
-    } else {
-      this.setState({isEmpty:true})
+  loadComplete() {
+    if (this.state.loadFavorites && this.state.loadBranches) {
+      this.convertDataToUse()
+      this.fillterDate()
+      this.setState({isLoading: false})
     }
   }
 
-  getTimetable(){
-    let resultsArray = {
-      info:[],
-      theater:[],
-      time:[],
-    }
-    resultsArray.info.push(<CinemaMovieInfo class={this.state.class} item={this.state.nowShowing}/>)
-    this.state.theaterArr.map(theaters=>{
-      resultsArray.theater.push(<TheaterHead name={theaters.Name} id={theaters.Id} class={this.state.class}/>, resultsArray.time)
-          Object.keys(theaters.Theaters).map(key => {
-          if(theaters.Theaters[key].SessionAttributesNames = 'EN/TH'){
-            theaters.Theaters[key].SessionAttributesNames = 'อังกฤษ'
-          }
-          this.state.nowShowing.movieCode.map(movieCode => {
-            if(theaters.Theaters[key].ScheduledFilmId === movieCode) {
-              resultsArray.time.push(<CinemaTimeTable cineId={theaters.Id} cineName={theaters.Name} name='fromMovie' pickedDate={this.state.uniArr[this.state.pickThisDay]} item={theaters.Theaters[key]} serverTime={this.state.serverTime} accid={this.props.url.query.accid}/>)
-            } else {
-              this.setState({class:false})
-            }
-          })
-        })
+  getRegionsBySchedule(regions, schdule) {
+    let result = null
+    let name = ""
+    Object.keys(regions).forEach(key => {
+      regions[key].forEach(region => {
+        if (region.cinemaId == schdule.CinemaId) {
+          result = regions[key]
+          name = key
+          return
+        }
+      })
     })
-    return resultsArray
+
+    if (!name) {
+      name = 'unknown'
+    }
+    return {region:result, name:name}
   }
+
+  convertDataToUse() {
+    //Region
+    let regions = []
+    this.state.branches.map(branch => {
+      let key = branch.DescriptionInside.zone_name
+      if (!(key in regions)) {
+        regions[key] = []
+      }
+
+      regions[key].push({
+        zoneId: branch.DescriptionInside.zone_id,
+        zoneName: branch.DescriptionInside.zone_name,
+        branchName: utilities.getNameFromBranch(branch),
+        cinemaId: branch.ID,
+        brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
+        isFavorite: utilities.isFavorite(this.state.favorites, branch.ID),
+      })
+    })
+
+    let toSetRegions = []
+    let mapRegions = []
+    this.state.schedules.forEach(schedule => {
+      let region = this.getRegionsBySchedule(regions, schedule)
+      if (!(region.name in mapRegions)) {
+        toSetRegions.push({
+          name: region.name,
+          region: region.region,
+          schedule: schedule,
+        })
+
+        mapRegions[region.name] = true
+      }
+    })
+
+    this.setState({regions: toSetRegions})
+    this.setState({isEmpty:(toSetRegions.length == 0)})
+
+    let regionsFav = []
+    toSetRegions.forEach((region, i) => {
+      if (utilities.isFavorite(this.state.favorites, region.schedule.CinemaId)) {
+        regionsFav.push(region)
+      }
+    })
+
+    this.setState({regionsFav:regionsFav})
+  }
+
+  fillterDate() {
+    let dates = []
+    let mapDates = []
+    this.state.schedules.forEach(schedule => {
+      schedule.Theaters.forEach(theater => {
+        theater.Showtimes.forEach(showtime => {
+          let strDate = showtime.substring(0, 10)
+          if (!(strDate in mapDates)) {
+            mapDates[strDate] = true
+            dates.push(strDate)
+          }
+        })
+      })
+    })
+
+    const stringSorter = function(a, b) {
+      if(a < b) return -1;
+      if(a > b) return 1;
+      return 0;
+    }
+    dates.sort(stringSorter)
+    this.setState({dates: dates})
+    this.setState({isEmpty:(dates.length == 0)})
+  }
+
+  favActive(cinemaId) {
+
+    let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
+    if(newFav) {
+      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+      this.state.favorites.push(cinemaId)
+    } else{
+      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+      this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
+    }
+
+
+    let regions = this.state.regions.map((region, i) => {
+
+      region.region.forEach(cinema => {
+        if (cinemaId == cinema.cinemaId) {
+          cinema.isFavorite = newFav
+        }
+      })
+
+      return region
+    })
+
+    this.setState({
+      regions: regions,
+      favorites: this.state.favorites
+    })
+  }
+
   pickThisDay(day){
     this.setState({pickThisDay:day})
   }
 
-  formatDate(date) {
+  getMonth(date) {
     var monthNames = [
       "", "ม.ค.", "ก.พ.", "มี.ค.",
       "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
       "ส.ค.", "ก.ย.", "ค.ค.",
       "พฤ.ย.", "ธ.ค."
     ]
-    // let d = date.slice(8,10)
-    // let day = parseInt(d)
     let monthIndex = date.slice(5,7)
     let month = parseInt(monthIndex)
-    // if(monthIndex < 10){monthIndex.slice(1,2)}
     return monthNames[month]
   }
 
-  filterByDate(){
-   return(
-    this.state.uniArr.map((item,i)=>{
-      let releaseDate = this.formatDate(this.state.nowShowing.release_date)
-      let isToday = ''
-      if(this.state.pickThisDay === i){isToday = true}else{isToday = false}
-        return (
-          <a className={isToday? 'date-filter__item active':'date-filter__item'} key={item.ID}><span onClick={this.pickThisDay.bind(this,i)}>{`${item} ${releaseDate}`}</span></a>
-        )
+  renderDates() {
+    let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
+
+    return this.state.dates.map((date, i) => {
+      let displayDate = `${date.slice(8,10)} ${this.getMonth(date)}`
+      if (strToday == displayDate) {
+        displayDate = "วันนี้"
+      }
+      return (
+        <a className={(this.state.pickThisDay == i)? 'date-filter__item active':'date-filter__item'} key={date}><span onClick={this.pickThisDay.bind(this,i)}>{displayDate}</span></a>
+      )
     })
-   )
+  }
+
+  renderFavorite() {
+    return this.state.regionsFav.map((region, i) => {
+        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} favActive={this.favActive.bind(this)}/>
+    })
+  }
+
+  renderRegion() {
+    return this.state.regions.map((region, i) => {
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} favActive={this.favActive.bind(this)}/>
+    })
   }
 
   render() {
-    const {isLoading, error, isEmpty, theaterArr} = this.state;
+    const {isLoading, error, isEmpty} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -198,20 +289,17 @@ class MainSelectCinemaByMovie extends PureComponent {
     sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
-    if (theaterArr.length) {
-      return (
-        <Layout title="Select Movie">
-          <section className="date-filter">
-          {this.filterByDate()}
-          </section>
-          <article className="movie-card">
-          {this.getTimetable().info}
-          {this.getTimetable().theater}
-          </article>
-        </Layout>
-      );
 
-    }
+    return (
+      <Layout title="Select Movie">
+        <section className="date-filter">
+          {this.renderDates()}
+        </section>
+        <CinemaMovieInfo item={this.state.movieInfo}></CinemaMovieInfo>
+        {this.renderFavorite()}
+        {this.renderRegion()}
+      </Layout>
+    )
   }
 }
 
