@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 
+
 class HighlightCarousel extends PureComponent {
   constructor(props) {
     super(props);

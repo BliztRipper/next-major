@@ -385,15 +385,36 @@ body{
   margin-bottom: 2rem;
   &__container{
     display: flex;
+    padding: 0;
     &.active{
       display: none;
+    }
+  }
+  &__bg{
+    max-width: 100%;
+    width: 100%;
+    height: 50vh;
+    position: relative;
+    img{
+      max-width: 100%;
+      background-repeat: no-repeat;
+    }
+    &::before{
+      content: '';
+      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #fff 50%);
+      display: block;
+      height: 50%;
+      left: 0;
+      position: absolute;
+      right: 0;
+      bottom: 0;
     }
   }
   &__wrapper{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 8px;
+    margin-left: 1rem;
   }
   &__poster{
     box-shadow: 0 1px 10px -4px #15181d;
@@ -401,16 +422,31 @@ body{
     height: 200px;
   }
   &__title{
-    font-size: 1rem;
+    font-size: 1.125rem;
     margin-bottom: 0;
+    font-weight: bold;
   }
   &__subtitle{
     font-size: 0.875rem;
-    font-weight: normal;
+    font-weight: bold;
   }
   &__genre{
-    color:#989FAE;
+    color:#333;
     font-size: 0.75rem;
+  }
+  &__relaese{
+    color:#333;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  &__relaese-wrapper{
+    margin-left: 0.4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  &__relaese-label{
+    font-size: 0.875rem;
+    color:#999;
   }
   &__more-detail{
     display: block;
@@ -439,27 +475,29 @@ body{
   }
   &__synopsis{
     font-size: 0.875rem;
-    color:#6d7079;
+    color:#333;
   }
   &__trailer{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+    transform: translate(-50%);
+    background:transparent no-repeat;
   }
   &__director{
     font-size: 0.875rem;
     color:#6d7079;
     &-label{
-      color:#000;
-      padding-top: 1.5rem;
+      font-size: 0.875rem;
+      color:#999;
     }
   }
   &__actor{
     font-size: 0.875rem;
     color:#6d7079;
     &-label{
-      color:#000;
-      padding-top: 1.5rem;
+      font-size: 0.875rem;
+      color:#999;
     }
   }
   &__theatre-wrapper{
@@ -521,18 +559,21 @@ body{
   }
   &__director{
     font-size: 0.875rem;
-    color:#383D48;
+    color:#333;
     &-label{
-      color:#757D8C;
-      padding-top: 1.5rem;
+      font-size: 0.875rem;
+      color:#999;
+      margin-top: 2rem;
     }
   }
   &__actor{
     font-size: 0.875rem;
-    color:#383D48;
+    color:#333;
+    margin-bottom: 1.5rem;
     &-label{
-      color:#757D8C;
-      padding-top: 1.5rem;
+      font-size: 0.875rem;
+      color:#999;
+      margin-top: 2rem;
     }
   }
 }
