@@ -215,6 +215,12 @@ body{
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
   }
+  .slick-slide{
+    transition: transform 0.4s;
+    &:not(.slick-active){
+      transform: scale(0.8);
+    }
+  }
 }
 .showing{
   &__container{
