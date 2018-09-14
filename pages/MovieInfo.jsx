@@ -59,7 +59,7 @@ export default class MovieInfo extends PureComponent {
             <h2 className="movie-card__title">{this.state.movieInfo.title_en}</h2>
             <h3 className="movie-card__subtitle">{this.state.movieInfo.title_th}</h3>
             <span className="movie-card__genre">{this.state.movieInfo.genre} | {this.state.movieInfo.duration} นาที</span><br/>
-            <span>{this.state.movieInfo.rating}</span>
+            <div className="movie-card__rating">{this.state.movieInfo.rating}</div>
           </div>
         </div>
         <div className="movie-card__relaese-wrapper">
