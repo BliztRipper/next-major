@@ -18,7 +18,6 @@ class RegionCinemaComp extends PureComponent {
         this.setState({
             isExpand: !this.state.isExpand
         })
-        console.log(this.state.isExpand, 'this.state.isExpand');
       }
 
     getCinema(cinemaId) {
@@ -66,7 +65,6 @@ class RegionCinemaComp extends PureComponent {
             if (cinema) {
                 return (
                     <Fragment>
-                        <CinemaWithShowtimeComp cinema={cinema} schedule={this.state.region.schedule} favActive={this.state.favActive}/>
                         <CinemaWithShowtimeComp cinema={cinema} schedule={this.state.region.schedule} favActive={this.state.favActive}/>
                     </Fragment>
                 )

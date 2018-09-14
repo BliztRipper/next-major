@@ -4,41 +4,9 @@ import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from '../components/RegionCinemaComp'
+import MovieInfoComp from '../components/MovieInfoComp'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
-
-class CinemaMovieInfo extends PureComponent {
-  render() {
-    console.log(this.props.item, 'this.props.item');
-
-    return (
-      <Fragment>
-        <div className="movie-card__container">
-          <img className="movie-card__poster" src={this.props.item.poster_ori} />
-          <div className="movie-card__wrapper">
-            <h2 className="movie-card__title">{this.props.item.title_en}</h2>
-            <h3 className="movie-card__subtitle">{this.props.item.title_th}</h3>
-            <span className="movie-card__genre">{this.props.item.genre} | {this.props.item.duration} นาที</span>
-            <Link prefetch href='/MovieInfo'>
-              <a className="movie-card__more-detail">ดูรายละเอียดเพิ่ม</a>
-            </Link>
-          </div>
-        </div>
-        {/* <div className={this.props.class? "movie-card__more-detail-container isHide":"movie-card__more-detail-container"}>
-          <p className="movie-card__synopsis">{this.props.item.synopsis_th}</p>
-          <video className="movie-card__trailer" width="320" preload="auto" controls>
-            <source src={`${this.props.item.trailer}.mp4#t=10`} />
-            Your browser does not support the video tag.
-          </video>
-          <div className="movie-card__director-label">ผู้กำกับ</div>
-          <div className="movie-card__director">{this.props.item.director}</div>
-          <div className="movie-card__actor-label">นักแสดงนำ</div>
-          <div className="movie-card__actor">{this.props.item.actor}</div>
-        </div> */}
-      </Fragment>
-    )
-  }
-}
 
 class MainSelectCinemaByMovie extends PureComponent {
   constructor(props) {
@@ -125,9 +93,6 @@ class MainSelectCinemaByMovie extends PureComponent {
       })
     })
 
-    if (!name) {
-      name = 'unknown'
-    }
     return {region:result, name:name}
   }
 
@@ -296,7 +261,7 @@ class MainSelectCinemaByMovie extends PureComponent {
         <section className="date-filter">
           {this.renderDates()}
         </section>
-        <CinemaMovieInfo item={this.state.movieInfo}></CinemaMovieInfo>
+        <MovieInfoComp item={this.state.movieInfo} />
         {this.renderFavorite()}
         {this.renderRegion()}
       </Layout>
