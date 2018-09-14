@@ -19,8 +19,7 @@ class AllMovie extends PureComponent {
 
   }
   componentDidMount(){
-    // fetch(`https://api-cinema.truemoney.net/MovieList`)
-    fetch(`http://127.0.0.1:2324/MovieList`)
+    fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))

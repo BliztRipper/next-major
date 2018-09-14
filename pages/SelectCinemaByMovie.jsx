@@ -71,8 +71,7 @@ class MainSelectCinemaByMovie extends PureComponent {
       sessionStorage.setItem('CinemaID','')
       sessionStorage.setItem('BookingCinema','')
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
-      fetch(`http://127.0.0.1:2324/Schedule`,{
-      // fetch(`https://api-cinema.truemoney.net/Schedule`,{
+      fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
