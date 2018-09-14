@@ -8,6 +8,8 @@ import utilities from '../scripts/utilities';
 
 class CinemaMovieInfo extends PureComponent {
   render() {
+    console.log(this.props.item, 'this.props.item');
+
     return (
       <Fragment>
         <div className="movie-card__container">
@@ -55,11 +57,15 @@ class MainSelectCinemaByMovie extends PureComponent {
       dates: [],
       pickThisDay: 0,
       accid: this.props.url.query.accid,
+      movieInfo: ''
     }
   }
 
   //this function done after render
   componentDidMount() {
+    this.setState({
+      movieInfo: JSON.parse(sessionStorage.getItem('movieSelect'))
+    })
     try {
       sessionStorage.setItem('CinemaID','')
       sessionStorage.setItem('BookingCinema','')
@@ -164,10 +170,7 @@ class MainSelectCinemaByMovie extends PureComponent {
     let regionsFav = []
     toSetRegions.forEach((region, i) => {
       if (utilities.isFavorite(this.state.favorites, region.schedule.CinemaId)) {
-        regionsFav.push({
-          ...region,
-          collapesShow: false
-        })
+        regionsFav.push(region)
       }
     })
 
@@ -292,6 +295,7 @@ class MainSelectCinemaByMovie extends PureComponent {
         <section className="date-filter">
           {this.renderDates()}
         </section>
+        <CinemaMovieInfo item={this.state.movieInfo}></CinemaMovieInfo>
         {this.renderFavorite()}
         {this.renderRegion()}
       </Layout>
