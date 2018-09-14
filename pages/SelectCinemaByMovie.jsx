@@ -5,6 +5,7 @@ import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from '../components/RegionCinemaComp'
 import utilities from '../scripts/utilities';
+import '../styles/style.scss'
 
 class CinemaMovieInfo extends PureComponent {
   render() {
