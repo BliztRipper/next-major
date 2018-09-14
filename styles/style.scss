@@ -221,7 +221,7 @@ body{
   .slick-slide{
     transition: transform 0.4s;
     &:not(.slick-active){
-      transform: scale(0.8);
+      transform: scale(0.9);
     }
   }
 }

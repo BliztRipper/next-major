@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
-import loading from '../static/loading.gif'
+import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from '../components/RegionCinemaComp'
 import utilities from '../scripts/utilities';
