@@ -17,7 +17,7 @@ class home extends PureComponent {
     let accid = urlParamsAccid ? urlParamsAccid : '0863693746'
     Router.push({ pathname: '/', query: { accid: accid } })
     this.state.accid = accid
-    
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
