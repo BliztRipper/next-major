@@ -8,18 +8,21 @@ class CinemaWithShowtimeComp extends PureComponent {
         super(props);
         this.state = {
             favActive: this.props.favActive,
-            cinema: this.props.cinema[0],
-            schedule: this.props.schedule,
+            cinema: this.props.cinema,
         }
 
     }
 
-    renderSystem(sessionAttributesNames) {
-        if (sessionAttributesNames) {
-            return sessionAttributesNames.filter(formatCode => {
-                if (utilities.getSystemImg(formatCode)) {
-                    return <img src={utilities.getSystemImg(formatCode)} />
-                }
+    renderSystem(formatCode) {
+        if (utilities.getSystemImg(formatCode)) {
+            return <img src={utilities.getSystemImg(formatCode)} />
+        }
+    }
+
+    renderSound(sessionAttributesNames) {
+        if (sessionAttributesNames && sessionAttributesNames.length > 0) {
+            return sessionAttributesNames.map(sound => {
+                return utilities.getSoundDisplay(sound)
             })
         }
     }
@@ -37,16 +40,16 @@ class CinemaWithShowtimeComp extends PureComponent {
     }
 
     renderTheater() {
-        if (this.state.schedule && this.state.schedule.Theaters) {
-            return this.state.schedule.Theaters.map(theater => {
+        if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
+            return this.state.cinema.schedule.Theaters.map(theater => {
                 return (
                     <div className="cinema__card-cbm--theatre-container">
                         <div className="cinema__card-cbm--theatre-wrapper">
                             <div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
                             <div className="cinema__card-cbm--theatre-type">
-                                {this.renderSystem(theater.SessionAttributesNames)}
+                                {this.renderSystem(theater.formatCode)}
                             </div>
-                            <div className="">อังกฤษ</div>
+                            <div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
                         </div>
                         <div className="cinema__card-cbm--timetable-wrap">
                             <div className="cinema__card-cbm--timetable">
@@ -60,14 +63,6 @@ class CinemaWithShowtimeComp extends PureComponent {
     }
 
     render() {
-
-        let dataToSelectCinema = {
-            pathname: '/SelectMovieByCinema',
-            query: {
-              accid: this.props.accid
-            }
-          }
-
         return (
             <div ref="searchCine" className="cinema__card-cbm" >
                 <div className="cinema__card-cbm--title">
