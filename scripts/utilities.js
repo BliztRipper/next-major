@@ -76,7 +76,7 @@ export default {
   },
 
   getNameFromBranch(branch) {
-    if (branch.NameAlt === "") {
+    if (branch.NameAlt === "" || branch.NameAlt.length < 2) {
       return branch.Name
     }
     return branch.NameAlt

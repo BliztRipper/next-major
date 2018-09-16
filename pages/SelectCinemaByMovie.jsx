@@ -141,19 +141,23 @@ class MainSelectCinemaByMovie extends PureComponent {
       return mapRegions[key]
     })
 
-    this.setState({regions: toSetRegions})
-    this.setState({isEmpty:(toSetRegions.length == 0)})
-
-    let regionsFav = []
-    toSetRegions.forEach(region => {
-      region.cinemas.forEach(cinema => {
-        if (cinema.isFavorite) {
-          regionsFav.push(region)
-        }
-      })
+    let regionFav = {
+      name: "โรงภาพยนตร์ที่ชื่นชอบ",
+      cinemas: [],
+    }
+    Object.keys(regions).forEach(key => {
+        regions[key].forEach(cinema => {
+            if (cinema.isFavorite && cinema.schedule) {
+                regionFav.cinemas.push(cinema)
+            }
+        })
     })
 
-    this.setState({regionsFav:regionsFav})
+    this.setState({
+      regions: toSetRegions,
+      isEmpty:(toSetRegions.length == 0),
+      regionsFav:[regionFav],
+    })
   }
 
   fillterDate() {
