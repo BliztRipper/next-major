@@ -11,12 +11,11 @@ class CinemaWithOutShowtimeComp extends PureComponent {
             cinema: this.props.cinema,
             accid: this.props.accid
         }
-
-
     }
 
     handleSelectBranch () {
         sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
+        sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
     }
 
     render() {
