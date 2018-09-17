@@ -1,8 +1,37 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent, Fragment, Component } from 'react';
 import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null, errorInfo: null };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    })
+  }
+
+  render() {
+    if (this.state.errorInfo) {
+      return (
+        <div>
+          <h2>Something went wrong.</h2>
+          <details style={{ whiteSpace: 'pre-wrap' }}>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.errorInfo.componentStack}
+          </details>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 class HighlightCarousel extends PureComponent {
   constructor(props) {
@@ -10,22 +39,17 @@ class HighlightCarousel extends PureComponent {
     this.state = {
       dataObj: [],
       isLoading: true,
-      error: null,
       arrbg:[],
       loaded:true,
     }
   }
   componentDidMount(){
-    try{
       fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
       .then((data) => {
         this.setState({dataObj:data.data.now_showing, isLoading: false})
         this.props.bg(this.state.arrbg[0])
       })
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
-    }
   }
 
   movieDetails(item){
@@ -115,10 +139,7 @@ class HighlightCarousel extends PureComponent {
     return renderItem
   }
   render() {
-    const {isLoading, error} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
+    const {isLoading} = this.state;
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
@@ -128,6 +149,14 @@ class HighlightCarousel extends PureComponent {
       </div>
     )
   }
+}
+
+function App(){
+  return (
+    <ErrorBoundary>
+      <HighlightCarousel/>
+    </ErrorBoundary>
+  )
 }
 
 export default HighlightCarousel;
