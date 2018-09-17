@@ -36,16 +36,21 @@ class MainSelectCinemaByMovie extends PureComponent {
 
   //this function done after render
   componentDidMount() {
-    this.setState({
-      movieInfo: JSON.parse(sessionStorage.getItem('movieSelect'))
-    })
+    this.state.movieInfo = JSON.parse(sessionStorage.getItem('movieSelect'))
+    this.setState({ movieInfo: this.state.movieInfo })
+    let dataToPostSchedule = {
+      cinemaId: '',
+      filmIds: this.state.movieInfo.movieCode
+    }
+    console.log(dataToPostSchedule);
     try {
       sessionStorage.setItem('CinemaID','')
       sessionStorage.setItem('BookingCinema','')
+
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
       fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
-        body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
+        body: JSON.stringify(dataToPostSchedule)
       })
       .then(response => response.json())
       .then(data =>  {
