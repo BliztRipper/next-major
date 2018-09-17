@@ -773,6 +773,8 @@ body{
   right: 0;
   overflow: hidden;
   border-bottom: 1px solid #e9ebef;
+  background-color: #fff;
+  z-index: 10;
   .slick-list {
     width: 22vw;
     margin-left: auto;
