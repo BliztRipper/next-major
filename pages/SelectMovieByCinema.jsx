@@ -1,14 +1,15 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import Router from 'next/router'
+import DateFilters from '../components/DateFilters'
 import Swal from 'sweetalert2'
 import utilities from '../scripts/utilities';
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 
-class MainSelectMovieByCinema extends PureComponent {
+class MainSelectMovieByCinema extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,20 +53,7 @@ class MainSelectMovieByCinema extends PureComponent {
     })
   }
 
-  getMonth(date) {
-    var monthNames = [
-      "", "ม.ค.", "ก.พ.", "มี.ค.",
-      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
-      "ส.ค.", "ก.ย.", "ค.ค.",
-      "พฤ.ย.", "ธ.ค."
-    ]
-    let monthIndex = date.slice(5,7)
-    let month = parseInt(monthIndex)
-    return monthNames[month]
-  }
-
   fillterDate() {
-    let dates = []
     let mapDates = []
     this.state.schedules.forEach(schedule => {
       schedule.Theaters.forEach(theater => {
@@ -73,7 +61,7 @@ class MainSelectMovieByCinema extends PureComponent {
           let strDate = showtime.substring(0, 10)
           if (!(strDate in mapDates)) {
             mapDates[strDate] = true
-            dates.push(strDate)
+            this.state.dates.push(strDate)
           }
         })
       })
@@ -84,27 +72,15 @@ class MainSelectMovieByCinema extends PureComponent {
       if(a > b) return 1;
       return 0;
     }
-    dates.sort(stringSorter)
-    this.setState({dates: dates})
-    this.setState({isEmpty:(dates.length == 0)})
+    this.state.dates.sort(stringSorter)
+    this.setState({dates: this.state.dates})
+    this.setState({isEmpty:(this.state.dates.length == 0)})
   }
 
   pickThisDay(day){
-    this.setState({pickThisDay:day})
   }
 
-  renderDates() {
-    let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
-
-    return this.state.dates.map((date, i) => {
-      let displayDate = `${date.slice(8,10)} ${this.getMonth(date)}`
-      if (strToday == displayDate) {
-        displayDate = "วันนี้"
-      }
-      return (
-        <a className={(this.state.pickThisDay == i)? 'date-filter__item active':'date-filter__item'} key={date}><span onClick={this.pickThisDay.bind(this,i)}>{displayDate}</span></a>
-      )
-    })
+  dateFilterSliderBeforeChange (index)  {
   }
 
   renderMovieWithShowtime() {
@@ -114,7 +90,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, isEmpty} = this.state;
+    const {isLoading, error, isEmpty, serverTime, dates} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -127,9 +103,7 @@ class MainSelectMovieByCinema extends PureComponent {
 
     return (
       <Layout title="Select Movie">
-        <section className="date-filter">
-          {this.renderDates()}
-        </section>
+        <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
         {this.renderMovieWithShowtime()}
         {/* <SearchCinema onSearchChange={this.onSearchChange.bind(this)} /> */}
       </Layout>
