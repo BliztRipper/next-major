@@ -13,6 +13,7 @@ class RegionCinemaComp extends PureComponent {
             region: this.props.region,
             isExpand: this.props.isExpand,
             iAmFav: this.props.iAmFav,
+            accid: this.props.accid
         }
     }
 
@@ -56,13 +57,13 @@ class RegionCinemaComp extends PureComponent {
                 if (cinema.schedule) {
                     return (
                         <Fragment>
-                            <CinemaWithShowtimeComp cinema={cinema} favActive={this.state.favActive}/>
+                            <CinemaWithShowtimeComp accid={this.state.accid} cinema={cinema} favActive={this.state.favActive}/>
                         </Fragment>
                     )
                 } else {
                     return (
                         <Fragment>
-                            <CinemaWithOutShowtimeComp cinema={cinema} favActive={this.state.favActive}/>
+                            <CinemaWithOutShowtimeComp accid={this.state.accid} cinema={cinema} favActive={this.state.favActive}/>
                         </Fragment>
                     )
                 }

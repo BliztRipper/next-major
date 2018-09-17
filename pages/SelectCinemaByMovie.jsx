@@ -283,19 +283,19 @@ class MainSelectCinemaByMovie extends PureComponent {
 
   renderFavorite() {
     return this.state.regionsFav.map((region, i) => {
-        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} favActive={this.favActive.bind(this)}/>
+        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderRegion() {
     return this.state.regions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderSearchData() {
     return this.state.searchRegions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
     })
   }
 

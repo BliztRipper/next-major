@@ -95,8 +95,6 @@ class MainCinemaListing extends PureComponent {
               <Tab>รูปแบบโรง</Tab>
             </TabList>
             <TabPanel>
-              {/* <CinemaFavoriteList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} />
-              <CinemaRegionalList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine} /> */}
               <CinemaListComp accid={this.props.accid} branches={this.state.dataCine} favorites={this.state.dataFav} />
               </TabPanel>
             <TabPanel>
