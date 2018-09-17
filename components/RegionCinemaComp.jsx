@@ -1,7 +1,9 @@
 import React, { PureComponent, Fragment } from 'react'
 import CinemaWithShowtimeComp from '../components/CinemaWithShowtimeComp'
+import CinemaWithOutShowtimeComp from '../components/CinemaWithOutShowtimeComp'
 import {Collapse} from 'react-collapse'
 import {presets} from 'react-motion'
+import { log } from 'util';
 
 class RegionCinemaComp extends PureComponent {
     constructor(props) {
@@ -11,6 +13,7 @@ class RegionCinemaComp extends PureComponent {
             region: this.props.region,
             isExpand: this.props.isExpand,
             iAmFav: this.props.iAmFav,
+            accid: this.props.accid
         }
     }
 
@@ -18,17 +21,6 @@ class RegionCinemaComp extends PureComponent {
         this.setState({
             isExpand: !this.state.isExpand
         })
-      }
-
-    getCinema(cinemaId) {
-        if (this.state.region) {
-            return this.state.region.region.filter(cinema => {
-                if (cinema.cinemaId == cinemaId) {
-                    return cinema
-                }
-            })
-        }
-        return null
     }
 
     renderFavStar() {
@@ -60,15 +52,22 @@ class RegionCinemaComp extends PureComponent {
     }
 
     renderCinema() {
-        if (this.state.region && this.state.region.schedule) {
-            let cinema = this.getCinema(this.state.region.schedule.CinemaId)
-            if (cinema) {
-                return (
-                    <Fragment>
-                        <CinemaWithShowtimeComp cinema={cinema} schedule={this.state.region.schedule} favActive={this.state.favActive}/>
-                    </Fragment>
-                )
-            }
+        if (this.state.region && this.state.region.cinemas) {
+            return this.state.region.cinemas.map(cinema => {
+                if (cinema.schedule) {
+                    return (
+                        <Fragment>
+                            <CinemaWithShowtimeComp accid={this.state.accid} cinema={cinema} favActive={this.state.favActive}/>
+                        </Fragment>
+                    )
+                } else {
+                    return (
+                        <Fragment>
+                            <CinemaWithOutShowtimeComp accid={this.state.accid} cinema={cinema} favActive={this.state.favActive}/>
+                        </Fragment>
+                    )
+                }
+            })
         }
     }
 

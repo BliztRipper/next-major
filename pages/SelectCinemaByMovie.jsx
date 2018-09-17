@@ -5,8 +5,10 @@ import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from '../components/RegionCinemaComp'
 import MovieInfoComp from '../components/MovieInfoComp'
+import SearchCinema from '../components/SearchCinema'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
+import { log } from 'util';
 
 class MainSelectCinemaByMovie extends PureComponent {
   constructor(props) {
@@ -26,7 +28,9 @@ class MainSelectCinemaByMovie extends PureComponent {
       dates: [],
       pickThisDay: 0,
       accid: this.props.url.query.accid,
-      movieInfo: ''
+      movieInfo: '',
+      HideList: false,
+      searchRegions: [],
     }
   }
 
@@ -85,20 +89,24 @@ class MainSelectCinemaByMovie extends PureComponent {
     Object.keys(regions).forEach(key => {
       regions[key].forEach(region => {
         if (region.cinemaId == schdule.CinemaId) {
-          result = regions[key]
           name = key
+          result = region
+          result.schedule = schdule
           return
         }
       })
     })
 
-    return {region:result, name:name}
+    if (!name) {
+      name = "Unknown"
+    }
+    return {cinema:result, regionName:name}
   }
 
   convertDataToUse() {
     //Region
     let regions = []
-    this.state.branches.map(branch => {
+    this.state.branches.forEach(branch => {
       let key = branch.DescriptionInside.zone_name
       if (!(key in regions)) {
         regions[key] = []
@@ -111,35 +119,45 @@ class MainSelectCinemaByMovie extends PureComponent {
         cinemaId: branch.ID,
         brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
         isFavorite: utilities.isFavorite(this.state.favorites, branch.ID),
+        searchKey: branch.Name+branch.NameAlt,
+        schedule: null,
       })
     })
 
-    let toSetRegions = []
     let mapRegions = []
     this.state.schedules.forEach(schedule => {
       let region = this.getRegionsBySchedule(regions, schedule)
-      if (!(region.name in mapRegions)) {
-        toSetRegions.push({
-          name: region.name,
-          region: region.region,
-          schedule: schedule,
+      if (!(region.regionName in mapRegions)) {
+        mapRegions[region.regionName] = {
+          name: region.regionName,
+          cinemas: [region.cinema],
+        }
+      } else {
+        mapRegions[region.regionName].cinemas.push(region.cinema)
+      }
+    })
+
+    let toSetRegions = Object.keys(mapRegions).map(key => {
+      return mapRegions[key]
+    })
+
+    let regionFav = {
+      name: "โรงภาพยนตร์ที่ชื่นชอบ",
+      cinemas: [],
+    }
+    Object.keys(regions).forEach(key => {
+        regions[key].forEach(cinema => {
+            if (cinema.isFavorite && cinema.schedule) {
+                regionFav.cinemas.push(cinema)
+            }
         })
-
-        mapRegions[region.name] = true
-      }
     })
 
-    this.setState({regions: toSetRegions})
-    this.setState({isEmpty:(toSetRegions.length == 0)})
-
-    let regionsFav = []
-    toSetRegions.forEach((region, i) => {
-      if (utilities.isFavorite(this.state.favorites, region.schedule.CinemaId)) {
-        regionsFav.push(region)
-      }
+    this.setState({
+      regions: toSetRegions,
+      isEmpty:(toSetRegions.length == 0),
+      regionsFav:[regionFav],
     })
-
-    this.setState({regionsFav:regionsFav})
   }
 
   fillterDate() {
@@ -168,7 +186,6 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   favActive(cinemaId) {
-
     let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
     if(newFav) {
       fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
@@ -178,20 +195,27 @@ class MainSelectCinemaByMovie extends PureComponent {
       this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
     }
 
-
-    let regions = this.state.regions.map((region, i) => {
-
-      region.region.forEach(cinema => {
+    let regions = this.state.regions.map(region => {
+      region.cinemas.forEach(cinema => {
         if (cinemaId == cinema.cinemaId) {
           cinema.isFavorite = newFav
         }
       })
+      return region
+    })
 
+    let regionsFav = this.state.regionsFav.map(region => {
+      region.cinemas.forEach(cinema => {
+        if (cinemaId == cinema.cinemaId) {
+          cinema.isFavorite = newFav
+        }
+      })
       return region
     })
 
     this.setState({
       regions: regions,
+      regionsFav: regionsFav,
       favorites: this.state.favorites
     })
   }
@@ -212,6 +236,37 @@ class MainSelectCinemaByMovie extends PureComponent {
     return monthNames[month]
   }
 
+  onSearchChange(event) {
+    if (event.target.value.length) {
+      this.getDataSearch(event.target.value.toLowerCase())
+      this.setState({ HideList: true })
+    } else {
+      this.setState({ HideList: false })
+    }
+  }
+
+  getDataSearch(keyword) {
+    let regions = []
+    this.state.regions.forEach(region=>{
+      let searchRegion = {
+        name: region.name,
+        cinemas: [],
+      }
+
+      region.cinemas.forEach(cinema => {
+        if (cinema.searchKey.toLowerCase().indexOf(keyword) != -1) {
+          searchRegion.cinemas.push(cinema)
+        }
+      })
+
+      if (searchRegion.cinemas.length) {
+        regions.push(searchRegion)
+      }
+    })
+
+    this.setState({searchRegions: regions})
+  }
+
   renderDates() {
     let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
 
@@ -228,14 +283,35 @@ class MainSelectCinemaByMovie extends PureComponent {
 
   renderFavorite() {
     return this.state.regionsFav.map((region, i) => {
-        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} favActive={this.favActive.bind(this)}/>
+        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderRegion() {
     return this.state.regions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
     })
+  }
+
+  renderSearchData() {
+    return this.state.searchRegions.map((region, i) => {
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+    })
+  }
+
+  renderRegionTypeList() {
+    if (this.state.HideList) {
+      return (
+        this.renderSearchData()
+      )
+    } else {
+      return (
+        <Fragment>
+          {this.renderFavorite()}
+          {this.renderRegion()}
+        </Fragment>
+      )
+    }
   }
 
   render() {
@@ -261,8 +337,8 @@ class MainSelectCinemaByMovie extends PureComponent {
           {this.renderDates()}
         </section>
         <MovieInfoComp item={this.state.movieInfo} />
-        {this.renderFavorite()}
-        {this.renderRegion()}
+        <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
+        {this.renderRegionTypeList()}
       </Layout>
     )
   }

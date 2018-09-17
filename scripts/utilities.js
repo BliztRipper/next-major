@@ -1,3 +1,5 @@
+import { log } from "util";
+
 export default {
   getStringDateTime (time) {
     let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
@@ -56,14 +58,25 @@ export default {
   },
 
   getSoundDisplay(sound) {
-    if(sound === 'EN/TH') {
-      sound = 'อังกฤษ'
+    return sound //wait disscus with major
+
+    switch(sound) {
+      case 'EN/TH': return 'อังกฤษ'
+      case 'TH/--': return 'ไทย'
+      case 'ST/EN': return 'SoundTrack'
+      case 'ST/ET': return 'SoundTrack'
+      case 'TH/EN': return 'ไทย'
+      case 'ST/--': return 'SoundTrack'
+      case 'ST/TH': return 'SoundTrack'
+      case 'EN/--': return 'อังกฤษ'
+      case 'TH/E1': return 'ไทย'
+      case 'TH/E2': return 'ไทย'
+      case 'TH/E3': return 'ไทย'
     }
-    return sound
   },
 
   getNameFromBranch(branch) {
-    if (branch.NameAlt === "") {
+    if (branch.NameAlt === "" || branch.NameAlt.length < 2) {
       return branch.Name
     }
     return branch.NameAlt
