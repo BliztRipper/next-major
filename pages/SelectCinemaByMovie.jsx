@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import Layout from "../components/Layout";
+import Layout from '../components/Layout';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
@@ -7,8 +7,8 @@ import RegionCinemaComp from '../components/RegionCinemaComp'
 import MovieInfoComp from '../components/MovieInfoComp'
 import SearchCinema from '../components/SearchCinema'
 import utilities from '../scripts/utilities';
+import Slider from 'react-slick';
 import '../styles/style.scss'
-import { log } from 'util';
 
 class MainSelectCinemaByMovie extends PureComponent {
   constructor(props) {
@@ -42,7 +42,6 @@ class MainSelectCinemaByMovie extends PureComponent {
       cinemaId: '',
       filmIds: this.state.movieInfo.movieCode
     }
-    console.log(dataToPostSchedule);
     try {
       sessionStorage.setItem('CinemaID','')
       sessionStorage.setItem('BookingCinema','')
@@ -226,7 +225,7 @@ class MainSelectCinemaByMovie extends PureComponent {
   }
 
   pickThisDay(day){
-    this.setState({pickThisDay:day})
+    // this.setState({pickThisDay:day})
   }
 
   getMonth(date) {
@@ -272,16 +271,19 @@ class MainSelectCinemaByMovie extends PureComponent {
     this.setState({searchRegions: regions})
   }
 
+  dateFilterSliderBeforeChange (oldIndex, newIndex) {
+    this.pickThisDay(newIndex)
+  }
+
   renderDates() {
     let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
-
     return this.state.dates.map((date, i) => {
       let displayDate = `${date.slice(8,10)} ${this.getMonth(date)}`
       if (strToday == displayDate) {
         displayDate = "วันนี้"
       }
       return (
-        <a className={(this.state.pickThisDay == i)? 'date-filter__item active':'date-filter__item'} key={date}><span onClick={this.pickThisDay.bind(this,i)}>{displayDate}</span></a>
+        <div className="date-filter__item" key={date}><span>{displayDate}</span></div>
       )
     })
   }
@@ -335,12 +337,22 @@ class MainSelectCinemaByMovie extends PureComponent {
     sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
-
+    let dateFilterSliderSettings = {
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      infinite: false,
+      dots: false,
+      arrows: false,
+      focusOnSelect: true,
+      swipeToSlide: true
+    }
     return (
       <Layout title="Select Movie">
-        <section className="date-filter">
-          {this.renderDates()}
-        </section>
+        <div className="date-filter">
+          <Slider {...dateFilterSliderSettings} beforeChange={this.dateFilterSliderBeforeChange.bind(this)}>
+            {this.renderDates()}
+          </Slider>
+        </div>
         <MovieInfoComp item={this.state.movieInfo} />
         <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
         {this.renderRegionTypeList()}
