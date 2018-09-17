@@ -38,6 +38,8 @@ class HighlightCarousel extends PureComponent {
     super(props);
     this.state = {
       dataObj: [],
+      advTicket: [],
+      nowShowing:[],
       isLoading: true,
       arrbg:[],
       loaded:true,
@@ -47,7 +49,12 @@ class HighlightCarousel extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/MovieList`)
       .then(response => response.json())
       .then((data) => {
-        this.setState({dataObj:data.data.now_showing, isLoading: false})
+        this.setState({nowShowing:data.data.now_showing, advTicket:data.data.advance_ticket, isLoading: false})
+      })
+      .then(()=>{
+        this.setState({
+          dataObj:[...this.state.nowShowing, ...this.state.advTicket]
+        })
         this.props.bg(this.state.arrbg[0])
       })
   }
@@ -114,9 +121,18 @@ class HighlightCarousel extends PureComponent {
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
                   }
-                  return(
-                    <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
-                  )
+                  if(new Date().getTime() < new Date(item.release_date).getTime()){
+                    return(
+                      <Fragment>
+                        <img className='highlight__advance' src='../static/advanceTicket.png'/>
+                        <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                      </Fragment>
+                    )
+                  } else {
+                    return(
+                      <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                    )
+                  }
                 })()}
               </div>
               <Link prefetch href="/SelectCinemaByMovie">

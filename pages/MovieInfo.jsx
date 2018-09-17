@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
-import utilities from '../scripts/utilities';
 
 export default class MovieInfo extends PureComponent {
   constructor(props) {
