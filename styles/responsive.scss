@@ -1,6 +1,9 @@
 .highlight__poster{
   width: 100%;
   height: auto;
+  @media (device-height: 568px) and (min-width:320px) {
+    height: 40vh;
+  }
 }
 
 .poster-container{
@@ -9,6 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   @media(min-width:320px){
     width: 56.25vw;
     height: auto;
@@ -25,19 +29,29 @@
     width: 56.25vw;
     height: 55vh;
   }
+  @media (device-height: 568px) and (min-width:320px) {
+      height: 38vh;
+    }
 }
 
 .highlight__book-btn,.allmovie-btn{
   @media(min-width:320px){
     width: 56.25vw;
+    margin: 0.2rem auto;
   }
   @media(min-width:375px) and (min-height:812px){
     width: 56.25vw;
+    margin: 0.2rem auto;
   }
   @media(min-width:414px){
     width: 56.25vw;
+    margin: 0.2rem auto;
   }
   @media(min-height:720px){
     width: 56.25vw;
+    margin: 0.2rem auto;
+  }
+  @media (device-height: 568px) and (min-width:320px) {
+    width: 27vh;
   }
 }
