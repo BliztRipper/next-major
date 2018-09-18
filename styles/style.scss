@@ -899,3 +899,27 @@ body{
 }
 
 @import 'responsive';
+
+
+.fadeCard-enter {
+  opacity: 0.01;
+  transform: translateY(-5em) scale(1.2);
+}
+.fadeCard-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 400ms;
+  @for $i from 0 through 10 {
+    &:nth-child(#{$i}) {
+      transition-delay: 0.15s * $i
+    }
+  }
+}
+.fadeCard-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fadeCard-exit-active {
+  opacity: 0.01;
+  transition: all 400ms;
+}

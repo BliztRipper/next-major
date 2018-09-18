@@ -39,7 +39,6 @@ class DateFilters extends Component {
     })
   }
   render () {
-    const { dates } = this.state
     let dateFilterSliderSettings = {
       slidesToShow: 1,
       slidesToScroll: 1,

@@ -1,12 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
-import Swal from 'sweetalert2'
-import utilities from '../scripts/utilities';
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 
 class MainSelectMovieByCinema extends Component {
@@ -79,9 +77,12 @@ class MainSelectMovieByCinema extends Component {
   }
 
   pickThisDay(index){
-    this.setState({
-      pickThisDay:this.state.dates[index]
-    })
+    this.state.pickThisDay = this.state.dates[index]
+    setTimeout(() => {
+      this.setState({
+        pickThisDay: this.state.pickThisDay
+      })
+    }, 100);
   }
 
   dateFilterSliderBeforeChange (index)  {
@@ -89,8 +90,9 @@ class MainSelectMovieByCinema extends Component {
   }
 
   renderMovieWithShowtime() {
+
     return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} pickThisDay={this.state.pickThisDay} />
+      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} pickThisDay={this.state.pickThisDay} key={schedule.CinemaId} />
     })
   }
 

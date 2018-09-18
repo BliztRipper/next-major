@@ -4,7 +4,16 @@
     width: 95vw;
     padding: 5vw;
 }
+.cinema__cardItem-wrap {
+    &.isDiff {
+        padding-top: 5vw;
+        margin-left: -8px;
+        margin-right: -8px;
+        overflow: hidden;
+    }
+}
 .cinema__cardItem {
+    background-color: #fff;
     border-radius: 2vw;
     margin: 0 auto 2vw;
     width: 95vw;
@@ -70,7 +79,8 @@
         }
         .cinema__card-cbm--theatre-container {
             margin-bottom: 0;
-            > * {
+            .cinema__card-cbm--theatre-wrapper,
+            .cinema__card-cbm--timetable-wrap {
                 width: auto;
             }
         }

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
-import { log } from 'util';
-import utilities from '../scripts/utilities';
+import utilities from '../scripts/utilities'
 import MovieInfoComp from '../components/MovieInfoComp'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 class MovieWithShowtimeComp extends Component {
 	constructor(props) {
@@ -72,8 +72,9 @@ class MovieWithShowtimeComp extends Component {
 				}
 
 				if (showtime.slice(0, 10) == this.props.pickThisDay) {
+					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
 					items.push (
-						<Link prefetch href={dataToSeatMap}>
+						<Link prefetch href={dataToSeatMap} key={keyShowTime}>
 							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
 								{showtime.slice(11, 16)}
 							</span>
@@ -86,49 +87,54 @@ class MovieWithShowtimeComp extends Component {
 		return items
 	}
 
-	renderTheater(theater) {
-		let items = this.renderShowtimes(theater.Showtimes, theater)
-
-		if (items.length > 0) {
-			return (
-				<div className="cinema__cardItem isDiff">
-					<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
-					<div className="cinema__card-cbm--theatre-container">
-						<div className="cinema__card-cbm--theatre-wrapper">
-							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-							<div className="cinema__card-cbm--theatre-type">
-								{this.renderSystem(theater.formatCode)}
-							</div>
-							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
+	renderTheater(theater, showtimesItems) {
+		return (
+			<div className="cinema__cardItem isDiff">
+				<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
+				<div className="cinema__card-cbm--theatre-container">
+					<div className="cinema__card-cbm--theatre-wrapper">
+						<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
+						<div className="cinema__card-cbm--theatre-type">
+							{this.renderSystem(theater.formatCode)}
 						</div>
-						<div className="cinema__card-cbm--timetable-wrap">
-							<div className="cinema__card-cbm--timetable">
-								{items}
-							</div>
+						<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
+					</div>
+					<div className="cinema__card-cbm--timetable-wrap">
+						<div className="cinema__card-cbm--timetable">
+							{showtimesItems}
 						</div>
 					</div>
 				</div>
-			)
-		}
+			</div>
+		)
 	}
 
 	renderMovieCard() {
+		let showtimesItems = true
 		if (this.state.schedule.Theaters && this.state.schedule.Theaters.length > 0) {
-			return this.state.schedule.Theaters.map(theater => {
-				return (
-					<Fragment>
-						{this.renderTheater(theater)}
-					</Fragment>
-				)
-			})
+			return (
+				this.state.schedule.Theaters.map((theater, theaterIndex) => {
+					showtimesItems = this.renderShowtimes(theater.Showtimes, theater)
+					let showtimesItemsLength = showtimesItems.length > 0
+					console.log(showtimesItemsLength, 'showtimesItemsLength map');
+					if (showtimesItemsLength) {
+						let keyCardItem = theater.ScreenNameAlt + theaterIndex
+						return (
+							<CSSTransition timeout={400} classNames="fadeCard" key={keyCardItem}>
+								{this.renderTheater(theater, showtimesItems)}
+							</CSSTransition>
+						)
+					}
+				})
+			)
 		}
 	}
 
 	render() {
 		return (
-			<div className="cinema__cardItem-wrap">
-				{this.renderMovieCard()}
-			</div>
+			<TransitionGroup className="cinema__cardItem-wrap isDiff">
+					{this.renderMovieCard()}
+			</TransitionGroup>
 		)
 	}
 }

@@ -227,9 +227,11 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   pickThisDay(index){
-    this.setState({
-      pickThisDay:this.state.dates[index]
-    })
+    setTimeout(() => {
+      this.setState({
+        pickThisDay:this.state.dates[index]
+      })
+    }, 50);
   }
 
   dateFilterSliderBeforeChange (index) {
