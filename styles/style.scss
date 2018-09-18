@@ -129,7 +129,7 @@ body{
     height: 12.5px;
     position: absolute;
     top: 30px;
-    left: 28%;
+    left: 25vw;
     z-index: 1;
   }
   &-search{
@@ -214,6 +214,12 @@ body{
     color: #989FAE;
     display: block;
     font-size: 0.75rem;
+  }
+  &__advance{
+    left: 50%;
+    position: absolute;
+    top: 25px;
+    transform: translateX(-50%);
   }
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
@@ -386,8 +392,9 @@ body{
   &__container{
     display: flex;
     padding: 0;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
     &.active{
       display: none;
     }
@@ -417,6 +424,7 @@ body{
     align-items: center;
     justify-content: center;
     margin-left: 1.5rem;
+    height: 20vh;
   }
   &__poster{
     box-shadow: 0 1px 10px -4px #15181d;
@@ -435,6 +443,7 @@ body{
   &__genre{
     color:#333;
     font-size: 0.75rem;
+    text-align: center;
   }
   &__rating{
     color:#999;
@@ -461,16 +470,7 @@ body{
     color:#999;
   }
   &__more-detail{
-    display: block;
-    font-size: 0.875rem;
-    color:#989FAE;
-    text-decoration: none;
-    margin-top: 8px;
-    padding: 0px 8px;
-    border: 2px solid #989FAE;
-    border-radius: 4px;
-    width: 100px;
-    white-space: nowrap;
+    text-align: center;
   }
   &__more-detail-container{
     transition:0.2s;
@@ -626,7 +626,6 @@ body{
     }
   }
   .react-tabs{
-    padding-bottom: 70px;
       &__tab-list{
         position: fixed;
         bottom: 0;

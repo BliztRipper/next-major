@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
-import utilities from '../scripts/utilities';
 
 export default class MovieInfo extends PureComponent {
   constructor(props) {
@@ -44,11 +43,10 @@ export default class MovieInfo extends PureComponent {
     }
     return (
       <Layout title="Movie Infomation">
-        {/* <div className="movie-card__bg" style={bg}></div> */}
         <div className="movie-card__bg">
           <img src={this.state.movieInfo.movie_image}/>
         </div>
-        <video className="movie-card__trailer" playsInline controls width="100%" preload="yes">
+        <video className="movie-card__trailer" playsInline controls width="100%" preload="yes" poster={this.state.movie_image}>
           <source src={this.state.movieInfo.tr_ios} type="application/x-mpegURL"/>
           <source src={this.state.movieInfo.tr_mp4} type="video/mp4"/>
           Your browser does not support the video tag.
