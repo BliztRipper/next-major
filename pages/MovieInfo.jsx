@@ -31,9 +31,7 @@ export default class MovieInfo extends PureComponent {
 
   render() {
     const divStyle = {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft:'0.4rem',
+      position:'relative',
     }
     const titleStyle = {
       width:'100%',
