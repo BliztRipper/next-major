@@ -230,7 +230,6 @@ class MainSelectCinemaByMovie extends Component {
     this.setState({
       pickThisDay:this.state.dates[index]
     })
-
   }
 
   dateFilterSliderBeforeChange (index) {

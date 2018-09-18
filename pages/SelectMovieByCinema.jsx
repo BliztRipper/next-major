@@ -36,6 +36,7 @@ class MainSelectMovieByCinema extends Component {
       .then(data =>  this.setState({schedules:data.data, serverTime:data.server_time,isLoading: false}))
       .then(()=>{
         this.fillterDate()
+        this.pickThisDay(0)
       })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
@@ -77,15 +78,19 @@ class MainSelectMovieByCinema extends Component {
     this.setState({isEmpty:(this.state.dates.length == 0)})
   }
 
-  pickThisDay(day){
+  pickThisDay(index){
+    this.setState({
+      pickThisDay:this.state.dates[index]
+    })
   }
 
   dateFilterSliderBeforeChange (index)  {
+    this.pickThisDay(index)
   }
 
   renderMovieWithShowtime() {
     return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} />
+      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} pickThisDay={this.state.pickThisDay} />
     })
   }
 
@@ -105,7 +110,6 @@ class MainSelectMovieByCinema extends Component {
       <Layout title="Select Movie">
         <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
         {this.renderMovieWithShowtime()}
-        {/* <SearchCinema onSearchChange={this.onSearchChange.bind(this)} /> */}
       </Layout>
     )
   }

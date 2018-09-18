@@ -58,8 +58,10 @@ class MovieWithShowtimeComp extends Component {
 	}
 
 	renderShowtimes(showtimes, theater) {
+		let items = []
+
 		if (showtimes) {
-			return showtimes.map((showtime, i) => {
+			showtimes.forEach((showtime, i) => {
 				let dataToSeatMap = {
 					pathname: '/seatMap',
 					query: {
@@ -67,45 +69,56 @@ class MovieWithShowtimeComp extends Component {
 						accid: this.state.accid,
 						SessionId: theater.SessionIds[i]
 					}
-			}
-				return (
-					<Link prefetch href={dataToSeatMap}>
-						<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-							{showtime.slice(11, 16)}
-						</span>
-					</Link>
-				)
+				}
+
+				if (showtime.slice(0, 10) == this.props.pickThisDay) {
+					items.push (
+						<Link prefetch href={dataToSeatMap}>
+							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+								{showtime.slice(11, 16)}
+							</span>
+						</Link>
+					)
+				}
 			})
 		}
+
+		return items
 	}
 
 	renderTheater(theater) {
-		return (
-			<div className="cinema__card-cbm--theatre-container">
-				<div className="cinema__card-cbm--theatre-wrapper">
-					<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-					<div className="cinema__card-cbm--theatre-type">
-						{this.renderSystem(theater.formatCode)}
+		let items = this.renderShowtimes(theater.Showtimes, theater)
+
+		if (items.length > 0) {
+			return (
+				<div className="cinema__cardItem isDiff">
+					<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
+					<div className="cinema__card-cbm--theatre-container">
+						<div className="cinema__card-cbm--theatre-wrapper">
+							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
+							<div className="cinema__card-cbm--theatre-type">
+								{this.renderSystem(theater.formatCode)}
+							</div>
+							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
+						</div>
+						<div className="cinema__card-cbm--timetable-wrap">
+							<div className="cinema__card-cbm--timetable">
+								{items}
+							</div>
+						</div>
 					</div>
-					<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 				</div>
-				<div className="cinema__card-cbm--timetable-wrap">
-					<div className="cinema__card-cbm--timetable">
-						{this.renderShowtimes(theater.Showtimes, theater)}
-					</div>
-				</div>
-			</div>
-		)
+			)
+		}
 	}
 
 	renderMovieCard() {
 		if (this.state.schedule.Theaters && this.state.schedule.Theaters.length > 0) {
 			return this.state.schedule.Theaters.map(theater => {
 				return (
-					<div className="cinema__cardItem isDiff">
-						<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
+					<Fragment>
 						{this.renderTheater(theater)}
-					</div>
+					</Fragment>
 				)
 			})
 		}
