@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoComp from '../components/MovieInfoComp'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import FlipMove from 'react-flip-move'
+import {Collapse} from 'react-collapse'
+import {presets} from 'react-motion'
 
 class MovieWithShowtimeComp extends Component {
 	constructor(props) {
@@ -87,21 +89,25 @@ class MovieWithShowtimeComp extends Component {
 		return items
 	}
 
-	renderTheater(theater, showtimesItems) {
+	renderTheater(theater, showtimesItems, key) {
 		return (
-			<div className="cinema__cardItem isDiff">
-				<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
-				<div className="cinema__card-cbm--theatre-container">
-					<div className="cinema__card-cbm--theatre-wrapper">
-						<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-						<div className="cinema__card-cbm--theatre-type">
-							{this.renderSystem(theater.formatCode)}
+			<div className="cinema__cardItemTransition" key={key}>
+				<div className="cinema__cardItem isDiff">
+					<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
+					<div className="cinema__card-cbm--theatre-container">
+						<div className="cinema__card-cbm--theatre-wrapper">
+							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
+							<div className="cinema__card-cbm--theatre-type">
+								{this.renderSystem(theater.formatCode)}
+							</div>
+							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
-						<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
-					</div>
-					<div className="cinema__card-cbm--timetable-wrap">
-						<div className="cinema__card-cbm--timetable">
-							{showtimesItems}
+						<div className="cinema__card-cbm--timetable-wrap">
+							<Collapse isOpened={true} springConfig={presets.stiffness}>
+								<FlipMove className="cinema__card-cbm--timetable" staggerDelayBy={50}>
+									{showtimesItems}
+								</FlipMove>
+							</Collapse>
 						</div>
 					</div>
 				</div>
@@ -112,29 +118,24 @@ class MovieWithShowtimeComp extends Component {
 	renderMovieCard() {
 		let showtimesItems = true
 		if (this.state.schedule.Theaters && this.state.schedule.Theaters.length > 0) {
-			return (
-				this.state.schedule.Theaters.map((theater, theaterIndex) => {
-					showtimesItems = this.renderShowtimes(theater.Showtimes, theater)
-					let showtimesItemsLength = showtimesItems.length > 0
-					console.log(showtimesItemsLength, 'showtimesItemsLength map');
-					if (showtimesItemsLength) {
-						let keyCardItem = theater.ScreenNameAlt + theaterIndex
-						return (
-							<CSSTransition timeout={400} classNames="fadeCard" key={keyCardItem}>
-								{this.renderTheater(theater, showtimesItems)}
-							</CSSTransition>
-						)
-					}
-				})
-			)
+			return this.state.schedule.Theaters.map((theater, theaterIndex) => {
+				showtimesItems = this.renderShowtimes(theater.Showtimes, theater)
+				let showtimesItemsLength = showtimesItems.length > 0
+				if (showtimesItemsLength) {
+					let keyCardItem = theater.ScreenNameAlt + theaterIndex
+					return (
+						this.renderTheater(theater, showtimesItems, keyCardItem)
+					)
+				}
+			})
 		}
 	}
 
 	render() {
 		return (
-			<TransitionGroup className="cinema__cardItem-wrap isDiff">
-					{this.renderMovieCard()}
-			</TransitionGroup>
+			<FlipMove duration={600} staggerDelayBy={100} className="cinema__cardItem-wrap isDiff">
+				{this.renderMovieCard()}
+			</FlipMove>
 		)
 	}
 }

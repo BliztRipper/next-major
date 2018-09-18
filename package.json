@@ -19,6 +19,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-collapse": "^4.0.3",
     "react-dom": "^16.4.1",
+    "react-flip-move": "^3.0.2",
     "react-hammerjs": "^1.0.1",
     "react-motion": "^0.5.2",
     "react-slick": "^0.23.1",
