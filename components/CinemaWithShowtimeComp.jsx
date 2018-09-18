@@ -9,7 +9,8 @@ class CinemaWithShowtimeComp extends Component {
 		this.state = {
 			favActive: this.props.favActive,
 			cinema: this.props.cinema,
-			accid: this.props.accid
+			accid: this.props.accid,
+			pickThisDay: this.props.pickThisDay,
 		}
 
 	}
@@ -38,8 +39,10 @@ class CinemaWithShowtimeComp extends Component {
 	}
 
 	renderShowtimes(showtimes, theater) {
+		let items = []
+
 		if (showtimes) {
-			return showtimes.map((showtime, i) => {
+			showtimes.forEach((showtime, i) => {
 				let dataToSeatMap = {
 					pathname: '/seatMap',
 					query: {
@@ -47,39 +50,51 @@ class CinemaWithShowtimeComp extends Component {
 						accid: this.state.accid,
 						SessionId: theater.SessionIds[i]
 					}
-			}
-				return (
-					<Link prefetch href={dataToSeatMap}>
-						<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-							{showtime.slice(11, 16)}
-						</span>
-					</Link>
-				)
+				}
+
+				if (showtime.slice(0, 10) == this.props.pickThisDay) {
+					items.push (
+						<Link prefetch href={dataToSeatMap}>
+							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+								{showtime.slice(11, 16)}
+							</span>
+						</Link>
+					)
+				}
 			})
 		}
+
+		return items
 	}
 
 	renderTheater() {
+		let items = []
+
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
-			return this.state.cinema.schedule.Theaters.map(theater => {
-				return (
-					<div className="cinema__card-cbm--theatre-container">
-						<div className="cinema__card-cbm--theatre-wrapper">
-							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-							<div className="cinema__card-cbm--theatre-type">
-								{this.renderSystem(theater.formatCode)}
+			this.state.cinema.schedule.Theaters.forEach(theater => {
+				let objShowtimes = this.renderShowtimes(theater.Showtimes, theater)
+				if (objShowtimes.length > 0) {
+					items.push (
+						<div className="cinema__card-cbm--theatre-container">
+							<div className="cinema__card-cbm--theatre-wrapper">
+								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
+								<div className="cinema__card-cbm--theatre-type">
+									{this.renderSystem(theater.formatCode)}
+								</div>
+								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 							</div>
-							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
-						</div>
-						<div className="cinema__card-cbm--timetable-wrap">
-							<div className="cinema__card-cbm--timetable">
-								{this.renderShowtimes(theater.Showtimes, theater)}
+							<div className="cinema__card-cbm--timetable-wrap">
+								<div className="cinema__card-cbm--timetable">
+									{this.renderShowtimes(theater.Showtimes, theater)}
+								</div>
 							</div>
 						</div>
-					</div>
-				)
+					)
+				}
 			})
 		}
+
+		return items
 	}
 
 	render() {

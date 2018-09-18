@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
@@ -9,8 +9,9 @@ import SearchCinema from '../components/SearchCinema'
 import utilities from '../scripts/utilities';
 import Slider from 'react-slick';
 import '../styles/style.scss'
+import { log } from 'util';
 
-class MainSelectCinemaByMovie extends PureComponent {
+class MainSelectCinemaByMovie extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -187,6 +188,7 @@ class MainSelectCinemaByMovie extends PureComponent {
     dates.sort(stringSorter)
     this.setState({dates: dates})
     this.setState({isEmpty:(dates.length == 0)})
+    this.pickThisDay(0)
   }
 
   favActive(cinemaId) {
@@ -224,8 +226,13 @@ class MainSelectCinemaByMovie extends PureComponent {
     })
   }
 
-  pickThisDay(day){
-    // this.setState({pickThisDay:day})
+  pickThisDay(index){
+    console.log(index, this.state.dates[index]);
+
+    this.setState({
+      pickThisDay:this.state.dates[index]
+    })
+
   }
 
   getMonth(date) {
@@ -290,19 +297,19 @@ class MainSelectCinemaByMovie extends PureComponent {
 
   renderFavorite() {
     return this.state.regionsFav.map((region, i) => {
-        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderRegion() {
     return this.state.regions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderSearchData() {
     return this.state.searchRegions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 

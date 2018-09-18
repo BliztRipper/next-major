@@ -1,11 +1,11 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import CinemaWithShowtimeComp from '../components/CinemaWithShowtimeComp'
 import CinemaWithOutShowtimeComp from '../components/CinemaWithOutShowtimeComp'
 import {Collapse} from 'react-collapse'
 import {presets} from 'react-motion'
 import { log } from 'util';
 
-class RegionCinemaComp extends PureComponent {
+class RegionCinemaComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,8 +13,10 @@ class RegionCinemaComp extends PureComponent {
             region: this.props.region,
             isExpand: this.props.isExpand,
             iAmFav: this.props.iAmFav,
-            accid: this.props.accid
+            accid: this.props.accid,
+            pickThisDay: this.props.pickThisDay,
         }
+
     }
 
     toggleCollapse () {
@@ -52,12 +54,14 @@ class RegionCinemaComp extends PureComponent {
     }
 
     renderCinema() {
+        console.log(this.props.pickThisDay, 'pickThisDay renderCinema RegionCinemaComp');
+
         if (this.state.region && this.state.region.cinemas) {
             return this.state.region.cinemas.map(cinema => {
                 if (cinema.schedule) {
                     return (
                         <Fragment>
-                            <CinemaWithShowtimeComp accid={this.state.accid} cinema={cinema} favActive={this.state.favActive}/>
+                            <CinemaWithShowtimeComp accid={this.state.accid} cinema={cinema} pickThisDay={this.props.pickThisDay} favActive={this.state.favActive}/>
                         </Fragment>
                     )
                 } else {
@@ -72,6 +76,7 @@ class RegionCinemaComp extends PureComponent {
     }
 
     render() {
+        console.log(this.props.pickThisDay, 'pickThisDay render RegionCinemaComp');
         let classNameCardItem = 'cinema__cardItem'
         if (this.state.isExpand) {
             classNameCardItem = classNameCardItem + ' active'
