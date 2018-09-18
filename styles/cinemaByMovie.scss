@@ -54,6 +54,27 @@
             border-bottom: 1px solid rgba(#000, 0.1);
         }
     }
+    &.isDiff {
+        box-shadow: 0 1vw 5vw rgba(0,0,0,.2);
+        margin-bottom: 10vw;
+        padding-bottom: 5vw;
+        > * {
+            padding: 0 3vw;
+        }
+        .movie-card__container {
+            margin-top: 0;
+            margin-bottom: 5vw;
+            .movie-card__poster {
+                margin-top: -1em;
+            }
+        }
+        .cinema__card-cbm--theatre-container {
+            margin-bottom: 0;
+            > * {
+                width: auto;
+            }
+        }
+    }
 }
 .cinema__card-cbm{
     padding-top: 6vw;

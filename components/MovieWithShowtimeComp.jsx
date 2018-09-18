@@ -102,10 +102,10 @@ class MovieWithShowtimeComp extends Component {
 		if (this.state.schedule.Theaters && this.state.schedule.Theaters.length > 0) {
 			return this.state.schedule.Theaters.map(theater => {
 				return (
-					<Fragment>
+					<div className="cinema__cardItem isDiff">
 						<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
 						{this.renderTheater(theater)}
-					</Fragment>
+					</div>
 				)
 			})
 		}
@@ -113,9 +113,9 @@ class MovieWithShowtimeComp extends Component {
 
 	render() {
 		return (
-			<Fragment>
+			<div className="cinema__cardItem-wrap">
 				{this.renderMovieCard()}
-			</Fragment>
+			</div>
 		)
 	}
 }

@@ -6,8 +6,8 @@ import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from '../components/RegionCinemaComp'
 import MovieInfoComp from '../components/MovieInfoComp'
 import SearchCinema from '../components/SearchCinema'
+import DateFilters from '../components/DateFilters'
 import utilities from '../scripts/utilities';
-import Slider from 'react-slick';
 import '../styles/style.scss'
 import { log } from 'util';
 
@@ -166,7 +166,6 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   fillterDate() {
-    let dates = []
     let mapDates = []
     this.state.schedules.forEach(schedule => {
       schedule.Theaters.forEach(theater => {
@@ -174,7 +173,7 @@ class MainSelectCinemaByMovie extends Component {
           let strDate = showtime.substring(0, 10)
           if (!(strDate in mapDates)) {
             mapDates[strDate] = true
-            dates.push(strDate)
+            this.state.dates.push(strDate)
           }
         })
       })
@@ -185,9 +184,10 @@ class MainSelectCinemaByMovie extends Component {
       if(a > b) return 1;
       return 0;
     }
-    dates.sort(stringSorter)
-    this.setState({dates: dates})
-    this.setState({isEmpty:(dates.length == 0)})
+
+    this.state.dates.sort(stringSorter)
+    this.setState({dates: this.state.dates})
+    this.setState({isEmpty:(this.state.dates.length == 0)})
     this.pickThisDay(0)
   }
 
@@ -227,24 +227,14 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   pickThisDay(index){
-    console.log(index, this.state.dates[index]);
-
     this.setState({
       pickThisDay:this.state.dates[index]
     })
 
   }
 
-  getMonth(date) {
-    var monthNames = [
-      "", "ม.ค.", "ก.พ.", "มี.ค.",
-      "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
-      "ส.ค.", "ก.ย.", "ค.ค.",
-      "พฤ.ย.", "ธ.ค."
-    ]
-    let monthIndex = date.slice(5,7)
-    let month = parseInt(monthIndex)
-    return monthNames[month]
+  dateFilterSliderBeforeChange (index) {
+    this.pickThisDay(index)
   }
 
   onSearchChange(event) {
@@ -276,23 +266,6 @@ class MainSelectCinemaByMovie extends Component {
     })
 
     this.setState({searchRegions: regions})
-  }
-
-  dateFilterSliderBeforeChange (oldIndex, newIndex) {
-    this.pickThisDay(newIndex)
-  }
-
-  renderDates() {
-    let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
-    return this.state.dates.map((date, i) => {
-      let displayDate = `${date.slice(8,10)} ${this.getMonth(date)}`
-      if (strToday == displayDate) {
-        displayDate = "วันนี้"
-      }
-      return (
-        <div className="date-filter__item" key={date}><span>{displayDate}</span></div>
-      )
-    })
   }
 
   renderFavorite() {
@@ -329,7 +302,7 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   render() {
-    const {isLoading, error, isEmpty} = this.state;
+    const {isLoading, error, isEmpty, movieInfo, serverTime, dates} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -344,23 +317,10 @@ class MainSelectCinemaByMovie extends Component {
     sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
-    let dateFilterSliderSettings = {
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      infinite: false,
-      dots: false,
-      arrows: false,
-      focusOnSelect: true,
-      swipeToSlide: true
-    }
     return (
       <Layout title="Select Movie">
-        <div className="date-filter">
-          <Slider {...dateFilterSliderSettings} beforeChange={this.dateFilterSliderBeforeChange.bind(this)}>
-            {this.renderDates()}
-          </Slider>
-        </div>
-        <MovieInfoComp item={this.state.movieInfo} />
+        <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+        <MovieInfoComp item={movieInfo} />
         <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
         {this.renderRegionTypeList()}
       </Layout>

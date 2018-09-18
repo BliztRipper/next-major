@@ -14,7 +14,6 @@ class RegionCinemaComp extends Component {
             isExpand: this.props.isExpand,
             iAmFav: this.props.iAmFav,
             accid: this.props.accid,
-            pickThisDay: this.props.pickThisDay,
         }
 
     }
@@ -54,8 +53,6 @@ class RegionCinemaComp extends Component {
     }
 
     renderCinema() {
-        console.log(this.props.pickThisDay, 'pickThisDay renderCinema RegionCinemaComp');
-
         if (this.state.region && this.state.region.cinemas) {
             return this.state.region.cinemas.map(cinema => {
                 if (cinema.schedule) {
@@ -76,7 +73,6 @@ class RegionCinemaComp extends Component {
     }
 
     render() {
-        console.log(this.props.pickThisDay, 'pickThisDay render RegionCinemaComp');
         let classNameCardItem = 'cinema__cardItem'
         if (this.state.isExpand) {
             classNameCardItem = classNameCardItem + ' active'
