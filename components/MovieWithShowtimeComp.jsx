@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 import { log } from 'util';
 import utilities from '../scripts/utilities';
-import MovieInfoComp from '../components/MovieInfoComp'
+import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 
 class MovieWithShowtimeComp extends Component {
 	constructor(props) {
@@ -92,7 +92,7 @@ class MovieWithShowtimeComp extends Component {
 		if (items.length > 0) {
 			return (
 				<div className="cinema__cardItem isDiff">
-					<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
+					<MovieInfoByCinemaComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
 					<div className="cinema__card-cbm--theatre-container">
 						<div className="cinema__card-cbm--theatre-wrapper">
 							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
