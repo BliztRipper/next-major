@@ -12,13 +12,10 @@ class MovieInfoComp extends PureComponent {
       return img
     }
     render() {
-<<<<<<< HEAD
-=======
       const imageWrap = {
         height:'35vh',
         position:'relative',
       }
->>>>>>> feature/MovieInfoByCinemaComp
       const poster = {
         width:'100%',
         left: 0,
