@@ -318,8 +318,8 @@ class MainSelectCinemaByMovie extends Component {
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
     return (
       <Layout title="Select Movie">
-        <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
         <MovieInfoComp item={movieInfo} />
+        <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
         <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
         {this.renderRegionTypeList()}
       </Layout>

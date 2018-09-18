@@ -50,7 +50,7 @@ class DateFilters extends Component {
       swipeToSlide: true
     }
     return (
-      <div className="date-filter">
+      <div className={'date-filter' + ' ' + this.props.additionalClass}>
         <Slider {...dateFilterSliderSettings} beforeChange={this.sliderBeforeChange.bind(this)}>
           {this.renderDates()}
         </Slider>

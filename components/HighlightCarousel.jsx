@@ -124,8 +124,8 @@ class HighlightCarousel extends PureComponent {
                   if(new Date().getTime() < new Date(item.release_date).getTime()){
                     return(
                       <Fragment>
-                        <img className='highlight__advance' src='../static/advanceTicket.png'/>
                         <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                        <img className='highlight__advance' src='../static/advanceTicket.png'/>
                       </Fragment>
                     )
                   } else {

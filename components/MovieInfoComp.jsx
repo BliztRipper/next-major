@@ -12,26 +12,21 @@ class MovieInfoComp extends PureComponent {
       return img
     }
     render() {
-      const imageWrap = {
-        height:'35vh',
-        position:'relative',
-      }
       const poster = {
-        width:'100%',
+        width: '100%',
+        height: '40vh',
         left: 0,
         right: 0,
         zIndex: -1,
         position: 'absolute',
         filter: 'brightness(0.4)',
-        height: 'auto',
+        backgroundColor: '#c3c3c3',
       }
       const wrapper ={
         marginLeft:0,
-        heigth:'auto',
-        height: '8vh'
       }
       const detail ={
-        backgroundColor: '#989fae',
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderRadius: '4px',
         color: '#fff',
         display: 'block',
@@ -65,11 +60,11 @@ class MovieInfoComp extends PureComponent {
       }
       return (
         <Fragment>
-          <div style={imageWrap}>
-            <img className="movie-card__poster" src={this.movieImage(this.props.item.movie_image)} style={poster}/>
+          <div className="movie-card__img-wrap">
+            <img src={this.movieImage(this.props.item.movie_image)} style={poster}/>
           </div>
           <div className="movie-card__container">
-            <div className="movie-card__wrapper" style={wrapper}>
+            <div style={wrapper}>
               <h2 className="movie-card__title" style={title}>{this.props.item.title_en}</h2>
               <h3 className="movie-card__subtitle" style={subtitle}>{this.props.item.title_th}</h3>
               <div className="movie-card__genre" style={genre}>{this.props.item.genre} | {this.props.item.duration} นาที</div>
