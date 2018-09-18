@@ -104,7 +104,7 @@ class MovieWithShowtimeComp extends Component {
 						</div>
 						<div className="cinema__card-cbm--timetable-wrap">
 							<Collapse isOpened={true} springConfig={presets.stiffness}>
-								<FlipMove className="cinema__card-cbm--timetable" staggerDelayBy={50}>
+								<FlipMove className="cinema__card-cbm--timetable" maintainContainerHeight={true}>
 									{showtimesItems}
 								</FlipMove>
 							</Collapse>
@@ -133,7 +133,7 @@ class MovieWithShowtimeComp extends Component {
 
 	render() {
 		return (
-			<FlipMove duration={600} staggerDelayBy={100} className="cinema__cardItem-wrap isDiff">
+			<FlipMove duration={600} className="cinema__cardItem-wrap isDiff">
 				{this.renderMovieCard()}
 			</FlipMove>
 		)
