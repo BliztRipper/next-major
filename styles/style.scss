@@ -359,15 +359,20 @@ body{
 }
 
 .cinema__regional{
+  box-shadow: 2px 2px 4px 0 #e9ebef;
   &__header{
     display: flex;
     align-items: center;
-    // justify-content: space-between;
     position: relative;
     box-shadow: 0 1px 0 0 #e9ebef;
     border: 1px solid #F5F6F8;
     background-color: #fff;
     z-index: 2;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    > img {
+      margin-left: 8px;
+    }
   }
   &__title{
     color:#757D8C;
@@ -376,7 +381,7 @@ body{
     font-weight: normal;
   }
   &__body{
-    padding:0.6rem;
+    padding:1rem;
     background-color: #fff;
     display: flex;
     justify-content: space-between;
