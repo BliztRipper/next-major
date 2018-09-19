@@ -62,6 +62,7 @@ class MovieInfoComp extends PureComponent {
         <Fragment>
           <div className="movie-card__img-wrap">
             <img src={this.movieImage(this.props.item.movie_image)} style={poster}/>
+            <div className="movie-card__img-fade"></div>
           </div>
           <div className="movie-card__container">
             <div style={wrapper}>

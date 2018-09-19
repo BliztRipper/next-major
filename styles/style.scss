@@ -405,6 +405,19 @@ body{
   &__img-wrap{
     height: 27vh;
   }
+  &__img-fade{
+    &::after{
+      background-image: linear-gradient(#fff0,#fff0,#000 85%,#fff 100%);
+      content: "";
+      display: block;
+      height: 40%;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 6vh;
+      width: 100%;
+    }
+  }
   &__bg{
     max-width: 100%;
     width: 100%;
