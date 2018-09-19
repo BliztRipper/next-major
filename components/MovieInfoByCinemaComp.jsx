@@ -54,7 +54,9 @@ class MovieInfoByCinemaComp extends PureComponent {
       return (
         <Fragment>
           <div style={container}>
-            <img className="movie-card__poster" src={this.props.item.poster_ori}/>
+            <div className="movie-card__poster-wrapper">
+              <img className="movie-card__poster" src={this.props.item.poster_ori}/>
+            </div>
             <div style={wrapper}>
               <h2 className="movie-card__title" style={title}>{this.props.item.title_en}</h2>
               <h3 className="movie-card__subtitle" style={subtitle}>{this.props.item.title_th}</h3>
