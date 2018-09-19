@@ -454,6 +454,7 @@ body{
     box-shadow: 0 1px 10px -4px #15181d;
     width: auto;
     height: 200px;
+    border-radius: 4px;
   }
   &__poster-wrapper{
     position: relative;
@@ -828,7 +829,7 @@ body{
     }
   }
   + * {
-    margin-top: 14vw;
+    margin-top: 18vw;
   }
   &.isSelectCinemaByMovie{
     position: unset;
