@@ -48,8 +48,10 @@ class DateFilters extends Component {
       focusOnSelect: true,
       swipeToSlide: true
     }
+    let dateFilterClassname = 'date-filter'
+    dateFilterClassname = this.props.additionalClass ? dateFilterClassname + ' ' + this.props.additionalClass : dateFilterClassname
     return (
-      <Slider {...dateFilterSliderSettings} beforeChange={this.sliderBeforeChange.bind(this)} className={'date-filter' + ' ' + this.props.additionalClass}>
+      <Slider {...dateFilterSliderSettings} beforeChange={this.sliderBeforeChange.bind(this)} className={dateFilterClassname}>
         {this.renderDates()}
       </Slider>
     )

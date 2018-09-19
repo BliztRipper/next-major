@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
@@ -6,7 +6,7 @@ import FlipMove from 'react-flip-move'
 import {Collapse} from 'react-collapse'
 import {presets} from 'react-motion'
 
-class MovieWithShowtimeComp extends Component {
+class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -26,7 +26,7 @@ class MovieWithShowtimeComp extends Component {
 		sessionStorage.setItem('BookingTime', showtime.slice(11, 16))
 		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
-		sessionStorage.setItem('CinemaID', this.state.schedule.CinemaId)
+		sessionStorage.setItem('CinemaID', this.props.schedule.CinemaId)
 		sessionStorage.setItem('BookingDate', showtime)
 	}
 
@@ -68,11 +68,10 @@ class MovieWithShowtimeComp extends Component {
 					pathname: '/seatMap',
 					query: {
 						...theater,
-						accid: this.state.accid,
+						accid: this.props.accid,
 						SessionId: theater.SessionIds[i]
 					}
 				}
-
 				if (showtime.slice(0, 10) == this.props.pickThisDay) {
 					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
 					items.push (
@@ -94,20 +93,22 @@ class MovieWithShowtimeComp extends Component {
 			<div className="cinema__cardItemTransition" key={key}>
 				<div className="cinema__cardItem isDiff">
 					<MovieInfoByCinemaComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
-					<div className="cinema__card-cbm--theatre-container">
-						<div className="cinema__card-cbm--theatre-wrapper">
-							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-							<div className="cinema__card-cbm--theatre-type">
-								{this.renderSystem(theater.formatCode)}
+					<div className="cinema__card-cbm">
+						<div className="cinema__card-cbm--theatre-container">
+							<div className="cinema__card-cbm--theatre-wrapper">
+								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
+								<div className="cinema__card-cbm--theatre-type">
+									{this.renderSystem(theater.formatCode)}
+								</div>
+								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 							</div>
-							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
-						</div>
-						<div className="cinema__card-cbm--timetable-wrap">
-							<Collapse isOpened={true} springConfig={presets.stiffness}>
-								<FlipMove className="cinema__card-cbm--timetable" maintainContainerHeight={true}>
-									{showtimesItems}
-								</FlipMove>
-							</Collapse>
+							<div className="cinema__card-cbm--timetable-wrap">
+								<Collapse isOpened={true} springConfig={presets.stiffness}>
+									<div className="cinema__card-cbm--timetable">
+										{showtimesItems}
+									</div>
+								</Collapse>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -117,8 +118,8 @@ class MovieWithShowtimeComp extends Component {
 
 	renderMovieCard() {
 		let showtimesItems = true
-		if (this.state.schedule.Theaters && this.state.schedule.Theaters.length > 0) {
-			return this.state.schedule.Theaters.map((theater, theaterIndex) => {
+		if (this.props.schedule.Theaters && this.props.schedule.Theaters.length > 0) {
+			return this.props.schedule.Theaters.map((theater, theaterIndex) => {
 				showtimesItems = this.renderShowtimes(theater.Showtimes, theater)
 				let showtimesItemsLength = showtimesItems.length > 0
 				if (showtimesItemsLength) {
@@ -132,6 +133,7 @@ class MovieWithShowtimeComp extends Component {
 	}
 
 	render() {
+		if (!this.state.movieList) return false
 		return (
 			<FlipMove duration={600} className="cinema__cardItem-wrap isDiff">
 				{this.renderMovieCard()}

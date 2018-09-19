@@ -780,7 +780,6 @@ body{
   border-bottom: 1px solid #e9ebef;
   background-color: #fff;
   z-index: 10;
-  transition: opacity 0.4s;
   .slick-list {
     width: 22vw;
     margin-left: auto;
@@ -818,6 +817,12 @@ body{
     + * {
       margin-top: 0;
     }
+  }
+  &.slick-initialized {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
   }
 }
 .date-filter__item {
