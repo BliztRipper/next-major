@@ -359,7 +359,6 @@ body{
 }
 
 .cinema__regional{
-  box-shadow: 2px 2px 4px 0 #e9ebef;
   &__header{
     display: flex;
     align-items: center;
@@ -368,8 +367,6 @@ body{
     border: 1px solid #F5F6F8;
     background-color: #fff;
     z-index: 2;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
     > img {
       margin-left: 8px;
     }

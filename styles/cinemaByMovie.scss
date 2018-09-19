@@ -14,14 +14,14 @@
 }
 
 .cinema__cardItem {
-	position: relative;
+    position: relative;
 	z-index: 1;
 	background-color: #fff;
 	border-radius: 1.2vw;
-	margin: 0 auto 2vw;
+	margin: 1rem auto 2vw;
 	width: 95vw;
 	transition: transform 0.6s;
-
+    overflow: hidden;
 	.cinema__card-cbm--title {
 		padding-top: 3vw;
 	}
@@ -79,7 +79,7 @@
 
 	&.active {
 		box-shadow: 0 1vw 5vw rgba(0, 0, 0, .2);
-		margin: 0 auto 4vw;
+		margin: 1rem auto 4vw;
 
 		.cinema__regional__header {
 			border: none;
