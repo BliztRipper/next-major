@@ -9,7 +9,7 @@ export default class MovieInfo extends PureComponent {
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.setState({movieInfo:JSON.parse(sessionStorage.getItem("movieSelect"))})
   }
 
@@ -29,11 +29,18 @@ export default class MovieInfo extends PureComponent {
     return d+" "+monthNames[month]+" "+y
   }
 
+  checkMovieImg(img){
+    if(!img){
+      return '../static/empty2.png'
+    }
+    return img
+  }
+
   render() {
     const divStyle = {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft:'0.4rem',
+      position:'relative',
+      display: 'flex',
+      marginTop:'1rem'
     }
     const titleStyle = {
       width:'100%',

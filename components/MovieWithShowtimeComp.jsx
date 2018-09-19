@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
 import utilities from '../scripts/utilities'
-import MovieInfoComp from '../components/MovieInfoComp'
+import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
 import {Collapse} from 'react-collapse'
 import {presets} from 'react-motion'
@@ -93,7 +93,7 @@ class MovieWithShowtimeComp extends Component {
 		return (
 			<div className="cinema__cardItemTransition" key={key}>
 				<div className="cinema__cardItem isDiff">
-					<MovieInfoComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
+					<MovieInfoByCinemaComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
 					<div className="cinema__card-cbm--theatre-container">
 						<div className="cinema__card-cbm--theatre-wrapper">
 							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>

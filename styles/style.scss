@@ -26,6 +26,7 @@ body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   font-family: 'SanFranciscoText';
+  margin-top: 0;
 }
 .loadingWrap {
   position: fixed;
@@ -139,8 +140,9 @@ body{
     height: 17px;
     position: absolute;
     top: 14px;
-    left: 15%;
+    left: 8%;
     z-index: 1;
+    filter: brightness(4);
   }
   &-sound{
     @extend .sprite;
@@ -220,6 +222,7 @@ body{
     position: absolute;
     top: 25px;
     transform: translateX(-50%);
+    top:10%;
   }
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
@@ -390,14 +393,17 @@ body{
   margin-top: 1rem;
   margin-bottom: 2rem;
   &__container{
-    display: flex;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
     padding: 0;
-    justify-content: center;
-    align-items: center;
-    height: 30vh;
     &.active{
       display: none;
     }
+  }
+  &__img-wrap{
+    height: 27vh;
   }
   &__bg{
     max-width: 100%;
@@ -803,8 +809,15 @@ body{
   + * {
     margin-top: 14vw;
   }
-  &:not(.slick-initialized) {
-    opacity: 0;
+  &.isSelectCinemaByMovie{
+    position: unset;
+    background-color: transparent;
+    color:#fff;
+    border-bottom: 0;
+    padding-bottom: 1rem;
+    + * {
+      margin-top: 0;
+    }
   }
 }
 .date-filter__item {
@@ -904,30 +917,3 @@ body{
 @import 'responsive';
 
 
-// .fadeCard-enter {
-//   opacity: 0.01;
-//   transform: translateY(-5em) scale(0.8);
-//   transition: all 400ms;
-// }
-// .fadeCard-enter-active {
-//   opacity: 1;
-//   transform: translateY(0) scale(1);
-//   transition: all 400ms;
-//   @for $i from 0 through 10 {
-//     &:nth-child(#{$i}) {
-//       transition-delay: 0.15s * $i
-//     }
-//   }
-// }
-// .fadeCard-exit {
-//   opacity: 1;
-// }
-// .fadeCard-exit-active {
-//   opacity: 0.01;
-//   transition: all 400ms;
-//   @for $i from 0 through 10 {
-//     &:nth-child(#{$i}) {
-//       transition-delay: 0.15s * $i
-//     }
-//   }
-// }
