@@ -450,6 +450,10 @@ body{
     width: auto;
     height: 200px;
   }
+  &__poster-wrapper{
+    position: relative;
+    top: -2vh;
+  }
   &__title{
     font-size: 1.125rem;
     margin-bottom: 0;
