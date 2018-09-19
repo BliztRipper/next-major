@@ -829,13 +829,15 @@ body{
     margin-top: 18vw;
   }
   &.isSelectCinemaByMovie{
-    position: unset;
-    background-color: transparent;
-    color:#fff;
-    border-bottom: 0;
-    padding-bottom: 1rem;
-    + * {
-      margin-top: 0;
+    &.slick-initialized{
+      position: unset;
+      background-color: transparent;
+      color:#fff;
+      border-bottom: 0;
+      padding-bottom: 1rem;
+      + * {
+        margin-top: 0;
+      }
     }
   }
   &.slick-initialized {
