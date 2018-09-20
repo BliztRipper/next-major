@@ -70,11 +70,11 @@ class HighlightCarousel extends PureComponent {
 
   renderPoster(){
     const settings = {
-      className: "center",
+      // className: "center",
       centerMode: true,
       lazyLoad: true,
       infinite: false,
-      centerPadding: "60px",
+      // centerPadding: "60px",
       speed: 400,
       dots: false,
       arrows: false,
@@ -124,8 +124,8 @@ class HighlightCarousel extends PureComponent {
                   if(new Date().getTime() < new Date(item.release_date).getTime()){
                     return(
                       <Fragment>
-                        <img className='highlight__advance' src='../static/advanceTicket.png'/>
                         <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                        <img className='highlight__advance' src='../static/advanceTicket.png'/>
                       </Fragment>
                     )
                   } else {

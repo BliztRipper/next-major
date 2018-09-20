@@ -18,6 +18,7 @@ class Cashier extends PureComponent {
         third_party_tx_id: '',
         amount_satang: 0,
         currency: 'THB',
+        return_url: 'https://api-cinema.truemoney.net/CompleteOrder',
         payload: {}
       },
       dataToTicket: '',

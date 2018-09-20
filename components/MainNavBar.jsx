@@ -1,10 +1,9 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'
 import utilities from '../scripts/utilities'
 import Link from 'next/link'
-import Router from 'next/router'
 
 class MainNavBar extends PureComponent {
   constructor(props) {

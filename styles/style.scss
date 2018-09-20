@@ -26,6 +26,7 @@ body{
   box-sizing: border-box;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   font-family: 'SanFranciscoText';
+  margin-top: 0;
 }
 .loadingWrap {
   position: fixed;
@@ -141,6 +142,7 @@ body{
     top: 14px;
     left: 8%;
     z-index: 1;
+    filter: brightness(4);
   }
   &-sound{
     @extend .sprite;
@@ -220,6 +222,7 @@ body{
     position: absolute;
     top: 25px;
     transform: translateX(-50%);
+    top:10%;
   }
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
@@ -359,12 +362,14 @@ body{
   &__header{
     display: flex;
     align-items: center;
-    // justify-content: space-between;
     position: relative;
     box-shadow: 0 1px 0 0 #e9ebef;
     border: 1px solid #F5F6F8;
     background-color: #fff;
     z-index: 2;
+    > img {
+      margin-left: 8px;
+    }
   }
   &__title{
     color:#757D8C;
@@ -373,7 +378,7 @@ body{
     font-weight: normal;
   }
   &__body{
-    padding:0.6rem;
+    padding:1rem;
     background-color: #fff;
     display: flex;
     justify-content: space-between;
@@ -393,13 +398,26 @@ body{
     position: absolute;
     width: 100%;
     top: 0;
-    display: flex;
+    left: 0;
     padding: 0;
-    justify-content: center;
-    align-items: center;
-    height: 30vh;
     &.active{
       display: none;
+    }
+  }
+  &__img-wrap{
+    height: 27vh;
+  }
+  &__img-fade{
+    &::after{
+      background-image: linear-gradient(#fff0,#fff0,#000 85%,#fff 100%);
+      content: "";
+      display: block;
+      height: 40%;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 6vh;
+      width: 100%;
     }
   }
   &__bg{
@@ -433,6 +451,11 @@ body{
     box-shadow: 0 1px 10px -4px #15181d;
     width: auto;
     height: 200px;
+    border-radius: 4px;
+  }
+  &__poster-wrapper{
+    position: relative;
+    top: -2vh;
   }
   &__title{
     font-size: 1.125rem;
@@ -803,7 +826,25 @@ body{
     }
   }
   + * {
-    margin-top: 14vw;
+    margin-top: 18vw;
+  }
+  &.isSelectCinemaByMovie{
+    &.slick-initialized{
+      position: unset;
+      background-color: transparent;
+      color:#fff;
+      border-bottom: 0;
+      padding-bottom: 1rem;
+      + * {
+        margin-top: 0;
+      }
+    }
+  }
+  &.slick-initialized {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
   }
 }
 .date-filter__item {
@@ -901,3 +942,5 @@ body{
 }
 
 @import 'responsive';
+
+

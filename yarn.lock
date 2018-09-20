@@ -5058,7 +5058,7 @@ querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
-raf@^3.1.0:
+raf@^3.1.0, raf@^3.3.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
   dependencies:
@@ -5119,6 +5119,10 @@ react-dom@^16.4.1:
     prop-types "^15.6.2"
     schedule "^0.3.0"
 
+react-flip-move@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.2.tgz#2f6f16ca6cb0a8490fba15a98b3440a76127e825"
+
 react-hammerjs@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-hammerjs/-/react-hammerjs-1.0.1.tgz#bc1ed9e9ef7da057163fb169ce12917b6d6ca7d8"
@@ -5150,6 +5154,13 @@ react-slick@^0.23.1:
     json2mq "^0.2.0"
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
+
+react-sticky@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/react-sticky/-/react-sticky-6.0.3.tgz#7a18b643e1863da113d7f7036118d2a75d9ecde4"
+  dependencies:
+    prop-types "^15.5.8"
+    raf "^3.3.0"
 
 react-tabs@^2.2.2:
   version "2.3.0"

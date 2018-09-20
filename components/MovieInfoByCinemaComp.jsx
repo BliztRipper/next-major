@@ -11,6 +11,10 @@ class MovieInfoByCinemaComp extends PureComponent {
       }
       return img
     }
+
+    movieInfo(){
+      sessionStorage.setItem('movieSelect', JSON.stringify(this.props.item))
+    }
     render() {
       const container = {
         padding: 0,
@@ -50,14 +54,16 @@ class MovieInfoByCinemaComp extends PureComponent {
       return (
         <Fragment>
           <div style={container}>
-            <img className="movie-card__poster" src={this.props.item.poster_ori}/>
+            <div className="movie-card__poster-wrapper">
+              <img className="movie-card__poster" src={this.props.item.poster_ori}/>
+            </div>
             <div style={wrapper}>
               <h2 className="movie-card__title" style={title}>{this.props.item.title_en}</h2>
               <h3 className="movie-card__subtitle" style={subtitle}>{this.props.item.title_th}</h3>
               <div style={genre}>{this.props.item.genre} | {this.props.item.duration} นาที</div>
-              <Link prefetch href='/MovieInfo'>
-                <a className="movie-card__more-detail" style={detail}>รายละเอียด</a>
-              </Link>
+              <span onClick={this.movieInfo.bind(this)} >
+                <Link prefecth href='/MovieInfo'><a className="movie-card__more-detail" style={detail} >รายละเอียด</a></Link>
+              </span>
             </div>
           </div>
         </Fragment>

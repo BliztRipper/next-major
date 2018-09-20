@@ -1,15 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
-import Swal from 'sweetalert2'
-import utilities from '../scripts/utilities';
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 
-class MainSelectMovieByCinema extends Component {
+class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,35 +18,33 @@ class MainSelectMovieByCinema extends Component {
       accid: this.props.url.query.accid,
       schedules: [],
       dates: [],
-      pickThisDay: 0,
+      pickThisDay: false,
     }
   }
 
   //this function done after render
   componentDidMount() {
+    let nowShowing = sessionStorage.getItem("now_showing")
+    if (!nowShowing) this.goToHome()
+    this.setState({nowShowing:JSON.parse(nowShowing)})
     try {
-      this.setState({nowShowing:JSON.parse(sessionStorage.getItem("now_showing"))})
       fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
       .then(response => response.json())
-      .then(data =>  this.setState({schedules:data.data, serverTime:data.server_time,isLoading: false}))
-      .then(()=>{
+      .then(data => {
+        this.state.schedules = data.data
+        this.state.serverTime = data.server_time
         this.fillterDate()
-        this.pickThisDay(0)
       })
     } catch (error) {
       error => this.setState({ error, isLoading: false })
     }
-    // set previous route
-    Router.beforePopState(() => {
-      sessionStorage.setItem('previousRoute', this.props.url.pathname)
-      return true
-    })
   }
 
   goToHome() {
+    sessionStorage.setItem('previousRoute', this.props.url.pathname)
     Router.push({
       pathname: '/'
     })
@@ -74,28 +70,42 @@ class MainSelectMovieByCinema extends Component {
       return 0;
     }
     this.state.dates.sort(stringSorter)
-    this.setState({dates: this.state.dates})
-    this.setState({isEmpty:(this.state.dates.length == 0)})
+    this.pickThisDay(0, true)
+    this.setState({
+      schedules: this.state.schedules,
+      serverTime: this.state.serverTime,
+      dates: this.state.dates,
+      isEmpty:(this.state.dates.length == 0)
+    })
   }
 
-  pickThisDay(index){
-    this.setState({
-      pickThisDay:this.state.dates[index]
-    })
+  pickThisDay(index, init){
+    if (init) {
+      this.setState({
+        pickThisDay: this.state.dates[index],
+        isLoading: false
+      })
+    } else {
+      setTimeout(() => {
+        this.setState({
+          pickThisDay: this.state.dates[index]
+        })
+      }, 100);
+    }
   }
 
   dateFilterSliderBeforeChange (index)  {
     this.pickThisDay(index)
   }
 
-  renderMovieWithShowtime() {
+  renderMovieWithShowtime(pickThisDay) {
     return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} pickThisDay={this.state.pickThisDay} />
+      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
     })
   }
 
   render() {
-    const {isLoading, error, isEmpty, serverTime, dates} = this.state;
+    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -105,11 +115,11 @@ class MainSelectMovieByCinema extends Component {
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }
-
+    console.log('render DateFilters');
     return (
       <Layout title="Select Movie">
         <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-        {this.renderMovieWithShowtime()}
+        {this.renderMovieWithShowtime(pickThisDay)}
       </Layout>
     )
   }
