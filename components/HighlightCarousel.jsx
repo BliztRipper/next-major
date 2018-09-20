@@ -51,9 +51,6 @@ class HighlightCarousel extends PureComponent {
     const sliderSetting = {
       watchSlidesProgress: true,
       speed: 400,
-      freeMode: true,
-      freeModeMomentumVelocityRatio: 2,
-      freeModeSticky: true
     }
     let swiper = new Swiper(this.refs.slider, sliderSetting)
     swiper.on('slideChange', () => {
