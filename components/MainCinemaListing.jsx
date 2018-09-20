@@ -98,7 +98,7 @@ class MainCinemaListing extends PureComponent {
               <CinemaListComp accid={this.props.accid} branches={this.state.dataCine} favorites={this.state.dataFav} />
               </TabPanel>
             <TabPanel>
-              <CinemaSystemList accid={this.props.accid} dataFav={this.state.dataFav} dataCine={this.state.dataCine}/>
+              <CinemaSystemList accid={this.props.accid} branches={this.state.dataCine} favorites={this.state.dataFav} />
             </TabPanel>
           </Tabs>
         </div>

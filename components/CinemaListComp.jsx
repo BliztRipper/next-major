@@ -1,11 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import Layout from "./Layout";
 import Link from 'next/link'
-import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from './RegionCinemaComp'
-import MovieInfoComp from './MovieInfoComp'
-import SearchCinema from './SearchCinema'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
 import { log } from 'util';

@@ -431,7 +431,7 @@ body{
   }
   &__img-fade{
     &::after{
-      background-image: linear-gradient(#fff0,#fff0,#000 85%,#fff 100%);
+      background-image: linear-gradient(rgba(255, 255, 255, 0),rgba(255, 255, 255, 0),#000 85%,#fff 100%);
       content: "";
       display: block;
       height: 40%;
@@ -440,6 +440,7 @@ body{
       right: 0;
       top: 6vh;
       width: 100%;
+      z-index: -1;
     }
   }
   &__bg{
@@ -861,6 +862,10 @@ body{
         margin-top: 0;
       }
     }
+    &.sticky{
+      color:#000;
+      margin-top: 0.5rem;
+    }
   }
   &.slick-initialized {
     position: fixed;
@@ -962,6 +967,7 @@ body{
     justify-content: center;
   }
 }
+
 
 @import 'responsive';
 

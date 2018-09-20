@@ -14,8 +14,8 @@
 }
 
 .cinema__cardItem {
-    position: relative;
-	z-index: 1;
+  position: relative;
+	z-index: -1;
 	background-color: #fff;
 	border-radius: 1.2vw;
 	margin: 1rem auto 2vw;
@@ -67,8 +67,10 @@
 		}
 
 		&-iconFav {
+            font-size: 0;
 			width: 12vw;
-			text-align: center;
+            text-align: center;
+            margin-right: 1vw;
 
 			img {
 				width: 5vw;
@@ -114,7 +116,18 @@
 				width: auto;
 			}
 		}
-	}
+    }
+    &.groupBySystem {
+        .cinema__regional__title {
+            &-iconFav {
+                width: 12vw;
+                img {
+                    width: 10vw;
+                }
+            }
+        }
+    }
+
 }
 
 .cinema__card-cbm {
@@ -181,7 +194,9 @@
 
 	&--titleIcon {
 		width: 12vw;
-		margin-top: -2.8vw;
+        margin-top: -2.8vw;
+        margin-right: 1vw;
+        font-size: 0;
 
 		img {
 			width: 100%;

@@ -115,5 +115,41 @@ export default {
       // case '0000000013': return `./static/kids.png`  now hasn't picture
       default: return `../static/digi-2-d.png`
     }
+  },
+
+  getSystemImgFromShotName(shortName) {
+    switch(shortName) {
+      case '4D3': return `./static/4-dx-3-d.png`
+      case '4DX': case '4D2': return `./static/4-dx-2-d.png`
+      case 'AD': return `./static/AD.png`
+      case 'A3D': return `./static/A3D.png`
+      case 'D3D': return `./static/digi-3-d.png`
+      case 'IMAX': case 'MX': return `./static/MX.png`
+      case 'MXD': return `./static/MXD.png`
+      case 'MXHFD3D': return `./static/imaxh-3-d.png`
+      case 'MXD3D': return `./static/imaxd-3-d.png`
+      // case 'MXVR': return `./static/imaxvr.png` now hasn't picture
+      case 'SCX': return `./static/SCX.png`
+      // case 'KIDS': return `./static/kids.png`  now hasn't picture
+      default: return `../static/digi-2-d.png`
+    }
+  },
+
+  getSystemNameFromShotName(shortName) {
+    switch(shortName) {
+      case '4D3': return '4D3'
+      case '4DX': case '4D2': return '4D2'
+      case 'AD': return 'Atmos Digital'
+      case 'A3D': return 'Atmos Digital 3D'
+      case 'D3D': return 'Digital 3D'
+      case 'IMAX': case 'MX': return 'Imax'
+      case 'MXD': return 'Imax Digital'
+      case 'MXHFD3D': return 'Imax High Frame Rate Digital3D'
+      case 'MXD3D': return 'ImaxDigital 3D'
+      case 'MXVR': return 'Imax VR'
+      case 'SCX': return 'Screen X'
+      case 'KIDS': return 'KIDS'
+      default: return 'Digital'
+    }
   }
 }
