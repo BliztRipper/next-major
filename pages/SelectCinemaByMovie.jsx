@@ -325,9 +325,9 @@ class MainSelectCinemaByMovie extends Component {
       visibility:'visible',
       textAlign:'center',
       backgroundColor:'#fff',
-      padding:'1rem 0',
+      paddingTop:'1rem',
       margin:0,
-      position:'relative',
+      // position:'relative',
       zIndex:99,
     }
     const stickyWrapper = {
@@ -358,6 +358,7 @@ class MainSelectCinemaByMovie extends Component {
               <div style={style}>
                 <div className="wrapperSticky" style={isSticky ? stickyWrapper:hideStickyWrapper}>
                   <h2 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_en}</h2>
+                  <h3 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_th}</h3>
                   <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
                   <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
                 </div>
