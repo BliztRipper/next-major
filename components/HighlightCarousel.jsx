@@ -70,11 +70,11 @@ class HighlightCarousel extends PureComponent {
 
   renderPoster(){
     const settings = {
-      className: "center",
+      // className: "center",
       centerMode: true,
       lazyLoad: true,
       infinite: false,
-      centerPadding: "60px",
+      // centerPadding: "60px",
       speed: 400,
       dots: false,
       arrows: false,
