@@ -28,6 +28,7 @@ class MovieWithShowtimeComp extends PureComponent {
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('CinemaID', this.props.schedule.CinemaId)
 		sessionStorage.setItem('BookingDate', showtime)
+		sessionStorage.setItem('movieSelect', JSON.stringify(this.getMovieInfo(theater.ScheduledFilmId)))
 	}
 
 	getMovieInfo(filmId) {

@@ -86,6 +86,13 @@ export default {
     return brandName.replace(/ +/g, "")
   },
 
+  getMovieName(movieInfo) {
+    if (movieInfo.title_th === "" || movieInfo.title_th.length < 2) {
+      return movieInfo.title_th
+    }
+    return movieInfo.title_en
+  },
+
   isFavorite(favorites, cinemaId) {
     let found = false
     if (favorites != null) {

@@ -43,7 +43,8 @@ class Cashier extends PureComponent {
       BookingCurrentServerTime: '',
       success: false,
       VistaBookingId:'',
-      VistaBookingNumber:''
+      VistaBookingNumber:'',
+      movieSelected: ''
     }
     this.refTicket = React.createRef()
   }
@@ -58,7 +59,15 @@ class Cashier extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if(data.status_code === 0 || data.description === 'Success'){
+        let dataToHome = {
+          pathname: '/',
+          query: {
+            accid: this.props.accid
+          }
+        }
+
+        if(data.description === 'Success'){
+          sessionStorage.removeItem('movieSelect')
           let dataPaymentSuccess = {
             success: true,
             VistaBookingId:data.data.data.VistaBookingId,
@@ -74,13 +83,15 @@ class Cashier extends PureComponent {
             showConfirmButton: false,
             timer: 4000
           })
-        } else if(data.status_code == 400 && data.description === 'Invalid parameters'){
+        } else {
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด!',
-            html: 'ไม่สามารถชำระเงินได้<br/>ที่นั่งที่คุณเลือกอาจถูกซื้อไปแล้ว',
             showConfirmButton: false,
-            footer: '<a href="/" style="text-decoration:none;color: #595959;">กลับไปหน้าแรก</a>'
+            showCancelButton: true,
+            cancelButtonText: 'กลับไปหน้าแรก',
+            text: 'data.description',
+            onAfterClose: () => { this.goToHome() }
           })
         }
       })
@@ -90,6 +101,9 @@ class Cashier extends PureComponent {
     }
   }
   componentDidMount() {
+
+    this.state.movieSelected = JSON.parse(sessionStorage.getItem('movieSelect'))
+
     try {
       let dateObj = new Date(sessionStorage.getItem('BookingDate'));
       let month = dateObj.getUTCMonth() + 1
@@ -97,23 +111,25 @@ class Cashier extends PureComponent {
       let year = dateObj.getUTCFullYear()
       let monthFormated = this.formatMonth(month)
       let bookingDate = day + " " + monthFormated
+
       this.setState({
-        BookingMovie: sessionStorage.getItem('BookingMovie'),
-        BookingDuration: sessionStorage.getItem('BookingDuration'),
-        BookingGenre: sessionStorage.getItem('BookingGenre'),
-        BookingCinema: sessionStorage.getItem('BookingCinema'),
-        BookingMovieTH: sessionStorage.getItem('BookingMovieTH'),
-        BookingPoster: sessionStorage.getItem('BookingPoster'),
-        BookingScreenName: sessionStorage.getItem('BookingScreenName'),
-        BookingSeat: sessionStorage.getItem('BookingSeat'),
-        BookingDate: bookingDate,
-        BookingAttributesNames: sessionStorage.getItem('BookingAttributesNames'),
-        BookingTime: sessionStorage.getItem('BookingTime'),
-        BookingPrice: sessionStorage.getItem('BookingPrice'),
-        BookingPriceDisplay: sessionStorage.getItem('BookingPriceDisplay'),
-        BookingUserSessionId: sessionStorage.getItem('BookingUserSessionId'),
-        BookingUserPhoneNumber: sessionStorage.getItem('BookingUserPhoneNumber'),
-        BookingCurrentServerTime: sessionStorage.getItem('BookingCurrentServerTime')
+        BookingMovie: String(this.state.movieSelected.title_en),
+        BookingMovieTH: String(this.state.movieSelected.title_th),
+        BookingDuration: String(this.state.movieSelected.duration),
+        BookingGenre: String(this.state.movieSelected.genre),
+        BookingPoster: String(this.state.movieSelected.poster_ori),
+        BookingCinema: String(sessionStorage.getItem('BookingCinema')),
+        BookingScreenName: String(sessionStorage.getItem('BookingScreenName')),
+        BookingSeat: String(sessionStorage.getItem('BookingSeat')),
+        BookingDate: String(bookingDate),
+        BookingAttributesNames: String(sessionStorage.getItem('BookingAttributesNames')),
+        BookingTime: String(sessionStorage.getItem('BookingTime')),
+        BookingPrice: String(sessionStorage.getItem('BookingPrice')),
+        BookingPriceDisplay: String(sessionStorage.getItem('BookingPriceDisplay')),
+        BookingUserSessionId: String(sessionStorage.getItem('BookingUserSessionId')),
+        BookingUserPhoneNumber: String(sessionStorage.getItem('BookingUserPhoneNumber')),
+        BookingCurrentServerTime: String(sessionStorage.getItem('BookingCurrentServerTime'))
+
       },
         () => {
           let filterPattern = 'Booking'
@@ -164,7 +180,7 @@ class Cashier extends PureComponent {
           <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ยืนยันที่นั่ง"></GlobalHeader>
           <div className="globalBody">
             <div className="globalBodyInner">
-              <Ticket ref={this.refTicket} dataTicket={dataToTicket} submitPayment={this.submitPayment.bind(this)}></Ticket>
+              <Ticket ref={this.refTicket} dataTicket={dataToTicket} accid={this.props.url.query.accid} submitPayment={this.submitPayment.bind(this)}></Ticket>
             </div>
           </div>
         </div>

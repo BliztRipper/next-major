@@ -409,7 +409,7 @@ body{
   }
   &__img-fade{
     &::after{
-      background-image: linear-gradient(#fff0,#fff0,#000 85%,#fff 100%);
+      background-image: linear-gradient(rgba(#fff, 0),rgba(#fff, 0),#000 85%,#fff 100%);
       content: "";
       display: block;
       height: 40%;

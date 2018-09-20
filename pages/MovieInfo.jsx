@@ -9,7 +9,7 @@ export default class MovieInfo extends PureComponent {
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.setState({movieInfo:JSON.parse(sessionStorage.getItem("movieSelect"))})
   }
 
@@ -37,6 +37,8 @@ export default class MovieInfo extends PureComponent {
   }
 
   render() {
+    const {movieInfo} = this.state
+    if (!movieInfo) false
     const divStyle = {
       position:'relative',
       display: 'flex',

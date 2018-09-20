@@ -135,7 +135,7 @@ class HighlightCarousel extends PureComponent {
                   }
                 })()}
               </div>
-              <Link prefetch href="/SelectCinemaByMovie">
+              <Link prefetch href={dataToSelectCinemaByMovie}>
                 <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
               </Link>
               {(() => {
