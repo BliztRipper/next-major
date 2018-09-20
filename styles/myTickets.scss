@@ -116,6 +116,15 @@
   .slick-slider {
     margin-top: -1em;
     .slick-list {
+      padding: 1.2em 0;
+      width: 84vw;
+      margin: auto;
+      overflow: visible;
+    }
+  }
+  .myticketItems {
+    margin: -1em -1em 0;
+    .swiper-container {
       padding: 1em 0;
       width: 84vw;
       margin: auto;
