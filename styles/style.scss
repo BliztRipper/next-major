@@ -839,6 +839,9 @@ body{
         margin-top: 0;
       }
     }
+    &.sticky{
+      color:#000;
+    }
   }
   &.slick-initialized {
     position: fixed;
@@ -940,6 +943,7 @@ body{
     justify-content: center;
   }
 }
+
 
 @import 'responsive';
 
