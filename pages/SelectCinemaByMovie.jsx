@@ -9,6 +9,7 @@ import SearchCinema from '../components/SearchCinema'
 import DateFilters from '../components/DateFilters'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
+import { StickyContainer, Sticky } from 'react-sticky';
 import { log } from 'util';
 
 class MainSelectCinemaByMovie extends Component {
@@ -313,6 +314,35 @@ class MainSelectCinemaByMovie extends Component {
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }
+    const titleHide = {
+      opacity:0,
+      visibility:'hidden',
+      position: 'absolute',
+    }
+    const titleShow = {
+      transition:'0.4s',
+      opacity:1,
+      visibility:'visible',
+      textAlign:'center',
+      backgroundColor:'#fff',
+      paddingTop:'1rem',
+      margin:0,
+      zIndex:99,
+    }
+    const stickyWrapper = {
+      position:'relative',
+      backgroundColor: '#fff',
+      color:'#000',
+      left: '-8px',
+      maxWidth: '105%',
+      width: '105%',
+    }
+    const hideStickyWrapper = {
+      backgroundColor: 'transparent',
+    }
+    const fixWidth = {
+
+    }
     sessionStorage.setItem('BookingMovie',this.state.nowShowing.title_en)
     sessionStorage.setItem('BookingMovieTH',this.state.nowShowing.title_th)
     sessionStorage.setItem('BookingGenre',this.state.nowShowing.genre)
@@ -321,9 +351,21 @@ class MainSelectCinemaByMovie extends Component {
     return (
       <Layout title="Select Movie">
         <MovieInfoComp item={movieInfo} />
-        <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
-        <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
-        {this.renderRegionTypeList()}
+        <StickyContainer>
+          <Sticky topOffset={-100} disableCompensation={false}>
+            {({style,isSticky}) => (
+              <div style={style}>
+                <div className="wrapperSticky" style={isSticky ? stickyWrapper:hideStickyWrapper}>
+                  <h2 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_en}</h2>
+                  <h3 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_th}</h3>
+                  <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
+                  <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+                </div>
+              </div>
+            )}
+          </Sticky>
+          {this.renderRegionTypeList()}
+        </StickyContainer>
       </Layout>
     )
   }

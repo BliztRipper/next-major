@@ -14,8 +14,8 @@
 }
 
 .cinema__cardItem {
-    position: relative;
-	z-index: 1;
+  position: relative;
+	z-index: -1;
 	background-color: #fff;
 	border-radius: 1.2vw;
 	margin: 1rem auto 2vw;
