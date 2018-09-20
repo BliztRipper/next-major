@@ -9,7 +9,7 @@ export default class MovieInfo extends PureComponent {
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.setState({movieInfo:JSON.parse(sessionStorage.getItem("movieSelect"))})
   }
 
