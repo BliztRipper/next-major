@@ -327,7 +327,6 @@ class MainSelectCinemaByMovie extends Component {
       backgroundColor:'#fff',
       paddingTop:'1rem',
       margin:0,
-      // position:'relative',
       zIndex:99,
     }
     const stickyWrapper = {
