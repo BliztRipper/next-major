@@ -1,49 +1,114 @@
 import React, { PureComponent, Fragment } from 'react';
-import CinemaSystemComp from "./CinemaSystemComp";
+import Link from 'next/link'
+import empty from '../static/emptyMovie.png'
+import RegionCinemaComp from './RegionCinemaComp'
+import Layout from "./Layout";
+import utilities from '../scripts/utilities';
+import '../styles/style.scss'
 
 class CinemaSystemList extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      dataObj: this.props.dataCine,
-      dataFav: this.props.dataFav,
-      SystemType:[],
-      renderSystem:[],
-      favActive:false
+      isEmpty:false,
+      branches: this.props.branches,
+      favorites: [],
+      renderSystems:[],
+      accid: this.props.accid,
     }
   }
 
-  render() {
-    const {dataObj, SystemType, renderSystem,} = this.state;
-    dataObj.map(system=>{
-      system.System.map(item => {
-        let key = item
-        if (key in SystemType == false){
-          SystemType[key] = []
-        } 
-        let brand = system.DescriptionInside.brand_name_en
-        brand = brand.replace(/ +/g, "")
-        SystemType[key].push({
-          zoneId: system.DescriptionInside.zone_id,
-          title:system.DescriptionInside.zone_name,
-          name:system.Name,
-          cinemaId:system.ID,
-          brandName:brand,
+  componentDidMount() {
+    this.convertDataToUse()
+  }
+
+convertDataToUse() {
+  let favorites = this.props.favorites.data.CinemaIds
+
+  //Region
+  let renderSystems = []
+  this.state.branches.forEach(branch => {
+    if (branch.System && branch.System.length) {
+      branch.System.forEach(system => {
+        if (!(system in renderSystems)) {
+          renderSystems[system] = []
+        }
+
+        renderSystems[system].push({
+          zoneId: branch.DescriptionInside.zone_id,
+          zoneName: branch.DescriptionInside.zone_name,
+          branchName: utilities.getNameFromBranch(branch),
+          cinemaId: branch.ID,
+          brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
+          isFavorite: utilities.isFavorite(favorites, branch.ID),
+          searchKey: branch.Name+branch.NameAlt,
+          schedule: null,
         })
       })
-    })
+    }
+  })
 
-    {(() => {
-      for (var system in SystemType) {
-        renderSystem.push(<CinemaSystemComp zoneName={system} dataCine={this.props.dataCine} dataFav={this.props.dataFav} key={system} items={SystemType[system]}/>)
+  let toSetRenderSystems = Object.keys(renderSystems).map(key => {
+      let name = key
+      if (!name) {
+          name = "Unknown"
       }
-    })()}
+      return {
+          name: name,
+          cinemas: renderSystems[key],
+      }
+  })
+
+  this.setState({
+      renderSystems: toSetRenderSystems,
+      isEmpty:(toSetRenderSystems.length == 0),
+      favorites: favorites,
+  })
+}
+
+favActive(cinemaId) {
+  let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
+  if(newFav) {
+    fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+    this.state.favorites.push(cinemaId)
+  } else{
+    fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+    this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
+  }
+
+  let renderSystems = this.state.renderSystems.map(renderSystem => {
+    renderSystem.cinemas.forEach(cinema => {
+      if (cinemaId == cinema.cinemaId) {
+        cinema.isFavorite = newFav
+      }
+    })
+    return renderSystem
+  })
+
+  this.setState({
+    renderSystems: renderSystems,
+    favorites: this.state.favorites
+  })
+}
+
+renderBySystemType() {
+  return this.state.renderSystems.map((renderSystem, i) => {
+    return <RegionCinemaComp region={renderSystem} isExpand={true} iAmFav={false} iAmSystem={true} accid={this.state.accid} favActive={this.favActive.bind(this)} />
+  })
+}
+
+render() {
+  const {isEmpty} = this.state
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
+    }
+
     return (
-      <Fragment>
-        {renderSystem}
-      </Fragment>
+        <Layout title="Select Movie">
+            {this.renderBySystemType()}
+        </Layout>
     )
   }
 }
 
-export default CinemaSystemList; 
+export default CinemaSystemList;

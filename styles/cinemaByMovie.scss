@@ -38,8 +38,10 @@
             margin-left: -3vw;
         }
         &-iconFav {
+            font-size: 0;
             width: 12vw;
             text-align: center;
+            margin-right: 1vw;
             img {
                 width: 5vw;
                 height: auto;
@@ -72,6 +74,16 @@
             margin-bottom: 0;
             > * {
                 width: auto;
+            }
+        }
+    }
+    &.groupBySystem {
+        .cinema__regional__title {
+            &-iconFav {
+                width: 12vw;
+                img {
+                    width: 10vw;
+                }
             }
         }
     }
@@ -128,6 +140,8 @@
     &--titleIcon {
         width: 12vw;
         margin-top: -2.8vw;
+        margin-right: 1vw;
+        font-size: 0;
         img {
             width: 100%;
             height: auto;

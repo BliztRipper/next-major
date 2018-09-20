@@ -4,6 +4,7 @@ import CinemaWithOutShowtimeComp from '../components/CinemaWithOutShowtimeComp'
 import {Collapse} from 'react-collapse'
 import {presets} from 'react-motion'
 import { log } from 'util';
+import utilities from '../scripts/utilities';
 
 class RegionCinemaComp extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class RegionCinemaComp extends Component {
             isExpand: this.props.isExpand,
             iAmFav: this.props.iAmFav,
             accid: this.props.accid,
+            iAmSystem: this.props.iAmSystem,
         }
 
     }
@@ -29,6 +31,10 @@ class RegionCinemaComp extends Component {
             return (
                 <div className="cinema__regional__title-iconFav"><img src="../static/icon-star-orange-line.png" alt=""/></div>
             )
+        } else if (this.state.iAmSystem) {
+            return (
+                <div className="cinema__regional__title-iconFav"><img src={utilities.getSystemImgFromShotName(this.state.region.name)} alt=""/></div>
+            )
         }
     }
 
@@ -37,6 +43,9 @@ class RegionCinemaComp extends Component {
         let classNameRegionTitle = 'cinema__regional__title'
         if (this.state.iAmFav) {
             name = "โรงภาพยนตร์ที่ชื่นชอบ"
+            classNameRegionTitle = classNameRegionTitle + ' hasIcon'
+        } else if (this.state.iAmSystem) {
+            name = utilities.getSystemNameFromShotName(name)
             classNameRegionTitle = classNameRegionTitle + ' hasIcon'
         }
         return (
@@ -64,7 +73,7 @@ class RegionCinemaComp extends Component {
                 } else {
                     return (
                         <Fragment>
-                            <CinemaWithOutShowtimeComp accid={this.state.accid} cinema={cinema} favActive={this.state.favActive}/>
+                            <CinemaWithOutShowtimeComp accid={this.state.accid} cinema={cinema} iAmSystem={this.state.iAmSystem} favActive={this.state.favActive}/>
                         </Fragment>
                     )
                 }
@@ -76,6 +85,9 @@ class RegionCinemaComp extends Component {
         let classNameCardItem = 'cinema__cardItem'
         if (this.state.isExpand) {
             classNameCardItem = classNameCardItem + ' active'
+        }
+        if (this.state.iAmSystem) {
+            classNameCardItem = classNameCardItem + ' groupBySystem'
         }
 
         return (
