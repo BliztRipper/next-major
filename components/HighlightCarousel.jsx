@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment, Component } from 'react';
-import Slider from "react-slick";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
+import Swiper from 'swiper'
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -43,20 +43,40 @@ class HighlightCarousel extends PureComponent {
       isLoading: true,
       arrbg:[],
       loaded:true,
+      SliderObj: ''
     }
   }
-  componentDidMount(){
-      fetch(`https://api-cinema.truemoney.net/MovieList`)
-      .then(response => response.json())
-      .then((data) => {
-        this.setState({nowShowing:data.data.now_showing, advTicket:data.data.advance_ticket, isLoading: false})
+
+  iniSlider () {
+    const sliderSetting = {
+      watchSlidesProgress: true,
+      speed: 400,
+      freeMode: true,
+      freeModeMomentumVelocityRatio: 2,
+      freeModeSticky: true
+    }
+    let swiper = new Swiper(this.refs.slider, sliderSetting)
+    swiper.on('slideChange', () => {
+      this.sliderChange(swiper.activeIndex)
+    })
+    return swiper
+  }
+
+  componentWillMount(){
+    fetch(`https://api-cinema.truemoney.net/MovieList`)
+    .then(response => response.json())
+    .then((data) => {
+      this.setState({
+        nowShowing:data.data.now_showing,
+        advTicket:data.data.advance_ticket,
+        isLoading: false,
+        dataObj: [...data.data.now_showing, ...data.data.advance_ticket]
       })
-      .then(()=>{
-        this.setState({
-          dataObj:[...this.state.nowShowing, ...this.state.advTicket]
-        })
-        this.props.bg(this.state.arrbg[0])
-      })
+      this.props.bg(this.state.arrbg[0])
+    })
+    .then(()=>{
+      this.iniSlider()
+    })
   }
 
   movieDetails(item){
@@ -69,25 +89,6 @@ class HighlightCarousel extends PureComponent {
   }
 
   renderPoster(){
-    const settings = {
-      // className: "center",
-      centerMode: true,
-      lazyLoad: true,
-      infinite: false,
-      // centerPadding: "60px",
-      speed: 400,
-      dots: false,
-      arrows: false,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      touchThreshold: 8
-    }
-    let dataToSelectCinemaByMovie = {
-      pathname: '/SelectCinemaByMovie',
-      query: {
-        accid: this.props.accid
-      }
-    }
     let arr = [];
     let items = []
     for( let i = 0; i < this.state.dataObj.length; i++) {
@@ -108,49 +109,56 @@ class HighlightCarousel extends PureComponent {
     sessionStorage.setItem("now_showing", JSON.stringify(items))
     let renderItem = []
     renderItem.push(
-      <Slider {...settings} afterChange={this.sliderChange.bind(this)}>
-        {this.state.dataObj.map(item =>
-            <Fragment>
-              <div className="poster-container">
-                {(()=>{
-                  const imageStyle = {
-                    backgroundImage: `url(${item.poster_ori}), url(./static/img-placeholder.svg) `,
-                    width:'100%',
-                    height:'50vh',
-                    backgroundSize: 'auto 85%',
-                    backgroundPosition: 'center center',
-                    backgroundRepeat: 'no-repeat',
-                  }
-                  if(new Date().getTime() < new Date(item.release_date).getTime()){
-                    return(
-                      <Fragment>
+      <div className="swiper-container" ref="slider">
+        <div className="swiper-wrapper">
+          {this.state.dataObj.map(item =>
+            <div className="swiper-slide">
+              <div className="highlight__sliderItem">
+                <div className="poster-container">
+                  {(()=>{
+                    const imageStyle = {
+                      backgroundImage: `url(${item.poster_ori}), url(./static/img-placeholder.svg) `,
+                      width:'100%',
+                      height:'50vh',
+                      backgroundSize: 'auto 85%',
+                      backgroundPosition: 'center center',
+                      backgroundRepeat: 'no-repeat',
+                    }
+                    if(new Date().getTime() < new Date(item.release_date).getTime()){
+                      return(
+                        <Fragment>
+                          <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                          <img className='highlight__advance' src='../static/advanceTicket.png'/>
+                        </Fragment>
+                      )
+                    } else {
+                      return(
                         <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
-                        <img className='highlight__advance' src='../static/advanceTicket.png'/>
-                      </Fragment>
-                    )
-                  } else {
-                    return(
-                      <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
-                    )
-                  }
-                })()}
+                      )
+                    }
+                  })()}
+                </div>
+                <div className="highlight__caption">
+                  <Link prefetch href="/SelectCinemaByMovie">
+                    <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+                  </Link>
+                  {(() => {
+                    this.state.arrbg.push(item.poster_ori)
+                    if(item.title_en === item.title_th){
+                        item.title_th = ''
+                    }
+                  })()}
+                  <span className='highlight__title'>{item.title_en}</span>
+                  <span className='highlight__subtitle'>{item.title_th}</span>
+                  <span className='highlight__genre'>{item.genre}</span>
+                </div>
               </div>
-              <Link prefetch href="/SelectCinemaByMovie">
-                <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
-              </Link>
-              {(() => {
-                this.state.arrbg.push(item.poster_ori)
-                if(item.title_en === item.title_th){
-                    item.title_th = ''
-                }
-              })()}
-              <span className='highlight__title'>{item.title_en}</span>
-              <span className='highlight__subtitle'>{item.title_th}</span>
-              <span className='highlight__genre'>{item.genre}</span>
-            </Fragment>
-
-        )}
-      </Slider>
+            </div>
+          )}
+        </div>
+        <div className="swiper-container-inner">
+        </div>
+      </div>
     )
     return renderItem
   }

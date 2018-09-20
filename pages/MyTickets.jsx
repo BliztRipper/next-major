@@ -41,7 +41,7 @@ class MyTickets extends PureComponent {
     return (
       <Layout title='My Tickets'>
         <div className="globalContent isMyTicket">
-          <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ตั๋วของฉัน"></GlobalHeader>
+          {/* <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ตั๋วของฉัน"></GlobalHeader> */}
           <div className="globalBody">
             <div className="globalBodyInner">
               <MyTicket dataMyTickets={dataMyTickets} dataMyTicketsExpired={dataMyTicketsExpired}></MyTicket>

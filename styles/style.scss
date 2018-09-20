@@ -233,6 +233,28 @@ body{
       transform: scale(0.9);
     }
   }
+  .swiper-container {
+    overflow: visible;
+    width: 64vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .swiper-slide {
+    .highlight__sliderItem,
+    .highlight__caption {
+      transition: all 0.4s;
+    }
+    &:not(.swiper-slide-active) {
+      .highlight__sliderItem {
+        transform: scale(0.9);
+      }
+      .highlight__caption {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-8vw);
+      }
+    }
+  }
 }
 .showing{
   &__container{
