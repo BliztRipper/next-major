@@ -55,16 +55,23 @@ class SeatMapDisplay extends PureComponent {
   }
   handleSelectSeats (aSeat) {
     if (this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
+
     let ticketBookedMax = 6
     let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
+
     let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
+
     let toggleBooked = (aSeat) => {
-      if (aSeat.Status === '') { // Already booked a seat
+      if (aSeat.Status === 'myBooking') { // Already booked a seat
+
+
         aSeat.Status = 0
         this.state.seatsSelected = this.state.seatsSelected.filter((aSeatSelected) => {
-          return !(aSeatSelected.Id === aSeat.Id)
+          return !(aSeatSelected.Position === aSeat.Position)
         })
+        return true
       } else if (aSeat.Status === 0) { // Allow book a seat
+
         if (this.state.seatsSelected.length >= ticketBookedMax) {
           Swal({
             title: 'ขออภัย',
@@ -72,29 +79,52 @@ class SeatMapDisplay extends PureComponent {
           })
         } else {
           this.state.areaSelected = aSeat.AreaCategoryCode
-          aSeat.Status = ''
+          aSeat.Status = 'myBooking'
           this.state.seatsSelected.push({
             ...aSeat,
             ticket: ticket
           })
-          this.setState({
-            seatsSelected: this.state.seatsSelected
+        }
+        return true
+      } else {
+
+        return false
+      }
+    }
+
+    if (ticket.IsPackageTicket) {
+      let listSelected = []
+      let cannotBook = true
+
+
+      aSeat.SeatsInGroup.forEach(seatInGroup => {
+        selectRow.forEach((aSeatInSelectRow) => {
+          if (cannotBook) {
+            if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
+
+
+              cannotBook = toggleBooked(aSeatInSelectRow)
+              if (cannotBook) {
+                listSelected.push(aSeatInSelectRow)
+              }
+            }
+          }//cannotBook
+        })
+      })
+
+      if (!cannotBook) {
+
+
+        if (listSelected.length > 0) {
+          listSelected.forEach(selected => {
+            toggleBooked(selected)
           })
         }
       }
-    }
-    if (ticket.IsPackageTicket) {
-      aSeat.SeatsInGroup.forEach(seatInGroup => {
-        selectRow.forEach((aSeatInSelectRow) => {
-          if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
-            toggleBooked(aSeatInSelectRow)
-          }
-        })
-      })
     } else {
-      toggleBooked(aSeat)      
+      toggleBooked(aSeat)
     }
-    
+
     this.setState({
       seatsSelected: this.state.seatsSelected,
       areaSelected: this.state.areaSelected,
@@ -102,6 +132,7 @@ class SeatMapDisplay extends PureComponent {
     })
   }
   handleSubmitTicket () {
+
     if (this.state.postingTicket) return false
 
     let canBook = (column, selectRow) => {
@@ -116,7 +147,7 @@ class SeatMapDisplay extends PureComponent {
     }
 
     let allowBook = true
-    
+
     this.state.seatsSelected.forEach(aSeatSelected => {
       let selectRow = this.state.seatMatrix[aSeatSelected.Position.RowIndex]
       let cannotBookLeft = canBook(aSeatSelected.Position.ColumnIndex-1, selectRow) && !canBook(aSeatSelected.Position.ColumnIndex-2, selectRow)
@@ -167,14 +198,14 @@ class SeatMapDisplay extends PureComponent {
             }
             let classNameCell = 'seatMapDisplay__cell'
             if (aSeat.Status !== 0) {
-              if (aSeat.Status === '') {
+              if (aSeat.Status === 'myBooking') {
                 classNameCell = classNameCell + ' ' + 'selected'
               } else {
                 classNameCell = classNameCell + ' ' + 'notAllowed'
               }
             }
             return (
-              <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat, rows)} >
+              <div className={classNameCell} data-positon={aSeat.Position.ColumnIndex + ' vs ' + aSeat.Position.RowIndex} style={ {'--col-seat': aSeat.Position.ColumnIndex} } data-seat-status={aSeat.Status} key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat)} >
                 <div>{(aSeatIndex)}</div>
               </div>
             )
@@ -182,7 +213,7 @@ class SeatMapDisplay extends PureComponent {
           return (
             <div className={ 'seatMapDisplay__group ' + classNameSelected} data-area={ticketZone} key={areaCategoryCode + rowsIndex}>
               <div className="seatMapDisplay__title">{physicalName}</div>
-              <div className={'seatMapDisplay__row'} ref={this.refSeatsRow} style={ {'--total-seat': this.state.seatColMax - 1} }> 
+              <div className={'seatMapDisplay__row'} ref={this.refSeatsRow} style={ {'--total-seat': this.state.seatColMax - 1} }>
                 {seatMapCell}
               </div>
             </div>
@@ -213,6 +244,7 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   listSelectedAndPrice () {
+
     this.state.selectedList = this.state.seatsSelected.map(aSeatSelected => aSeatSelected.PhysicalName + aSeatSelected.Position.ColumnIndex)
     let selectedList = this.state.selectedList.join()
     let totalPrice = 0
@@ -246,9 +278,9 @@ class SeatMapDisplay extends PureComponent {
     }
     let seatsObj = ''
     let statusAllowByTicket = ''
-    this.state.areas.forEach(area => {      
-      for (let rowIndex = 0; rowIndex < area.Rows.length; rowIndex++) {        
-        seatsObj = area.Rows[rowIndex].Seats        
+    this.state.areas.forEach(area => {
+      for (let rowIndex = 0; rowIndex < area.Rows.length; rowIndex++) {
+        seatsObj = area.Rows[rowIndex].Seats
         if (seatsObj.length) {
           for (let col = 0; col < seatsObj.length; col++) {
             statusAllowByTicket = 'noTicket'
@@ -262,10 +294,10 @@ class SeatMapDisplay extends PureComponent {
               Status: statusAllowByTicket
             }
           }
-        }  
+        }
       }
     })
-    this.setState({ 
+    this.setState({
       renderSeats: this.listGroups(),
       renderListPrice: this.listPrice()
     })
@@ -283,17 +315,17 @@ class SeatMapDisplay extends PureComponent {
   clamp(value, min, max) {
     return Math.min(Math.max(min, value), max);
   }
-  
+
   clampScale(newScale) {
     return this.clamp(newScale, this.state.minScale, this.state.maxScale);
   }
   updateRange() {
     this.state.rangeX = Math.max(0, Math.round(this.state.displayDefaultWidth * this.state.displaySeatsCurrentScale) - this.state.containerWidth);
     this.state.rangeY = Math.max(0, Math.round(this.state.displayDefaultHeight * this.state.displaySeatsCurrentScale) - this.state.containerHeight);
-    
+
     this.state.rangeMaxX = Math.round(this.state.rangeX / 2);
     this.state.rangeMinX = 0 - this.state.rangeMaxX;
-  
+
     this.state.rangeMaxY = Math.round(this.state.rangeY / 2);
     this.state.rangeMinY = 0 - this.state.rangeMaxY;
     this.setState({
@@ -388,7 +420,7 @@ class SeatMapDisplay extends PureComponent {
           <div className={'ticketResult' + classNameSelected}>
             {renderListPrice}
             {this.listSelectedAndPrice()}
-          </div> 
+          </div>
           <div className={'seatMapSubmit' + classNameSelected} onClick={this.handleSubmitTicket.bind(this)}>
             <div>{buttonText}</div>
           </div>

@@ -45,10 +45,7 @@ class Ticket extends PureComponent {
   }
   renderButtons (success, buttonProgressText, buttonProgressClassName) {
     let dataToHome = {
-      pathname: '/',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/'
     }
     if (this.props.hideButton) return false
     return (

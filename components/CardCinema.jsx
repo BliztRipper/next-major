@@ -9,7 +9,7 @@ class CardCinema extends PureComponent {
       favCineActive: this.props.favCineActive,
     }
   }
-  
+
   favCineActiveClass() {
     let CinemaID = this.props.item.ID
     let phoneNum = this.props.accid
@@ -21,21 +21,18 @@ class CardCinema extends PureComponent {
       .then(this.setState({favCineActive: false}))
     }
   }
-  
+
   getCineId(){
     let id = this.refs.cineIdProp.innerText
     let name = this.refs.cineName.innerText
     sessionStorage.setItem('CinemaID',id)
     sessionStorage.setItem('BookingCinema',name)
   }
-  
+
   render() {
     const cineIdHide = {display:'none'}
     let dataToSelectCinema = {
-      pathname: '/SelectMovieByCinema',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/SelectMovieByCinema'
     }
     return (
         <div ref="searchCine" className="card-cinema__body" onClick={this.getCineId.bind(this)}>
@@ -46,11 +43,11 @@ class CardCinema extends PureComponent {
                 {/* <div className="card-cinema__CineDistant">100 m</div> */}
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.item.ID}</div>
               </div>
-            </Link>    
+            </Link>
               <div  className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );
-  } 
+  }
 }
 
 export default CardCinema;

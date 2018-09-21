@@ -47,7 +47,6 @@ class CinemaWithShowtimeComp extends Component {
 					pathname: '/seatMap',
 					query: {
 						...theater,
-						accid: this.state.accid,
 						SessionId: theater.SessionIds[i]
 					}
 				}

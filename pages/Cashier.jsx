@@ -44,7 +44,8 @@ class Cashier extends PureComponent {
       success: false,
       VistaBookingId:'',
       VistaBookingNumber:'',
-      movieSelected: ''
+      movieSelected: '',
+      userInfo: ''
     }
     this.refTicket = React.createRef()
   }
@@ -52,20 +53,13 @@ class Cashier extends PureComponent {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
     try {
-      fetch(`https://api-cinema.truemoney.net/Payment/${this.state.BookingUserPhoneNumber}`,{
+      fetch(`https://api-cinema.truemoney.net/Payment/${this.state.userInfo.accid}/${this.state.userInfo.mobileno}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(this.state.dataToPayment)
       })
       .then(response => response.json())
       .then((data) =>  {
-        let dataToHome = {
-          pathname: '/',
-          query: {
-            accid: this.props.accid
-          }
-        }
-
         if(data.description === 'Success'){
           sessionStorage.removeItem('movieSelect')
           let dataPaymentSuccess = {
@@ -90,7 +84,7 @@ class Cashier extends PureComponent {
             showConfirmButton: false,
             showCancelButton: true,
             cancelButtonText: 'กลับไปหน้าแรก',
-            text: 'data.description',
+            text: data.description,
             onAfterClose: () => { this.goToHome() }
           })
         }
@@ -128,7 +122,8 @@ class Cashier extends PureComponent {
         BookingPriceDisplay: String(sessionStorage.getItem('BookingPriceDisplay')),
         BookingUserSessionId: String(sessionStorage.getItem('BookingUserSessionId')),
         BookingUserPhoneNumber: String(sessionStorage.getItem('BookingUserPhoneNumber')),
-        BookingCurrentServerTime: String(sessionStorage.getItem('BookingCurrentServerTime'))
+        BookingCurrentServerTime: String(sessionStorage.getItem('BookingCurrentServerTime')),
+        userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
 
       },
         () => {
@@ -159,15 +154,12 @@ class Cashier extends PureComponent {
 
   goToHome() {
     Router.push({
-      pathname: '/',
-      query: {
-        accid: this.props.url.query.accid
-      }
+      pathname: '/'
     })
   }
 
   render() {
-    const {isLoading, error, dataToTicket} = this.state;
+    const {isLoading, error, dataToTicket, userInfo} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -176,14 +168,27 @@ class Cashier extends PureComponent {
     }
     return (
       <Layout title="Cashier Page">
-        <div className="globalContent isCashier">
-          <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ยืนยันที่นั่ง"></GlobalHeader>
-          <div className="globalBody">
-            <div className="globalBodyInner">
-              <Ticket ref={this.refTicket} dataTicket={dataToTicket} accid={this.props.url.query.accid} submitPayment={this.submitPayment.bind(this)}></Ticket>
-            </div>
-          </div>
-        </div>
+        {(() => {
+          if (userInfo) {
+            return (
+              <div className="globalContent isCashier">
+                <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ยืนยันที่นั่ง"></GlobalHeader>
+                <div className="globalBody">
+                  <div className="globalBodyInner">
+                    <Ticket ref={this.refTicket} dataTicket={dataToTicket} accid={userInfo.accid} submitPayment={this.submitPayment.bind(this)}></Ticket>
+                  </div>
+                </div>
+              </div>
+            )
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty} />
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
       </Layout>
     );
   }

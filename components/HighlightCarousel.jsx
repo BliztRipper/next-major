@@ -87,10 +87,7 @@ class HighlightCarousel extends PureComponent {
 
   renderPoster(){
     let dataToSelectCinemaByMovie = {
-      pathname: '/SelectCinemaByMovie',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/SelectCinemaByMovie'
     }
     let arr = [];
     let items = []

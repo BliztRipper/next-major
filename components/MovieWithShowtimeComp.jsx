@@ -69,7 +69,6 @@ class MovieWithShowtimeComp extends PureComponent {
 					pathname: '/seatMap',
 					query: {
 						...theater,
-						accid: this.props.accid,
 						SessionId: theater.SessionIds[i]
 					}
 				}

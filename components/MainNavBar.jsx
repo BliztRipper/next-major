@@ -139,16 +139,10 @@ class MainNavBar extends PureComponent {
     const {dataMyTicketsDone, bg, currentTabsIndex} = this.state
     resetIdCounter()
     let dataToAllMovies = {
-      pathname: '/AllMovie',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/AllMovie'
     }
     let dataToMyTicket = {
-      pathname: '/MyTickets',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/MyTickets'
     }
     let bgblur = {
       backgroundImage: `url(${bg})`,
