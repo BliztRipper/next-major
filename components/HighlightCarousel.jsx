@@ -86,6 +86,12 @@ class HighlightCarousel extends PureComponent {
   }
 
   renderPoster(){
+    let dataToSelectCinemaByMovie = {
+      pathname: '/SelectCinemaByMovie',
+      query: {
+        accid: this.props.accid
+      }
+    }
     let arr = [];
     let items = []
     for( let i = 0; i < this.state.dataObj.length; i++) {
@@ -106,10 +112,10 @@ class HighlightCarousel extends PureComponent {
     sessionStorage.setItem("now_showing", JSON.stringify(items))
     let renderItem = []
     renderItem.push(
-      <div className="swiper-container" ref="slider">
+      <div className="swiper-container" ref="slider" key="slider">
         <div className="swiper-wrapper">
           {this.state.dataObj.map(item =>
-            <div className="swiper-slide">
+            <div className="swiper-slide" key={item.title_en}>
               <div className="highlight__sliderItem">
                 <div className="poster-container">
                   {(()=>{
@@ -136,7 +142,7 @@ class HighlightCarousel extends PureComponent {
                   })()}
                 </div>
                 <div className="highlight__caption">
-                  <Link prefetch href="/SelectCinemaByMovie">
+                  <Link prefetch href={dataToSelectCinemaByMovie}>
                     <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
                   </Link>
                   {(() => {
@@ -153,8 +159,6 @@ class HighlightCarousel extends PureComponent {
             </div>
           )}
         </div>
-        <div className="swiper-container-inner">
-        </div>
       </div>
     )
     return renderItem
@@ -166,7 +170,7 @@ class HighlightCarousel extends PureComponent {
     }
     return (
       <div className='highlight'>
-      {this.renderPoster()}
+        {this.renderPoster()}
       </div>
     )
   }

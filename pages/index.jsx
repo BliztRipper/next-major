@@ -34,7 +34,7 @@ class home extends PureComponent {
     if (accid) {
       return(
         <Layout>
-          <MainNavBar accid={accid}/>
+          <MainNavBar accid={accid} key="MainNavBar"/>
         </Layout>
       )
     } else {

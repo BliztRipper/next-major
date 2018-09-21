@@ -117,13 +117,13 @@ class CinemaListComp extends PureComponent {
 
     renderFavorite() {
         return this.state.regionsFav.map((region, i) => {
-            return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+            return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
         })
     }
 
     renderRegion() {
-            return this.state.regions.map((region, i) => {
-            return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+        return this.state.regions.map((region, i) => {
+            return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
         })
     }
 
@@ -143,11 +143,7 @@ class CinemaListComp extends PureComponent {
           return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
         }
 
-        return (
-            <Layout title="Select Movie">
-                {this.renderRegionTypeList()}
-            </Layout>
-        )
+        return this.renderRegionTypeList()
     }
 }
 

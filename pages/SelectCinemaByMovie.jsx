@@ -272,19 +272,19 @@ class MainSelectCinemaByMovie extends Component {
 
   renderFavorite() {
     return this.state.regionsFav.map((region, i) => {
-        return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+        return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderRegion() {
     return this.state.regions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderSearchData() {
     return this.state.searchRegions.map((region, i) => {
-      return <RegionCinemaComp region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 
@@ -350,16 +350,16 @@ class MainSelectCinemaByMovie extends Component {
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
     return (
       <Layout title="Select Movie">
-        <MovieInfoComp item={movieInfo} />
-        <StickyContainer>
-          <Sticky topOffset={-100} disableCompensation={false}>
+        <MovieInfoComp item={movieInfo} key="MovieInfoComp" />
+        <StickyContainer key="StickyContainer">
+          <Sticky topOffset={-100} disableCompensation={false} key="Sticky">
             {({style,isSticky}) => (
               <div style={style}>
                 <div className="wrapperSticky" style={isSticky ? stickyWrapper:hideStickyWrapper}>
-                  <h2 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_en}</h2>
-                  <h3 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_th}</h3>
-                  <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
-                  <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+                  <h2 style={isSticky ? titleShow:titleHide} key="titleh2">{this.state.nowShowing.title_en}</h2>
+                  <h3 style={isSticky ? titleShow:titleHide} key="titleh3">{this.state.nowShowing.title_th}</h3>
+                  <DateFilters key="DateFilters" stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
+                  <SearchCinema key="SearchCinema" stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
                 </div>
               </div>
             )}
