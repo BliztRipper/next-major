@@ -11,7 +11,7 @@ class CinemaRegionalComp extends PureComponent {
       dataFav: this.props.dataFav,
     }
   }
-  
+
   hasFav(cineId) {
     let found = false
     if (this.state.dataFav && this.state.dataFav.data.CinemaIds) {
@@ -31,7 +31,7 @@ class CinemaRegionalComp extends PureComponent {
       favActive: !this.state.favActive
     })
   }
- 
+
   RenderHeader(zone_name) {
     return (
       <div className="cinema__regional" onClick={this.favAddActiveClass} key={zone_name}>
@@ -56,7 +56,7 @@ class CinemaRegionalComp extends PureComponent {
       </div>
     )
 
-    
+
     return (
       <Fragment>
         {ToggleHeader}

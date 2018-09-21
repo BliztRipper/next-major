@@ -336,12 +336,14 @@ class MainSelectCinemaByMovie extends Component {
       left: '-8px',
       maxWidth: '105%',
       width: '105%',
+      zIndex:10,
     }
     const hideStickyWrapper = {
       backgroundColor: 'transparent',
     }
-    const fixWidth = {
-
+    const stickyBar = {
+      position: 'relative',
+      zIndex: 5,
     }
     sessionStorage.setItem('BookingMovie',this.state.nowShowing.title_en)
     sessionStorage.setItem('BookingMovieTH',this.state.nowShowing.title_th)
@@ -352,18 +354,20 @@ class MainSelectCinemaByMovie extends Component {
       <Layout title="Select Movie">
         <MovieInfoComp item={movieInfo} />
         <StickyContainer>
-          <Sticky topOffset={-100} disableCompensation={false}>
-            {({style,isSticky}) => (
-              <div style={style}>
-                <div className="wrapperSticky" style={isSticky ? stickyWrapper:hideStickyWrapper}>
-                  <h2 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_en}</h2>
-                  <h3 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_th}</h3>
-                  <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
-                  <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+          <div className="ogno" style={stickyBar}>
+            <Sticky topOffset={-100} disableCompensation={false}>
+              {({style,isSticky}) => (
+                <div style={style}>
+                  <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
+                    <h2 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_en}</h2>
+                    <h3 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_th}</h3>
+                    <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
+                    <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+                  </div>
                 </div>
-              </div>
-            )}
-          </Sticky>
+              )}
+            </Sticky>
+          </div>
           {this.renderRegionTypeList()}
         </StickyContainer>
       </Layout>
