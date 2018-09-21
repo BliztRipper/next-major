@@ -13,8 +13,8 @@ class home extends PureComponent {
   }
   componentDidMount () {
     let urlParams = (new URL(document.location)).searchParams;
-    let urlParamsAccid = urlParams.get("accid");
-    let accid = urlParamsAccid ? urlParamsAccid : '0863693746'
+    let urlParamsAccid = urlParams.get('accid');
+    let accid = urlParamsAccid ? urlParamsAccid : false
     Router.push({ pathname: '/', query: { accid: accid } })
     this.state.accid = accid
 

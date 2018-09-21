@@ -44,11 +44,17 @@ class Ticket extends PureComponent {
     })
   }
   renderButtons (success, buttonProgressText, buttonProgressClassName) {
+    let dataToHome = {
+      pathname: '/',
+      query: {
+        accid: this.props.accid
+      }
+    }
     if (this.props.hideButton) return false
     return (
       <Fragment>
         <div className={buttonProgressClassName} onClick={this.props.submitPayment}><div>{buttonProgressText}</div></div>
-        <Link prefetch href="/">
+        <Link prefetch href={dataToHome}>
           <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>กลับสู่หน้าแรก</div>
         </Link>
       </Fragment>

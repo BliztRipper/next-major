@@ -37,6 +37,8 @@ export default class MovieInfo extends PureComponent {
   }
 
   render() {
+    const {movieInfo} = this.state
+    if (!movieInfo) false
     const divStyle = {
       position:'relative',
       display: 'flex',
