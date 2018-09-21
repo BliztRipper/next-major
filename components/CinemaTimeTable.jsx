@@ -15,7 +15,7 @@ class CinemaTimeTable extends PureComponent {
       dataToSeatmap: ''
     }
   }
-  
+
   handleScheduleSelected (itemTheaterInfo, format, time) {
     if(this.props.name ==='fromMovie'){
       sessionStorage.setItem('BookingTime',format)
@@ -36,7 +36,7 @@ class CinemaTimeTable extends PureComponent {
       sessionStorage.setItem('BookingDate',time)
     }
   }
-  
+
   renderSchedule(){
     let dataToSeatMap = {
       pathname: '/seatMap',
@@ -46,7 +46,7 @@ class CinemaTimeTable extends PureComponent {
     let resultArray = []
     this.props.item.Showtimes.map((time,i)=>{
       var today = this.props.pickedDate
-      
+
       //Get date and time for today
       let now = new Date(this.props.serverTime)
       let nowtime = now.getTime()
@@ -58,7 +58,7 @@ class CinemaTimeTable extends PureComponent {
       let format = utilities.getStringDateTime(time).time
       let movieDay = parseInt(utilities.getStringDateTime(time).day)
       let movienowtimeMoreThanNowtime = ''
-      if (today === movieDay) {   
+      if (today === movieDay) {
         if(movieTime > nowtime){
           movienowtimeMoreThanNowtime = false
         } else {
@@ -66,7 +66,6 @@ class CinemaTimeTable extends PureComponent {
         }
         dataToSeatMap.query = {
           ...this.props.item,
-          accid: this.props.accid,
           SessionId: this.props.item.SessionIds[i]
         }
 
@@ -80,7 +79,7 @@ class CinemaTimeTable extends PureComponent {
           )
         }
       }
-    }) 
+    })
     if (resultArray.length > 0) {
       return (
         <div className="movie-card__theatre-container">
@@ -100,7 +99,7 @@ class CinemaTimeTable extends PureComponent {
   }
 
   render() {
-    return (    
+    return (
       <Fragment>
         {this.renderSchedule()}
       </Fragment>

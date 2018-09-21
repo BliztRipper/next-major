@@ -60,16 +60,16 @@ class MovieInfoComp extends PureComponent {
       }
       return (
         <Fragment>
-          <div className="movie-card__img-wrap">
-            <img src={this.movieImage(this.props.item.movie_image)} style={poster}/>
-            <div className="movie-card__img-fade"></div>
+          <div className="movie-card__img-wrap" key="movie-card-img">
+            <img src={this.movieImage(this.props.item.movie_image)} style={poster} key="img" />
+            <div className="movie-card__img-fade" key="fade"></div>
           </div>
-          <div className="movie-card__container">
+          <div className="movie-card__container" key="movie-card-container">
             <div style={wrapper}>
-              <h2 className="movie-card__title" style={title}>{this.props.item.title_en}</h2>
-              <h3 className="movie-card__subtitle" style={subtitle}>{this.props.item.title_th}</h3>
-              <div className="movie-card__genre" style={genre}>{this.props.item.genre} | {this.props.item.duration} นาที</div>
-              <Link prefetch href='/MovieInfo'>
+              <h2 className="movie-card__title" style={title} key="title-h2">{this.props.item.title_en}</h2>
+              <h3 className="movie-card__subtitle" style={subtitle} key="title-h3">{this.props.item.title_th}</h3>
+              <div className="movie-card__genre" style={genre} key="desc-genre">{this.props.item.genre} | {this.props.item.duration} นาที</div>
+              <Link prefetch href='/MovieInfo' key="desc-movie-info">
                 <a className="movie-card__more-detail" style={detail}>รายละเอียด</a>
               </Link>
             </div>

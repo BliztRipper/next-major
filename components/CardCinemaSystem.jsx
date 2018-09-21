@@ -36,10 +36,7 @@ class CardCinemaSystem extends PureComponent {
   render() {
     const cineIdHide = {display:'none'}
     let dataToSelectCinema = {
-      pathname: '/SelectMovieByCinema',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/SelectMovieByCinema'
     }
     return (
           <div ref="searchCine" className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
@@ -50,11 +47,11 @@ class CardCinemaSystem extends PureComponent {
                 {/* <div className="card-cinema__CineDistant">100m</div> */}
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.item.cinemaId}</div>
               </div>
-            </Link>  
+            </Link>
             <div ref="classname" className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );
-  } 
+  }
 }
 
 export default CardCinemaSystem;

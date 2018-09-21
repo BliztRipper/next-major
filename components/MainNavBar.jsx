@@ -139,16 +139,10 @@ class MainNavBar extends PureComponent {
     const {dataMyTicketsDone, bg, currentTabsIndex} = this.state
     resetIdCounter()
     let dataToAllMovies = {
-      pathname: '/AllMovie',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/AllMovie'
     }
     let dataToMyTicket = {
-      pathname: '/MyTickets',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/MyTickets'
     }
     let bgblur = {
       backgroundImage: `url(${bg})`,
@@ -161,20 +155,22 @@ class MainNavBar extends PureComponent {
       }
       return (
         <div className="indexTab">
-          <div className="background-blur__wrapper">
+          <div className="background-blur__wrapper" key="bgBlurEffect">
             <div className="background-blur" style={bgblur}></div>
           </div>
           <Tabs
             onSelect={this.onSelectTabs.bind(this)}
-            defaultIndex={currentTabsIndex}>
+            defaultIndex={currentTabsIndex}
+            key="indexTabsContainer"
+            >
             <TabPanel>
-              <Link prefetch href={dataToAllMovies}>
+              <Link prefetch href={dataToAllMovies} key="ButtonSeeAllMovies">
                 <div className="allmovie-btn-wrap">
                   <div className="sprite-table"></div>
                   <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
                 </div>
               </Link>
-              <HighlightCarousel bg={this.getBG.bind(this)} accid={this.props.accid}/>
+              <HighlightCarousel key="HighlightCarousel" bg={this.getBG.bind(this)} accid={this.props.accid}/>
             </TabPanel>
             <TabPanel>
               <MainCinemaListing accid={this.props.accid}/>
@@ -193,7 +189,7 @@ class MainNavBar extends PureComponent {
               </div>
             </TabList>
           </Tabs>
-          <Link prefetch href={dataToMyTicket}>
+          <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
             { this.renderFloatButton() }
           </Link>
         </div>

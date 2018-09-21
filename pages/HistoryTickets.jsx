@@ -21,10 +21,7 @@ class HistoryTicketsPage extends PureComponent {
   }
   goToHistoryDetail (ticketIndex) {
     Router.push({
-      pathname: '/HistoryTicketDetail',
-      query: {
-        ticketIndex: ticketIndex
-      }
+      pathname: '/HistoryTicketDetail'
     })
   }
   componentDidMount() {

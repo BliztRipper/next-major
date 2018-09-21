@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
@@ -15,7 +15,7 @@ class MainSelectMovieByCinema extends PureComponent {
       error: null,
       serverTime:'',
       isEmpty:false,
-      accid: this.props.url.query.accid,
+      accid: '',
       schedules: [],
       dates: [],
       pickThisDay: false,
@@ -75,7 +75,8 @@ class MainSelectMovieByCinema extends PureComponent {
       schedules: this.state.schedules,
       serverTime: this.state.serverTime,
       dates: this.state.dates,
-      isEmpty:(this.state.dates.length == 0)
+      isEmpty:(this.state.dates.length == 0),
+      accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
     })
   }
 
@@ -105,7 +106,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay} = this.state;
+    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -117,8 +118,23 @@ class MainSelectMovieByCinema extends PureComponent {
     }
     return (
       <Layout title="Select Movie">
-        <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-        {this.renderMovieWithShowtime(pickThisDay)}
+        {(() => {
+          if (accid) {
+            return (
+              <Fragment>
+                <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+                {this.renderMovieWithShowtime(pickThisDay)}
+              </Fragment>
+            )
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty}/>
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
       </Layout>
     )
   }

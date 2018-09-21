@@ -20,10 +20,7 @@ class CinemaWithOutShowtimeComp extends Component {
 
     render() {
         let dataToMovieByCinema = {
-            pathname: '/SelectMovieByCinema',
-            query: {
-                accid: this.state.accid
-            }
+            pathname: '/SelectMovieByCinema'
         }
         return (
             <div ref="searchCine" className="cinema__card-cbm noTime">

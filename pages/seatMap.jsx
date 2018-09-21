@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import SeatMapDisplay from '../components/SeatMapDisplay'
 import OTP from '../components/OTP'
 import GlobalHeader from '../components/GlobalHeader'
@@ -8,6 +8,7 @@ import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
+import empty from '../static/emptyTicket.png'
 
 
 class seatMap extends PureComponent {
@@ -26,7 +27,7 @@ class seatMap extends PureComponent {
       seatsSelected: null,
       otpShow: false,
       entrySeatMap: false,
-      userPhoneNumber: this.props.url.query.accid,
+      accid: '',
       userAuthData: null,
       apiOtpHeader: {
         'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
@@ -135,7 +136,7 @@ class seatMap extends PureComponent {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
-      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userPhoneNumber}`,{
+      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.accid}`,{
         headers: this.state.apiOtpHeader
       })
       .then(response => response.json())
@@ -152,8 +153,8 @@ class seatMap extends PureComponent {
   }
   authOtpGetOtp (isChaining) {
     let dataToStorage = {
-      mobile_number: this.state.userPhoneNumber,
-      tmn_account: this.state.userPhoneNumber
+      mobile_number: this.state.accid,
+      tmn_account: this.state.accid
     }
     let btnResendMsgPrev = ''
     if (this.refOTP.current) {
@@ -165,7 +166,7 @@ class seatMap extends PureComponent {
     }
 
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userPhoneNumber}`,{
+      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
@@ -173,7 +174,7 @@ class seatMap extends PureComponent {
       .then(response => response.json())
       .then((data) =>  {
         this.state.userAuthData = {
-          phoneNumber: this.state.userPhoneNumber,
+          phoneNumber: this.state.accid,
           ...data
         }
         if (isChaining) {
@@ -202,7 +203,7 @@ class seatMap extends PureComponent {
       tmn_account : userAuthData.phoneNumber
     }
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthVerify/${userAuthData.phoneNumber}`,{
+      fetch(`https://api-cinema.truemoney.net/AuthVerify/${this.state.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
@@ -239,30 +240,26 @@ class seatMap extends PureComponent {
       })
     });
     try {
+
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
         body:JSON.stringify(dataToStorage)
       })
       .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code !== 400) {
+        if (data.status_code === 0) {
           this.setState({ dataBookedSeats: data })
           Router.push({
-            pathname: '/Cashier',
-            query: {
-              accid: this.state.userPhoneNumber
-            }
+            pathname: '/Cashier'
            })
           sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
-          sessionStorage.setItem('BookingUserPhoneNumber', this.state.userPhoneNumber)
-        } else if(data.status_code === 400 && data.description === 'Selected seats unavailable.') {
+          sessionStorage.setItem('BookingUserPhoneNumber', this.state.accid)
+        } else {
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
-            text: 'ที่นั่งที่คุณเลือกไม่สามารถจองได้',
-            showConfirmButton: false,
-            timer: 4000
+            text: data.description
           })
         }
         if (isChaining) {
@@ -291,6 +288,9 @@ class seatMap extends PureComponent {
   componentDidMount () {
     this.getTheatre()
     let userSessionId = sessionStorage.getItem('BookingUserSessionId')
+    this.setState({
+      accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
+    })
     if (userSessionId) {
       this.setState({
         isLoading: true
@@ -299,7 +299,7 @@ class seatMap extends PureComponent {
     }
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap, accid} = this.state;
     let seatMapClassName = 'seatMap beforeEntry'
     if (error) {
       return <p>{error.message}</p>;
@@ -324,25 +324,40 @@ class seatMap extends PureComponent {
     }
     return (
       <Layout title="Select Seats">
-        <div className={seatMapClassName}>
-          <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
-          <SeatMapDisplay
-            ref={this.refSeatMapDisplay}
-            areaData={areaData}
-            SessionId={SessionId}
-            ticketData={ticketData}
-            authOtpHasToken={this.authOtpHasToken.bind(this)}
-            bookSelectedSeats={this.bookSelectedSeats.bind(this)}
-          ></SeatMapDisplay>
-        </div>
-        <CSSTransition
-          in={!entrySeatMap}
-          classNames="overlayEducate"
-          timeout={300}
-          unmountOnExit
-        >
-          {this.renderEducate()}
-        </CSSTransition>
+        {(() => {
+          if (accid) {
+            return (
+              <Fragment>
+                <div className={seatMapClassName}>
+                  <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
+                  <SeatMapDisplay
+                    ref={this.refSeatMapDisplay}
+                    areaData={areaData}
+                    SessionId={SessionId}
+                    ticketData={ticketData}
+                    authOtpHasToken={this.authOtpHasToken.bind(this)}
+                    bookSelectedSeats={this.bookSelectedSeats.bind(this)}
+                  ></SeatMapDisplay>
+                </div>
+                <CSSTransition
+                  in={!entrySeatMap}
+                  classNames="overlayEducate"
+                  timeout={300}
+                  unmountOnExit
+                >
+                  {this.renderEducate()}
+                </CSSTransition>
+              </Fragment>
+            )
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty} />
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
       </Layout>
     )
   }

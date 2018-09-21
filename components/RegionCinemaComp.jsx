@@ -51,11 +51,11 @@ class RegionCinemaComp extends Component {
         return (
             <div className="cinema__regional" key={name} onClick={this.toggleCollapse.bind(this)}>
                 <div className="cinema__regional__header">
-                    <h5 className={classNameRegionTitle}>
+                    <h5 className={classNameRegionTitle} key="text">
                         {this.renderFavStar()}
                         {name}
                     </h5>
-                    <div className={this.state.isExpand? 'arrowIcon active':'arrowIcon'} > <img src="../static/ic-arrow-back.png" alt=""/></div>
+                    <div className={this.state.isExpand? 'arrowIcon active':'arrowIcon'} key="arrowIcon"> <img src="../static/ic-arrow-back.png" alt=""/></div>
                 </div>
             </div>
         )
@@ -65,17 +65,9 @@ class RegionCinemaComp extends Component {
         if (this.state.region && this.state.region.cinemas) {
             return this.state.region.cinemas.map(cinema => {
                 if (cinema.schedule) {
-                    return (
-                        <Fragment>
-                            <CinemaWithShowtimeComp accid={this.state.accid} cinema={cinema} pickThisDay={this.props.pickThisDay} favActive={this.state.favActive}/>
-                        </Fragment>
-                    )
+                    return <CinemaWithShowtimeComp iAmFav={this.props.iAmFav} key={cinema.name} accid={this.state.accid} cinema={cinema} pickThisDay={this.props.pickThisDay} favActive={this.state.favActive}/>
                 } else {
-                    return (
-                        <Fragment>
-                            <CinemaWithOutShowtimeComp accid={this.state.accid} cinema={cinema} iAmSystem={this.state.iAmSystem} favActive={this.state.favActive}/>
-                        </Fragment>
-                    )
+                    return <CinemaWithOutShowtimeComp iAmFav={this.props.iAmFav} key={cinema.name} accid={this.state.accid} cinema={cinema} iAmSystem={this.state.iAmSystem} favActive={this.state.favActive}/>
                 }
             })
         }
@@ -93,7 +85,7 @@ class RegionCinemaComp extends Component {
         return (
             <div className={classNameCardItem} key={this.state.region.name + this.state.iAmFav}>
                 {this.renderHeader()}
-                <Collapse isOpened={this.state.isExpand} springConfig={presets.stiffness}>
+                <Collapse key="collapse" isOpened={this.state.isExpand} springConfig={presets.stiffness}>
                     {this.renderCinema()}
                 </Collapse>
             </div>

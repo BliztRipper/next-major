@@ -47,7 +47,6 @@ class CinemaWithShowtimeComp extends Component {
 					pathname: '/seatMap',
 					query: {
 						...theater,
-						accid: this.state.accid,
 						SessionId: theater.SessionIds[i]
 					}
 				}
@@ -69,13 +68,14 @@ class CinemaWithShowtimeComp extends Component {
 
 	renderTheater() {
 		let items = []
+		console.log(this.props.iAmFav, 'iAmFav');
 
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {
 				let objShowtimes = this.renderShowtimes(theater.Showtimes, theater)
 				if (objShowtimes.length > 0) {
 					items.push (
-						<div className="cinema__card-cbm--theatre-container">
+						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>
 							<div className="cinema__card-cbm--theatre-wrapper">
 								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
 								<div className="cinema__card-cbm--theatre-type">
@@ -100,7 +100,7 @@ class CinemaWithShowtimeComp extends Component {
 	render() {
 		return (
 			<div ref="searchCine" className="cinema__card-cbm" >
-				<div className="cinema__card-cbm--title">
+				<div className="cinema__card-cbm--title" key="title">
 					<div className="cinema__card-cbm--titleIcon">
 						<img src="../static/major.png" alt="" />
 					</div>

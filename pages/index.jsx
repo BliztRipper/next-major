@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
-import Router from 'next/router'
+import empty from '../static/emptyTicket.png'
 import '../styles/style.scss'
 
 class home extends PureComponent {
@@ -13,10 +13,21 @@ class home extends PureComponent {
   }
   componentDidMount () {
     let urlParams = (new URL(document.location)).searchParams;
-    let urlParamsAccid = urlParams.get('accid');
-    let accid = urlParamsAccid ? urlParamsAccid : false
-    Router.push({ pathname: '/', query: { accid: accid } })
-    this.state.accid = accid
+
+    let userInfo = null
+    let accid = urlParams.get('accid')
+    if (!accid) {
+      userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+    } else {
+      userInfo = {
+        accid: urlParams.get('accid'),
+        mobileno: urlParams.get('mobileno'),
+        distinctid: urlParams.get('distinctid')
+      }
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+    }
+
+    this.setState({accid:userInfo.accid})
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -31,15 +42,22 @@ class home extends PureComponent {
   }
   render() {
     const {accid} = this.state
-    if (accid) {
-      return(
-        <Layout>
-          <MainNavBar accid={accid}/>
-        </Layout>
-      )
-    } else {
-      return false
-    }
+    return(
+      <Layout>
+        {(() => {
+          if (accid) {
+            return <MainNavBar accid={accid} key="MainNavBar"/>
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty}/>
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
+      </Layout>
+    )
    }
  }
  export default home

@@ -64,5 +64,6 @@ next
 # next.js static export
 out
 
+# unused
 .DS_Store
 yarn.lock

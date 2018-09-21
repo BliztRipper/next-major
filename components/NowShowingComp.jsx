@@ -8,25 +8,20 @@ class RenderShowing extends PureComponent {
   }
   render(){
     let dataToSelectCinemaByMovie = {
-      pathname: '/SelectCinemaByMovie',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/SelectCinemaByMovie'
     }
     return(
-      <Fragment>
-          <Link  prefetch href={dataToSelectCinemaByMovie}>
-            <div onClick={this.movieProps.bind(this)} className='showing__cell'>
-              <img className='showing__poster' src={this.props.item.poster_ori}/>
-              {(()=>{
-                if(new Date().getTime() < new Date(this.props.item.release_date).getTime()) {
-                  return(<img className='showing__advance' src='../static/advanceTicket.png'/>)
-                }
-              })()}
-              <span className='showing__title'>{this.props.item.title_th}</span>
-            </div>
-          </Link>  
-      </Fragment>
+      <Link  prefetch href={dataToSelectCinemaByMovie}>
+        <div onClick={this.movieProps.bind(this)} className='showing__cell'>
+          <img className='showing__poster' src={this.props.item.poster_ori}/>
+          {(()=>{
+            if(new Date().getTime() < new Date(this.props.item.release_date).getTime()) {
+              return(<img className='showing__advance' src='../static/advanceTicket.png'/>)
+            }
+          })()}
+          <span className='showing__title'>{this.props.item.title_th}</span>
+        </div>
+      </Link>
     )
   }
 }
@@ -54,11 +49,11 @@ class NowShowingComp extends PureComponent {
 
   render() {
     return (
-        <section>
-          <div className='showing__container'>
+      <section>
+        <div className='showing__container'>
           {this.displayMovies()}
-          </div>
-        </section>
+        </div>
+      </section>
     );
   }
 }

@@ -103,11 +103,7 @@ render() {
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }
 
-    return (
-        <Layout title="Select Movie">
-            {this.renderBySystemType()}
-        </Layout>
-    )
+    return this.renderBySystemType()
   }
 }
 

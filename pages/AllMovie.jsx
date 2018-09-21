@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Layout from '../components/Layout'
 import '../styles/style.scss'
@@ -6,6 +6,7 @@ import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 import Router from 'next/router'
 import loading from '../static/loading.svg'
+import empty from '../static/emptyTicket.png'
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -14,7 +15,7 @@ class AllMovie extends PureComponent {
       dataObj: [],
       isLoading: true,
       error: null,
-      accid: this.props.url.query.accid
+      accid: ''
     }
 
   }
@@ -28,10 +29,13 @@ class AllMovie extends PureComponent {
       sessionStorage.setItem('previousRoute', this.props.url.pathname)
       return true
     })
+    this.setState({
+      accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
+    })
   }
 
   render() {
-    const {isLoading, error} = this.state;
+    const {isLoading, error, accid} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -41,21 +45,36 @@ class AllMovie extends PureComponent {
 
     return (
       <Layout title='All Movie'>
-      <h1 className="allmovieTab__header">ภาพยนต์ทั้งหมด</h1>
-      <div className="allmovieTab">
-      <Tabs>
-        <TabList>
-          <Tab>กำลังฉาย</Tab>
-          <Tab>เร็วๆนี้</Tab>
-        </TabList>
-        <TabPanel>
-          <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
-        </TabPanel>
-        <TabPanel>
-          <CominSoonComp dataObj={this.state.dataObj} />
-        </TabPanel>
-      </Tabs>
-      </div>
+        {(() => {
+          if (accid) {
+            return (
+              <Fragment>
+                <h1 className="allmovieTab__header">ภาพยนต์ทั้งหมด</h1>
+                <div className="allmovieTab">
+                  <Tabs>
+                    <TabList>
+                      <Tab>กำลังฉาย</Tab>
+                      <Tab>เร็วๆนี้</Tab>
+                    </TabList>
+                    <TabPanel>
+                      <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
+                    </TabPanel>
+                    <TabPanel>
+                      <CominSoonComp dataObj={this.state.dataObj} />
+                    </TabPanel>
+                  </Tabs>
+                </div>
+              </Fragment>
+            )
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty}/>
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
       </Layout>
     )
   }

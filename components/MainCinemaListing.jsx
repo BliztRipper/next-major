@@ -88,7 +88,7 @@ class MainCinemaListing extends PureComponent {
   renderList() {
     if (!this.state.HideList) {
       return (
-        <div className="indexTab__cinema">
+        <div className="indexTab__cinema" key="cinemaList">
           <Tabs>
             <TabList>
               <Tab>สาขา</Tab>
@@ -96,7 +96,7 @@ class MainCinemaListing extends PureComponent {
             </TabList>
             <TabPanel>
               <CinemaListComp accid={this.props.accid} branches={this.state.dataCine} favorites={this.state.dataFav} />
-              </TabPanel>
+            </TabPanel>
             <TabPanel>
               <CinemaSystemList accid={this.props.accid} branches={this.state.dataCine} favorites={this.state.dataFav} />
             </TabPanel>
@@ -104,11 +104,7 @@ class MainCinemaListing extends PureComponent {
         </div>
       )
     } else {
-      return (
-        <Fragment>
-          {this.state.dataSearch}
-        </Fragment>
-      )
+      return this.state.dataSearch
     }
   }
 
@@ -123,7 +119,7 @@ class MainCinemaListing extends PureComponent {
 
     return (
       <Fragment>
-        <div className="searchTab">
+        <div className="searchTab" key="searchTab">
           <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
         </div>
         {this.renderList()}

@@ -32,8 +32,8 @@ class MyTicket extends PureComponent {
   renderMyTickets () {
     return this.state.dataMyTickets.map((ticket, ticketIndex) => {
       return (
-        <div className="swiper-slide">
-          <Ticket ref={this.refTicket} dataTicket={ticket} key={ticket.VistaBookingId + ticketIndex} expired={false} hideButton={true}></Ticket>
+        <div className="swiper-slide" key={ticket.VistaBookingId + ticketIndex}>
+          <Ticket ref={this.refTicket} dataTicket={ticket} expired={false} hideButton={true}></Ticket>
         </div>
       )
     })
@@ -78,16 +78,16 @@ class MyTicket extends PureComponent {
     }
     return (
       <div className="myticketItems">
-        <div className="swiper-container" ref="slider">
+        <div className="swiper-container" ref="slider" key="slider">
           <div className="swiper-wrapper">
             {this.renderMyTickets()}
           </div>
         </div>
-        <div className="myTicketFeature">
-          <div className="myTicketFeatureCounter">
+        <div className="myTicketFeature" key="sliderFeature">
+          <div className="myTicketFeatureCounter" key="counter">
             <span className="isHL1">{sliderCurrentIndex + 1}</span> / {dataMyTickets.length}
           </div>
-          <div className="myTicketFeatureBtn">
+          <div className="myTicketFeatureBtn" key="button">
             <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicketsExpired}></ButtonHistory>
           </div>
         </div>

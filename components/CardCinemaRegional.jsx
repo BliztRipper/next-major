@@ -11,7 +11,7 @@ class CardCinemaRegional extends PureComponent {
   }
 
   componentWillMount(){
-    
+
   }
 
   favCineActiveClass() {
@@ -37,12 +37,9 @@ class CardCinemaRegional extends PureComponent {
     const cineIdHide = {display:'none'}
 
     let dataToSelectCinema = {
-      pathname: '/SelectMovieByCinema',
-      query: {
-        accid: this.props.accid
-      }
+      pathname: '/SelectMovieByCinema'
     }
-    
+
     return (
           <div ref="searchCine" className="cinema__regional__body" onClick={this.getCineId.bind(this)}>
             <div className={this.props.brandname!=""? this.props.brandname:'sprite-blank'}></div>
@@ -51,11 +48,11 @@ class CardCinemaRegional extends PureComponent {
                 <div ref="cineName" className="card-cinema__CineName">{this.props.name}</div>
                 <div ref="cineIdProp" style={cineIdHide}>{this.props.cineId}</div>
               </div>
-            </Link>  
+            </Link>
             <div ref="classname" className={this.state.favCineActive? 'sprite-favCinema active':'sprite-favCinema'} onClick={this.favCineActiveClass}></div>
         </div>
     );
-  } 
+  }
 }
 
 export default CardCinemaRegional;
