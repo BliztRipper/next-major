@@ -27,7 +27,7 @@ class seatMap extends PureComponent {
       seatsSelected: null,
       otpShow: false,
       entrySeatMap: false,
-      accid: '',
+      userInfo: '',
       userAuthData: null,
       apiOtpHeader: {
         'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
@@ -136,7 +136,7 @@ class seatMap extends PureComponent {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
-      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.accid}`,{
+      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
       })
       .then(response => response.json())
@@ -153,8 +153,8 @@ class seatMap extends PureComponent {
   }
   authOtpGetOtp (isChaining) {
     let dataToStorage = {
-      mobile_number: this.state.accid,
-      tmn_account: this.state.accid
+      mobile_number: this.state.userInfo.mobileno,
+      tmn_account: this.state.userInfo.mobileno
     }
     let btnResendMsgPrev = ''
     if (this.refOTP.current) {
@@ -164,17 +164,19 @@ class seatMap extends PureComponent {
         otpResending: true
       })
     }
+    console.log(dataToStorage, ' dataToStorage POST AuthApply');
 
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.accid}`,{
+      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
       })
       .then(response => response.json())
       .then((data) =>  {
+        console.log(data, 'data response AuthApply');
         this.state.userAuthData = {
-          phoneNumber: this.state.accid,
+          mobileno: this.state.userInfo.mobileno,
           ...data
         }
         if (isChaining) {
@@ -200,16 +202,18 @@ class seatMap extends PureComponent {
       otp_code: otpCode,
       agreement_id: userAuthData.agreement_id,
       auth_code: userAuthData.auth_code,
-      tmn_account : userAuthData.phoneNumber
+      tmn_account : userAuthData.mobileno
     }
+    console.log(dataToStorage, ' dataToStorage POST AuthVerify');
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthVerify/${this.state.accid}`,{
+      fetch(`https://api-cinema.truemoney.net/AuthVerify/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
       })
       .then(response => response.json())
-      .then(() =>  {
+      .then((data) =>  {
+        console.log(data, 'data response AuthApply');
         this.bookSelectedSeats()
       })
     } catch (error) {
@@ -254,7 +258,7 @@ class seatMap extends PureComponent {
            })
           sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
-          sessionStorage.setItem('BookingUserPhoneNumber', this.state.accid)
+          sessionStorage.setItem('BookingUserPhoneNumber', this.state.userInfo.accid)
         } else {
           Swal({
             type: 'error',
@@ -289,7 +293,7 @@ class seatMap extends PureComponent {
     this.getTheatre()
     let userSessionId = sessionStorage.getItem('BookingUserSessionId')
     this.setState({
-      accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
+      userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
     })
     if (userSessionId) {
       this.setState({
@@ -299,7 +303,7 @@ class seatMap extends PureComponent {
     }
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap, accid} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap, userInfo} = this.state;
     let seatMapClassName = 'seatMap beforeEntry'
     if (error) {
       return <p>{error.message}</p>;
@@ -325,7 +329,7 @@ class seatMap extends PureComponent {
     return (
       <Layout title="Select Seats">
         {(() => {
-          if (accid) {
+          if (userInfo.accid) {
             return (
               <Fragment>
                 <div className={seatMapClassName}>
