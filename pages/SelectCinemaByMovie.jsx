@@ -314,13 +314,19 @@ class MainSelectCinemaByMovie extends Component {
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }
-    const titleHide = {
+    const hideNoTransition = {
       opacity:0,
       visibility:'hidden',
       position: 'absolute',
     }
+    const titleHide = {
+      opacity:0,
+      visibility:'hidden',
+      position: 'absolute',
+      transition:'all 0.2s',
+    }
     const titleShow = {
-      transition:'0.4s',
+      transition:'all 0.2s',
       opacity:1,
       visibility:'visible',
       textAlign:'center',
@@ -331,6 +337,7 @@ class MainSelectCinemaByMovie extends Component {
     }
     const stickyWrapper = {
       position:'relative',
+      transition:'all 0.2s',
       backgroundColor: '#fff',
       color:'#000',
       left: '-8px',
@@ -340,6 +347,7 @@ class MainSelectCinemaByMovie extends Component {
     }
     const hideStickyWrapper = {
       backgroundColor: 'transparent',
+      transition:'all 0.2s',
     }
     const stickyBar = {
       position: 'relative',
@@ -359,8 +367,8 @@ class MainSelectCinemaByMovie extends Component {
               {({style,isSticky}) => (
                 <div style={style}>
                   <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
-                    <h2 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_en}</h2>
-                    <h3 style={isSticky ? titleShow:titleHide}>{this.state.nowShowing.title_th}</h3>
+                    <h2 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_en}</h2>
+                    <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
                     <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
                     <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
                   </div>
