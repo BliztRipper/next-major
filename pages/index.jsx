@@ -51,7 +51,6 @@ class home extends PureComponent {
             return (
               <section className="empty">
                 <img src={empty}/>
-                <h5>ข้อมูลไม่ถูกต้อง</h5>
               </section>
             )
           }
