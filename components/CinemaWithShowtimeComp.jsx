@@ -68,7 +68,6 @@ class CinemaWithShowtimeComp extends Component {
 
 	renderTheater() {
 		let items = []
-		console.log(this.props.iAmFav, 'iAmFav');
 
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {

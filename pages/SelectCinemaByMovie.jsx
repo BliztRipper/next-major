@@ -63,6 +63,9 @@ class MainSelectCinemaByMovie extends Component {
         .then(data => {
           if (data.data.CinemaIds) {
             this.state.favorites = data.data.CinemaIds
+            if (this.state.favorites === null) {
+              this.state.favorites = []
+            }
           }
           this.state.loadFavorites = true
           this.loadComplete()
@@ -271,9 +274,16 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   renderFavorite() {
-    return this.state.regionsFav.map((region, i) => {
-        return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+    let favRegions = []
+    this.state.regionsFav.forEach((region, i) => {
+      if (region.cinemas.length > 0) {
+        favRegions.push(<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
+      }
     })
+
+    if (favRegions.length > 0) {
+      return favRegions
+    }
   }
 
   renderRegion() {

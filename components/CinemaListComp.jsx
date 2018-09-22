@@ -27,6 +27,9 @@ class CinemaListComp extends PureComponent {
 
     convertDataToUse() {
         let favorites = this.props.favorites.data.CinemaIds
+        if (favorites === null) {
+            favorites = []
+        }
 
         //Region
         let regions = []
@@ -116,9 +119,16 @@ class CinemaListComp extends PureComponent {
   }
 
     renderFavorite() {
-        return this.state.regionsFav.map((region, i) => {
-            return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} favActive={this.favActive.bind(this)}/>
+        let favRegions = []
+        this.state.regionsFav.forEach((region, i) => {
+            if (region.cinemas.length > 0) {
+                favRegions.push(<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
+            }
         })
+
+        if (favRegions.length > 0) {
+            return favRegions
+        }
     }
 
     renderRegion() {
