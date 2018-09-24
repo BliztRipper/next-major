@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 
 export default class MovieInfo extends PureComponent {

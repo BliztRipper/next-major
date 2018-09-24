@@ -228,6 +228,7 @@ class SeatMapDisplay extends PureComponent {
       let classNameTicketList = 'ticketResult__list'
       let Description = ticket.Description
       classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
+
       return (
         <div className={classNameTicketList} key={ticket.AreaCategoryCode + Description}>
           <div>
@@ -244,15 +245,20 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   listSelectedAndPrice () {
-
     this.state.selectedList = this.state.seatsSelected.map(aSeatSelected => aSeatSelected.PhysicalName + aSeatSelected.Position.ColumnIndex)
     let selectedList = this.state.selectedList.join()
     let totalPrice = 0
-    this.state.seatsSelected.forEach(seat => {
+    this.state.seatsSelected.forEach((seat, seatIndex, seatArray) => {
       totalPrice += seat.ticket.PriceInCents / 100
-      sessionStorage.setItem('BookingPrice',totalPrice*100)
-      sessionStorage.setItem('BookingPriceDisplay',totalPrice)
+      if (seat.SeatsInGroup) {
+        if (seatArray.length === seatIndex + 1) {
+          totalPrice = totalPrice / seat.SeatsInGroup.length
+        }
+      }
+      sessionStorage.setItem('BookingPrice', totalPrice * 100)
+      sessionStorage.setItem('BookingPriceDisplay', totalPrice)
     })
+
     return (
       <div className="ticketResult__selectedAndPrice">
         <div className="ticketResult__selectedLists">
@@ -354,7 +360,6 @@ class SeatMapDisplay extends PureComponent {
     })
   }
   handleSeatsPinch (ev) {
-    // alert(this.state.displaySeatsCurrentScale)
     this.state.displaySeatsCurrentScale = this.clampScale(ev.scale * this.state.displaySeatsScale);
     this.updateRange();
     this.state.displaySeatsCurrentX = this.clamp(this.state.displaySeatsX + ev.deltaX, this.state.rangeMinX, this.state.rangeMaxX);

@@ -52,8 +52,9 @@ class CinemaWithShowtimeComp extends Component {
 				}
 
 				if (showtime.slice(0, 10) == this.props.pickThisDay) {
+					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + i
 					items.push (
-						<Link prefetch href={dataToSeatMap}>
+						<Link prefetch href={dataToSeatMap} key={keyShowTime} >
 							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
 								{showtime.slice(11, 16)}
 							</span>

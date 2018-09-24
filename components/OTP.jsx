@@ -5,7 +5,7 @@ class OTP extends PureComponent {
   constructor(props) {
     super(props);
       this.state = {
-        userNumber: this.props.userAuthData.phoneNumber,
+        userNumber: this.props.userAuthData.mobileno,
         otpNumberValue: '',
         otpMatchCode: this.props.userAuthData.otp_ref,
         optSubmited: false,

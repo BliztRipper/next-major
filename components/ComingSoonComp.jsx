@@ -17,7 +17,7 @@ class CominSoonComp extends PureComponent {
     if (dateString.length >= 7){
       return this.tryParseDateFromString(dateString)
     }
-    return 
+    return
   }
 
   tryParseDateFromString(dateString){
@@ -54,18 +54,17 @@ class CominSoonComp extends PureComponent {
 
   render() {
     const {dataObj, monthMovie, renderMovie} = this.state;
-    
+
     dataObj.comingsoon.map(movie => {
       let key = this.convertToYearMonth(movie.release_date)
       if (key in monthMovie == false){
         monthMovie[key] = []
-      } 
+      }
       monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori, release:movie.release_date})
     })
     var cells = []
     {(() => {
-      for (var month in monthMovie) { 
-        console.log(month)
+      for (var month in monthMovie) {
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
           let releaseDate = this.formatDate(movie.release)
