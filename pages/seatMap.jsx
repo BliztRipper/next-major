@@ -164,6 +164,7 @@ class seatMap extends PureComponent {
         otpResending: true
       })
     }
+
     try {
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
@@ -239,7 +240,7 @@ class seatMap extends PureComponent {
       })
     });
     try {
-
+      this.setState({isLoading: true})
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
         body:JSON.stringify(dataToStorage)
@@ -260,6 +261,7 @@ class seatMap extends PureComponent {
             title: 'เกิดข้อผิดพลาด',
             text: data.description
           })
+          this.setState({otpShow: false})
         }
         if (isChaining) {
           this.refSeatMapDisplay.current.setState({postingTicket: false})

@@ -76,9 +76,9 @@ class MovieWithShowtimeComp extends PureComponent {
 					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
 					items.push (
 						<Link prefetch href={dataToSeatMap} key={keyShowTime}>
-							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+							<a className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
 								{showtime.slice(11, 16)}
-							</span>
+							</a>
 						</Link>
 					)
 				}
