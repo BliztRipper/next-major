@@ -881,15 +881,13 @@ body{
     margin-top: 18vw;
   }
   &.isSelectCinemaByMovie{
-    &.slick-initialized{
-      position: unset;
-      background-color: transparent;
-      color:#fff;
-      border-bottom: 0;
-      padding-bottom: 1rem;
-      + * {
-        margin-top: 0;
-      }
+    position: unset;
+    background-color: transparent;
+    color:#fff;
+    border-bottom: 0;
+    padding-bottom: 1rem;
+    + * {
+      margin-top: 0;
     }
     &.sticky{
       color:#000;
