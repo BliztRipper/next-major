@@ -142,7 +142,7 @@ body{
     top: 14px;
     left: 8%;
     z-index: 1;
-    filter: brightness(4);
+    // filter: brightness(4);
   }
   &-sound{
     @extend .sprite;

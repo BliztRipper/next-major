@@ -12,17 +12,18 @@
     border: none;
     border-radius: 0;
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    color:#fff;
+    // border-radius: 4px;
+    color:#999;
     transition:all 0.4s;
     padding: 0;
+    background-color: #fff;
     &::placeholder{
-      color:#fff;
+      color:#999;
     }
     &.sticky{
       border: 1px solid #efefef;
       &::placeholder{
-        color:#000;
+        color:#999;
       }
     }
   }
