@@ -27,7 +27,4 @@ module.exports = withFonts(withSass(withImages({
   //   )
   //   return config
   // }
-  // optimization: {
-  //   minimizer: [new UglifyJsPlugin()]
-  // }
 })))
