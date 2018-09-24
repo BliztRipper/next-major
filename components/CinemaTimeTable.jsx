@@ -88,7 +88,6 @@ class CinemaTimeTable extends PureComponent {
             <div className={this.props.item.FormatCode}></div>
             <div className="sprite-sound"></div>
             <span>{this.props.item.SessionAttributesNames}</span>
-            {console.log(this.props.item.FormatCode)}
           </div>
           <div className="movie-card__timetable">
             {resultArray}

@@ -164,8 +164,6 @@ class seatMap extends PureComponent {
         otpResending: true
       })
     }
-    console.log(dataToStorage, ' dataToStorage POST AuthApply');
-
     try {
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
@@ -174,7 +172,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data response AuthApply');
         this.state.userAuthData = {
           mobileno: this.state.userInfo.mobileno,
           ...data
@@ -204,7 +201,6 @@ class seatMap extends PureComponent {
       auth_code: userAuthData.auth_code,
       tmn_account : userAuthData.mobileno
     }
-    console.log(dataToStorage, ' dataToStorage POST AuthVerify');
     try {
       fetch(`https://api-cinema.truemoney.net/AuthVerify/${this.state.userInfo.accid}`,{
         method: 'POST',
@@ -213,7 +209,6 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        console.log(data, 'data response AuthApply');
         this.bookSelectedSeats()
       })
     } catch (error) {
