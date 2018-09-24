@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import Slider from 'react-slick';
+import Swiper from 'swiper'
 class DateFilters extends Component {
   constructor(props) {
     super(props);
@@ -8,7 +8,7 @@ class DateFilters extends Component {
       dates: this.props.dates,
     }
   }
-  sliderBeforeChange (oldIndex, newIndex) {
+  sliderBeforeChange (newIndex) {
     if (this.props.sliderBeforeChange) this.props.sliderBeforeChange(newIndex)
   }
 
@@ -23,7 +23,19 @@ class DateFilters extends Component {
     let month = parseInt(monthIndex)
     return monthNames[month]
   }
-
+  iniSlider () {
+    const sliderSetting = {
+      watchSlidesProgress: true,
+      speed: 400,
+      freeMode: true,
+      slideToClickedSlide: true,
+      freeModeMomentumVelocityRatio: 2,
+      freeModeSticky: true
+    }
+    let swiper = new Swiper(this.refs.slider, sliderSetting)
+    swiper.on('slideChange', () => { this.sliderBeforeChange(swiper.activeIndex) })
+    return swiper
+  }
   renderDates() {
     let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
 
@@ -34,26 +46,26 @@ class DateFilters extends Component {
         displayDate = "วันนี้"
       }
       return (
-        <div className="date-filter__item" key={date}><span>{displayDate}</span></div>
+        <div className="swiper-slide" key={date}>
+          <div className="date-filter__item"><span>{displayDate}</span></div>
+        </div>
       )
     })
   }
+  componentDidMount() {
+    this.iniSlider()
+  }
   render () {
-    let dateFilterSliderSettings = {
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      infinite: false,
-      dots: false,
-      arrows: false,
-      focusOnSelect: true,
-      swipeToSlide: true
-    }
     let dateFilterClassname = 'date-filter'
     dateFilterClassname = this.props.additionalClass ? dateFilterClassname + ' ' + this.props.additionalClass : dateFilterClassname
     return (
-      <Slider {...dateFilterSliderSettings} beforeChange={this.sliderBeforeChange.bind(this)} className={this.props.stickyItem ? "date-filter isSelectCinemaByMovie slick-initialized sticky":dateFilterClassname}>
-        {this.renderDates()}
-      </Slider>
+      <div className={this.props.stickyItem ? "date-filter isSelectCinemaByMovie slick-initialized sticky" : dateFilterClassname}>
+        <div className="swiper-container" ref="slider" key="slider">
+          <div className="swiper-wrapper">
+            {this.renderDates()}
+          </div>
+        </div>
+      </div>
     )
   }
 }
