@@ -59,7 +59,7 @@ class DateFilters extends Component {
     let dateFilterClassname = 'date-filter'
     dateFilterClassname = this.props.additionalClass ? dateFilterClassname + ' ' + this.props.additionalClass : dateFilterClassname
     return (
-      <div className={this.props.stickyItem ? "date-filter isSelectCinemaByMovie slick-initialized sticky" : dateFilterClassname}>
+      <div className={this.props.stickyItem ? "date-filter isSelectCinemaByMovie sticky" : dateFilterClassname}>
         <div className="swiper-container" ref="slider" key="slider">
           <div className="swiper-wrapper">
             {this.renderDates()}

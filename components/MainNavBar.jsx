@@ -76,9 +76,8 @@ class MainNavBar extends PureComponent {
   }
 
   onSelectTabs (index) {
-    this.state.currentTabsIndex = index
     this.setState({currentTabsIndex: index})
-    if (this.state.currentTabsIndex !== 0) {
+    if (index !== 0) {
       utilities.bounceOnScroll().enable()
     } else {
       utilities.bounceOnScroll().disable()
@@ -109,12 +108,12 @@ class MainNavBar extends PureComponent {
   }
   renderFloatButton () {
     return (
-      <div className="indexTab__floatButton">
+      <a className="indexTab__floatButton">
         <div className="indexTab__floatButtonInner">
           <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
           { this.renderFloatButtonBadge() }
         </div>
-      </div>
+      </a>
     )
   }
   routeChangeStart () {
@@ -173,12 +172,11 @@ class MainNavBar extends PureComponent {
             key="indexTabsContainer"
             >
             <TabPanel>
+              <div className="allmovie-btn-wrap">
               <Link prefetch href={dataToAllMovies} key="ButtonSeeAllMovies">
-                <div className="allmovie-btn-wrap">
-                  <div className="sprite-table"></div>
-                  <a className="allmovie-btn">ดูภาพยนต์ทั้งหมด</a>
+                  <a className="allmovie-btn"><div className="sprite-table"></div> ดูภาพยนต์ทั้งหมด</a>
+                </Link>
                 </div>
-              </Link>
               <HighlightCarousel key="HighlightCarousel" bg={this.getBG.bind(this)} accid={this.props.accid}/>
             </TabPanel>
             <TabPanel>

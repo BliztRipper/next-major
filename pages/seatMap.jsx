@@ -166,6 +166,7 @@ class seatMap extends PureComponent {
     }
 
     try {
+
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
@@ -173,18 +174,26 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        this.state.userAuthData = {
-          mobileno: this.state.userInfo.mobileno,
-          ...data
-        }
-        if (isChaining) {
-          this.refSeatMapDisplay.current.setState({postingTicket: false})
-          this.setState({otpShow: true})
+        if (data.status_code === 0 || data.description === 'Success') {
+          this.state.userAuthData = {
+            mobileno: this.state.userInfo.mobileno,
+            ...data
+          }
+          if (isChaining) {
+            this.refSeatMapDisplay.current.setState({postingTicket: false})
+            this.setState({otpShow: true})
+          } else {
+            this.refOTP.current.setState({
+              otpMatchCode: data.otp_ref,
+              otpResendMsg: btnResendMsgPrev,
+              otpResending: false
+            })
+          }
         } else {
-          this.refOTP.current.setState({
-            otpMatchCode: data.otp_ref,
-            otpResendMsg: btnResendMsgPrev,
-            otpResending: false
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: data.description
           })
         }
       })
@@ -210,7 +219,15 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        this.bookSelectedSeats()
+        if (data.status_code === 0 || data.description === 'Success') {
+          this.bookSelectedSeats()
+        } else {
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: data.description
+          })
+        }
       })
     } catch (error) {
       console.error('error', error);
@@ -247,14 +264,14 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 0) {
+        if (data.status_code === 0 || data.description === 'Success') {
           this.setState({ dataBookedSeats: data })
           Router.push({
             pathname: '/Cashier'
            })
           sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
-          sessionStorage.setItem('BookingUserPhoneNumber', this.state.userInfo.accid)
+          sessionStorage.setItem('BookingUserPhoneNumber', this.state.userInfo.mobileno)
         } else {
           Swal({
             type: 'error',
@@ -263,11 +280,11 @@ class seatMap extends PureComponent {
           })
           this.setState({otpShow: false})
         }
-        if (isChaining) {
-          this.refSeatMapDisplay.current.setState({postingTicket: false})
-        } else {
-          this.setState({isLoading: false})
-        }
+        this.setState({isLoading: false}, () => {
+          if (isChaining) {
+            this.refSeatMapDisplay.current.setState({postingTicket: false})
+          }
+        })
       })
     } catch (error) {
       console.error('error', error);
