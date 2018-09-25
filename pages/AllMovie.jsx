@@ -24,11 +24,7 @@ class AllMovie extends PureComponent {
     .then(response => response.json())
     .then(data => this.setState({dataObj:data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
-    // set previous route
-    Router.beforePopState(() => {
-      sessionStorage.setItem('previousRoute', this.props.url.pathname)
-      return true
-    })
+    sessionStorage.setItem('previousRoute', this.props.url.pathname)
     this.setState({
       accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
     })

@@ -1,4 +1,4 @@
-import { PureComponent, Fragment } from 'react'
+import { PureComponent } from 'react'
 import Ticket from './Ticket'
 import empty from '../static/emptyTicket.png'
 import sortTickets from '../scripts/sortTickets'
@@ -17,12 +17,13 @@ class MyTicket extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isEmpty: this.props.dataMyTickets? false : this.props.dataMyTickets,
+      isEmpty: this.props.dataMyTickets? false : true,
       error: null,
       dataMyTickets: this.props.dataMyTickets,
       dataMyTicketsExpired: this.props.dataMyTicketsExpired,
       sliderCurrentIndex: 0
     }
+
     this.refTicket = React.createRef()
     this.refSlider = React.createRef()
   }

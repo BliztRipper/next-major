@@ -108,9 +108,11 @@ class CinemaWithShowtimeComp extends Component {
 						<div>{this.state.cinema.branchName}</div>
 						{/* <div>300 m</div> */}
 					</div>
-					<div ref="classname" className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
-						<img src="../static/icon-star-orange-line.png" alt="" />
-						<img src="../static/icon-star-orange.png" alt="" />
+					<div className="favIconWrap">
+						<div ref="classname" className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
+							<img src="../static/icon-star-orange-line.png" alt="" />
+							<img src="../static/icon-star-orange.png" alt="" />
+						</div>
 					</div>
 				</div>
 

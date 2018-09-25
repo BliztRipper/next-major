@@ -2,6 +2,7 @@ import { log } from "util";
 
 export default {
   getStringDateTime (time) {
+    if (!time) return false
     let regexDateTime = RegExp('^([0-9]{4})-([0-9]{2})-([0-9]{2})[Tt]([0-9]{2}:[0-9]{2}).*$','g');
     let dateTimeArr = regexDateTime.exec(time)
     let convertedOrigin = dateTimeArr[0]
@@ -157,6 +158,26 @@ export default {
       case 'SCX': return 'Screen X'
       case 'KIDS': return 'KIDS'
       default: return 'Digital'
+    }
+  },
+  bounceOnScroll () {
+    let bounceOnScrollStyles = {
+      disable: 'position: fixed; top: 0; left: 0; margin: 0; padding: 8px; width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;',
+      enable: 'position: ; top: ; left: ; margin: ; padding: ; width: ; height: ; overflow-x: ; overflow-y: ; -webkit-overflow-scrolling: ;'
+    }
+    let documents = [document.documentElement, document.body]
+    let setStyle = (styles) => {
+      documents.forEach(element => element.style.cssText = styles);
+    }
+    let enable = () => {
+      setStyle(bounceOnScrollStyles.enable)
+    }
+    let disable = () => {
+      setStyle(bounceOnScrollStyles.disable)
+    }
+    return {
+      enable: enable,
+      disable: disable
     }
   }
 }

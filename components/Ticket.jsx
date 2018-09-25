@@ -52,7 +52,7 @@ class Ticket extends PureComponent {
       <Fragment>
         <div className={buttonProgressClassName} onClick={this.props.submitPayment}><div>{buttonProgressText}</div></div>
         <Link prefetch href={dataToHome}>
-          <div className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>กลับสู่หน้าแรก</div>
+          <a className={success? 'movie-cashier__confirm':'movie-cashier__confirm success'}>กลับสู่หน้าแรก</a>
         </Link>
       </Fragment>
     )

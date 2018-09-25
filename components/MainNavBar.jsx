@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import HighlightCarousel from '../components/HighlightCarousel'
 import MainCinemaListing from '../components/MainCinemaListing'
 import utilities from '../scripts/utilities'
+import Router from 'next/router'
 import Link from 'next/link'
 
 class MainNavBar extends PureComponent {
@@ -18,10 +19,7 @@ class MainNavBar extends PureComponent {
       currentTabsIndex: 0,
       bg:''
     }
-    this.bounceOnScrollStyles = {
-      disable: 'position: fixed; top: 0; left: 0; margin: 0; padding: 8px; width: 100vw; height: 100vh; overflow-x: hidden; overflow-y: scroll; -webkit-overflow-scrolling: touch;',
-      enable: 'position: ; top: ; left: ; margin: ; padding: ; width: ; height: ; overflow-x: ; overflow-y: ; -webkit-overflow-scrolling: ;'
-    }
+
   }
   getTickets () {
     try{
@@ -76,21 +74,16 @@ class MainNavBar extends PureComponent {
     let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime();
     return serverResulTime - ticketBookedResultTime > offsetTime
   }
-  setStyleBounceOnScroll () {
-    // let documents = [document.documentElement, document.body]
-    // documents.forEach(element => element.style.cssText = styles);
-  }
 
   onSelectTabs (index) {
     this.state.currentTabsIndex = index
+    this.setState({currentTabsIndex: index})
     if (this.state.currentTabsIndex !== 0) {
-      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.enable)
+      utilities.bounceOnScroll().enable()
     } else {
-      this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
+      utilities.bounceOnScroll().disable()
     }
-  }
-  componentDidMount () {
-    utilities.removeBookingInfoInSessionStorage()
+
   }
   getPreviousRoute () {
     let instantPrevRoute = sessionStorage.getItem('previousRoute')
@@ -124,9 +117,20 @@ class MainNavBar extends PureComponent {
       </div>
     )
   }
+  routeChangeStart () {
+    utilities.bounceOnScroll().enable()
+  }
+  componentWillMount() {
+    Router.events.on('routeChangeStart', this.routeChangeStart.bind(this))
+  }
   componentDidMount () {
+    utilities.removeBookingInfoInSessionStorage()
     this.getTickets()
     this.getPreviousRoute()
+    if (this.state.currentTabsIndex === 0) {
+      utilities.bounceOnScroll().disable()
+
+    }
   }
 
   getBG(bg){
@@ -150,14 +154,19 @@ class MainNavBar extends PureComponent {
       filter: 'blur(16px)',
     }
     if (dataMyTicketsDone) {
-      if (this.state.currentTabsIndex === 0) {
-        this.setStyleBounceOnScroll(this.bounceOnScrollStyles.disable)
-      }
       return (
         <div className="indexTab">
-          <div className="background-blur__wrapper" key="bgBlurEffect">
-            <div className="background-blur" style={bgblur}></div>
-          </div>
+         {
+           (() => {
+            if (currentTabsIndex === 0) {
+              return (
+                <div className="background-blur__wrapper" key="bgBlurEffect">
+                  <div className="background-blur" style={bgblur}></div>
+                </div>
+              )
+            }
+           }) ()
+         }
           <Tabs
             onSelect={this.onSelectTabs.bind(this)}
             defaultIndex={currentTabsIndex}

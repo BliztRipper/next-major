@@ -24,6 +24,7 @@ class MainSelectMovieByCinema extends PureComponent {
 
   //this function done after render
   componentDidMount() {
+    sessionStorage.setItem('previousRoute', this.props.url.pathname)
     let nowShowing = sessionStorage.getItem("now_showing")
     if (!nowShowing) this.goToHome()
     this.setState({nowShowing:JSON.parse(nowShowing)})
@@ -44,7 +45,6 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   goToHome() {
-    sessionStorage.setItem('previousRoute', this.props.url.pathname)
     Router.push({
       pathname: '/'
     })

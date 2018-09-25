@@ -4,6 +4,7 @@ import MyTicket from '../components/MyTicket'
 import GlobalHeader from '../components/GlobalHeader'
 import loading from '../static/loading.svg'
 import Router from 'next/router'
+import utilities from '../scripts/utilities'
 import '../styles/style.scss'
 
 class MyTickets extends PureComponent {
@@ -23,6 +24,10 @@ class MyTickets extends PureComponent {
   }
 
   componentDidMount(){
+    utilities.bounceOnScroll().disable()
+    Router.events.on('routeChangeStart', () => {
+      utilities.bounceOnScroll().enable()
+    })
     this.setState({
       isLoading: false,
       dataMyTickets: JSON.parse(sessionStorage.getItem('dataMyTickets')),

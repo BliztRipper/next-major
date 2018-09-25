@@ -139,6 +139,7 @@
     margin-top: 1rem;
   }
   &__confirm{
+    text-decoration: none;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -262,7 +263,7 @@ $size: 10px;
       width: 100% !important;
       margin: 0 !important;
     }
-  } 
+  }
   .qrContainer__ref {
     font-size: 4vw;
   }

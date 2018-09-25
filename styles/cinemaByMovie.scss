@@ -156,13 +156,15 @@
 		.sprite-favCinema {
 			justify-self: flex-end;
 		}
-
-		.favIcon {
+		.favIconWrap {
 			position: absolute;
-			right: 3vw;
-			top: 4vw;
+			right: 1vw;
+			top: 2vw;
+			padding: 2vw;
+		}
+		.favIcon {
+			position: relative;
 			width: 4.5vw;
-
 			img {
 				width: 100%;
 				height: auto;
