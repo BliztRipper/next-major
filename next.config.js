@@ -4,7 +4,7 @@ const withFonts = require('next-fonts')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { ANALYZE } = process.env
 
-module.exports = withFonts(withSass(withImages({
+module.exports = withImages(withSass(withFonts({
   webpack: function (config, { isServer }) {
     if (ANALYZE) {
       config.plugins.push(new BundleAnalyzerPlugin({
