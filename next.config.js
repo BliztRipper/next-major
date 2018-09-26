@@ -3,8 +3,9 @@ const withImages = require('next-images')
 const withFonts = require('next-fonts')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { ANALYZE } = process.env
+const withOffline = require('next-offline')
 
-module.exports = withImages(withSass(withFonts({
+module.exports = withOffline(withImages(withSass(withFonts({
   webpack: function (config, { isServer }) {
     if (ANALYZE) {
       config.plugins.push(new BundleAnalyzerPlugin({
@@ -15,4 +16,4 @@ module.exports = withImages(withSass(withFonts({
     }
     return config
   }
-})))
+}))))
