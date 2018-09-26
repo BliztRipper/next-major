@@ -18,7 +18,7 @@
     "next": "^7.0.0",
     "next-fonts": "^0.10.0",
     "next-images": "^1.0.0",
-    "next-offline": "^2.13.1",
+    "next-offline": "^3.0.1",
     "node-sass": "^4.9.3",
     "postcss-loader": "^3.0.0",
     "qrcode.react": "^0.8.0",
