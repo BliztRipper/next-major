@@ -2,18 +2,19 @@ import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
+import loading from '../static/loading.svg'
 import '../styles/style.scss'
 
 class home extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      accid: false
+      accid: false,
+      isLoading: true
     }
   }
   componentDidMount () {
     let urlParams = (new URL(document.location)).searchParams;
-
     let userInfo = null
     let accid = urlParams.get('accid')
     if (!accid) {
@@ -27,7 +28,10 @@ class home extends PureComponent {
       sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
 
-    this.setState({accid:userInfo.accid})
+    this.setState({
+      isLoading: false,
+      accid: userInfo.accid
+    })
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -41,7 +45,10 @@ class home extends PureComponent {
     }
   }
   render() {
-    const {accid} = this.state
+    const {accid, isLoading} = this.state
+    if (isLoading) {
+      return <div className="loadingWrap"><img src={loading} className="loading"/></div>
+    }
     return(
       <Layout>
         {(() => {

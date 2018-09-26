@@ -180,8 +180,9 @@ class seatMap extends PureComponent {
             ...data
           }
           if (isChaining) {
-            this.refSeatMapDisplay.current.setState({postingTicket: false})
-            this.setState({otpShow: true})
+            this.refSeatMapDisplay.current.setState({postingTicket: false}, () => {
+              this.setState({otpShow: true})
+            })
           } else {
             this.refOTP.current.setState({
               otpMatchCode: data.otp_ref,
@@ -190,6 +191,7 @@ class seatMap extends PureComponent {
             })
           }
         } else {
+          this.refSeatMapDisplay.current.setState({postingTicket: false})
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
@@ -222,6 +224,7 @@ class seatMap extends PureComponent {
         if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats()
         } else {
+          this.setState({isLoading: false})
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
@@ -257,7 +260,13 @@ class seatMap extends PureComponent {
       })
     });
     try {
-      this.setState({isLoading: true})
+      if (isChaining) {
+        this.refSeatMapDisplay.current.setState({postingTicket: false})
+      }
+      this.setState({
+        isLoading: true,
+        otpShow: false
+      })
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
         body:JSON.stringify(dataToStorage)
@@ -268,7 +277,7 @@ class seatMap extends PureComponent {
           this.setState({ dataBookedSeats: data })
           Router.push({
             pathname: '/Cashier'
-           })
+          })
           sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
           sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userInfo.mobileno)
@@ -278,13 +287,10 @@ class seatMap extends PureComponent {
             title: 'เกิดข้อผิดพลาด',
             text: data.description
           })
-          this.setState({otpShow: false})
+          this.setState({
+            isLoading: false,
+          })
         }
-        this.setState({isLoading: false}, () => {
-          if (isChaining) {
-            this.refSeatMapDisplay.current.setState({postingTicket: false})
-          }
-        })
       })
     } catch (error) {
       console.error('error', error);
