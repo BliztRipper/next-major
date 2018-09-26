@@ -10,6 +10,7 @@ class MainNavBar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       dataMyTicketsDone: false,
       dataMyTicketServerTime: '',
       dataMyTickets: '',
@@ -17,7 +18,8 @@ class MainNavBar extends PureComponent {
       dataMyTicketsExpired: '',
       previousRoute: '',
       currentTabsIndex: 0,
-      bg:''
+      bg:'',
+      highlightFetching: true,
     }
 
   }
@@ -138,12 +140,16 @@ class MainNavBar extends PureComponent {
     })
   }
 
+  highlightFetched (status) {
+    this.setState({
+      highlightFetching: !status
+    })
+  }
+
   render() {
-    const {dataMyTicketsDone, bg, currentTabsIndex} = this.state
+    const {dataMyTicketsDone, bg, currentTabsIndex, highlightFetching} = this.state
     resetIdCounter()
-    let dataToAllMovies = {
-      pathname: '/AllMovie'
-    }
+    let dataToAllMovies = ''
     let dataToMyTicket = {
       pathname: '/MyTickets'
     }
@@ -152,11 +158,19 @@ class MainNavBar extends PureComponent {
       backgroundSize:'cover',
       filter: 'blur(16px)',
     }
+    let tabsClassName = 'indexTab'
+    if (!highlightFetching) {
+      dataToAllMovies = {
+        pathname: '/AllMovie'
+      }
+    } else {
+      tabsClassName = tabsClassName + ' isFetching'
+    }
+
     if (dataMyTicketsDone) {
       return (
-        <div className="indexTab">
-         {
-           (() => {
+        <div className={tabsClassName} >
+         {(() => {
             if (currentTabsIndex === 0) {
               return (
                 <div className="background-blur__wrapper" key="bgBlurEffect">
@@ -164,20 +178,23 @@ class MainNavBar extends PureComponent {
                 </div>
               )
             }
-           }) ()
-         }
+           })()}
           <Tabs
             onSelect={this.onSelectTabs.bind(this)}
             defaultIndex={currentTabsIndex}
             key="indexTabsContainer"
             >
             <TabPanel>
-              <div className="allmovie-btn-wrap">
-              <Link prefetch href={dataToAllMovies} key="ButtonSeeAllMovies">
+              <div className="allmovie-btn-wrap" key="ButtonSeeAllMovies">
+                <Link prefetch href={dataToAllMovies}>
                   <a className="allmovie-btn"><div className="sprite-table"></div> ดูภาพยนต์ทั้งหมด</a>
                 </Link>
                 </div>
-              <HighlightCarousel key="HighlightCarousel" bg={this.getBG.bind(this)} accid={this.props.accid}/>
+              <HighlightCarousel
+                key="HighlightCarousel"
+                bg={this.getBG.bind(this)}
+                accid={this.props.accid}
+                highlightFetched={this.highlightFetched.bind(this)}/>
             </TabPanel>
             <TabPanel>
               <MainCinemaListing accid={this.props.accid}/>
@@ -188,7 +205,7 @@ class MainNavBar extends PureComponent {
                   <div className="sprite-tab-menu1"></div>
                   <span className="tab-menu-title">ภาพยนต์</span>
                 </Tab>
-                <Tab>
+                <Tab disabled={highlightFetching}>
                   <div className="sprite-tab-menu2"></div>
                   <span className="tab-menu-title">โรงภาพยนต์</span>
                 </Tab>

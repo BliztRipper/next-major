@@ -107,6 +107,7 @@ class HighlightCarousel extends PureComponent {
       items.push(this.state.dataObj[i])
     }
     sessionStorage.setItem("now_showing", JSON.stringify(items))
+    this.props.highlightFetched(true)
     let renderItem = []
     renderItem.push(
       <div className="swiper-container" ref="slider" key="slider">
