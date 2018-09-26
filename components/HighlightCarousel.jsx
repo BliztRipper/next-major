@@ -60,6 +60,7 @@ class HighlightCarousel extends PureComponent {
   }
 
   componentWillMount(){
+    this.props.highlightFetched(false)
     fetch(`https://api-cinema.truemoney.net/MovieList`)
     .then(response => response.json())
     .then((data) => {

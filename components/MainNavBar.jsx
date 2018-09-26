@@ -92,11 +92,15 @@ class MainNavBar extends PureComponent {
     switch (instantPrevRoute) {
       case '/SelectMovieByCinema':
         instantTabsIndex = 1
+        this.setState({
+          highlightFetching: false
+        })
         break;
       default:
         instantTabsIndex = 0
         break;
     }
+
     this.setState({
       previousRoute: instantPrevRoute,
       currentTabsIndex: instantTabsIndex
@@ -167,7 +171,6 @@ class MainNavBar extends PureComponent {
       tabsClassName = tabsClassName + ' isFetching'
     }
 
-    if (dataMyTicketsDone) {
       return (
         <div className={tabsClassName} >
          {(() => {
@@ -181,7 +184,7 @@ class MainNavBar extends PureComponent {
            })()}
           <Tabs
             onSelect={this.onSelectTabs.bind(this)}
-            defaultIndex={currentTabsIndex}
+          selectedIndex={currentTabsIndex}
             key="indexTabsContainer"
             >
             <TabPanel>
@@ -213,14 +216,18 @@ class MainNavBar extends PureComponent {
               </div>
             </TabList>
           </Tabs>
+        {(() => {
+          if (dataMyTicketsDone) {
+            return (
           <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
             { this.renderFloatButton() }
           </Link>
+            )
+          }
+        })()}
         </div>
       )
     }
-    return false
-  }
 }
 
 export default MainNavBar;
