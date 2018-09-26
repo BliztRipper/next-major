@@ -15,7 +15,7 @@ class SearchCinema extends PureComponent {
       <section>
         <div className="search-cinema">
           <div className="sprite-search"></div>
-          <input onChange={this.props.onSearchChange} style={{backgroundColor:'#fff'}} className={this.props.stickyItem ? "search-cinema__searchbox sticky":"search-cinema__searchbox"}placeholder="ค้นหาโรงภาพยนต์ที่ต้องการ" type="text" name="" id=""/>
+          <input onChange={this.props.onSearchChange} style={this.props.isSelectCinema ? {backgroundColor:'tranparent'}:{backgroundColor:'#fff'}} className={this.props.stickyItem ? "search-cinema__searchbox sticky":"search-cinema__searchbox"}placeholder="ค้นหาโรงภาพยนต์ที่ต้องการ" type="text" name="" id=""/>
         </div>
       </section>
     )

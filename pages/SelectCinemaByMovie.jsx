@@ -33,6 +33,7 @@ class MainSelectCinemaByMovie extends Component {
       movieInfo: '',
       HideList: false,
       searchRegions: [],
+      isSelectCinema:true
     }
   }
 
@@ -380,7 +381,7 @@ class MainSelectCinemaByMovie extends Component {
                     <h2 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_en}</h2>
                     <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
                     <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
-                    <SearchCinema stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+                    <SearchCinema isSelectCinema={this.state.isSelectCinema} stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
                   </div>
                 </div>
               )}
