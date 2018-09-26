@@ -21,6 +21,7 @@ class CinemaWithShowtimeComp extends Component {
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
 		sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
+		sessionStorage.setItem('BookingBranchLocation', JSON.stringify(this.state.cinema.branchLocation))
 		sessionStorage.setItem('BookingDate', showtime)
 	}
 

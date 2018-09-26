@@ -43,6 +43,10 @@ class CinemaListComp extends PureComponent {
                 zoneId: branch.DescriptionInside.zone_id,
                 zoneName: branch.DescriptionInside.zone_name,
                 branchName: utilities.getNameFromBranch(branch),
+                branchLocation: {
+                    latitude: branch.Latitude,
+                    longitude: branch.Longitude
+                },
                 cinemaId: branch.ID,
                 brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
                 isFavorite: utilities.isFavorite(favorites, branch.ID),
