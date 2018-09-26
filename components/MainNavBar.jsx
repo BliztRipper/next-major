@@ -76,9 +76,6 @@ class MainNavBar extends PureComponent {
 
     let ticketBookedResultTime = ticket.BookingFullDate ? utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, ticket.BookingTime).date.getTime() : false
 
-    console.log(serverResulTime - ticketBookedResultTime > offsetTime, 'serverResulTime - ticketBookedResultTime > offsetTime');
-
-
     return serverResulTime - ticketBookedResultTime > offsetTime
   }
 
