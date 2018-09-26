@@ -16,6 +16,7 @@ class CinemaWithOutShowtimeComp extends Component {
     handleSelectBranch () {
         sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
         sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
+        sessionStorage.setItem('BookingBranchLocation', JSON.stringify(this.state.cinema.branchLocation))
     }
 
     render() {

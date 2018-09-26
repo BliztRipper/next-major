@@ -56,6 +56,8 @@ export default {
     sessionStorage.removeItem('BookingUserSessionId')
     sessionStorage.removeItem('BookingUserPhoneNumber')
     sessionStorage.removeItem('BookingCurrentServerTime')
+    sessionStorage.removeItem('movieSelect')
+    sessionStorage.removeItem('BookingBranchLocation')
   },
 
   getSoundDisplay(sound) {

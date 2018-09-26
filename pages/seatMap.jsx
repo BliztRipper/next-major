@@ -260,13 +260,6 @@ class seatMap extends PureComponent {
       })
     });
     try {
-      if (isChaining) {
-        this.refSeatMapDisplay.current.setState({postingTicket: false})
-      }
-      this.setState({
-        isLoading: true,
-        otpShow: false
-      })
       fetch(`https://api-cinema.truemoney.net/AddTicket`,{
         method: 'POST',
         body:JSON.stringify(dataToStorage)
@@ -287,6 +280,8 @@ class seatMap extends PureComponent {
             title: 'เกิดข้อผิดพลาด',
             text: data.description
           })
+        }
+        if (!isChaining) { // come from verify user
           this.setState({
             isLoading: false,
           })

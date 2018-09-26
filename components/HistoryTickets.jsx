@@ -15,12 +15,12 @@ class HistoryTickets extends PureComponent {
   }
   renderEachList (ticket, ticketIndex) {
     return (
-      <div className="historyTickets__list" onClick={this.props.goToHistoryDetail.bind(this, ticketIndex)} key={ticket.BookingMovie + ticket.BookingDate + ticket.BookingTime + ticketIndex}>
+      <div className="historyTickets__list" onClick={this.props.goToHistoryDetail.bind(this, ticketIndex)} key={ticket.BookingMovie + ticket.BookingFullDate + ticket.BookingTime + ticketIndex}>
         <div className="historyTickets__list-titleEN">{ticket.BookingMovie}</div>
         <div className="historyTickets__list-titleTH">{ticket.BookingMovieTH}</div>
         <div className="historyTickets__list-locationAndDate">
           <div className="historyTickets__list-location">{ticket.BookingCinema}</div>
-          <div className="historyTickets__list-date">{ticket.BookingDate} ({ticket.BookingTime})</div>
+          <div className="historyTickets__list-date">{ticket.BookingFullDate} ({ticket.BookingTime})</div>
         </div>
       </div>
     )
@@ -39,9 +39,9 @@ class HistoryTickets extends PureComponent {
 
     let ticketsGroupByMonths = {}
     this.props.dataTickets.map((ticket) => {
-      let month = utilities.getStringDateTimeFromTicket(ticket.BookingDate, false).month
-      let year = utilities.getStringDateTimeFromTicket(ticket.BookingDate, false).year
-      let ticketDate = utilities.getStringDateTimeFromTicket(ticket.BookingDate, false).date
+      let month = utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, false).month
+      let year = utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, false).year
+      let ticketDate = utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, false).date
       let ticketMonth = ticketDate.getMonth()
       if (serverMonth - ticketMonth < maxMonths) {
         if (!ticketsGroupByMonths[year + '-' + month]) {

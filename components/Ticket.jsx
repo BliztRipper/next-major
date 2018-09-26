@@ -15,6 +15,7 @@ class Ticket extends PureComponent {
       BookingDuration: '',
       BookingGenre: '',
       BookingCinema: '',
+      BookingBranchLocation: '',
       BookingMovieTH: '',
       BookingPoster: '',
       BookingScreenName: '',
@@ -77,6 +78,8 @@ class Ticket extends PureComponent {
     let containerClassName = 'movie-cashier__container'
     containerClassName = this.props.expired ? containerClassName + ' expired' : containerClassName
 
+    let linkToGMAP = `https://www.google.com/maps/search/?api=1&query=${this.state.BookingBranchLocation.latitude},${this.state.BookingBranchLocation.longitude}`
+
     return (
       <div className={containerClassName}>
         <div className="movie-cashier__movie-info">
@@ -90,7 +93,7 @@ class Ticket extends PureComponent {
         <div className="movie-cashier__cine-info">
             <span className="movie-cashier__cine-info--title">{this.state.BookingCinema}</span>
             <span className="movie-cashier__cine-info--label">สาขา</span>
-            <span className="movie-cashier__cine-info--map">ดูแผนที่</span>
+            <a href={linkToGMAP} target="_blank" className="movie-cashier__cine-info--map">ดูแผนที่</a>
         </div>
         <div className="movie-cashier__date-info">
           <div className="movie-cashier__date-info--wrapper">

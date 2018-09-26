@@ -29,11 +29,13 @@ class Cashier extends PureComponent {
       BookingDuration: '',
       BookingGenre: '',
       BookingCinema: '',
+      BookingBranchLocation: '',
       BookingMovieTH: '',
       BookingPoster: '',
       BookingScreenName: '',
       BookingSeat: '',
       BookingDate: '',
+      BookingFullDate: '',
       BookingAttributesNames: '',
       BookingTime: '',
       BookingPrice: '',
@@ -52,6 +54,7 @@ class Cashier extends PureComponent {
   submitPayment () {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
+    console.log(this.state.dataToPayment, 'this.state.dataToPayment')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.userInfo.accid}/${this.state.userInfo.mobileno}`,{
         method: 'POST',
@@ -78,6 +81,8 @@ class Cashier extends PureComponent {
             timer: 4000
           })
         } else {
+          this.refTicket.current.setState({postingTicket: false})
+
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด!',
@@ -85,11 +90,21 @@ class Cashier extends PureComponent {
             showCancelButton: true,
             cancelButtonText: 'กลับไปหน้าแรก',
             text: data.description,
-            onAfterClose: () => { this.goToHome() }
+            onAfterClose: () => {
+              Router.push({ pathname: '/' })
+            }
+          })
+          fetch(`http://api-cinema.truemoney.net/CancelOrder`,{
+            method: 'POST',
+            headers: this.state.apiOtpHeader,
+            body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
+          })
+          .then(response => response.json())
+          .then((data) =>  {
+            console.log(data, 'data RESPONSE CancelOrder')
           })
         }
       })
-
     } catch (error) {
       console.error('error', error);
     }
@@ -99,12 +114,13 @@ class Cashier extends PureComponent {
     this.state.movieSelected = JSON.parse(sessionStorage.getItem('movieSelect'))
 
     try {
-      let dateObj = new Date(sessionStorage.getItem('BookingDate'));
-      let month = dateObj.getUTCMonth() + 1
-      let day = dateObj.getUTCDate()
-      let year = dateObj.getUTCFullYear()
+      let instantFullDate = new Date(sessionStorage.getItem('BookingDate'));
+      let month = instantFullDate.getUTCMonth() + 1
+      let day = instantFullDate.getUTCDate()
+      let year = instantFullDate.getUTCFullYear()
       let monthFormated = this.formatMonth(month)
       let bookingDate = day + " " + monthFormated
+      this.state.BookingFullDate = `${day}/${month}/${year}`
 
       this.setState({
         BookingMovie: String(this.state.movieSelected.title_en),
@@ -113,9 +129,11 @@ class Cashier extends PureComponent {
         BookingGenre: String(this.state.movieSelected.genre),
         BookingPoster: String(this.state.movieSelected.poster_ori),
         BookingCinema: String(sessionStorage.getItem('BookingCinema')),
+        BookingBranchLocation: JSON.parse(sessionStorage.getItem('BookingBranchLocation')),
         BookingScreenName: String(sessionStorage.getItem('BookingScreenName')),
         BookingSeat: String(sessionStorage.getItem('BookingSeat')),
         BookingDate: String(bookingDate),
+        BookingFullDate: String(this.state.BookingFullDate),
         BookingAttributesNames: String(sessionStorage.getItem('BookingAttributesNames')),
         BookingTime: String(sessionStorage.getItem('BookingTime')),
         BookingPrice: String(sessionStorage.getItem('BookingPrice')),
@@ -150,12 +168,6 @@ class Cashier extends PureComponent {
       "พฤ.ย.", "ธ.ค."
     ]
     return monthNames[month]
-  }
-
-  goToHome() {
-    Router.push({
-      pathname: '/'
-    })
   }
 
   render() {

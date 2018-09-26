@@ -42,38 +42,43 @@ class MainNavBar extends PureComponent {
             }
           })
           this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
-          this.state.dataMyTicketsExpired = JSON.stringify(this.state.dataMyTicketsExpired)
-          this.state.dataMyTickets = JSON.stringify(this.state.dataMyTickets)
           if (this.state.dataMyTickets.length === 0) this.state.dataMyTickets = null
           if (this.state.dataMyTicketsExpired.length === 0) this.state.dataMyTicketsExpired = null
         } else {
           this.state.dataMyTicketsExpired = null
           this.state.dataMyTickets = null
         }
-        sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
-        sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
-        sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
         this.setState({
-          dataMyTicketsExpired: this.state.dataMyTicketsExpired,
-          dataMyTickets: this.state.dataMyTickets,
+          dataMyTicketsExpired: JSON.stringify(this.state.dataMyTicketsExpired),
+          dataMyTickets: JSON.stringify(this.state.dataMyTickets),
           dataMyTicketsTotal: this.state.dataMyTicketsTotal,
           dataMyTicketServerTime: this.state.dataMyTicketServerTime,
           dataMyTicketsDone: true
+        }, () => {
+          sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
+          sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
+          sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
         })
       })
     } catch (err) {
       error => {
         console.error('error', error);
-        this.setState({ error})
+        this.setState({error: true})
       }
     }
   }
   ticketHasExpired (ticket) {
+
     let serverDate = new Date(this.state.dataMyTicketServerTime)
     let expiredMaxHours = 3
     let offsetTime = expiredMaxHours * 3600 * 1000
     let serverResulTime = serverDate.getTime()
-    let ticketBookedResultTime = utilities.getStringDateTimeFromTicket(ticket.BookingDate, ticket.BookingTime).date.getTime();
+
+    let ticketBookedResultTime = ticket.BookingFullDate ? utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, ticket.BookingTime).date.getTime() : false
+
+    console.log(serverResulTime - ticketBookedResultTime > offsetTime, 'serverResulTime - ticketBookedResultTime > offsetTime');
+
+
     return serverResulTime - ticketBookedResultTime > offsetTime
   }
 
@@ -171,63 +176,63 @@ class MainNavBar extends PureComponent {
       tabsClassName = tabsClassName + ' isFetching'
     }
 
-      return (
-        <div className={tabsClassName} >
-         {(() => {
-            if (currentTabsIndex === 0) {
-              return (
-                <div className="background-blur__wrapper" key="bgBlurEffect">
-                  <div className="background-blur" style={bgblur}></div>
-                </div>
-              )
-            }
-           })()}
-          <Tabs
-            onSelect={this.onSelectTabs.bind(this)}
-          selectedIndex={currentTabsIndex}
-            key="indexTabsContainer"
-            >
-            <TabPanel>
-              <div className="allmovie-btn-wrap" key="ButtonSeeAllMovies">
-                <Link prefetch href={dataToAllMovies}>
-                  <a className="allmovie-btn"><div className="sprite-table"></div> ดูภาพยนต์ทั้งหมด</a>
-                </Link>
-                </div>
-              <HighlightCarousel
-                key="HighlightCarousel"
-                bg={this.getBG.bind(this)}
-                accid={this.props.accid}
-                highlightFetched={this.highlightFetched.bind(this)}/>
-            </TabPanel>
-            <TabPanel>
-              <MainCinemaListing accid={this.props.accid}/>
-            </TabPanel>
-            <TabList>
-              <div className="react-tabs__tabs-container">
-                <Tab>
-                  <div className="sprite-tab-menu1"></div>
-                  <span className="tab-menu-title">ภาพยนต์</span>
-                </Tab>
-                <Tab disabled={highlightFetching}>
-                  <div className="sprite-tab-menu2"></div>
-                  <span className="tab-menu-title">โรงภาพยนต์</span>
-                </Tab>
-                <li className="isBlank">ตั้วหนัง</li>
+    return (
+      <div className={tabsClassName} >
+        {(() => {
+          if (currentTabsIndex === 0) {
+            return (
+              <div className="background-blur__wrapper" key="bgBlurEffect">
+                <div className="background-blur" style={bgblur}></div>
               </div>
-            </TabList>
-          </Tabs>
+            )
+          }
+          })()}
+        <Tabs
+          onSelect={this.onSelectTabs.bind(this)}
+          selectedIndex={currentTabsIndex}
+          key="indexTabsContainer"
+          >
+          <TabPanel>
+            <div className="allmovie-btn-wrap" key="ButtonSeeAllMovies">
+              <Link prefetch href={dataToAllMovies}>
+                <a className="allmovie-btn"><div className="sprite-table"></div> ดูภาพยนต์ทั้งหมด</a>
+              </Link>
+            </div>
+            <HighlightCarousel
+              key="HighlightCarousel"
+              bg={this.getBG.bind(this)}
+              accid={this.props.accid}
+              highlightFetched={this.highlightFetched.bind(this)}/>
+          </TabPanel>
+          <TabPanel>
+            <MainCinemaListing accid={this.props.accid}/>
+          </TabPanel>
+          <TabList>
+            <div className="react-tabs__tabs-container">
+              <Tab>
+                <div className="sprite-tab-menu1"></div>
+                <span className="tab-menu-title">ภาพยนต์</span>
+              </Tab>
+              <Tab disabled={highlightFetching}>
+                <div className="sprite-tab-menu2"></div>
+                <span className="tab-menu-title">โรงภาพยนต์</span>
+              </Tab>
+              <li className="isBlank">ตั้วหนัง</li>
+            </div>
+          </TabList>
+        </Tabs>
         {(() => {
           if (dataMyTicketsDone) {
             return (
-          <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
-            { this.renderFloatButton() }
-          </Link>
+              <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
+                { this.renderFloatButton() }
+              </Link>
             )
           }
         })()}
-        </div>
-      )
-    }
+      </div>
+    )
+  }
 }
 
 export default MainNavBar;
