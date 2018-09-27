@@ -19,10 +19,6 @@ class MyTickets extends PureComponent {
     }
 
   }
-  handleBackButton () {
-    Router.push('/')
-  }
-
   componentDidMount(){
     utilities.bounceOnScroll().disable()
     Router.events.on('routeChangeStart', () => {
@@ -46,7 +42,7 @@ class MyTickets extends PureComponent {
     return (
       <Layout title='My Tickets'>
         <div className="globalContent isMyTicket" key="globalContent isMyTicket">
-          {/* <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ตั๋วของฉัน"></GlobalHeader> */}
+          <GlobalHeader> ตั๋วของฉัน </GlobalHeader>
           <div className="globalBody">
             <div className="globalBodyInner">
               <MyTicket dataMyTickets={dataMyTickets} dataMyTicketsExpired={dataMyTicketsExpired}></MyTicket>

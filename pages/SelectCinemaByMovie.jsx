@@ -10,7 +10,7 @@ import DateFilters from '../components/DateFilters'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
 import { StickyContainer, Sticky } from 'react-sticky';
-import { log } from 'util';
+import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 
 class MainSelectCinemaByMovie extends Component {
   constructor(props) {
@@ -341,6 +341,7 @@ class MainSelectCinemaByMovie extends Component {
       transition:'all 0.2s',
     }
     const titleShow = {
+      position: 'relative',
       transition:'all 0.2s',
       opacity:1,
       visibility:'visible',
@@ -382,7 +383,7 @@ class MainSelectCinemaByMovie extends Component {
               {({style,isSticky}) => (
                 <div style={style}>
                   <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
-                    <h2 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_en}</h2>
+                    <h2 style={isSticky ? titleShow:hideNoTransition}><div style={{ position: 'relative', paddingLeft:'12vw', paddingRight:'12vw' }}><GlobalHeaderButtonBack></GlobalHeaderButtonBack> {this.state.nowShowing.title_en}</div></h2>
                     <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
                     <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
                     <SearchCinema isSelectCinema={this.state.isSelectCinema} stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />

@@ -16,9 +16,6 @@ class HistoryTicketsPage extends PureComponent {
     }
 
   }
-  handleBackButton () {
-    Router.push('/MyTickets')
-  }
   goToHistoryDetail (ticketIndex) {
     Router.push({
       pathname: '/HistoryTicketDetail',
@@ -42,10 +39,10 @@ class HistoryTicketsPage extends PureComponent {
     return (
       <Layout title="History Tickets">
         <div className="globalContent isHistoryTickets">
-          <GlobalHeader handleBackButton={this.props.handleBackButton} titleMsg="ประวัติการใช้งาน"></GlobalHeader>
+          <GlobalHeader>ประวัติการใช้งาน</GlobalHeader>
           <div className="globalBody">
             <div className="globalBodyInner">
-              <HistoryTickets dataTickets={dataTickets} serverTime={serverTime} goToHistoryDetail={this.goToHistoryDetail.bind(this)} handleBackButton={this.handleBackButton.bind(this)} ></HistoryTickets>
+              <HistoryTickets dataTickets={dataTickets} serverTime={serverTime} goToHistoryDetail={this.goToHistoryDetail.bind(this)} ></HistoryTickets>
             </div>
           </div>
         </div>

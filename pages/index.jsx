@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
-import loading from '../static/loading.svg'
 import '../styles/style.scss'
 
 class home extends PureComponent {
@@ -47,7 +46,7 @@ class home extends PureComponent {
   render() {
     const {accid, isLoading} = this.state
     if (isLoading) {
-      return <div className="loadingWrap"><img src={loading} className="loading"/></div>
+      return false
     }
     return(
       <Layout>

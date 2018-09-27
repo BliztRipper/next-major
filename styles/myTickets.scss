@@ -9,10 +9,6 @@
   line-height: 1.4;
   display: grid;
   grid-template-rows: auto 1fr;
-  .globalHeader__title {
-    padding: .6em 0;
-    font-size: 1.2em;
-  }
   .globalBody {
     overflow-x: hidden;
     overflow-y: auto;
@@ -109,6 +105,45 @@
         }
       }
     }
+  }
+  &.isCashier {
+    .globalBody {
+      padding-bottom: 56px;
+    }
+  }
+}
+.globalHeader {
+  position: relative;
+  background-color: #fff;
+  &__button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 1;
+    padding: 1.8vw;
+    background-color: #fff;
+    img {
+      display: block;
+      width: 1.8em;
+      height: auto;
+    }
+    svg {
+      width: 6vw;
+      height: 6vw;
+      display: block;
+    }
+  }
+  &__title {
+    text-align: center;
+    position: relative;
+    z-index: 0;
+    padding: .6em 12vw;
+    font-size: 1.1em;
+    min-height: 1.4em;
+  }
+  + .movie-cashier__container {
+    margin-top: 1.1rem;
   }
 }
 .globalBodyInner {

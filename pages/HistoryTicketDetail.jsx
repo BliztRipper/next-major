@@ -16,9 +16,6 @@ class HistoryTicketsPage extends PureComponent {
     }
 
   }
-  handleBackButton () {
-    Router.push('/HistoryTickets')
-  }
   componentDidMount() {
     let ticketIndex = this.props.url.query.ticketIndex
     this.state.dataTicket = JSON.parse(sessionStorage.getItem('dataMyTicketsExpired'))
@@ -36,7 +33,7 @@ class HistoryTicketsPage extends PureComponent {
     return (
       <Layout title={movieNameEN}>
         <div className="globalContent">
-          <GlobalHeader handleBackButton={this.props.handleBackButton} titleMsg={movieNameEN}></GlobalHeader>
+          <GlobalHeader>{movieNameEN}</GlobalHeader>
           <div className="globalBody">
             <div className="globalBodyInner">
               <Ticket dataTicket={dataTicket} key={dataTicket.VistaBookingId} hideButton={true} expired={true}></Ticket>

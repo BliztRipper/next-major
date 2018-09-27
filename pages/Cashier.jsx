@@ -54,7 +54,6 @@ class Cashier extends PureComponent {
   submitPayment () {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
-    console.log(this.state.dataToPayment, 'this.state.dataToPayment')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment/${this.state.userInfo.accid}/${this.state.userInfo.mobileno}`,{
         method: 'POST',
@@ -73,6 +72,9 @@ class Cashier extends PureComponent {
           this.setState({...dataPaymentSuccess})
           this.refTicket.current.setState({postingTicket: false, ...dataPaymentSuccess})
           utilities.removeBookingInfoInSessionStorage()
+          Router.beforePopState(({ url, as, options }) => {
+            return false
+          })
           Swal({
             type: 'success',
             title: 'ทำรายการเสร็จสิ้น!',
@@ -100,9 +102,6 @@ class Cashier extends PureComponent {
             body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
           })
           .then(response => response.json())
-          .then((data) =>  {
-            console.log(data, 'data RESPONSE CancelOrder')
-          })
         }
       })
     } catch (error) {
@@ -110,9 +109,7 @@ class Cashier extends PureComponent {
     }
   }
   componentDidMount() {
-
     this.state.movieSelected = JSON.parse(sessionStorage.getItem('movieSelect'))
-
     try {
       let instantFullDate = new Date(sessionStorage.getItem('BookingDate'));
       let month = instantFullDate.getUTCMonth() + 1
@@ -171,7 +168,7 @@ class Cashier extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, dataToTicket, userInfo} = this.state;
+    const {isLoading, error, dataToTicket, userInfo, success} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -184,7 +181,7 @@ class Cashier extends PureComponent {
           if (userInfo) {
             return (
               <div className="globalContent isCashier">
-                <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="ยืนยันที่นั่ง"></GlobalHeader>
+                <GlobalHeader hideBtnBack={success}>{success? 'ซื้อตั๋วสำเร็จ' : 'ยืนยันที่นั่ง'}</GlobalHeader>
                 <div className="globalBody">
                   <div className="globalBodyInner">
                     <Ticket ref={this.refTicket} dataTicket={dataToTicket} accid={userInfo.accid} submitPayment={this.submitPayment.bind(this)}></Ticket>

@@ -124,9 +124,6 @@ class seatMap extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
-  handleBackButton () {
-    Router.back()
-  }
   handleToggleZoomSeatsMap (e) {
     this.setState({
       entrySeatMap: true
@@ -280,8 +277,6 @@ class seatMap extends PureComponent {
             title: 'เกิดข้อผิดพลาด',
             text: data.description
           })
-        }
-        if (!isChaining) { // come from verify user
           this.setState({
             isLoading: false,
           })
@@ -305,6 +300,10 @@ class seatMap extends PureComponent {
     )
   }
   componentDidMount () {
+    let instantMovieSelect = sessionStorage.getItem('movieSelect')
+    if (!instantMovieSelect) {
+      this.goToHome()
+    }
     this.getTheatre()
     let userSessionId = sessionStorage.getItem('BookingUserSessionId')
     this.setState({
@@ -348,7 +347,7 @@ class seatMap extends PureComponent {
             return (
               <Fragment>
                 <div className={seatMapClassName}>
-                  <GlobalHeader handleBackButton={this.handleBackButton} titleMsg="เลือกที่นั่ง"></GlobalHeader>
+                  <GlobalHeader>เลือกที่นั่ง</GlobalHeader>
                   <SeatMapDisplay
                     ref={this.refSeatMapDisplay}
                     areaData={areaData}

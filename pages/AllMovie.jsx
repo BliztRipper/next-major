@@ -4,7 +4,7 @@ import Layout from '../components/Layout'
 import '../styles/style.scss'
 import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
-import Router from 'next/router'
+import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyTicket.png'
 
@@ -45,7 +45,10 @@ class AllMovie extends PureComponent {
           if (accid) {
             return (
               <Fragment>
-                <h1 className="allmovieTab__header">ภาพยนต์ทั้งหมด</h1>
+                <h1 className="allmovieTab__header">
+                  <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                  ภาพยนต์ทั้งหมด
+                </h1>
                 <div className="allmovieTab">
                   <Tabs>
                     <TabList>

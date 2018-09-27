@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import Link from 'next/link'
+import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import '../styles/style.scss'
 
 class MovieInfoComp extends PureComponent {
@@ -40,6 +41,7 @@ class MovieInfoComp extends PureComponent {
         marginRight: 'auto'
       }
       const title = {
+        position: 'relative',
         fontSize: '1.125rem',
         fontWeight: 700,
         marginBottom: '1rem',
@@ -66,7 +68,7 @@ class MovieInfoComp extends PureComponent {
           </div>
           <div className="movie-card__container" key="movie-card-container">
             <div style={wrapper}>
-              <h2 className="movie-card__title" style={title} key="title-h2">{this.props.item.title_en}</h2>
+              <h2 className="movie-card__title" style={{...title, ...{ paddingLeft:'12vw', paddingRight:'12vw' }}} key="title-h2"><GlobalHeaderButtonBack></GlobalHeaderButtonBack> {this.props.item.title_en}</h2>
               <h3 className="movie-card__subtitle" style={subtitle} key="title-h3">{this.props.item.title_th}</h3>
               <div className="movie-card__genre" style={genre} key="desc-genre">{this.props.item.genre} | {this.props.item.duration} นาที</div>
               <Link prefetch href='/MovieInfo' key="desc-movie-info">

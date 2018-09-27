@@ -6,6 +6,7 @@ import empty from '../static/emptyMovie.png'
 import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
+import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -121,10 +122,11 @@ class MainSelectMovieByCinema extends PureComponent {
         {(() => {
           if (accid) {
             return (
-              <Fragment>
+              <div className="page__selectMovieByCinema">
+                <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
                 <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
                 {this.renderMovieWithShowtime(pickThisDay)}
-              </Fragment>
+              </div>
             )
           } else {
             return (

@@ -1,10 +1,17 @@
- const GlobalHeader = (props) => {
-   let btnBack = props.hideBtnBack ? '' : <div className="globalHeader__button" onClick={props.handleBackButton}><div>&lt;</div></div>
-  return (
-    <div className="globalHeader">
-      {/* {btnBack} */}
-      <div className="globalHeader__title">{props.titleMsg}</div>
-    </div>
-  )
+import { Component } from 'react'
+import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
+class GlobalHeader extends Component {
+  render () {
+    return (
+      <div className="globalHeader">
+        {(() => {
+          if (!this.props.hideBtnBack) {
+            return <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+          }
+        })()}
+        <div className="globalHeader__title">{this.props.children}</div>
+      </div>
+    )
+  }
 }
 export default GlobalHeader
