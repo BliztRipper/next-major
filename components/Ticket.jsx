@@ -132,7 +132,7 @@ class Ticket extends PureComponent {
               <QRCode size={150} level={"H"} value={this.state.VistaBookingNumber} onClick={this.handleClickQR.bind(this)} />
             </div>
           </div>
-          <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
+          <b className="qrContainer__ref">{this.state.VistaBookingNumber}</b>
         </div>
         {this.renderButtons(success, buttonProgressText, buttonProgressClassName)}
       </div>
