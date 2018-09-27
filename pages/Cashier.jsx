@@ -15,6 +15,8 @@ class Cashier extends PureComponent {
       isLoading: true,
       error: null,
       dataToPayment: {
+        tmn_id: '',
+        mobile_no: '',
         third_party_tx_id: '',
         amount_satang: 0,
         currency: 'THB',
@@ -55,7 +57,7 @@ class Cashier extends PureComponent {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
     try {
-      fetch(`https://api-cinema.truemoney.net/Payment/${this.state.userInfo.accid}/${this.state.userInfo.mobileno}`,{
+      fetch(`https://api-cinema.truemoney.net/Payment`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(this.state.dataToPayment)
@@ -147,6 +149,8 @@ class Cashier extends PureComponent {
           filtered.forEach(key => { this.state.dataToPayment.payload[key] = this.state[key] })
           this.state.dataToPayment.third_party_tx_id = this.state.BookingUserSessionId
           this.state.dataToPayment.amount_satang = this.state.BookingPrice
+          this.state.dataToPayment.tmn_id = this.state.userInfo.accid
+          this.state.dataToPayment.mobile_no = this.state.userInfo.mobileno
           this.setState({
             dataToTicket: this.state.dataToPayment.payload,
             isLoading: false
