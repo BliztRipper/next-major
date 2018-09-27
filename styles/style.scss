@@ -139,8 +139,8 @@ body{
     width: 17px;
     height: 17px;
     position: absolute;
-    top: 14px;
-    left: 8%;
+    top: 6px;
+    left: 6%;
     z-index: 1;
     // filter: brightness(4);
   }
@@ -767,6 +767,7 @@ body{
       &__tab-panel{
         &--selected{
           padding-bottom: 6rem;
+          height: 100vh;
         }
       }
     }
