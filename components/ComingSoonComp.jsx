@@ -60,15 +60,28 @@ class CominSoonComp extends PureComponent {
       if (key in monthMovie == false){
         monthMovie[key] = []
       }
-      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori, release:movie.release_date})
+      monthMovie[key].push({
+        title_th: movie.title_th,
+        title_en: movie.title_en,
+        poster_ori:movie.poster_ori,
+        genre:movie.genre,
+        rating:movie.rating,
+        synopsis_th:movie.synopsis_th,
+        actor:movie.actor,
+        director:movie.director,
+        release_date:movie.release_date,
+        tr_ios:movie.tr_ios,
+        tr_mp4:movie.tr_mp4,
+      })
     })
     var cells = []
     {(() => {
       for (var month in monthMovie) {
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
-          let releaseDate = this.formatDate(movie.release)
-          cells.push(<MoviePoster title={movie.title} release={releaseDate} poster={movie.poster} key={movie.title+i}/>)
+          let releaseDate = this.formatDate(movie.release_date)
+          console.log(movie)
+          cells.push(<MoviePoster item={movie} title_th={movie.title_th} release={releaseDate} poster={movie.poster_ori} key={movie.title+i}/>)
         })
         renderMovie.push(
           <div className="comingsoon__container" key={month+'comingsoon__container'}>
