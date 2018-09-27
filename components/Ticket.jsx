@@ -64,7 +64,7 @@ class Ticket extends PureComponent {
         <div className="qrContainer__qrcode">
           <QRCode size={size} level={"H"} value={this.state.VistaBookingNumber}/>
         </div>
-        <b className="qrContainer__ref">{this.state.VistaBookingId}</b>
+        <b className="qrContainer__ref">{this.state.VistaBookingNumber}</b>
       </Fragment>
     )
   }
