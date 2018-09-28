@@ -27,68 +27,16 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
-  getTickets () {
-    try{
-      fetch(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
-      .then(response => response.json())
-      .then(data => {
-        this.state.dataMyTicketServerTime = data.server_time
-        let expired = false
-        if (data.data) {
-          this.state.dataMyTickets = []
-          this.state.dataMyTicketsExpired = []
-          data.data.forEach((ticket) => {
-            expired = this.ticketHasExpired(ticket)
-            if (!expired) {
-              this.state.dataMyTickets.push(ticket)
-            } else {
-              this.state.dataMyTicketsExpired.push(ticket)
-            }
-          })
-          this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
-          if (this.state.dataMyTickets.length === 0) this.state.dataMyTickets = null
-          if (this.state.dataMyTicketsExpired.length === 0) this.state.dataMyTicketsExpired = null
-        } else {
-          this.state.dataMyTicketsExpired = null
-          this.state.dataMyTickets = null
-        }
-        this.setState({
-          dataMyTicketsExpired: JSON.stringify(this.state.dataMyTicketsExpired),
-          dataMyTickets: JSON.stringify(this.state.dataMyTickets),
-          dataMyTicketsTotal: this.state.dataMyTicketsTotal,
-          dataMyTicketServerTime: this.state.dataMyTicketServerTime,
-          dataMyTicketsDone: true
-        }, () => {
-          sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
-          sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
-          sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
-        })
-      })
-    } catch (err) {
-      error => {
-        console.error('error', error);
-        this.setState({error: true})
-      }
-    }
-  }
-  ticketHasExpired (ticket) {
-
-    let serverDate = new Date(this.state.dataMyTicketServerTime)
-    let expiredMaxHours = 3
-    let offsetTime = expiredMaxHours * 3600 * 1000
-    let serverResulTime = serverDate.getTime()
-
-    let ticketBookedResultTime = ticket.BookingFullDate ? utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, ticket.BookingTime).date.getTime() : false
-
-    return serverResulTime - ticketBookedResultTime > offsetTime
-  }
 
   componentDidMount() {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     let nowShowing = sessionStorage.getItem("now_showing")
+    let instantTickets =  JSON.parse(sessionStorage.getItem('dataMyTickets'))
     if (!nowShowing) this.goToHome()
-    this.setState({nowShowing:JSON.parse(nowShowing)})
-    this.getTickets()
+    this.setState({
+      nowShowing: JSON.parse(nowShowing),
+      dataMyTicketsTotal: instantTickets ? instantTickets.length : null
+    })
     try {
       fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
@@ -187,7 +135,7 @@ class MainSelectMovieByCinema extends PureComponent {
     let dataToMyTicket = {
       pathname: '/MyTickets'
     }
-    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid, dataMyTicketsDone} = this.state;
+    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -227,15 +175,9 @@ class MainSelectMovieByCinema extends PureComponent {
                     </div>
                   </TabList>
                 </Tabs>
-                {(() => {
-                  if (dataMyTicketsDone) {
-                    return (
-                      <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
-                        { this.renderFloatButton() }
-                      </Link>
-                    )
-                  }
-                })()}
+                <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
+                  { this.renderFloatButton() }
+                </Link>
               </div>
             )
           } else {
