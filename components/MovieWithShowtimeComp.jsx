@@ -3,8 +3,6 @@ import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
-import {Collapse} from 'react-collapse'
-import {presets} from 'react-motion'
 
 class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {
@@ -104,11 +102,9 @@ class MovieWithShowtimeComp extends PureComponent {
 								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 							</div>
 							<div className="cinema__card-cbm--timetable-wrap">
-								<Collapse isOpened={true} springConfig={presets.stiffness}>
-									<div className="cinema__card-cbm--timetable">
-										{showtimesItems}
-									</div>
-								</Collapse>
+								<div className="cinema__card-cbm--timetable">
+									{showtimesItems}
+								</div>
 							</div>
 						</div>
 					</div>
