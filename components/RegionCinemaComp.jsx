@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import CinemaWithShowtimeComp from '../components/CinemaWithShowtimeComp'
 import CinemaWithOutShowtimeComp from '../components/CinemaWithOutShowtimeComp'
-import { Collapse } from 'react-collapse'
-import { presets } from 'react-motion'
 import utilities from '../scripts/utilities'
+
+import Collapse, { Panel } from 'rc-collapse'
+import '../styles/rcCollapse.scss'
 
 class RegionCinemaComp extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class RegionCinemaComp extends Component {
       isExpand: this.props.isExpand,
       iAmFav: this.props.iAmFav,
       accid: this.props.accid,
-      iAmSystem: this.props.iAmSystem
+      iAmSystem: this.props.iAmSystem,
+      activeKey: this.props.isExpand ? '1' : '0'
     };
   }
 
@@ -107,26 +109,25 @@ class RegionCinemaComp extends Component {
   }
 
   render() {
+    const {isExpand, iAmSystem, region, iAmFav, activeKey} = this.state
     let classNameCardItem = "cinema__cardItem";
-    if (this.state.isExpand) {
+    if (isExpand) {
       classNameCardItem = classNameCardItem + " active";
     }
-    if (this.state.iAmSystem) {
+    if (iAmSystem) {
       classNameCardItem = classNameCardItem + " groupBySystem";
     }
 
     return (
-      <div
-        className={classNameCardItem}
-        key={this.state.region.name + this.state.iAmFav}
-      >
-        {this.renderHeader()}
-        <Collapse
-          key="collapse"
-          isOpened={this.state.isExpand}
-          springConfig={presets.stiffness}
-        >
-          {this.renderCinema()}
+      <div className={classNameCardItem} key={region.name + iAmFav} >
+        <Collapse defaultActiveKey={activeKey}>
+          <Panel
+            key="1"
+            isActive={true}
+            showArrow={false}
+            header={this.renderHeader()}>
+            {this.renderCinema()}
+          </Panel>
         </Collapse>
       </div>
     );
