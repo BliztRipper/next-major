@@ -3,8 +3,8 @@ import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
-import {Collapse} from 'react-collapse'
-import {presets} from 'react-motion'
+import { Collapse } from 'react-collapse'
+import { presets } from 'react-motion'
 
 class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {
