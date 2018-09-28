@@ -86,7 +86,6 @@ class MainNavBar extends PureComponent {
     } else {
       utilities.bounceOnScroll().disable()
     }
-
   }
   getPreviousRoute () {
     let instantPrevRoute = sessionStorage.getItem('previousRoute')

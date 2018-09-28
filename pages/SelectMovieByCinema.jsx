@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
@@ -7,6 +8,7 @@ import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
+import '../styles/style.scss'
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -20,15 +22,73 @@ class MainSelectMovieByCinema extends PureComponent {
       schedules: [],
       dates: [],
       pickThisDay: false,
+      highlightFetching: true,
+      dataMyTicketsDone: false,
     }
   }
 
-  //this function done after render
+  getTickets () {
+    try{
+      fetch(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
+      .then(response => response.json())
+      .then(data => {
+        this.state.dataMyTicketServerTime = data.server_time
+        let expired = false
+        if (data.data) {
+          this.state.dataMyTickets = []
+          this.state.dataMyTicketsExpired = []
+          data.data.forEach((ticket) => {
+            expired = this.ticketHasExpired(ticket)
+            if (!expired) {
+              this.state.dataMyTickets.push(ticket)
+            } else {
+              this.state.dataMyTicketsExpired.push(ticket)
+            }
+          })
+          this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
+          if (this.state.dataMyTickets.length === 0) this.state.dataMyTickets = null
+          if (this.state.dataMyTicketsExpired.length === 0) this.state.dataMyTicketsExpired = null
+        } else {
+          this.state.dataMyTicketsExpired = null
+          this.state.dataMyTickets = null
+        }
+        this.setState({
+          dataMyTicketsExpired: JSON.stringify(this.state.dataMyTicketsExpired),
+          dataMyTickets: JSON.stringify(this.state.dataMyTickets),
+          dataMyTicketsTotal: this.state.dataMyTicketsTotal,
+          dataMyTicketServerTime: this.state.dataMyTicketServerTime,
+          dataMyTicketsDone: true
+        }, () => {
+          sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
+          sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
+          sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
+        })
+      })
+    } catch (err) {
+      error => {
+        console.error('error', error);
+        this.setState({error: true})
+      }
+    }
+  }
+  ticketHasExpired (ticket) {
+
+    let serverDate = new Date(this.state.dataMyTicketServerTime)
+    let expiredMaxHours = 3
+    let offsetTime = expiredMaxHours * 3600 * 1000
+    let serverResulTime = serverDate.getTime()
+
+    let ticketBookedResultTime = ticket.BookingFullDate ? utilities.getStringDateTimeFromTicket(ticket.BookingFullDate, ticket.BookingTime).date.getTime() : false
+
+    return serverResulTime - ticketBookedResultTime > offsetTime
+  }
+
   componentDidMount() {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     let nowShowing = sessionStorage.getItem("now_showing")
     if (!nowShowing) this.goToHome()
     this.setState({nowShowing:JSON.parse(nowShowing)})
+    this.getTickets()
     try {
       fetch(`https://api-cinema.truemoney.net/Schedule`,{
         method: 'POST',
@@ -106,8 +166,28 @@ class MainSelectMovieByCinema extends PureComponent {
     })
   }
 
+  renderFloatButtonBadge () {
+    if (this.state.dataMyTicketsTotal) return <div className="indexTab__floatButton-badge">{this.state.dataMyTicketsTotal}</div>
+    return false
+  }
+
+  renderFloatButton () {
+    return (
+      <a className="indexTab__floatButton">
+        <div className="indexTab__floatButtonInner">
+          <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
+          { this.renderFloatButtonBadge() }
+        </div>
+      </a>
+    )
+  }
+
   render() {
-    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid} = this.state;
+    resetIdCounter()
+    let dataToMyTicket = {
+      pathname: '/MyTickets'
+    }
+    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid, dataMyTicketsDone} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -122,10 +202,40 @@ class MainSelectMovieByCinema extends PureComponent {
         {(() => {
           if (accid) {
             return (
-              <div className="page__selectMovieByCinema">
-                <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                {this.renderMovieWithShowtime(pickThisDay)}
+              <div className="indexTab" key="cinemaList">
+                <div className="page__selectMovieByCinema">
+                  <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                  <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+                  {this.renderMovieWithShowtime(pickThisDay)}
+                </div>
+                <Tabs defaultIndex={1} >
+                  <TabList>
+                    <div className="react-tabs__tabs-container">
+                        <Tab>
+                          <Link prefetch href="/AllMovie">
+                            <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                              <div className="sprite-tab-menu1"></div>
+                              <span className="tab-menu-title">ภาพยนต์</span>
+                            </div>
+                          </Link>
+                        </Tab>
+                      <Tab>
+                        <div className="sprite-tab-menu2"></div>
+                        <span className="tab-menu-title">โรงภาพยนต์</span>
+                      </Tab>
+                      <li className="isBlank">ตั้วหนัง</li>
+                    </div>
+                  </TabList>
+                </Tabs>
+                {(() => {
+                  if (dataMyTicketsDone) {
+                    return (
+                      <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
+                        { this.renderFloatButton() }
+                      </Link>
+                    )
+                  }
+                })()}
               </div>
             )
           } else {

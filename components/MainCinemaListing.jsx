@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, Tabs, TabList, TabPanel, } from 'react-tabs';
 import CinemaFavoriteList from './CinemaFavoriteList'
 import CinemaSystemList from './CinemaSystemList'
 import CinemaRegionalList from './CinemaRegionalList'
