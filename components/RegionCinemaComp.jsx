@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react"
-import CinemaWithShowtimeComp from "../components/CinemaWithShowtimeComp"
-import CinemaWithOutShowtimeComp from "../components/CinemaWithOutShowtimeComp"
-import { Collapse } from "react-collapse"
-import { presets } from "react-motion"
-import utilities from "../scripts/utilities"
+import React, { Component, Fragment } from 'react'
+import CinemaWithShowtimeComp from '../components/CinemaWithShowtimeComp'
+import CinemaWithOutShowtimeComp from '../components/CinemaWithOutShowtimeComp'
+import { Collapse } from 'react-collapse'
+import { presets } from 'react-motion'
+import utilities from '../scripts/utilities'
 
 class RegionCinemaComp extends Component {
   constructor(props) {
