@@ -174,7 +174,7 @@ class MainNavBar extends PureComponent {
 
     return (
       <div className={tabsClassName} >
-        {(() => {
+        {/* {(() => {
           if (currentTabsIndex === 0) {
             return (
               <div className="background-blur__wrapper" key="bgBlurEffect">
@@ -182,7 +182,7 @@ class MainNavBar extends PureComponent {
               </div>
             )
           }
-          })()}
+          })()} */}
         <Tabs
           onSelect={this.onSelectTabs.bind(this)}
           selectedIndex={currentTabsIndex}
@@ -203,19 +203,21 @@ class MainNavBar extends PureComponent {
           <TabPanel>
             <MainCinemaListing accid={this.props.accid}/>
           </TabPanel>
-          <TabList>
-            <div className="react-tabs__tabs-container">
-              <Tab>
-                <div className="sprite-tab-menu1"></div>
-                <span className="tab-menu-title">ภาพยนต์</span>
-              </Tab>
-              <Tab disabled={highlightFetching}>
-                <div className="sprite-tab-menu2"></div>
-                <span className="tab-menu-title">โรงภาพยนต์</span>
-              </Tab>
-              <li className="isBlank">ตั้วหนัง</li>
-            </div>
-          </TabList>
+          <div className="react-tabs__isFooter">
+            <TabList>
+              <div className="react-tabs__tabs-container">
+                <Tab>
+                  <div className="sprite-tab-menu1"></div>
+                  <span className="tab-menu-title">ภาพยนต์</span>
+                </Tab>
+                <Tab disabled={highlightFetching}>
+                  <div className="sprite-tab-menu2"></div>
+                  <span className="tab-menu-title">โรงภาพยนต์</span>
+                </Tab>
+                <li className="isBlank">ตั้วหนัง</li>
+              </div>
+            </TabList>
+          </div>
         </Tabs>
         {(() => {
           if (dataMyTicketsDone) {

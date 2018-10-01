@@ -7,6 +7,7 @@ import CominSoonComp from '../components/ComingSoonComp'
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyTicket.png'
+import GlobalFooterNav from '../components/GlobalFooterNav'
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -63,6 +64,7 @@ class AllMovie extends PureComponent {
                     </TabPanel>
                   </Tabs>
                 </div>
+                <GlobalFooterNav/>
               </Fragment>
             )
           } else {

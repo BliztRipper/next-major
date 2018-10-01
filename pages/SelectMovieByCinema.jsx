@@ -1,5 +1,4 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from 'react-tabs';
 import Layout from "../components/Layout";
 import Link from 'next/link'
 import loading from '../static/loading.svg'
@@ -8,6 +7,7 @@ import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
+import GlobalFooterNav from '../components/GlobalFooterNav'
 import '../styles/style.scss'
 
 class MainSelectMovieByCinema extends PureComponent {
@@ -141,10 +141,6 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   render() {
-    resetIdCounter()
-    let dataToMyTicket = {
-      pathname: '/MyTickets'
-    }
     const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid} = this.state;
     if (error) {
       return <p>{error.message}</p>;
@@ -166,28 +162,7 @@ class MainSelectMovieByCinema extends PureComponent {
                   <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
                   {this.renderMovieWithShowtime(pickThisDay)}
                 </div>
-                <Tabs defaultIndex={1} >
-                  <TabList>
-                    <div className="react-tabs__tabs-container">
-                        <Tab>
-                          <Link prefetch href="/AllMovie">
-                            <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-                              <div className="sprite-tab-menu1"></div>
-                              <span className="tab-menu-title">ภาพยนต์</span>
-                            </div>
-                          </Link>
-                        </Tab>
-                      <Tab>
-                        <div className="sprite-tab-menu2"></div>
-                        <span className="tab-menu-title">โรงภาพยนต์</span>
-                      </Tab>
-                      <li className="isBlank">ตั้วหนัง</li>
-                    </div>
-                  </TabList>
-                </Tabs>
-                <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
-                  { this.renderFloatButton() }
-                </Link>
+                <GlobalFooterNav/>
               </div>
             )
           } else {

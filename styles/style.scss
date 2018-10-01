@@ -658,6 +658,63 @@ body{
   }
 }
 
+.react-tabs__isFooter{
+  .react-tabs{
+    &__tab-list{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      padding-left: 0;
+      margin: 0 0;
+      list-style: none;
+      width: 100vw;
+      z-index: 5;
+    }
+    &__tabs-container{
+      display: flex;
+      justify-content: space-around;
+      box-shadow: #000 0 2px 4px 0;
+      background-color: #fff;
+      height: 70px;
+      bottom: 0;
+      justify-content: space-around;
+      width: 100%;
+      position: absolute;
+      transition: opacity .4s;
+      .isBlank {
+        opacity: 0;
+      }
+    }
+    &__tab{
+      text-align: center;
+      color:#989FAE;
+      padding: 1rem 0;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      height: 55px;
+      align-items: center;
+      &--selected{
+        border-top: 3px solid #ff8200;
+        .tab-menu-title{
+          color:#ff8200;
+        }
+        .sprite-tab-menu1{
+          background-position: -12px -430px;
+          margin: 0;
+        }
+        .sprite-tab-menu2{
+          background-position: -44px -432px;
+          margin: 0;
+        }
+        .sprite-tab-menu3{
+          background-position: -66px -431px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
 /* Wrapper for Tab*/
 .indexTab{
   position: fixed;
@@ -692,61 +749,6 @@ body{
       overflow: hidden;
     }
   }
-  .react-tabs{
-      &__tab-list{
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        padding-left: 0;
-        margin: 0 0;
-        list-style: none;
-        width: 100vw;
-        z-index: 5;
-      }
-      &__tabs-container{
-        display: flex;
-        justify-content: space-around;
-        box-shadow: #000 0 2px 4px 0;
-        background-color: #fff;
-        height: 70px;
-        bottom: 0;
-        justify-content: space-around;
-        width: 100%;
-        position: absolute;
-        transition: opacity .4s;
-        .isBlank {
-          opacity: 0;
-        }
-      }
-      &__tab{
-        text-align: center;
-        color:#989FAE;
-        padding: 1rem 0;
-        height: 20px;
-        display: flex;
-        flex-direction: column;
-        height: 55px;
-        align-items: center;
-        &--selected{
-          border-top: 3px solid #ff8200;
-          .tab-menu-title{
-            color:#ff8200;
-          }
-          .sprite-tab-menu1{
-            background-position: -12px -430px;
-            margin: 0;
-          }
-          .sprite-tab-menu2{
-            background-position: -44px -432px;
-            margin: 0;
-          }
-          .sprite-tab-menu3{
-            background-position: -66px -431px;
-            margin: 0;
-          }
-        }
-      }
-    }
   &__cinema{
     background-color: #fff;
     position: relative;
@@ -759,6 +761,7 @@ body{
         height: 62px;
         background-color: #fff;
         position: relative;
+        padding-left: 0;
       }
       &__tab{
         text-align: center;
@@ -767,6 +770,7 @@ body{
         width: 50%;
         top:0;
         height: 30px;
+        list-style: none !important;
         &--selected{
           border-bottom: 3px solid #ff8200;
           color:#ff8200;
