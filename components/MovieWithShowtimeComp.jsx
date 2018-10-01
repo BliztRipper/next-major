@@ -60,7 +60,6 @@ class MovieWithShowtimeComp extends PureComponent {
 
 	renderShowtimes(showtimes, theater) {
 		let items = []
-
 		if (showtimes) {
 			showtimes.forEach((showtime, i) => {
 				let dataToSeatMap = {
@@ -71,14 +70,19 @@ class MovieWithShowtimeComp extends PureComponent {
 					}
 				}
 				if (showtime.slice(0, 10) == this.props.pickThisDay) {
-					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
-					items.push (
-						<Link prefetch href={dataToSeatMap} key={keyShowTime}>
-							<a className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-								{showtime.slice(11, 16)}
-							</a>
-						</Link>
-					)
+					if(this.getMovieInfo(theater.ScheduledFilmId) != null){
+						let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
+						items.push (
+							<Link prefetch href={dataToSeatMap} key={keyShowTime}>
+								<a className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+									{showtime.slice(11, 16)}
+								</a>
+							</Link>
+						)
+					} else {
+						let emptyError = true
+						this.props.emptyError(emptyError)
+					}
 				}
 			})
 		}

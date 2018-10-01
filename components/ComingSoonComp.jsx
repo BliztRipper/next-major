@@ -80,7 +80,6 @@ class CominSoonComp extends PureComponent {
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
           let releaseDate = this.formatDate(movie.release_date)
-          console.log(movie)
           cells.push(<MoviePoster item={movie} title_th={movie.title_th} release={releaseDate} poster={movie.poster_ori} key={movie.title+i}/>)
         })
         renderMovie.push(

@@ -61,32 +61,36 @@ class MainSelectMovieByCinema extends PureComponent {
 
   fillterDate() {
     let mapDates = []
-    this.state.schedules.forEach(schedule => {
-      schedule.Theaters.forEach(theater => {
-        theater.Showtimes.forEach(showtime => {
-          let strDate = showtime.substring(0, 10)
-          if (!(strDate in mapDates)) {
-            mapDates[strDate] = true
-            this.state.dates.push(strDate)
-          }
+    if(this.state.schedule = undefined) {
+      this.setState({isEmpty:true})
+    } else {
+      this.state.schedules.forEach(schedule => {
+        schedule.Theaters.forEach(theater => {
+          theater.Showtimes.forEach(showtime => {
+            let strDate = showtime.substring(0, 10)
+            if (!(strDate in mapDates)) {
+              mapDates[strDate] = true
+              this.state.dates.push(strDate)
+            }
+          })
         })
       })
-    })
 
-    const stringSorter = function(a, b) {
-      if(a < b) return -1;
-      if(a > b) return 1;
-      return 0;
+      const stringSorter = function(a, b) {
+        if(a < b) return -1;
+        if(a > b) return 1;
+        return 0;
+      }
+      this.state.dates.sort(stringSorter)
+      this.pickThisDay(0, true)
+      this.setState({
+        schedules: this.state.schedules,
+        serverTime: this.state.serverTime,
+        dates: this.state.dates,
+        isEmpty:(this.state.dates.length == 0),
+        accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
+      })
     }
-    this.state.dates.sort(stringSorter)
-    this.pickThisDay(0, true)
-    this.setState({
-      schedules: this.state.schedules,
-      serverTime: this.state.serverTime,
-      dates: this.state.dates,
-      isEmpty:(this.state.dates.length == 0),
-      accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
-    })
   }
 
   pickThisDay(index, init){
@@ -108,9 +112,15 @@ class MainSelectMovieByCinema extends PureComponent {
     this.pickThisDay(index)
   }
 
+  theaterEmptyCheck(){
+    this.setState({
+      isEmpty:true
+    })
+  }
+
   renderMovieWithShowtime(pickThisDay) {
     return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
+      return <MovieWithShowtimeComp emptyError={this.theaterEmptyCheck.bind(this)} schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
     })
   }
 
