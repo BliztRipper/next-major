@@ -43,9 +43,9 @@ class MyTicket extends PureComponent {
   iniSlider () {
     const sliderSetting = {
       watchSlidesProgress: true,
-      speed: 400,
+      speed: 200,
       freeMode: true,
-      freeModeMomentumVelocityRatio: 2,
+      freeModeMomentumVelocityRatio: 1.5,
       freeModeSticky: true
     }
     let swiper = new Swiper(this.refs.slider, sliderSetting)
