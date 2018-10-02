@@ -114,10 +114,6 @@ class seatMap extends PureComponent {
           let matchTicketIndex = 0
           this.state.dataSeatPlan.SeatLayoutData.Areas.forEach((area) => {
             let tickets = data.data.Tickets.filter((ticket) => {
-              if (area.AreaCategoryCode === ticket.AreaCategoryCode) {
-                // console.log(area, 'area');
-                console.log(ticket, 'ticket');
-              }
               if (!ticket.seatTheme && !area.seatTheme && area.AreaCategoryCode === ticket.AreaCategoryCode ) {
                 matchTicketIndex += 1
                 ticket[`seatTheme`] = 'type' + matchTicketIndex

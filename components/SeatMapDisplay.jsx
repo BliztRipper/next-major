@@ -175,19 +175,19 @@ class SeatMapDisplay extends PureComponent {
     }
   }
   listGroups () {
-    let ticketZone = 0
+    let windowWidth = window.innerWidth
+    let seatSize = 0
     let prevAreaCategoryCode = ''
     return (
-      this.state.seatMatrix.slice().map((rows, rowsIndex) => {
+      this.state.seatMatrix.slice().reverse().map((rows, rowsIndex) => {
         let classNameSelected = ''
         let areaCategoryCode = ''
         let physicalName = ''
-        let seatMapCell = rows.map((aSeat, aSeatIndex) => {
-
+        let seatMapCell = rows.map((aSeat, aSeatIndex, aSeatArray) => {
+          seatSize = Math.floor((windowWidth - (aSeatArray.length + 2)) / (aSeatArray.length + 1))
           areaCategoryCode = aSeat.AreaCategoryCode
           physicalName = aSeat.PhysicalName
           if (this.getTicketByAreaCode(aSeat.AreaCategoryCode) && this.getTicketByAreaCode(aSeat.AreaCategoryCode) !== prevAreaCategoryCode) {
-            ticketZone++
             prevAreaCategoryCode = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
           }
           if (aSeat.AreaCategoryCode === this.state.areaSelected) {
@@ -204,15 +204,21 @@ class SeatMapDisplay extends PureComponent {
             }
           }
           return (
-            <div className={classNameCell} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat)} >
+            <div className={classNameCell} data-column-index={aSeat.Position.ColumnIndex} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat)} >
               <div>{(aSeatIndex)}</div>
             </div>
           )
         })
+        let dataToSeatStyles = {
+          '--total-seat': this.state.seatColMax - 1,
+          '--seat-size': seatSize + 'px',
+          '--seat-gap': 1 + 'px',
+          '--seat-font-size': Math.floor(seatSize * 0.3) + 'px'
+        }
         return (
-          <div className={ 'seatMapDisplay__group ' + classNameSelected} data-area={ticketZone} key={areaCategoryCode + rowsIndex}>
+          <div className={ 'seatMapDisplay__group ' + classNameSelected} key={areaCategoryCode + rowsIndex} style={dataToSeatStyles}>
             <div className="seatMapDisplay__title">{physicalName}</div>
-            <div className={'seatMapDisplay__row'} ref={this.refSeatsRow} style={ {'--total-seat': this.state.seatColMax - 1} }>
+            <div className={'seatMapDisplay__row'} ref={this.refSeatsRow}>
               {seatMapCell}
             </div>
           </div>
