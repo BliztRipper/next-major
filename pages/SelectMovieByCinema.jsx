@@ -120,6 +120,8 @@ class MainSelectMovieByCinema extends PureComponent {
 
   renderMovieWithShowtime(pickThisDay) {
     return this.state.schedules.map(schedule => {
+      console.log(schedule, 'schedule');
+
       return <MovieWithShowtimeComp emptyError={this.theaterEmptyCheck.bind(this)} schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
     })
   }

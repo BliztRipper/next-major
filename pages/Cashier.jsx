@@ -56,6 +56,7 @@ class Cashier extends PureComponent {
   submitPayment () {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
+    console.log(this.state.dataToPayment, 'this.state.dataToPayment')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment`,{
         method: 'POST',
@@ -134,6 +135,7 @@ class Cashier extends PureComponent {
         BookingDate: String(bookingDate),
         BookingFullDate: String(this.state.BookingFullDate),
         BookingAttributesNames: String(sessionStorage.getItem('BookingAttributesNames')),
+        BookingCinemaOperatorCode: String(sessionStorage.getItem('BookingCinemaOperatorCode')),
         BookingTime: String(sessionStorage.getItem('BookingTime')),
         BookingPrice: String(sessionStorage.getItem('BookingPrice')),
         BookingPriceDisplay: String(sessionStorage.getItem('BookingPriceDisplay')),

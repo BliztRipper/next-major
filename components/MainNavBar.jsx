@@ -115,13 +115,16 @@ class MainNavBar extends PureComponent {
   }
   renderFloatButton () {
     return (
-      <a className="indexTab__floatButton">
+      <div className="indexTab__floatButton" onClick={this.goToMyTickets} key="buttonLinkToMyTicket">
         <div className="indexTab__floatButtonInner">
           <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
           { this.renderFloatButtonBadge() }
         </div>
-      </a>
+      </div>
     )
+  }
+  goToMyTickets () {
+    Router.push('/MyTickets')
   }
   routeChangeStart () {
     utilities.bounceOnScroll().enable()
@@ -221,11 +224,7 @@ class MainNavBar extends PureComponent {
         </Tabs>
         {(() => {
           if (dataMyTicketsDone) {
-            return (
-              <Link prefetch href={dataToMyTicket} key="buttonLinkToMyTicket">
-                { this.renderFloatButton() }
-              </Link>
-            )
+            return this.renderFloatButton()
           }
         })()}
       </div>

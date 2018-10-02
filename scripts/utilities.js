@@ -50,6 +50,7 @@ export default {
     sessionStorage.removeItem('BookingScreenName')
     sessionStorage.removeItem('BookingSeat')
     sessionStorage.removeItem('BookingAttributesNames')
+    sessionStorage.removeItem('BookingCinemaOperatorCode')
     sessionStorage.removeItem('BookingTime')
     sessionStorage.removeItem('BookingPrice')
     sessionStorage.removeItem('BookingPriceDisplay')

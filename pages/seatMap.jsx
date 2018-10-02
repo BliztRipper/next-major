@@ -275,10 +275,10 @@ class seatMap extends PureComponent {
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
-            text: data.description
-          })
-          this.setState({
-            isLoading: false,
+            text: data.description,
+            onAfterClose: () => {
+              Router.back()
+            }
           })
         }
       })
@@ -300,6 +300,7 @@ class seatMap extends PureComponent {
     )
   }
   componentDidMount () {
+    sessionStorage.removeItem('previousRoute')
     let instantMovieSelect = sessionStorage.getItem('movieSelect')
     if (!instantMovieSelect) {
       this.goToHome()
