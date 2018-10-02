@@ -2,6 +2,15 @@ $colorTheme: #ff8300;
 $colorSeat1: #9ce0bb;
 $colorSeat2: #ecbbbc;
 $colorSeat3: #a0b0f4;
+$colorSeat4: #FFD19C;
+$colorSeat5: #D0B2F3;
+$colorSeat6: #99CEED;
+// darken
+$colorSeat7: #68CE97;
+$colorSeat8: #DE8A8B;
+$colorSeat9: #FFA534;
+$colorSeat10: #D25C5B;
+$colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorSeat6 $colorSeat7 $colorSeat8 $colorSeat9 $colorSeat10;
 .seatMap {
   height: 100%;
   position: fixed;
@@ -13,6 +22,9 @@ $colorSeat3: #a0b0f4;
   display: grid;
   grid-template-rows: auto 1fr auto;
   font-size: 3.4vw;
+  > * {
+    overflow: hidden;
+  }
   .seatMapMain {
     > div {
       overflow: hidden;
@@ -88,30 +100,6 @@ $colorSeat3: #a0b0f4;
   grid-template-columns: 2rem auto;
   grid-column-gap: 1.4vw;
   margin-bottom: 0.4rem;
-  &[data-area="1"] {
-    .seatMapDisplay__cell {
-      &:not(.selected) {
-        background-color: $colorSeat1;
-        color: #383d48;
-      }
-    }
-  }
-  &[data-area="2"] {
-    .seatMapDisplay__cell {
-      &:not(.selected) {
-        background-color: $colorSeat2;
-        color: #383d48;
-      }
-    }
-  }
-  &[data-area="3"] {
-    .seatMapDisplay__cell {
-      &:not(.selected) {
-        background-color: $colorSeat3;
-        color: #383d48;
-      }
-    }
-  }
 }
 .seatMapDisplay__title {
   font-size: 0.6rem;
@@ -152,6 +140,14 @@ $colorSeat3: #a0b0f4;
     background-color:#26A1E3;
     color: #fff;
   }
+  &:not(.selected) {
+    @for $i from 1 through length($colorSeats) {
+      &.type#{$i} {
+        background-color: nth($colorSeats, $i);
+        color: #383d48;
+      }
+    }
+  }
 }
 .ticketResult {
   font-size: 0.7rem;
@@ -159,11 +155,22 @@ $colorSeat3: #a0b0f4;
   &__lists {
     display: flex;
     justify-content: space-around;
+    margin-left: -.4rem;
+    margin-right: -.4rem;
+    overflow: auto;
+    &.needOverflow {
+      text-align: center;
+      display: block;
+      white-space: nowrap;
+      .ticketResult__list {
+        display: inline-block;
+      }
+    }
   }
   &__list {
-    padding: 0.5rem 0 0;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem 0.25rem;
     text-align: center;
+    white-space: nowrap;
     > div {
       display: inline-block;
       position: relative;
@@ -200,27 +207,13 @@ $colorSeat3: #a0b0f4;
         }
       }
     }
-    &:nth-child(1) {
-      > div {
-        &:before,
-        &:after {
-          background-color: $colorSeat1;
-        }
-      }
-    }
-    &:nth-child(2) {
-      > div {
-        &:before,
-        &:after {
-          background-color: $colorSeat2;
-        }
-      }
-    }
-    &:nth-child(3) {
-      > div {
-        &:before,
-        &:after {
-          background-color: $colorSeat3;
+    @for $i from 1 through length($colorSeats) {
+      &.type#{$i} {
+        > div {
+          &:before,
+          &:after {
+            background-color: nth($colorSeats, $i);
+          }
         }
       }
     }

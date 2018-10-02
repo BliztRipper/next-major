@@ -56,7 +56,6 @@ class Cashier extends PureComponent {
   submitPayment () {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
-    console.log(this.state.dataToPayment, 'this.state.dataToPayment')
     try {
       fetch(`https://api-cinema.truemoney.net/Payment`,{
         method: 'POST',

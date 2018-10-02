@@ -93,8 +93,12 @@ class seatMap extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
-        this.state.dataSeatPlan = data.data
-        this.getTickets()
+        if (data.status_code === 0 || data.description === 'Success') {
+          this.state.dataSeatPlan = data.data
+          this.getTickets()
+        } else {
+          Router.push('/')
+        }
       })
     } catch(err){
       error => this.setState({ error, isLoading: false })
@@ -105,20 +109,33 @@ class seatMap extends PureComponent {
       fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
-        let matchTicketData = []
-        this.state.dataSeatPlan.SeatLayoutData.Areas.forEach((area) => {
-          let tickets = data.data.Tickets.filter((ticket) => {
-            if (area.AreaCategoryCode === ticket.AreaCategoryCode) return ticket
+        if (data.status_code === 0 || data.description === 'Success') {
+          let matchTicketData = []
+          let matchTicketIndex = 0
+          this.state.dataSeatPlan.SeatLayoutData.Areas.forEach((area) => {
+            let tickets = data.data.Tickets.filter((ticket) => {
+              if (area.AreaCategoryCode === ticket.AreaCategoryCode) {
+                // console.log(area, 'area');
+                console.log(ticket, 'ticket');
+              }
+              if (!ticket.seatTheme && !area.seatTheme && area.AreaCategoryCode === ticket.AreaCategoryCode ) {
+                matchTicketIndex += 1
+                ticket[`seatTheme`] = 'type' + matchTicketIndex
+                area[`seatTheme`] = 'type' + matchTicketIndex
+                return ticket
+              }
+            })
+            if (tickets[0]) matchTicketData.push(tickets[0])
           })
-          if (tickets[0]) matchTicketData.push(tickets[0])
-        })
-
-        this.setState({
-          dataSeatPlan: this.state.dataSeatPlan,
-          areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
-          ticketData: matchTicketData,
-          isLoading: false
-        })
+          this.setState({
+            dataSeatPlan: this.state.dataSeatPlan,
+            areaData: this.state.dataSeatPlan.SeatLayoutData.Areas,
+            ticketData: matchTicketData,
+            isLoading: false
+          })
+        } else {
+          Router.push('/')
+        }
       })
     } catch(err){
       error => this.setState({ error, isLoading: false })
