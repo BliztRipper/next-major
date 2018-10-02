@@ -4,6 +4,19 @@
   @media (device-height: 568px) and (min-width:320px) {
     height: 40vh;
   }
+  position: relative;
+  &::after{
+    content:'';
+    background-image: url('../static/poster-shadow@3x.png');
+    top:77%;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    z-index: -1;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
 }
 
 .poster-container{
@@ -13,43 +26,44 @@
   justify-content: center;
   align-items: center;
   position: relative;
+
   @media(min-width:320px){
     width: 56.25vw;
     height: auto;
   }
   @media(min-width:375px) and (min-height:812px){
-    width: 56.25vw;
-    height: auto;
+    height: 50vh;
+    width: 100%;
   }
   @media(min-width:414px){
-    width: 56.25vw;
-    height: 55vh;
+    height: 50vh;
+    width: 100%;
   }
-  @media(min-height:720px){
-    width: 56.25vw;
-    height: 55vh;
+  @media(min-height:736px) and (min-width:414px){  //iphone6/7/8 plus
+    height: 56vh;
+    width: 100%;
   }
-  @media (device-height: 568px) and (min-width:320px) {
-      height: 38vh;
+  @media(min-height:812px){ //iphone6X
+    height: 50vh;
+    width: 100%;
+  }
+  @media (min-height: 568px) and (min-width:320px) { //iphone5/se
+      top: 8px;
     }
 }
 
 .highlight__book-btn,.allmovie-btn{
   @media(min-width:320px){
     width: 56.25vw;
-    margin: 0.2rem auto;
   }
   @media(min-width:375px) and (min-height:812px){
     width: 56.25vw;
-    margin: 0.2rem auto;
   }
   @media(min-width:414px){
     width: 56.25vw;
-    margin: 0.2rem auto;
   }
   @media(min-height:720px){
     width: 56.25vw;
-    margin: 0.2rem auto;
   }
   @media (device-height: 568px) and (min-width:320px) {
     width: 27vh;
@@ -63,11 +77,12 @@
 }
 
 .highlight__advance{
+  top:0;
   @media(min-width:375px) {
     top:5%;
   }
   @media(min-width:414px){
-    top:10%;
+    top:5%;
   }
   @media (device-height: 568px) and (min-width:320px) {
     top:0;
