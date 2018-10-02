@@ -141,9 +141,6 @@ class HighlightCarousel extends PureComponent {
                   })()}
                 </div>
                 <div className="highlight__caption">
-                  <Link prefetch href={dataToSelectCinemaByMovie}>
-                    <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
-                  </Link>
                   {(() => {
                     this.state.arrbg.push(item.poster_ori)
                     if(item.title_en === item.title_th){
@@ -152,7 +149,9 @@ class HighlightCarousel extends PureComponent {
                   })()}
                   <span className='highlight__title'>{item.title_en}</span>
                   <span className='highlight__subtitle'>{item.title_th}</span>
-                  <span className='highlight__genre'>{item.genre}</span>
+                  <Link prefetch href={dataToSelectCinemaByMovie}>
+                    <a className="highlight__book-btn" onClick={this.movieDetails.bind(this,item)}>ซื้อตั๋ว</a>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -68,7 +68,6 @@ class MainNavBar extends PureComponent {
     }
   }
   ticketHasExpired (ticket) {
-
     let serverDate = new Date(this.state.dataMyTicketServerTime)
     let expiredMaxHours = 3
     let offsetTime = expiredMaxHours * 3600 * 1000
