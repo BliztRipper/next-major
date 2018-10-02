@@ -44,7 +44,7 @@ export default class GlobalFooterNav extends Component {
             <div className="react-tabs__tabs-container">
               <li className="react-tabs__tab" role="tab" id="react-tabs-0" aria-selected="false" aria-disabled="false"
                 aria-controls="react-tabs-1">
-                <Link prefetch href="/AllMovie" >
+                <Link prefetch href="/" >
                   <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                     <div className="sprite-tab-menu1"></div>
                     <span className="tab-menu-title">ภาพยนต์</span>
