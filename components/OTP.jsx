@@ -38,7 +38,7 @@ class OTP extends PureComponent {
             <div className="otp__info-msg">รหัสยืนยันจะถูกส่ง SMS ไปที่เบอร์</div>
             <div className="otp__info-telNumber">{userNumber}</div>
           </div>
-          <div className="otp__input"><div><input type="number" maxLength="6" value={otpNumberValue} onInput={this.handleOtpInput.bind(this)}/></div></div>
+          <div className="otp__input"><div><input type="tel" maxLength="6" value={otpNumberValue} onInput={this.handleOtpInput.bind(this)}/></div></div>
           <div className="otp__help">Ref รหัสยืนยัน : {otpMatchCode}</div>
           <div className="otp__resend"><div onClick={this.handleOtpResend.bind(this)}> {otpResendMsg} </div></div>
         </div>
