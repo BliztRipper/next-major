@@ -93,9 +93,9 @@ class Cashier extends PureComponent {
             showConfirmButton: false,
             showCancelButton: true,
             cancelButtonText: 'กลับไปหน้าแรก',
-            text: data.description,
+            text: `${data.description} (code:${data.status_code})` ,
             onAfterClose: () => {
-              Router.push({ pathname: '/' })
+              Router.push('/')
             }
           })
           fetch(`http://api-cinema.truemoney.net/CancelOrder`,{

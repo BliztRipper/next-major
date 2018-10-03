@@ -179,7 +179,7 @@ class SeatMapDisplay extends PureComponent {
     }
   }
   listGroups () {
-    let windowWidth = window.innerWidth
+    let windowWidth = window.screen.width
     let seatSize = 0
     let prevAreaCategoryCode = ''
     return (
