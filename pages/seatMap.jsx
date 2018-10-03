@@ -97,7 +97,14 @@ class seatMap extends PureComponent {
           this.state.dataSeatPlan = data.data
           this.getTickets()
         } else {
-          Router.push('/')
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: `${data.description} (code:${data.status_code})` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
+          })
         }
       })
     } catch(err){
@@ -130,7 +137,14 @@ class seatMap extends PureComponent {
             isLoading: false
           })
         } else {
-          Router.push('/')
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: `${data.description} (code:${data.status_code})` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
+          })
         }
       })
     } catch(err){
@@ -201,11 +215,13 @@ class seatMap extends PureComponent {
             })
           }
         } else {
-          this.refSeatMapDisplay.current.setState({postingTicket: false})
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
-            text: data.description
+            text: `${data.description} (code:${data.status_code})` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
           })
         }
       })
@@ -234,11 +250,13 @@ class seatMap extends PureComponent {
         if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats()
         } else {
-          this.setState({isLoading: false})
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
-            text: data.description
+            text: `${data.description} (code:${data.status_code})` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
           })
         }
       })
@@ -288,7 +306,7 @@ class seatMap extends PureComponent {
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด',
-            text: data.description,
+            text: `${data.description} (code:${data.status_code})` ,
             onAfterClose: () => {
               Router.back()
             }

@@ -85,25 +85,23 @@ class Cashier extends PureComponent {
             timer: 4000
           })
         } else {
-          this.refTicket.current.setState({postingTicket: false})
-
-          Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด!',
-            showConfirmButton: false,
-            showCancelButton: true,
-            cancelButtonText: 'กลับไปหน้าแรก',
-            text: data.description,
-            onAfterClose: () => {
-              Router.push({ pathname: '/' })
-            }
-          })
           fetch(`http://api-cinema.truemoney.net/CancelOrder`,{
             method: 'POST',
             headers: this.state.apiOtpHeader,
             body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
           })
           .then(response => response.json())
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด!',
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: 'กลับไปหน้าแรก',
+            text: `${data.description} (code:${data.status_code})` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
+          })
         }
       })
     } catch (error) {
