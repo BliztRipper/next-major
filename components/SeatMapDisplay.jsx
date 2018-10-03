@@ -125,6 +125,10 @@ class SeatMapDisplay extends PureComponent {
       toggleBooked(aSeat)
     }
 
+    if (this.state.seatsSelected.length === 0) {
+      this.state.areaSelected = null
+    }
+
     this.setState({
       seatsSelected: this.state.seatsSelected,
       areaSelected: this.state.areaSelected,
@@ -180,20 +184,22 @@ class SeatMapDisplay extends PureComponent {
     let prevAreaCategoryCode = ''
     return (
       this.state.seatMatrix.slice().reverse().map((rows, rowsIndex) => {
-        let classNameSelected = ''
         let areaCategoryCode = ''
         let physicalName = ''
         let seatMapCell = rows.map((aSeat, aSeatIndex, aSeatArray) => {
+          let classNameAnotherArea = ''
           seatSize = Math.floor((windowWidth - (aSeatArray.length + 2)) / (aSeatArray.length + 1))
           areaCategoryCode = aSeat.AreaCategoryCode
           physicalName = aSeat.PhysicalName
           if (this.getTicketByAreaCode(aSeat.AreaCategoryCode) && this.getTicketByAreaCode(aSeat.AreaCategoryCode) !== prevAreaCategoryCode) {
             prevAreaCategoryCode = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
           }
-          if (aSeat.AreaCategoryCode === this.state.areaSelected) {
-            classNameSelected = 'selected'
+          if (this.state.areaSelected) {
+            if (aSeat.AreaCategoryCode !== this.state.areaSelected) {
+              classNameAnotherArea = 'areaNotSelected'
+            }
           } else {
-            classNameSelected = ''
+            classNameAnotherArea = ''
           }
           let classNameCell = 'seatMapDisplay__cell' + ' ' + aSeat.seatTheme
           if (aSeat.Status !== 0) {
@@ -204,7 +210,7 @@ class SeatMapDisplay extends PureComponent {
             }
           }
           return (
-            <div className={classNameCell} data-column-index={aSeat.Position.ColumnIndex} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat)} >
+            <div className={classNameCell + ' ' + classNameAnotherArea} data-column-index={aSeat.Position.ColumnIndex} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat)} >
               <div>{(aSeatIndex)}</div>
             </div>
           )
@@ -216,7 +222,7 @@ class SeatMapDisplay extends PureComponent {
           '--seat-font-size': Math.floor(seatSize * 0.3) + 'px'
         }
         return (
-          <div className={ 'seatMapDisplay__group ' + classNameSelected} key={areaCategoryCode + rowsIndex} style={dataToSeatStyles}>
+          <div className={ 'seatMapDisplay__group '} key={areaCategoryCode + rowsIndex} style={dataToSeatStyles}>
             <div className="seatMapDisplay__title">{physicalName}</div>
             <div className={'seatMapDisplay__row'} ref={this.refSeatsRow}>
               {seatMapCell}

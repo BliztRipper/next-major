@@ -82,13 +82,13 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   }
 }
 .seatMapDisplay {
-  &.selected {
-    .seatMapDisplay__group {
-      &:not(.selected) {
-        opacity: 0.3;
-      }
-    }
-  }
+  // &.selected {
+  //   .seatMapDisplay__group {
+  //     &:not(.selected) {
+  //       opacity: 0.3;
+  //     }
+  //   }
+  // }
   &__inner {
     margin-bottom: 5rem;
   }
@@ -128,6 +128,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   align-items: center;
   justify-content: center;
   line-height: 1;
+  transition: opacity 0.3s, background-color 0.3s;
   &-title {
     font-weight: bold;
     background-color: darken(#fff, 20%) !important;
@@ -139,6 +140,9 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   &.selected {
     background-color:#26A1E3;
     color: #fff;
+  }
+  &.areaNotSelected {
+    opacity: 0.3;
   }
   &:not(.selected) {
     @for $i from 1 through length($colorSeats) {
@@ -164,13 +168,13 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
       white-space: nowrap;
       .ticketResult__list {
         display: inline-block;
+        padding: 0.5rem 0.25rem;
       }
     }
   }
   &__list {
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0.2rem;
     text-align: center;
-    white-space: nowrap;
     > div {
       display: inline-block;
       position: relative;
