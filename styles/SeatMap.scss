@@ -148,8 +148,6 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   &__lists {
     display: flex;
     justify-content: space-around;
-    margin-left: -.4rem;
-    margin-right: -.4rem;
     overflow: auto;
     &.needOverflow {
       text-align: center;
@@ -213,6 +211,8 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   }
   &__selectedAndPrice {
     border-top: 1px solid darken(#fff, 10%);
+    padding-left: .4rem;
+    padding-right: .4rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -325,10 +325,6 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   background-color: #fff;
   box-shadow: 0 -3px 3px rgba(#000, 0.1);
   margin: 0 -.4rem;
-  .ticketResult {
-    padding-left: .4rem;
-    padding-right: .4rem;
-  }
 }
 
 .seatMap__educate {
