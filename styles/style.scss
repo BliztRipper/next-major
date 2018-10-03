@@ -757,8 +757,8 @@ body{
     position: relative;
     z-index: 1;
     .react-tabs{
-      padding-bottom: 135px;
-      height: 100%;
+      height: 100vh;
+      margin-bottom: 300px;
       &__tab-list{
         top: 0;
         display: flex;
@@ -786,6 +786,9 @@ body{
         &--selected{
           padding-bottom: 18rem;
           height: 100vh;
+          &:nth-last-child(1){
+            padding-bottom: calc(45rem + 30vh);
+          }
         }
       }
     }
