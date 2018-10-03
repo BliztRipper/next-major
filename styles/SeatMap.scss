@@ -35,27 +35,24 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
     }
   }
   &.beforeEntry {
-    .seatMapScreenWrap {
-      padding-left: 0 !important;
-    }
+    // .seatMapScreenWrap {
+    //   padding-left: 0 !important;
+    // }
     .seatMapDisplay__group {
       grid-template-columns: var(--seat-size) auto;
       grid-column-gap: var(--seat-gap);
       margin-bottom: var(--seat-gap);
       justify-content: center;
     }
-    .seatMapDisplay__row {
-      grid-template-columns: repeat(var(--total-seat), var(--seat-size));
-      grid-column-gap: var(--seat-gap);
-      font-size: var(--seat-font-size);
-      justify-content: flex-end;
-    }
-    .seatMapDisplay__title {
-      font-size: var(--seat-font-size);
-    }
-    .seatMapDisplay__cell {
-      height: var(--seat-size);
-    }
+    // .seatMapDisplay__row {
+    //   grid-template-columns: repeat(var(--total-seat), var(--seat-size));
+    //   grid-column-gap: var(--seat-gap);
+    //   font-size: var(--seat-font-size);
+    //   justify-content: flex-end;
+    // }
+    // .seatMapDisplay__cell {
+    //   height: var(--seat-size);
+    // }
   }
 }
 .seatMapScreen {
@@ -82,32 +79,24 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   }
 }
 .seatMapDisplay {
-  // &.selected {
-  //   .seatMapDisplay__group {
-  //     &:not(.selected) {
-  //       opacity: 0.3;
-  //     }
-  //   }
-  // }
   &__inner {
     margin-bottom: 5rem;
   }
 }
 .seatMapDisplay__group {
-  transition: opacity 0.4s;
   display: grid;
-  align-items: stretch;
-  grid-template-columns: 2rem auto;
-  grid-column-gap: 1.4vw;
-  margin-bottom: 0.4rem;
+  grid-template-columns: var(--seat-size) auto;
+  grid-column-gap: var(--seat-gap);
+  margin-bottom: var(--seat-gap);
+  justify-content: center;
 }
 .seatMapDisplay__title {
-  font-size: 0.6rem;
   font-weight: bold;
   background-color: darken(#fff, 10%);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--seat-font-size);
 }
 .seatMapDisplay__row {
   display: grid;
@@ -116,13 +105,13 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   grid-column-gap: 1px;
   grid-row-gap: 1px;
   text-align: center;
-  font-size: 0.5rem;
+  font-size: var(--seat-font-size);
 }
 .seatMapDisplay__cell {
   background-color: darken(#fff, 10%);
   color: darken(#fff, 40%);
   height: var(--seat-size);
-  border-radius: 3px;
+  border-radius: var(--seat-font-size);
   grid-column: var(--col-seat) / span 1;
   display: flex;
   align-items: center;
@@ -357,7 +346,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   color: #fff;
   background-color: rgba(#000, 0.7);
   figure {
-    margin: 0 auto 2rem;
+    margin: 0 auto;
     display: block;
   }
   .seatMap__educate-desc {
