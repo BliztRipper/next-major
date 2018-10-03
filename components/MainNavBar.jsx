@@ -17,6 +17,7 @@ class MainNavBar extends PureComponent {
       dataMyTicketsTotal: '',
       dataMyTicketsExpired: '',
       previousRoute: '',
+      btnNavNumber: '',
       currentTabsIndex: 0,
       bg:'',
       highlightFetching: true,
@@ -88,7 +89,9 @@ class MainNavBar extends PureComponent {
   }
   getPreviousRoute () {
     let instantPrevRoute = sessionStorage.getItem('previousRoute')
+    let instantbtnNavNumber = sessionStorage.getItem('btnNavNumber')
     let instantTabsIndex = 0
+
     switch (instantPrevRoute) {
       case '/SelectMovieByCinema':
         instantTabsIndex = 1
@@ -101,11 +104,27 @@ class MainNavBar extends PureComponent {
         break;
     }
 
+    switch (instantbtnNavNumber) {
+      case '1':
+        instantTabsIndex = 0
+        break;
+
+        case '2':
+        instantTabsIndex = 1
+        this.setState({
+          highlightFetching: false
+        })
+        break;
+    }
+
+
     this.setState({
       previousRoute: instantPrevRoute,
+      btnNavNumber: instantbtnNavNumber,
       currentTabsIndex: instantTabsIndex
     })
     sessionStorage.removeItem('previousRoute')
+    sessionStorage.removeItem('btnNavNumber')
   }
 
   renderFloatButtonBadge () {

@@ -683,6 +683,7 @@ body{
       width: 100%;
       position: absolute;
       transition: opacity .4s;
+      z-index: 20;
       .isBlank {
         opacity: 0;
       }
@@ -756,6 +757,8 @@ body{
     position: relative;
     z-index: 1;
     .react-tabs{
+      padding-bottom: 135px;
+      height: 100%;
       &__tab-list{
         top: 0;
         display: flex;
@@ -781,7 +784,7 @@ body{
       }
       &__tab-panel{
         &--selected{
-          padding-bottom: 6rem;
+          padding-bottom: 18rem;
           height: 100vh;
         }
       }
