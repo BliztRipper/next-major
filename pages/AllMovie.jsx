@@ -37,7 +37,12 @@ class AllMovie extends PureComponent {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return (
+        <div>
+          <GlobalFooterNav/>
+          <img src={loading} className="loading"/>
+        </div>
+      )
     }
 
     return (
