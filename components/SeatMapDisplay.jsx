@@ -54,7 +54,7 @@ class SeatMapDisplay extends PureComponent {
     return this.state.areas.filter(area => area.AreaCategoryCode === AreaCategoryCode)[0]
   }
   handleSelectSeats (aSeat) {
-    if (this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
+    if (this.state.postingTicket || this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
 
     let ticketBookedMax = 6
     let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
