@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment, Component } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import Swiper from 'swiper'
+import axios from 'axios'
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -61,14 +62,14 @@ class HighlightCarousel extends PureComponent {
 
   componentWillMount(){
     this.props.highlightFetched(false)
-    fetch(`https://api-cinema.truemoney.net/MovieList`)
-    .then(response => response.json())
-    .then((data) => {
+    axios.get(`https://api-cinema.truemoney.net/MovieList`)
+    .then(response => {
+      let res =  response.data.data
       this.setState({
-        nowShowing:data.data.now_showing,
-        advTicket:data.data.advance_ticket,
+        nowShowing:res.now_showing,
+        advTicket:res.advance_ticket,
         isLoading: false,
-        dataObj: [...data.data.now_showing, ...data.data.advance_ticket]
+        dataObj: [...res.now_showing, ...res.advance_ticket]
       })
       this.props.bg(this.state.arrbg[0])
     })
