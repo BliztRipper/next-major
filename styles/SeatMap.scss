@@ -143,7 +143,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   }
 }
 .ticketResult {
-  font-size: 0.7rem;
+  font-size: 2.8vw;
   line-height: 1;
   &__lists {
     display: flex;
@@ -155,28 +155,28 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
       white-space: nowrap;
       .ticketResult__list {
         display: inline-block;
-        padding: 0.5rem 0.25rem;
+        padding: 1.4vw;
       }
     }
   }
   &__list {
-    padding: 0.5rem 0.2rem;
+    padding: 2vw 1.2vw;
     text-align: center;
     > div {
       display: inline-block;
       position: relative;
-      padding-left: 27px;
+      padding-left: 5.4vw;
       text-align: left;
       &:after {
         content: '';
         display: block;
         position: absolute;
         left: 0;
-        top: 0;
-        width: 22px;
-        height: 22px;
+        top: 0.2vw;
+        width: 5vw;
+        height: 5vw;
         background-color: #333;
-        border-radius: 5px;
+        border-radius: 1vw;
       }
       > div + div {
         font-weight: bold;
@@ -184,16 +184,17 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
     }
     &.IsPackageTicket {
       > div {
-        padding-left: 50px;
+        padding-left: 10.7vw;
         &:before {
           content: '';
           display: block;
           position: absolute;
-          left: 23px;
-          top: 0;
-          width: 22px;
-          height: 22px;
-          border-radius: 5px;
+          left: 5vw;
+          transform: translateX(0.3vw);
+          top: 0.2vw;
+          width: 5vw;
+          height: 5vw;
+          border-radius: 1vw;
           background-color: #333;
         }
       }
