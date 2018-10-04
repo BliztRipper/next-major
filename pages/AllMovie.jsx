@@ -8,6 +8,7 @@ import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyTicket.png'
 import GlobalFooterNav from '../components/GlobalFooterNav'
+import axios from 'axios'
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -21,9 +22,8 @@ class AllMovie extends PureComponent {
 
   }
   componentDidMount(){
-    fetch(`https://api-cinema.truemoney.net/MovieList`)
-    .then(response => response.json())
-    .then(data => this.setState({dataObj:data.data, isLoading: false}))
+    axios(`https://api-cinema.truemoney.net/MovieList`)
+    .then(response => this.setState({dataObj:response.data.data, isLoading: false}))
     .catch(error => this.setState({ error, isLoading: false }))
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     this.setState({

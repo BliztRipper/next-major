@@ -56,7 +56,7 @@ export default class GlobalFooterNav extends Component {
                 </Link>
               </li>
               <li onClick={this.backToHome.bind(this,2)} className="react-tabs__tab react-tabs__tab--selected" role="tab" id="react-tabs-2" aria-selected="true"
-                aria-disabled="false" aria-controls="react-tabs-3" tabindex="0">
+                aria-disabled="false" aria-controls="react-tabs-3" tabIndex="0">
                 <Link prefetch href="/">
                   <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                     <div className="sprite-tab-menu2"></div>

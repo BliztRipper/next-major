@@ -5,6 +5,7 @@ import MainCinemaListing from '../components/MainCinemaListing'
 import utilities from '../scripts/utilities'
 import Router from 'next/router'
 import Link from 'next/link'
+import axios from 'axios'
 
 class MainNavBar extends PureComponent {
   constructor(props) {
@@ -26,15 +27,14 @@ class MainNavBar extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
-      .then(response => response.json())
-      .then(data => {
-        this.state.dataMyTicketServerTime = data.server_time
+      axios.get(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
+      .then(response => {
+        this.state.dataMyTicketServerTime = response.data.server_time
         let expired = false
-        if (data.data) {
+        if (response.data.data) {
           this.state.dataMyTickets = []
           this.state.dataMyTicketsExpired = []
-          data.data.forEach((ticket) => {
+          response.data.data.forEach((ticket) => {
             expired = this.ticketHasExpired(ticket)
             if (!expired) {
               this.state.dataMyTickets.push(ticket)
