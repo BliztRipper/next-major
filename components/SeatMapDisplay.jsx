@@ -61,7 +61,7 @@ class SeatMapDisplay extends PureComponent {
 
     let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
 
-    let toggleBooked = (aSeat) => {
+    let toggleBooked = (aSeat, isPackage) => {
       if (aSeat.Status === 'myBooking') { // Already booked a seat
 
 
@@ -78,12 +78,16 @@ class SeatMapDisplay extends PureComponent {
             html: `ลูกค้าสามารถจองที่นั่งได้ไม่เกิน ${ticketBookedMax} ที่นั่ง <br/> ต่อการซื้อตั๋วหนึ่งครั้ง`
           })
         } else {
+          if (isPackage && ticket.PackageContent.Tickets) {
+            ticket.TicketTypeCode = ticket.PackageContent.Tickets.length > 0 ? ticket.PackageContent.Tickets[0].TicketTypeCode : ticket.TicketTypeCode
+          }
           this.state.areaSelected = aSeat.AreaCategoryCode
           aSeat.Status = 'myBooking'
           this.state.seatsSelected.push({
             ...aSeat,
             ticket: ticket
           })
+          console.log(this.state.seatsSelected, 'this.state.seatsSelected');
         }
         return true
       } else {
@@ -99,11 +103,11 @@ class SeatMapDisplay extends PureComponent {
 
       aSeat.SeatsInGroup.forEach(seatInGroup => {
         selectRow.forEach((aSeatInSelectRow) => {
+
           if (cannotBook) {
             if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
 
-
-              cannotBook = toggleBooked(aSeatInSelectRow)
+              cannotBook = toggleBooked(aSeatInSelectRow, true)
               if (cannotBook) {
                 listSelected.push(aSeatInSelectRow)
               }
@@ -117,7 +121,7 @@ class SeatMapDisplay extends PureComponent {
 
         if (listSelected.length > 0) {
           listSelected.forEach(selected => {
-            toggleBooked(selected)
+            toggleBooked(selected, true)
           })
         }
       }
