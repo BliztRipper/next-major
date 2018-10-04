@@ -87,7 +87,6 @@ class SeatMapDisplay extends PureComponent {
             ...aSeat,
             ticket: ticket
           })
-          console.log(this.state.seatsSelected, 'this.state.seatsSelected');
         }
         return true
       } else {
