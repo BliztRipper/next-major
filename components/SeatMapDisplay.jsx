@@ -54,14 +54,14 @@ class SeatMapDisplay extends PureComponent {
     return this.state.areas.filter(area => area.AreaCategoryCode === AreaCategoryCode)[0]
   }
   handleSelectSeats (aSeat) {
-    if (this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
+    if (this.state.postingTicket || this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
 
     let ticketBookedMax = 6
     let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
 
     let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
 
-    let toggleBooked = (aSeat) => {
+    let toggleBooked = (aSeat, isPackage) => {
       if (aSeat.Status === 'myBooking') { // Already booked a seat
 
 
@@ -78,6 +78,9 @@ class SeatMapDisplay extends PureComponent {
             html: `ลูกค้าสามารถจองที่นั่งได้ไม่เกิน ${ticketBookedMax} ที่นั่ง <br/> ต่อการซื้อตั๋วหนึ่งครั้ง`
           })
         } else {
+          if (isPackage && ticket.PackageContent.Tickets) {
+            ticket.TicketTypeCode = ticket.PackageContent.Tickets.length > 0 ? ticket.PackageContent.Tickets[0].TicketTypeCode : ticket.TicketTypeCode
+          }
           this.state.areaSelected = aSeat.AreaCategoryCode
           aSeat.Status = 'myBooking'
           this.state.seatsSelected.push({
@@ -99,11 +102,11 @@ class SeatMapDisplay extends PureComponent {
 
       aSeat.SeatsInGroup.forEach(seatInGroup => {
         selectRow.forEach((aSeatInSelectRow) => {
+
           if (cannotBook) {
             if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
 
-
-              cannotBook = toggleBooked(aSeatInSelectRow)
+              cannotBook = toggleBooked(aSeatInSelectRow, true)
               if (cannotBook) {
                 listSelected.push(aSeatInSelectRow)
               }
@@ -117,7 +120,7 @@ class SeatMapDisplay extends PureComponent {
 
         if (listSelected.length > 0) {
           listSelected.forEach(selected => {
-            toggleBooked(selected)
+            toggleBooked(selected, true)
           })
         }
       }

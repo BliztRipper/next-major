@@ -287,6 +287,7 @@ body{
     width: 90px;
     height: 140px;
     box-shadow: #505050 0px 5px 10px 0;
+    margin: auto;
   }
   &__advance{
     position: absolute;
@@ -322,9 +323,10 @@ body{
     flex-direction: column;
     align-items: center;
   }
-  &__poster{
+  &__poster {
     width: 90px;
     height: 140px;
+    margin: auto;
     box-shadow: #505050 0px 5px 10px 0;
   }
   &__title{

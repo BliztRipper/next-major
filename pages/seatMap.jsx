@@ -41,7 +41,7 @@ class seatMap extends PureComponent {
       UserSessionId: UserSessionId
     }
     try{
-      fetch(`http://api-cinema.truemoney.net/CancelOrder`,{
+      fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToCancelOrder)

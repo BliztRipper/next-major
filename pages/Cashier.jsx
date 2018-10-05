@@ -85,7 +85,7 @@ class Cashier extends PureComponent {
             timer: 4000
           })
         } else {
-          fetch(`http://api-cinema.truemoney.net/CancelOrder`,{
+          fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
             method: 'POST',
             headers: this.state.apiOtpHeader,
             body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
