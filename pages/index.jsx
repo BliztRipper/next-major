@@ -43,6 +43,8 @@ class home extends PureComponent {
         })
     }
   }
+
+
   render() {
     const {accid, isLoading} = this.state
     if (isLoading) {
