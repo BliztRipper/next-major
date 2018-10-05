@@ -4,7 +4,12 @@
       "next/babel",
       {
         "preset-env": {
-          "useBuiltIns": "usage"
+          "targets": {
+            "browsers": [
+              "android > 4.4.4",
+              "ios > 10.2"
+            ]
+          }
         }
       }
     ]
