@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
 import '../styles/style.scss'
+import {isIOS, isAndroid, osVersion} from "react-device-detect";
 
 class home extends PureComponent {
   constructor(props) {
@@ -12,7 +13,7 @@ class home extends PureComponent {
       isLoading: true
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     let urlParams = (new URL(document.location)).searchParams;
     let userInfo = null
     let accid = urlParams.get('accid')
@@ -46,25 +47,38 @@ class home extends PureComponent {
 
 
   render() {
-    const {accid, isLoading} = this.state
+    const { accid, isLoading } = this.state
     if (isLoading) {
       return false
     }
-    return(
-      <Layout>
-        {(() => {
-          if (accid) {
-            return <MainNavBar accid={accid} key="MainNavBar"/>
-          } else {
-            return (
-              <section className="empty">
-                <img src={empty}/>
-              </section>
-            )
-          }
-        })()}
-      </Layout>
-    )
-   }
- }
- export default home
+
+    if (isIOS){
+      console.log('I am iOS')
+      if(parseFloat(osVersion) < 10.3){
+        return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem',}}>Your iOS version is under 10.3, Please update to newer version</h1>
+      }
+    }
+    if (isAndroid){
+      console.log('I am Android')
+      if(parseFloat(osVersion) <= 5.0) {
+        return <h1 style={{textAlign:'center',}}>Your Android version is under 4.4, Please update to newer version</h1>
+      }
+    }
+      return (
+        <Layout>
+          {(() => {
+            if (accid) {
+              return <MainNavBar accid={accid} key="MainNavBar" />
+            } else {
+              return (
+                <section className="empty">
+                  <img src={empty} />
+                </section>
+              )
+            }
+          })()}
+        </Layout>
+      )
+  }
+}
+export default home
