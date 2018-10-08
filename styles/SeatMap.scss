@@ -103,6 +103,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   justify-content: center;
   grid-template-columns: repeat(var(--total-seat), var(--seat-size));
   grid-column-gap: 1px;
+  direction: rtl;
   grid-row-gap: 1px;
   text-align: center;
   font-size: var(--seat-font-size);

@@ -214,7 +214,7 @@ class SeatMapDisplay extends PureComponent {
           }
           return (
             <div className={classNameCell + ' ' + classNameAnotherArea} data-column-index={aSeat.Position.ColumnIndex} style={ {'--col-seat': aSeat.Position.ColumnIndex} } key={aSeat.PhysicalName + aSeat.Position.ColumnIndex} onClick={this.handleSelectSeats.bind(this, aSeat)} >
-              <div>{(aSeatIndex)}</div>
+              <div>{(aSeat.Id)}</div>
             </div>
           )
         })
@@ -259,7 +259,7 @@ class SeatMapDisplay extends PureComponent {
     )
   }
   listSelectedAndPrice () {
-    this.state.selectedList = this.state.seatsSelected.map(aSeatSelected => aSeatSelected.PhysicalName + aSeatSelected.Position.ColumnIndex)
+    this.state.selectedList = this.state.seatsSelected.map(aSeatSelected => aSeatSelected.PhysicalName + aSeatSelected.Id)
     let selectedList = this.state.selectedList.join()
     let totalPrice = 0
     this.state.seatsSelected.forEach((seat, seatIndex, seatArray) => {
