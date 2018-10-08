@@ -16,7 +16,7 @@ class DateFilters extends Component {
     var monthNames = [
       "", "ม.ค.", "ก.พ.", "มี.ค.",
       "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
-      "ส.ค.", "ก.ย.", "ค.ค.",
+      "ส.ค.", "ก.ย.", "ต.ค.",
       "พฤ.ย.", "ธ.ค."
     ]
     let monthIndex = date.slice(5,7)

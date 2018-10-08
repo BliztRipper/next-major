@@ -118,7 +118,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: opacity 0.3s, background-color 0.3s;
+  transition: background-color 0.3s;
   &-title {
     font-weight: bold;
     background-color: darken(#fff, 20%) !important;
@@ -131,16 +131,17 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
     background-color:#26A1E3;
     color: #fff;
   }
-  &.areaNotSelected {
-    opacity: 0.3;
-  }
-  &:not(.selected) {
+  &:not(.selected), {
     @for $i from 1 through length($colorSeats) {
       &.type#{$i} {
         background-color: nth($colorSeats, $i);
         color: #383d48;
       }
     }
+  }
+  &.areaNotSelected.areaNotSelected {
+    background-color: #e6e6e6;
+    color: #999;
   }
 }
 .ticketResult {
