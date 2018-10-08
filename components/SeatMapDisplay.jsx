@@ -175,11 +175,7 @@ class SeatMapDisplay extends PureComponent {
         sessionStorage.setItem('BookingSeatTotal',this.state.seatsSelected.length)
       } else {
         SweetAlert.fire({
-          html: <div style={{ textAlign: 'center' }}><figure class="image"><img src="static/seat-errer.png" alt=""/></figure> ขออภัย กรุณาไม่เว้นที่ว่าง <br/> ระหว่างที่นั่ง</div>
-        })
-        Swal({
-          customClass: 'notAllowedSelected',
-          html: `<figure class="image"><img src="static/seat-errer.png" alt=""/></figure> ขออภัย กรุณาไม่เว้นที่ว่าง <br/> ระหว่างที่นั่ง`
+          html: <div style={{ textAlign: 'center' }}><figure class="image"><img src="../static/seat-errer.png" alt=""/></figure> ขออภัย กรุณาไม่เว้นที่ว่าง <br/> ระหว่างที่นั่ง</div>
         })
       }
     } else {
