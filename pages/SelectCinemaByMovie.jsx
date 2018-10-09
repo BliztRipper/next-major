@@ -261,6 +261,7 @@ class MainSelectCinemaByMovie extends Component {
     this.state.regions.forEach(region=>{
       let searchRegion = {
         name: region.name,
+        keywordSearch: keyword,
         cinemas: [],
       }
 
@@ -299,15 +300,13 @@ class MainSelectCinemaByMovie extends Component {
 
   renderSearchData() {
     return this.state.searchRegions.map((region, i) => {
-      return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp key={region.name + i + region.keywordSearch} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
     })
   }
 
   renderRegionTypeList() {
     if (this.state.HideList) {
-      return (
-        this.renderSearchData()
-      )
+      return this.renderSearchData()
     } else {
       return (
         <Fragment>

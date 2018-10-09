@@ -108,15 +108,13 @@ class MainNavBar extends PureComponent {
       case '1':
         instantTabsIndex = 0
         break;
-
-        case '2':
+      case '2':
         instantTabsIndex = 1
         this.setState({
           highlightFetching: false
         })
         break;
     }
-
 
     this.setState({
       previousRoute: instantPrevRoute,
