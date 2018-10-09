@@ -26,6 +26,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
     overflow: hidden;
   }
   .seatMapMain {
+    width: calc(100vw - .4rem - .4rem);
     > div {
       overflow: hidden;
       height: 100%;
@@ -327,6 +328,7 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   background-color: #fff;
   box-shadow: 0 -3px 3px rgba(#000, 0.1);
   margin: 0 -.4rem;
+  width: 100vw;
 }
 
 .seatMap__educate {
