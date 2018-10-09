@@ -59,8 +59,7 @@ class RegionCinemaComp extends Component {
       <div
         className="cinema__regional"
         key={name}
-        onClick={this.toggleCollapse.bind(this)}
-      >
+        onClick={this.toggleCollapse.bind(this)}>
         <div className="cinema__regional__header">
           <h5 className={classNameRegionTitle} key="text">
             {this.renderFavStar()}
@@ -68,8 +67,7 @@ class RegionCinemaComp extends Component {
           </h5>
           <div
             className={this.state.isExpand ? "arrowIcon active" : "arrowIcon"}
-            key="arrowIcon"
-          >
+            key="arrowIcon">
             {" "}
             <img src="../static/ic-arrow-back.png" alt="" />
           </div>
