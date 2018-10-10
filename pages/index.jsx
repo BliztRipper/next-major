@@ -14,17 +14,6 @@ class home extends PureComponent {
     }
   }
   componentDidMount() {
-    if (isIOS){
-      if(parseFloat(osVersion) < 10.3){
-        return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem',}}>Your iOS version is under 10.3, Please update to newer version</h1>
-      }
-    }
-
-    if (isAndroid){
-      if(parseFloat(osVersion) <= 5.0) {
-        return <h1 style={{textAlign:'center',}}>Your Android version is under 4.4, Please update to newer version</h1>
-      }
-    }
     let urlParams = (new URL(document.location)).searchParams;
     let userInfo = null
     let accid = urlParams.get('accid')
@@ -61,6 +50,17 @@ class home extends PureComponent {
     const { accid, isLoading } = this.state
     if (isLoading) {
       return false
+    }
+    if (isIOS){
+      if(parseFloat(osVersion) < 11){
+        return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem',}}>Your iOS version is under 11, Please update to newer version</h1>
+      }
+    }
+
+    if (isAndroid){
+      if(parseFloat(osVersion) <= 5.0) {
+        return <h1 style={{textAlign:'center',}}>Your Android version is under 4.4, Please update to newer version</h1>
+      }
     }
       return (
         <Layout>
