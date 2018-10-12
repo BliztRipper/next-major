@@ -259,12 +259,19 @@ body{
     @include buttonTheme(var(--colorTheme), #ffffff);
     margin-top: 1.5vh;
     margin-bottom: 0;
+    @media (min-width:375px) and (min-height:812px){
+      margin-top: 3vh;
+    }
   }
   .poster-container {
     height: 75vw;
     margin-bottom: 2vh;
     position: relative;
     display: inline-block;
+    @media (min-width:375px) and (min-height:812px){
+      height: 88vw;
+      margin-bottom: 3vh;
+    }
     &:after{
       content:'';
       background-image: url('../static/poster-shadow@3x.png');
@@ -284,6 +291,9 @@ body{
     width: 66vw;
     margin-left: auto;
     margin-right: auto;
+    @media (min-width:375px) and (min-height:812px){
+      width: 70vw;
+    }
   }
   .swiper-slide {
     .highlight__sliderItem,
