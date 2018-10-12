@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
+import '../styles/style.scss'
 
 export default class MovieInfo extends PureComponent {
   constructor(props) {

@@ -16,7 +16,12 @@ class RenderShowing extends PureComponent {
           <img className='showing__poster' src={this.props.item.poster_ori}/>
           {(()=>{
             if(new Date().getTime() < new Date(this.props.item.release_date).getTime()) {
-              return(<img className='showing__advance' src='../static/advanceTicket.png'/>)
+              return (
+                <div className="advanceBadge">
+                  <div className="advanceBadge--text">ตั๋วล่วงหน้า</div>
+                  <img className='advanceBadge--img' src='../static/advanceTicket_bg.svg'/>
+                </div>
+              )
             }
           })()}
           <span className='showing__title'>{this.props.item.title_th}</span>

@@ -111,29 +111,31 @@
 		margin-bottom: 10vw;
 		padding-bottom: 5vw;
 		overflow: visible;
-
-		>* {
-			padding: 0 3vw;
-		}
-
-		.card__poster-container {
-			margin-top: 0;
-			margin-bottom: 5vw;
-			padding: 0 3vw;
-			.movie-card__poster {
-				margin-top: -1em;
+			>* {
+				padding: 0 3vw;
 			}
-		}
-		.cinema__card-cbm {
-			border-top: 0;
-			padding-bottom: 0;
-		}
-		.cinema__card-cbm--theatre-container {
-			.cinema__card-cbm--theatre-wrapper,
-			.cinema__card-cbm--timetable-wrap {
-				width: auto;
+
+			.card__poster-container {
+				margin-top: 0;
+				margin-bottom: 5vw;
+				padding: 0 3vw;
+				.movie-card__poster {
+					margin-top: -1em;
+				}
 			}
-		}
+			.cinema__card-cbm {
+				border-top: 0;
+				padding-bottom: 0;
+			}
+			.cinema__card-cbm--theatre-container {
+				.cinema__card-cbm--theatre-wrapper,
+				.cinema__card-cbm--timetable-wrap {
+					width: auto;
+				}
+				.cinema__card-cbm--timetable {
+					grid-template-columns: repeat(4,5.1em);
+				}
+			}
     }
     &.groupBySystem {
         .cinema__regional__title {

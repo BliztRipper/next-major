@@ -123,12 +123,6 @@ class MainCinemaListing extends PureComponent {
           <SearchCinema onSearchChange={this.onSearchChange.bind(this)} />
         </div>
         {this.renderList()}
-        <style jsx global>{`
-        .indexTab {
-            background-color: #fff !important;
-            position: relative;
-          }
-        `}</style>
       </Fragment>
     )
   }

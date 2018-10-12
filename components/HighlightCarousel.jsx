@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import Swiper from 'swiper'
@@ -117,19 +117,22 @@ class HighlightCarousel extends PureComponent {
           {this.state.dataObj.map(item =>
             <div className="swiper-slide" key={item.title_en}>
               <div className="highlight__sliderItem">
-                <div className="poster-container">
-                  <img className="highlight__poster" src={item.poster_ori ? item.poster_ori : './static/img-placeholder.svg'} />
-                  {(()=>{
-                    if (new Date().getTime() < new Date(item.release_date).getTime()) {
-                      return (
-                        <div className="highlight__advance">
-                          <div className="highlight__advance--text">ตั๋วล่วงหน้า</div>
-                          <img className='highlight__advance--img' src='../static/advanceTicket_bg.svg'/>
-                        </div>
-                      )
-                    }
-                  })()}
-                </div>
+                <Link prefetch href={dataToSelectCinemaByMovie}>
+                  <div className="poster-container" onClick={this.movieDetails.bind(this,item)}>
+                    <img className="highlight__poster" src='./static/img-placeholder-without-shadow.svg' />
+                    <img className="highlight__poster" src={item.poster_ori} />
+                    {(()=>{
+                      if (new Date().getTime() < new Date(item.release_date).getTime()) {
+                        return (
+                          <div className="advanceBadge">
+                            <div className="advanceBadge--text">ตั๋วล่วงหน้า</div>
+                            <img className='advanceBadge--img' src='../static/advanceTicket_bg.svg'/>
+                          </div>
+                        )
+                      }
+                    })()}
+                  </div>
+                </Link>
                 <div className="highlight__caption">
                   {(() => {
                     this.state.arrbg.push(item.poster_ori)

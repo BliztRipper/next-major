@@ -42,7 +42,17 @@ body{
   position: fixed;top: 30%;left: 50%;transform: translateX(-50%);
 }
 .empty{
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
   display: flex; flex-direction: column; padding-top: 25vh;color:#989FAE; align-items: center; text-align: center;
+  img {
+    width: 70vw;
+    height: auto;
+  }
+  h5 {
+    font-size: 1rem;
+  }
 }
 .sprite{
   background: url('../static/MajorGroupSprite.png') no-repeat;
@@ -175,7 +185,7 @@ body{
 .allmovie-btn-wrap {
   display: block;
   text-decoration: none;
-  padding-top: 1rem;
+  padding-top: 2vh;
   position: relative;
   text-align: center;
   display: flex;
@@ -195,9 +205,9 @@ body{
   margin-right: auto;
   transition: opacity .4s;
   border-radius: 0.4rem;
-  padding: 0.6rem 0.8rem;
-  min-width: 13rem;
-  font-size: 1.2rem;
+  padding: calc(0.6rem - 2px) calc(0.8rem - 2px);
+  min-width: 12.4rem;
+  font-size: 1.06rem;
 }
 
 .allmovie-btn-icon {
@@ -206,8 +216,12 @@ body{
 
 .highlight{
   box-sizing: border-box;
-  padding: 1.4rem 0;
+  padding: 0;
   text-align: center;
+  height: calc(100vh - 10rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &__title{
     display: block;
     font-size: 1.125rem;
@@ -224,50 +238,41 @@ body{
     font-size: 0.75rem;
   }
   &__poster {
-    max-width: 100%;
-    height: 100%;
-    width: auto;
-    position: relative;
-    z-index: 2;
-  }
-  &__advance{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: -2.4vw;
-    z-index: 10;
-    text-align: center;
-    &--text {
-      font-size: 1rem;
-      font-weight: bold;
-      white-space: nowrap;
-      color: #fff;
+    &:first-child {
       position: absolute;
-      top: 50%;
+      z-index: 1;
       left: 50%;
+      top: 50%;
+      width: 100%;
+      height: 100%;
       transform: translate(-50%, -50%);
-    }
-    &--img {
-      height: 9vw;
-      width: auto;
-      display: block;
+      + .highlight__poster {
+        max-width: 100%;
+        height: 100%;
+        width: auto;
+        position: relative;
+        z-index: 2;
+      }
     }
   }
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
+    margin-top: 1.5vh;
+    margin-bottom: 0;
   }
   .poster-container {
-    height: 80vw;
-    margin-bottom: 1rem;
+    height: 75vw;
+    margin-bottom: 2vh;
     position: relative;
+    display: inline-block;
     &:after{
       content:'';
       background-image: url('../static/poster-shadow@3x.png');
       position: absolute;
       right: 0;
       left: 0;
-      padding-bottom: 20%;
-      bottom: -4.3vw;
+      padding-bottom: 40%;
+      bottom: -6vw;
       z-index: 0;
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -276,7 +281,7 @@ body{
   }
   .swiper-container {
     overflow: visible;
-    width: 64vw;
+    width: 66vw;
     margin-left: auto;
     margin-right: auto;
   }
@@ -303,14 +308,35 @@ body{
     }
   }
 }
+.advanceBadge {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -2.4vw;
+  z-index: 10;
+  text-align: center;
+  &--text {
+    font-size: 0.95rem;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &--img {
+    height: 8.6vw;
+    width: auto;
+    display: block;
+  }
+}
 .showing{
   &__container{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: 1rem;
-    padding-bottom: 4rem;
-    margin-top: 120px;
   }
   &__cell{
     display: flex !important;
@@ -321,8 +347,8 @@ body{
   &__poster{
     width: 90px;
     height: 140px;
-    box-shadow: #505050 0px 5px 10px 0;
-    margin: auto;
+    box-shadow: 0 0.3rem 0.35rem rgba(#000, 0.4);
+    margin: 0 auto;
   }
   &__advance{
     position: absolute;
@@ -340,18 +366,18 @@ body{
 }
 
 .comingsoon{
-  margin-top: 120px;
   &__header{
     padding-left: 1rem;
     font-size: 1.125rem;
     font-weight: bold;
+    margin-top: 0;
   }
   &__container{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     grid-gap: 2rem 0.5rem;
-    padding-bottom: 4rem;
+    margin-bottom: 2rem;
   }
   &__cell{
     display: flex !important;
@@ -361,8 +387,8 @@ body{
   &__poster {
     width: 90px;
     height: 140px;
-    margin: auto;
-    box-shadow: #505050 0px 5px 10px 0;
+    margin: 0 auto;
+    box-shadow: 0 0.3rem 0.35rem rgba(#000, 0.4);
   }
   &__title{
     padding: 0.5rem 0;
@@ -703,8 +729,8 @@ body{
       position: fixed;
       bottom: 0;
       left: 0;
-      padding-left: 0;
-      margin: 0 0;
+      padding: 0;
+      margin: 0;
       list-style: none;
       width: 100vw;
       z-index: 5;
@@ -712,30 +738,57 @@ body{
     &__tabs-container{
       display: flex;
       justify-content: space-around;
-      box-shadow: #000 0 2px 4px 0;
+      box-shadow: 0 -0.8rem 1.4rem rgba(#000, 0.15);
       background-color: #fff;
-      height: 70px;
-      bottom: 0;
-      justify-content: space-around;
-      width: 100%;
-      position: absolute;
       transition: opacity .4s;
-      z-index: 20;
+      > li {
+        flex: 0 0 22%;
+        font-size: 0.9rem;
+      }
       .isBlank {
-        opacity: 0;
+        visibility: hidden;
       }
     }
     &__tab{
       text-align: center;
       color:#989FAE;
-      padding: 1rem 0;
-      height: 20px;
+      padding: 1.22rem 0 1rem;
       display: flex;
       flex-direction: column;
-      height: 55px;
       align-items: center;
+      position: relative;
+      &:after {
+        content: '';
+        display: block;
+        height: 0.22rem;
+        border-radius: 0.22rem;
+        background-color: #ff8200;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 0;
+        transition: width 0.4s
+      }
+      .tab-menu-icon {
+        svg {
+          display: block;
+          height: 1.6rem;
+          width: 1.6rem;
+        }
+      }
       &--selected{
-        border-top: 3px solid #ff8200;
+        &:after {
+          width: 100%;
+        }
+        .tab-menu-icon {
+          svg {
+            > g > g {
+              stroke: #ff8200;
+            }
+          }
+        }
         .tab-menu-title{
           color:#ff8200;
         }
@@ -765,6 +818,9 @@ body{
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 0;
+  > .react-tabs {
+    padding-bottom: 24vw;
+  }
   .background-blur{
     background-size: cover;
     width: 120%;
@@ -794,13 +850,10 @@ body{
     position: relative;
     z-index: 1;
     .react-tabs{
-      height: 100vh;
-      margin-bottom: 300px;
       &__tab-list{
         top: 0;
         display: flex;
         z-index: 3;
-        height: 62px;
         background-color: #fff;
         position: relative;
         padding-left: 0;
@@ -811,21 +864,11 @@ body{
         padding: 1rem 0;
         width: 50%;
         top:0;
-        height: 30px;
         list-style: none !important;
         &--selected{
           border-bottom: 3px solid #ff8200;
           color:#ff8200;
           border-top: 0;
-        }
-      }
-      &__tab-panel{
-        &--selected{
-          padding-bottom: 18rem;
-          height: 100vh;
-          &:nth-last-child(1){
-            padding-bottom: calc(45rem + 30vh);
-          }
         }
       }
     }
@@ -838,54 +881,69 @@ body{
   }
 }
 .allmovieTab{
+  padding-top: 38vw;
+  padding-bottom: 24vw;
+  .advanceBadge {
+    top: -0.8rem;
+    &--text {
+      font-size: .8rem;
+    }
+    &--img {
+      height: 7vw;
+    }
+  }
   .react-tabs{
-      &__tab-list{
-        position: fixed;
-        list-style: none;
-        top: 45px;
-        left: 0;
-        padding-left: 0;
-        margin: 0 0;
-        width: 100vw;
-        display: flex;
-        justify-content: space-around;
-        background-color: #fff;
-        z-index: 1;
-      }
-      &__tabs-container{
-        display: flex;
-        justify-content: space-around;
-        box-shadow: #000 0 2px 4px 0;
-        background-color: #fff;
-        height: 65px;
-      }
-      &__tab{
-        text-align: center;
-        color:#989FAE;
-        padding: 1rem 0;
-        width: 50%;
-        &--selected{
-          border-bottom: 3px solid #ff8200;
-          color:#ff8200;
-          font-weight: bold;
-          font-size: 1.2rem;
-        }
-      }
+    &__tab-panel {
+      position: relative;
+      z-index: 0;
     }
-    &__header{
-      color: #383d48;
-      font-size: 1rem;
-      font-weight: 700;
+    &__tab-list{
       position: fixed;
-      text-align: center;
-      top: 0;
+      list-style: none;
+      top: 13.4vw;
       left: 0;
+      padding-left: 0;
+      margin: 0 0;
+      width: 100vw;
+      display: flex;
+      justify-content: space-around;
       background-color: #fff;
-      width: 100%;
-      z-index: 2;
-      margin: 0;
-      padding: 1rem 0;
+      z-index: 1;
     }
+    &__tabs-container{
+      display: flex;
+      justify-content: space-around;
+      box-shadow: #000 0 2px 4px 0;
+      background-color: #fff;
+      height: 65px;
+    }
+    &__tab{
+      text-align: center;
+      color:#989FAE;
+      padding: 1rem 0;
+      width: 50%;
+      &--selected{
+        border-bottom: 3px solid #ff8200;
+        color:#ff8200;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+    }
+  }
+  &__header{
+    color: #383d48;
+    font-size: 1rem;
+    font-weight: 700;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    z-index: 2;
+    margin: 0;
+    padding: 1rem 0;
+  }
 }
 
 .date-filter{
@@ -1018,31 +1076,32 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 140px;
-  height: 140px;
+  width: 40vw;
+  height: 40vw;
   border-radius: 100%;
   background-color: #383d48;
   position: fixed;
-  right: -50px;
-  bottom: -50px;
+  right: -14vw;
+  bottom: -16vw;
   &Inner {
     position: relative;
     z-index: 1;
-    transform: translate(-20px, -18px);
+    transform: translate(-1.4rem, -1.5rem);
   }
   &-icon {
-    width: 40px;
+    width: 11vw;
     height: auto;
   }
   .indexTab__floatButton-badge {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: bold;
     background-color: $colorTheme;
     color: #fff;
     position: absolute;
-    right: -14px;
-    top: -8px;
-    width: 22px;
-    height: 22px;
+    right: -0.8rem;
+    top: 0rem;
+    width: 1.7rem;
+    height: 1.7rem;
     border-radius: 100%;
     display: flex;
     align-items: center;
