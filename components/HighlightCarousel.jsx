@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, Component } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import Swiper from 'swiper'
@@ -118,25 +118,14 @@ class HighlightCarousel extends PureComponent {
             <div className="swiper-slide" key={item.title_en}>
               <div className="highlight__sliderItem">
                 <div className="poster-container">
+                  <img className="highlight__poster" src={item.poster_ori ? item.poster_ori : './static/img-placeholder.svg'} />
                   {(()=>{
-                    const imageStyle = {
-                      backgroundImage: `url(${item.poster_ori}), url(./static/img-placeholder.svg) `,
-                      width:'100%',
-                      height:'50vh',
-                      backgroundSize: 'auto 85%',
-                      backgroundPosition: 'center center',
-                      backgroundRepeat: 'no-repeat',
-                    }
-                    if(new Date().getTime() < new Date(item.release_date).getTime()){
-                      return(
-                        <Fragment>
-                          <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
-                          <img className='highlight__advance' src='../static/advanceTicket.png'/>
-                        </Fragment>
-                      )
-                    } else {
-                      return(
-                        <div className='highlight__poster' style={imageStyle ? imageStyle:'background-image:url(./static/img-placeholder.svg)'}></div>
+                    if (new Date().getTime() < new Date(item.release_date).getTime()) {
+                      return (
+                        <div className="highlight__advance">
+                          <div className="highlight__advance--text">ตั๋วล่วงหน้า</div>
+                          <img className='highlight__advance--img' src='../static/advanceTicket_bg.svg'/>
+                        </div>
                       )
                     }
                   })()}
