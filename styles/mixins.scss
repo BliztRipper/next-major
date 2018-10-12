@@ -1,11 +1,11 @@
 @mixin buttonTheme($colorBG, $colorText) {
   background-color: $colorBG;
-  display: flex;
-  justify-content: center;
-  padding: .6rem 0;
-  margin: 0.5rem auto;
-  width: 200px;
+  display: inline-block;
   color: $colorText;
-  border-radius: 4px;
   text-decoration: none;
+  font-size: 1.2rem;
+  margin: 0.5rem auto;
+  border-radius: 0.4rem;
+  padding: 0.6rem 0.8rem;
+  min-width: 13rem;
 }

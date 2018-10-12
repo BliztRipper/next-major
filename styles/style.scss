@@ -12,7 +12,7 @@
 @import 'responsive';
 
 :root{
-  font-size: 16px;
+  font-size: 4vw;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --colorTheme: #ff8300;
 }
@@ -153,66 +153,60 @@ body{
   }
 }
 
-  .VS00000001{
-    background: url('../static/MajorGroupSprite.png') no-repeat;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0 8px;
-    background-position: -84px -230px;
-    width: 48px;
-    height: 25px;
-  }
+.VS00000001{
+  background: url('../static/MajorGroupSprite.png') no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 8px;
+  background-position: -84px -230px;
+  width: 48px;
+  height: 25px;
+}
 
-  .MajorCineplex{
-    background: url('../static/MajorGroupSprite.png') no-repeat;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 5px;
-    background-position: -160px -160px;
-    width: 50px;
-    height: 50px;
-  }
-  .allmovie-btn-wrap {
-    display: block;
-    text-decoration: none;
-    padding-top: 1rem;
-    position: relative;
-    // &::before{
-    //   content:'';
-    //   background-image: linear-gradient(180deg,rgba(#000, 0.55) 30%, transparent);
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   right: 0;
-    //   display: block;
-    //   height: 30vh;
-    // }
-  }
-  .allmovie-btn{
-    position: relative;
-    text-align:center;
-    display:block;
-    padding: 10px 0;
-    text-decoration:none;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    color:#333;
-    margin-left: auto;
-    margin-right: auto;
-    // background-color: rgba(#000, 0.05);
-    transition: opacity .4s;
-    .sprite-table {
-      left: 10%;
-      top: 50%;
-      transform: translateY(-50%);
-      margin: 0;
-      filter: invert(1);
-    }
-  }
+.MajorCineplex{
+  background: url('../static/MajorGroupSprite.png') no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+  background-position: -160px -160px;
+  width: 50px;
+  height: 50px;
+}
+.allmovie-btn-wrap {
+  display: block;
+  text-decoration: none;
+  padding-top: 1rem;
+  position: relative;
+  text-align: center;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+.allmovie-btn{
+  position: relative;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  text-decoration:none;
+  border: 1px solid #bbb;
+  color:#333;
+  margin-left: auto;
+  margin-right: auto;
+  transition: opacity .4s;
+  border-radius: 0.4rem;
+  padding: 0.6rem 0.8rem;
+  min-width: 13rem;
+  font-size: 1.2rem;
+}
+
+.allmovie-btn-icon {
+  margin-right: 1rem;
+}
 
 .highlight{
-  margin-top: 2vh;
-  margin-bottom: 0;
+  box-sizing: border-box;
+  padding: 1.4rem 0;
   text-align: center;
   &__title{
     display: block;
@@ -244,7 +238,7 @@ body{
     z-index: 10;
     text-align: center;
     &--text {
-      font-size: 0.8rem;
+      font-size: 1rem;
       font-weight: bold;
       white-space: nowrap;
       color: #fff;

@@ -210,7 +210,7 @@ class MainNavBar extends PureComponent {
           <TabPanel>
             <div className="allmovie-btn-wrap" key="ButtonSeeAllMovies">
               <Link prefetch href={dataToAllMovies}>
-                <a className="allmovie-btn"><div className="sprite-table"></div> ดูภาพยนต์ทั้งหมด</a>
+                <a className="allmovie-btn"><img class="allmovie-btn-icon" src="../static/all-movie-icon.svg" /> ดูภาพยนต์ทั้งหมด</a>
               </Link>
             </div>
             <HighlightCarousel
