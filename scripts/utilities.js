@@ -123,7 +123,7 @@ export default {
       case '0000000010': return `./static/imaxd-3-d.png`
       // case '0000000011': return `./static/imaxvr.png` now hasn't picture
       case '0000000012': return `./static/SCX.png`
-      // case '0000000013': return `./static/kids.png`  now hasn't picture
+      case '0000000013': return `./static/kids.png`
       default: return `../static/digi-2-d.png`
     }
   },
@@ -141,7 +141,7 @@ export default {
       case 'MXD3D': return `./static/imaxd-3-d.png`
       // case 'MXVR': return `./static/imaxvr.png` now hasn't picture
       case 'SCX': return `./static/SCX.png`
-      // case 'KIDS': return `./static/kids.png`  now hasn't picture
+      case 'KIDS': return `./static/kids.png`
       default: return `../static/digi-2-d.png`
     }
   },
