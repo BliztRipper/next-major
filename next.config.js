@@ -43,7 +43,7 @@ withBabelMinify(withOffline(withFonts(withImages(withSass({
         analyzerPort: isServer ? 8888 : 8889,
         openAnalyzer: true
       }))
-    }
+    }8
     return config
   }
 })))))

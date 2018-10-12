@@ -1,13 +1,10 @@
 {
   "presets": [
-    [
-      "next/babel",
-      {
+    ["next/babel",{
         "preset-env": {
           "targets": {
             "browsers": [
-              "android > 4.4.4",
-              "ios > 10.2"
+              "last 2 major versions"
             ]
           }
         }
