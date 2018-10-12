@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React, { Fragment } from 'react';
 
-export default ({ children, title = 'True Major Cineplex' }) => (
+const Layout = ({ children, title = 'True Major Cineplex' }) => (
   <Fragment>
     <Head>
       <title>{title}</title>
@@ -20,3 +20,4 @@ export default ({ children, title = 'True Major Cineplex' }) => (
     { children }
   </Fragment>
 )
+export default Layout
