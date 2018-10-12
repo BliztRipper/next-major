@@ -4,8 +4,13 @@
         "preset-env": {
           "targets": {
             "browsers": [
-              "last 2 major versions"
-            ]
+              "ios >= 10",
+              "safari >= 10",
+              "chrome >= 60",
+              "edge >= 15",
+              "firefox >= 55"
+            ],
+            "uglify": true
           }
         }
       }

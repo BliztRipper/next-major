@@ -14,6 +14,7 @@ const Layout = ({ children, title = 'True Major Cineplex' }) => (
       <meta name="apple-mobile-web-app-title" content="True Major Cineplex" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
+      <link href="/static/major@3x.png" sizes="150x150" rel="apple-touch-startup-image" />
       <meta name="mobile-web-app-capable" content="yes" />
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.0/css/swiper.min.css" />
     </Head>

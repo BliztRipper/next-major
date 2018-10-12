@@ -1,3 +1,4 @@
+
 const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
 const withFonts = require('next-fonts')
@@ -7,7 +8,6 @@ const withBabelMinify = require('next-babel-minify')()
 const withOffline = require('next-offline')
 const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
-
 
 module.exports = withPlugins([
   [optimizedImages, {
