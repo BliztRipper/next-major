@@ -45,14 +45,25 @@ class home extends PureComponent {
     }
   }
 
+  renderSlide(){
+    if (this.state.accid) {
+      return <MainNavBar accid={this.state.accid} key="MainNavBar" />
+    } else {
+      return (
+        <section className="empty">
+          <img src={empty} />
+        </section>
+      )
+    }
+  }
 
   render() {
-    const { accid, isLoading } = this.state
+    const { isLoading } = this.state
     if (isLoading) {
       return false
     }
     if (isIOS){
-      if(parseFloat(osVersion) < 10.3){
+      if(parseFloat(osVersion) < 10){
         return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem'}}>This feature require iOS version over 10.3<br/>Please update to newer version</h1>
       }
     }
@@ -64,17 +75,7 @@ class home extends PureComponent {
     }
       return (
         <Layout>
-          {(() => {
-            if (accid) {
-              return <MainNavBar accid={accid} key="MainNavBar" />
-            } else {
-              return (
-                <section className="empty">
-                  <img src={empty} />
-                </section>
-              )
-            }
-          })()}
+          {this.renderSlide()}
         </Layout>
       )
   }
