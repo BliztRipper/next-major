@@ -53,7 +53,7 @@ class home extends PureComponent {
     }
     if (isIOS){
       if(parseFloat(osVersion) < 10.3){
-        return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem',}}>Your iOS version is under 11, Please update to newer version</h1>
+        return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem'}}>This feature require iOS version over 10.3<br/>Please update to newer version</h1>
       }
     }
 
