@@ -29,7 +29,7 @@ class MainSelectCinemaByMovie extends Component {
       regionsFav: [],
       dates: [],
       pickThisDay: 0,
-      accid: this.props.url.query.accid,
+      accid: '',
       movieInfo: '',
       HideList: false,
       searchRegions: [],
@@ -40,7 +40,11 @@ class MainSelectCinemaByMovie extends Component {
   //this function done after render
   componentDidMount() {
     this.state.movieInfo = JSON.parse(sessionStorage.getItem('movieSelect'))
-    this.setState({ movieInfo: this.state.movieInfo })
+    let instantUserInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.setState({
+      movieInfo: this.state.movieInfo,
+      accid: instantUserInfo.accid
+    })
     let dataToPostSchedule = {
       cinemaId: '',
       filmIds: this.state.movieInfo.movieCode
