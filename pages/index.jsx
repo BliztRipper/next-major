@@ -27,7 +27,6 @@ class home extends PureComponent {
       }
       sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
-
     this.setState({
       isLoading: false,
       accid: userInfo.accid

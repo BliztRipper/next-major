@@ -132,16 +132,20 @@ class MainNavBar extends PureComponent {
     if (this.state.dataMyTicketsTotal) return <div className="indexTab__floatButton-badge">{this.state.dataMyTicketsTotal}</div>
     return false
   }
+
   renderFloatButton () {
-    return (
-      <div className="indexTab__floatButton" onClick={this.goToMyTickets} key="buttonLinkToMyTicket">
-        <div className="indexTab__floatButtonInner">
-          <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
-          { this.renderFloatButtonBadge() }
+    if (this.state.dataMyTicketsDone) {
+      return (
+        <div className="indexTab__floatButton" onClick={this.goToMyTickets} key="buttonLinkToMyTicket">
+          <div className="indexTab__floatButtonInner">
+            <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
+            { this.renderFloatButtonBadge() }
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
+
   goToMyTickets () {
     Router.push('/MyTickets')
   }
@@ -280,11 +284,7 @@ class MainNavBar extends PureComponent {
             </TabList>
           </div>
         </Tabs>
-        {(() => {
-          if (dataMyTicketsDone) {
-            return this.renderFloatButton()
-          }
-        })()}
+        {this.renderFloatButton()}
       </div>
     )
   }
