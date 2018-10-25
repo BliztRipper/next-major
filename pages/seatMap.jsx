@@ -204,9 +204,20 @@ class seatMap extends PureComponent {
             ...data
           }
           if (isChaining) {
-            this.refSeatMapDisplay.current.setState({postingTicket: false}, () => {
-              this.setState({otpShow: true})
-            })
+            if (this.refSeatMapDisplay.current) {
+              this.refSeatMapDisplay.current.setState({
+                postingTicket: false
+              }, () => {
+                this.setState({
+                  otpShow: true
+                })
+              })
+            } else {
+              this.setState({
+                isLoading: false,
+                otpShow: true
+              })
+            }
           } else {
             this.refOTP.current.setState({
               otpMatchCode: data.otp_ref,
@@ -249,6 +260,15 @@ class seatMap extends PureComponent {
       .then((data) =>  {
         if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats()
+        } else if (data.status_code === 35000) {
+          Swal({
+            type: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            html: `คุณกรอกรหัส OTP ผิดพลาด <br> กด OK เพื่อรับรหัส OTP อีกครั้ง` ,
+            onAfterClose: () => {
+              this.authOtpGetOtp(true)
+            }
+          })
         } else {
           Swal({
             type: 'error',

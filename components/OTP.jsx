@@ -24,7 +24,9 @@ class OTP extends PureComponent {
     }
   }
   handleOtpResend () {
-    this.props.authOtpGetOtp()
+    if (!this.state.otpResending) {
+      this.props.authOtpGetOtp()
+    }
   }
   render () {
     const { userNumber, otpNumberValue, otpMatchCode, otpResendMsg, otpResending } = this.state
