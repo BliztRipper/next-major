@@ -41,7 +41,7 @@ export default class GlobalFooterNav extends Component {
     return (
       <div className="react-tabs__isFooter">
         <div className="react-tabs">
-          <Link prefetch href="MyTickets">
+          <Link prefetch href="/MyTickets">
             {this.renderFloatButton()}
           </Link>
           <ul className="react-tabs__tab-list" role="tablist">
