@@ -49,5 +49,7 @@
     "analyze": "cross-env ANALYZE=1 next build",
     "export": "next build && next export"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-plugin-transform-define": "^1.3.0"
+  }
 }

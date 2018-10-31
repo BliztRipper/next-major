@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
@@ -10,7 +10,8 @@ class home extends PureComponent {
     super(props);
     this.state = {
       accid: false,
-      isLoading: true
+      isLoading: true,
+      notConsent:true
     }
   }
   componentDidMount() {
@@ -56,8 +57,30 @@ class home extends PureComponent {
     }
   }
 
+  isConsent(){
+    this.setState({
+      notConsent:false
+    })
+  }
+
   render() {
-    const { isLoading } = this.state
+    const { isLoading,notConsent } = this.state
+    if (notConsent) {
+      return (
+        <Layout>
+          <div style={{display:'flex',justifyContent:'space-evenly',alignItems:'center',width:'100%',marginTop:'45%'}}>
+            <img src="../static/m-pass@.png" width="64" alt="" style={{marginLeft:'120px'}}/>
+            <img src="../static/swap.png" width="18" alt="" style={{margin: '0 1rem'}}/>
+            <img src="../static/true-money.svg" width="64" alt="" style={{marginRight:'120px'}}/>
+          </div>
+          <div style={{marginTop:'4rem', textAlign:'center'}}>
+            <p style={{color:'#333', fontSize:'1.2rem'}}>อนุญาตให้เข้าถึงข้อมูลทรูมันนี่ วอลเล็ท</p>
+            <p style={{color:'#999'}}>เบอร์โทรศัพท์, หักเงินในบัญชีทรูมันนี่</p>
+          </div>
+          <button onClick={this.isConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'2.8rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
+        </Layout>
+      )
+    }
     if (isLoading) {
       return false
     }
