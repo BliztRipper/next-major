@@ -190,7 +190,6 @@ class seatMap extends PureComponent {
     }
 
     try {
-
       fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
