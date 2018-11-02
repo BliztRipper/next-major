@@ -4,6 +4,7 @@ import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
 import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
+import VersionNotSupport from '../components/VersionNotSupport';
 
 class home extends PureComponent {
   constructor(props) {
@@ -65,10 +66,21 @@ class home extends PureComponent {
 
   render() {
     const { isLoading,notConsent } = this.state
+    if (isIOS){
+      if(parseFloat(osVersion) < 10.3){
+        return <VersionNotSupport/>
+      }
+    }
+
+    if (isAndroid){
+      if(parseFloat(osVersion) <= 5.0) {
+        return <h1 style={{textAlign:'center',}}>Your Android version is under 4.4, Please update to newer version</h1>
+      }
+    }
     if (notConsent) {
       return (
         <Layout>
-          <div style={{display:'flex',justifyContent:'space-evenly',alignItems:'center',width:'100%',marginTop:'45%'}}>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
             <img src="../static/m-pass@.png" width="64" alt="" style={{marginLeft:'120px'}}/>
             <img src="../static/swap.png" width="18" alt="" style={{margin: '0 1rem'}}/>
             <img src="../static/true-money.svg" width="64" alt="" style={{marginRight:'120px'}}/>
@@ -77,23 +89,12 @@ class home extends PureComponent {
             <p style={{color:'#333', fontSize:'1.2rem'}}>อนุญาตให้เข้าถึงข้อมูลทรูมันนี่ วอลเล็ท</p>
             <p style={{color:'#999'}}>เบอร์โทรศัพท์, หักเงินในบัญชีทรูมันนี่</p>
           </div>
-          <button onClick={this.isConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'2.8rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
+          <button onClick={this.isConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
         </Layout>
       )
     }
     if (isLoading) {
       return false
-    }
-    if (isIOS){
-      if(parseFloat(osVersion) < 10.3){
-        return <h1 style={{textAlign:'center',fontSize:'24px', paddingTop:'2rem'}}>This feature require iOS version over 10.3<br/>Please update to newer version</h1>
-      }
-    }
-
-    if (isAndroid){
-      if(parseFloat(osVersion) <= 5.0) {
-        return <h1 style={{textAlign:'center',}}>Your Android version is under 4.4, Please update to newer version</h1>
-      }
     }
       return (
         <Layout>

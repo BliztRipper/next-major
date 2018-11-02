@@ -73,8 +73,10 @@ class seatMap extends PureComponent {
     this.state.SessionId = `${this.props.url.query.SessionId}`
     if (this.state.SessionId === 'undefined') {
       Swal({
-        type: 'error',
-        title: 'เกิดข้อผิดพลาด',
+        title: 'ไม่สามารถทำรายการได้',
+        imageUrl: './static/error.svg',
+        imageWidth: 200,
+        imageHeight: 200,
         text: 'คุณไม่ได้เลือกโรงภาพยนต์',
         confirmButtonText: this.goToHome(),
         showConfirmButton: false,
@@ -98,9 +100,11 @@ class seatMap extends PureComponent {
           this.getTickets()
         } else {
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: `${data.description} (code:${data.status_code})` ,
+            title: 'ไม่สามารถทำรายการได้',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
               Router.push('/')
             }
@@ -138,9 +142,11 @@ class seatMap extends PureComponent {
           })
         } else {
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: `${data.description} (code:${data.status_code})` ,
+            title: 'ไม่สามารถทำรายการได้',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
               Router.push('/')
             }
@@ -159,6 +165,7 @@ class seatMap extends PureComponent {
   authOtpHasToken (seatSelected) {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
+    // this.authOtpGetOtp(true)
     try {
       fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
@@ -226,9 +233,11 @@ class seatMap extends PureComponent {
           }
         } else {
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: `${data.description} (code:${data.status_code})` ,
+            title: 'ไม่สามารถทำรายการได้',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
               Router.push('/')
             }
@@ -261,18 +270,23 @@ class seatMap extends PureComponent {
           this.bookSelectedSeats()
         } else if (data.status_code === 35000) {
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            html: `คุณกรอกรหัส OTP ผิดพลาด <br> กด OK เพื่อรับรหัส OTP อีกครั้ง` ,
+            title: 'รหัส OTP ไม่ถูกต้อง',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            html: `Error Code: ${data.description.slice(0,7)}` ,
+            confirmButtonText: 'ขอรหัส OTP อีกครั้ง',
             onAfterClose: () => {
               this.authOtpGetOtp(true)
             }
           })
         } else {
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: `${data.description} (code:${data.status_code})` ,
+            title: 'ไม่สามารถทำรายการได้',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
               Router.push('/')
             }
@@ -323,9 +337,11 @@ class seatMap extends PureComponent {
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userInfo.mobileno)
         } else {
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: `${data.description} (code:${data.status_code})` ,
+            title: 'ไม่สามารถทำรายการได้',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
               Router.back()
             }
