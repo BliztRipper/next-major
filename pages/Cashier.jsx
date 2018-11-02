@@ -92,8 +92,11 @@ class Cashier extends PureComponent {
           })
           .then(response => response.json())
           Swal({
-            type: 'error',
-            title: 'เกิดข้อผิดพลาด!',
+            title: 'ไม่สามารถทำรายการได้',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             showConfirmButton: false,
             showCancelButton: true,
             cancelButtonText: 'กลับไปหน้าแรก',
