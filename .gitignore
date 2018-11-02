@@ -52,7 +52,7 @@ typings/
 *.tgz
 
 # Yarn Integrity file
-.yarn-integrity  
+.yarn-integrity
 
 # dotenv environment variables file
 .env
@@ -63,3 +63,7 @@ typings/
 next
 # next.js static export
 out
+
+# unused
+.DS_Store
+yarn.lock

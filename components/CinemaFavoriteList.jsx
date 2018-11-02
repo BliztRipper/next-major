@@ -1,16 +1,14 @@
 import React, { PureComponent } from 'react';
 import CardCinema from './CardCinema'
-import loading from '../static/loading.gif'
 
 class CinemaFavoriteList extends PureComponent {
   constructor(props) {
     super(props);
     this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
-      dataObj: [],
-      isLoading: true,
-      error: null,
-      favActive: true,
+      dataFav: this.props.dataFav,
+      dataCine: this.props.dataCine,
+      favActive: false,
     }
   }
 
@@ -20,40 +18,38 @@ class CinemaFavoriteList extends PureComponent {
     })
   }
 
-  componentDidMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/Cinemas`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
+  renderFav(){    
+    let resultsArray = []
+    if(this.state.dataFav && this.state.dataCine){
+      this.state.dataCine.map(item=>{
+        if(this.state.dataFav.data.CinemaIds != null) {
+          this.state.dataFav.data.CinemaIds.map(cineID=>{
+            if(cineID === item.ID){
+              let brand = item.DescriptionInside.brand_name_en
+              let brandname = brand.replace(/ +/g, "")
+              resultsArray.push(<CardCinema item={item} brandname={brandname} key={item.ID} accid={this.props.accid} favCineActive={true} />)
+            }
+          })
+        }
+      })
     }
-  }
-
-  renderCinema(){
-    let resultsArray = [];
-    this.state.dataObj.map((item, i) => {
-      resultsArray.push(<CardCinema item={item} key={i}/>)
-    });
     return resultsArray;
   }
+
   render() {
-    const {isLoading, error} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
+    if (!this.state.dataFav.data.CinemaIds) {
+      return false
     }
-    if (isLoading) { 
-      return <img src={loading} className="loading"/>
-    }
+    
     return (
       <div className="card-cinema">
-        <div className="card-cinema__header"> 
-          <div className="sprite-favCinema"></div>
+        <div className="card-cinema__header" onClick={this.favAddActiveClass}> 
+          <div className="sprite-favCinema active"></div>
             <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
-          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} onClick={this.favAddActiveClass}></div>
+          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'}></div>
         </div>
         <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
-          {this.renderCinema()}
+          {this.renderFav()}
         </div>
     </div>
     );

@@ -1,67 +1,86 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 import MovieOfMonth from './MovieOfMonth'
-import MoviePoster from './MoviePoster';
-import loading from '../static/loading.gif'
+import MoviePoster from './MoviePoster'
+
 
 class CominSoonComp extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      dataObj: [],
-      isLoading: true,
-      error: null,
+      dataObj: this.props.dataObj,
       monthMovie:[],
       renderMovie: [],
     }
-  } 
-
-  componentDidMount(){
-    fetch(`https://api-cinema.truemoney.net/MovieList`)
-    .then(response => response.json())
-    .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    .catch(error => this.setState({ error, isLoading: false }))
   }
 
   convertToYearMonth(dateString) {
     if (dateString.length >= 7){
       return this.tryParseDateFromString(dateString)
     }
-    return 
+    return
   }
 
   tryParseDateFromString(dateString){
-    const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-    ];
-
-    const d = new Date(dateString);
-    return monthNames[d.getMonth()]+' '+d.getFullYear()
+    let monthly = this.formatMonthly(dateString)
+    return monthly
   }
 
+  formatMonthly(date) {
+    var monthNames = [
+      "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
+      "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
+      "สิงหาคม", "กันยายน", "ตุลาคม",
+      "พฤษจิกายน", "ธันวาคม"
+    ]
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    let year = date.slice(0,4)
+    return monthNames[month]+" "+year
+  }
+
+  formatDate(date) {
+    var monthNames = [
+      "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
+      "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
+      "สิงหาคม", "กันยายน", "ตุลาคม",
+      "พฤษจิกายน", "ธันวาคม"
+    ]
+    let d = date.slice(8,10)
+    let day = parseInt(d)
+    let monthIndex = date.slice(5,7)
+    let month = parseInt(monthIndex)
+    return day + ' ' + monthNames[month]
+  }
 
   render() {
-    const {dataObj, isLoading, error, monthMovie, renderMovie} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
-    if (isLoading) {
-      return <img src={loading} className="loading"/>
-    }
+    const {dataObj, monthMovie, renderMovie} = this.state;
 
     dataObj.comingsoon.map(movie => {
       let key = this.convertToYearMonth(movie.release_date)
       if (key in monthMovie == false){
         monthMovie[key] = []
-      } 
-      monthMovie[key].push({title: movie.title_th, poster:movie.poster_ori})
+      }
+      monthMovie[key].push({
+        title_th: movie.title_th,
+        title_en: movie.title_en,
+        poster_ori:movie.poster_ori,
+        genre:movie.genre,
+        rating:movie.rating,
+        synopsis_th:movie.synopsis_th,
+        actor:movie.actor,
+        director:movie.director,
+        release_date:movie.release_date,
+        tr_ios:movie.tr_ios,
+        tr_mp4:movie.tr_mp4,
+      })
     })
-    
     var cells = []
     {(() => {
       for (var month in monthMovie) {
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
-          cells.push(<MoviePoster title={movie.title} poster={movie.poster} key={movie.title+i}/>)
+          let releaseDate = this.formatDate(movie.release_date)
+          cells.push(<MoviePoster item={movie} title_th={movie.title_th} release={releaseDate} poster={movie.poster_ori} key={movie.title+i}/>)
         })
         renderMovie.push(
           <div className="comingsoon__container" key={month+'comingsoon__container'}>
@@ -71,7 +90,6 @@ class CominSoonComp extends PureComponent {
         cells = []
       }
     })()}
-
     return (
       <section className="comingsoon">
           {renderMovie}

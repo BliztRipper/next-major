@@ -1,0 +1,12 @@
+@mixin buttonTheme($colorBG, $colorText) {
+  background-color: $colorBG;
+  display: inline-block;
+  color: $colorText;
+  text-decoration: none;
+  font-size: 1.06rem;
+  margin: 2vh auto;
+  border-radius: 0.4rem;
+  padding: 0.6rem 0.8rem;
+  min-width: 12.4rem;
+  text-align: center;
+}

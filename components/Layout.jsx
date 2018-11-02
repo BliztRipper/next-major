@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import React, { Fragment } from 'react';
 
-export default ({ children, title = 'True Major Cineplex' }) => (
+const Layout = ({ children, title = 'True Major Cineplex' }) => (
   <Fragment>
     <Head>
       <title>{title}</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, initial-scale=1.0, viewport-fit=cover"/>
       <meta name="description" content="" />
       <link rel="manifest" href="/static/manifest.webmanifest" />
       <meta name="theme-color" content="#ff6600" />
@@ -14,10 +14,11 @@ export default ({ children, title = 'True Major Cineplex' }) => (
       <meta name="apple-mobile-web-app-title" content="True Major Cineplex" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
+      <link href="/static/major@3x.png" sizes="150x150" rel="apple-touch-startup-image" />
       <meta name="mobile-web-app-capable" content="yes" />
-      <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.0/css/swiper.min.css" />
     </Head>
     { children }
   </Fragment>
 )
+export default Layout

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="26px" viewBox="0 0 23 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-ticket</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="UI" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Major-Group" transform="translate(-65.000000, -401.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="icon-ticket" transform="translate(76.651494, 413.826921) rotate(30.000000) translate(-76.651494, -413.826921) translate(70.151494, 403.826921)">
+                <path d="M2.90273052,19.9047619 L1,19.9047619 C0.44771525,19.9047619 6.76353751e-17,19.4570467 0,18.9047619 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 L2.90273052,0 C3.31505597,1.56091986 4.76929196,2.71428571 6.5,2.71428571 C8.23070804,2.71428571 9.68494403,1.56091986 10.0972695,2.77555756e-17 L12,0 C12.5522847,-1.01453063e-16 13,0.44771525 13,1 L13,18.9047619 C13,19.4570467 12.5522847,19.9047619 12,19.9047619 L10.0972695,19.9047619 C9.68494403,18.343842 8.23070804,17.1904762 6.5,17.1904762 C4.76929196,17.1904762 3.31505597,18.343842 2.90273052,19.9047619 Z" id="Combined-Shape"></path>
+                <path d="M0.464285714,6.86111111 L12.5357143,6.86111111" id="Line-2" stroke-linecap="square"></path>
+                <path d="M3.71428571,10.0277778 L9.53146324,10.0277778" id="Line-2-Copy" stroke-linecap="square"></path>
+                <path d="M3.71428571,13.1944444 L9.53146324,13.1944444" id="Line-2-Copy-2" stroke-linecap="square"></path>
+            </g>
+        </g>
+    </g>
+</svg>

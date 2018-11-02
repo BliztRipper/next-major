@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="124" height="172" viewBox="0 0 124 172">
+    <defs>
+        <filter id="a" width="128.3%" height="314.3%" x="-14.2%" y="-107.1%" filterUnits="objectBoundingBox">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+        </filter>
+        <rect id="b" width="110" height="157" rx="4"/>
+        <path id="d" d="M17.611.081H0v21.175h17.611V.081z"/>
+        <path id="f" d="M21.347 21.42H.08V.004h21.268z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#383D48" d="M22.041 145H89.96L109 159H3z" filter="url(#a)" transform="translate(6)"/>
+        <g transform="translate(6)">
+            <mask id="c" fill="#fff">
+                <use xlink:href="#b"/>
+            </mask>
+            <use fill="#F5F6F8" xlink:href="#b"/>
+            <g mask="url(#c)">
+                <g transform="translate(33 66.03)">
+                    <mask id="e" fill="#fff">
+                        <use xlink:href="#d"/>
+                    </mask>
+                    <path fill="#C1C1C1" d="M12.34 1.134C12.162.553 11.546.081 10.961.081H.786c-.584 0-.914.472-.739 1.053l5.746 19.069c.176.581.792 1.053 1.377 1.053h8.355c.585 0 1.242-.472 1.469-1.053l.617-1.584-5.272-17.485z" mask="url(#e)"/>
+                </g>
+                <path fill="#B7B7B7" d="M57.372 71.874H47.325c-.664 0-.949.471-1.155 1.053L41.482 86.23a.15.15 0 0 0-.002.008c-.21.578-.847 1.046-1.429 1.046h11.887c.584 0 1.225-.472 1.43-1.054l4.69-13.303c.205-.582-.102-1.053-.686-1.053"/>
+                <path fill="#ECECEC" d="M58.839 72.92c-.177-.58-.792-1.052-1.377-1.052H47.286c-.584 0-.915.472-.739 1.053l4.774 15.944c.176.582.792 1.054 1.377 1.054H61.052c.585 0 1.242-.472 1.47-1.054l.617-1.584-4.3-14.36z"/>
+                <g transform="translate(52.599 68.498)">
+                    <mask id="g" fill="#fff">
+                        <use xlink:href="#f"/>
+                    </mask>
+                    <path fill="#D6D6D6" d="M20.623.003H9.825c-.585 0-1.242.472-1.47 1.054l-6.808 19.31-.004.013c-.232.576-.883 1.04-1.464 1.04h12.913c.585 0 1.243-.471 1.469-1.053l6.809-19.31c.227-.582-.063-1.054-.647-1.054" mask="url(#g)"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

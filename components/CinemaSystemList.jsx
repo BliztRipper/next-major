@@ -1,62 +1,113 @@
-import React, { PureComponent } from 'react';
-import CardCinema from './CardCinema'
-import loading from '../static/loading.gif'
+import React, { PureComponent, Fragment } from 'react';
+import Link from 'next/link'
+import empty from '../static/emptyMovie.png'
+import RegionCinemaComp from './RegionCinemaComp'
+import Layout from "./Layout";
+import utilities from '../scripts/utilities';
+import '../styles/style.scss'
 
 class CinemaSystemList extends PureComponent {
   constructor(props) {
     super(props);
-    this.favAddActiveClass= this.favAddActiveClass.bind(this);
     this.state = {
-      dataObj: [],
-      isLoading: true,
-      error: null,
-      favActive: false,
+      isEmpty:false,
+      branches: this.props.branches,
+      favorites: [],
+      renderSystems:[],
+      accid: this.props.accid,
     }
   }
 
-  favAddActiveClass() {
-    this.setState({
-      favActive: !this.state.favActive
+  componentDidMount() {
+    this.convertDataToUse()
+  }
+
+convertDataToUse() {
+  let favorites = this.props.favorites.data.CinemaIds
+
+  //Region
+  let renderSystems = []
+  this.state.branches.forEach(branch => {
+    if (branch.System && branch.System.length) {
+      branch.System.forEach(system => {
+        if (!(system in renderSystems)) {
+          renderSystems[system] = []
+        }
+
+        renderSystems[system].push({
+          zoneId: branch.DescriptionInside.zone_id,
+          zoneName: branch.DescriptionInside.zone_name,
+          branchName: utilities.getNameFromBranch(branch),
+          branchLocation: {
+            latitude: branch.Latitude,
+            longitude: branch.Longitude
+          },
+          cinemaId: branch.ID,
+          brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
+          isFavorite: utilities.isFavorite(favorites, branch.ID),
+          searchKey: branch.Name+branch.NameAlt,
+          schedule: null,
+        })
+      })
+    }
+  })
+
+  let toSetRenderSystems = Object.keys(renderSystems).map(key => {
+      let name = key
+      if (!name) {
+          name = "Unknown"
+      }
+      return {
+          name: name,
+          cinemas: renderSystems[key],
+      }
+  })
+
+  this.setState({
+      renderSystems: toSetRenderSystems,
+      isEmpty:(toSetRenderSystems.length == 0),
+      favorites: favorites,
+  })
+}
+
+favActive(cinemaId) {
+  let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
+  if(newFav) {
+    fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+    this.state.favorites.push(cinemaId)
+  } else{
+    fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+    this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
+  }
+
+  let renderSystems = this.state.renderSystems.map(renderSystem => {
+    renderSystem.cinemas.forEach(cinema => {
+      if (cinemaId == cinema.cinemaId) {
+        cinema.isFavorite = newFav
+      }
     })
-  }
+    return renderSystem
+  })
 
-  componentDidMount(){
-    try{
-      fetch(`https://api-cinema.truemoney.net/Cinemas`)
-      .then(response => response.json())
-      .then(data => this.setState({dataObj:data.data, isLoading: false}))
-    } catch(err){
-      error => this.setState({ error, isLoading: false })
-    }
-  }
+  this.setState({
+    renderSystems: renderSystems,
+    favorites: this.state.favorites
+  })
+}
 
-  renderCinema(){
-    let resultsArray = [];
-    this.state.dataObj.map((item, i) => {
-      resultsArray.push(<CardCinema item={item} key={i}/>)
-    });
-    return resultsArray;
-  }
-  render() {
-    const {isLoading, error} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
+renderBySystemType() {
+  return this.state.renderSystems.map((renderSystem, i) => {
+    return <RegionCinemaComp region={renderSystem} isExpand={true} iAmFav={false} iAmSystem={true} accid={this.state.accid} favActive={this.favActive.bind(this)} />
+  })
+}
+
+render() {
+  const {isEmpty} = this.state
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
     }
-    if (isLoading) {
-      return <img src={loading} className="loading"/>
-    }
-    return (
-      <div className="card-cinema">
-        <div className="card-cinema__header">
-          <div className="sprite-favCinema"></div>
-            <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
-          <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'} onClick={this.favAddActiveClass}></div>
-        </div>
-        <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
-          {this.renderCinema()}
-        </div>
-    </div>
-    );
+
+    return this.renderBySystemType()
   }
 }
 

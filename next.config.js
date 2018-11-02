@@ -1,21 +1,50 @@
+
 const withSass = require('@zeit/next-sass')
 const withImages = require('next-images')
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const withFonts = require('next-fonts')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const { ANALYZE } = process.env
+const withBabelMinify = require('next-babel-minify')()
+const withOffline = require('next-offline')
+const withPlugins = require('next-compose-plugins');
+const optimizedImages = require('next-optimized-images');
 
-module.exports = withSass(withImages({
-  webpack: (config) => {
-    config.plugins.push(
-      new SWPrecacheWebpackPlugin({
-        verbose: true,
-        staticFileGlobsIgnorePatterns: [/\.next\//],
-        runtimeCaching: [
-          {
-            handler: 'networkFirst',
-            urlPattern: /^https?.*/
-          }
-        ]
-      })
-    )
+module.exports = withPlugins([
+  [optimizedImages, {
+    inlineImageLimit: 8192,
+    imagesFolder: 'static',
+    imagesName: '[name]-[hash].[ext]',
+    optimizeImagesInDev: false,
+    mozjpeg: {
+        quality: 80,
+    },
+    optipng: {
+        optimizationLevel: 3,
+    },
+    pngquant: false,
+    gifsicle: {
+        interlaced: true,
+        optimizationLevel: 3,
+    },
+    svgo: {
+
+    },
+    webp: {
+        preset: 'default',
+        quality: 75,
+    },
+  }
+],
+withBabelMinify(withOffline(withFonts(withImages(withSass({
+  webpack: function (config, { isServer }) {
+    if (ANALYZE) {
+      config.plugins.push(new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        analyzerPort: isServer ? 8888 : 8889,
+        openAnalyzer: true
+      }))
+    }
     return config
   }
-}))
+})))))
+])
