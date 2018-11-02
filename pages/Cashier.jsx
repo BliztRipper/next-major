@@ -64,7 +64,7 @@ class Cashier extends PureComponent {
       })
       .then(response => response.json())
       .then((data) =>  {
-        if(data.description === 'Success'){
+        if(data.status_code === 0 || data.description === 'Success'){
           sessionStorage.removeItem('movieSelect')
           let dataPaymentSuccess = {
             success: true,
@@ -85,12 +85,12 @@ class Cashier extends PureComponent {
             timer: 4000
           })
         } else {
-          fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
-            method: 'POST',
-            headers: this.state.apiOtpHeader,
-            body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
-          })
-          .then(response => response.json())
+          // fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
+          //   method: 'POST',
+          //   headers: this.state.apiOtpHeader,
+          //   body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
+          // })
+          // .then(response => response.json())
           Swal({
             title: 'ไม่สามารถทำรายการได้',
             imageUrl: './static/error.svg',
@@ -99,10 +99,10 @@ class Cashier extends PureComponent {
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             showConfirmButton: false,
             showCancelButton: true,
-            cancelButtonText: 'กลับไปหน้าแรก',
+            cancelButtonText: 'ปิด เพื่อจ่ายอีกครั้ง',
             text: `${data.description} (code:${data.status_code})` ,
             onAfterClose: () => {
-              Router.push('/')
+              this.refTicket.current.setState({postingTicket: false})
             }
           })
         }
