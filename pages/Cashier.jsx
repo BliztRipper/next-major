@@ -7,6 +7,7 @@ import loading from '../static/loading.svg'
 import Router from 'next/router'
 import utilities from '../scripts/utilities'
 import GlobalHeader from '../components/GlobalHeader'
+import axios from 'axios'
 
 class Cashier extends PureComponent {
   constructor(props) {
@@ -57,19 +58,18 @@ class Cashier extends PureComponent {
     if (this.refTicket.current.postingTicket) return false
     this.refTicket.current.setState({postingTicket: true})
     try {
-      fetch(`https://api-cinema.truemoney.net/Payment`,{
-        method: 'POST',
+      axios(`https://api-cinema.truemoney.net/Payment`,{
+        method: 'post',
         headers: this.state.apiOtpHeader,
-        body: JSON.stringify(this.state.dataToPayment)
+        data: JSON.stringify(this.state.dataToPayment)
       })
-      .then(response => response.json())
       .then((data) =>  {
-        if(data.status_code === 0 || data.description === 'Success'){
+        if (data.data.data.status_code === 0 || data.data.data.description === 'Success'){
           sessionStorage.removeItem('movieSelect')
           let dataPaymentSuccess = {
             success: true,
-            VistaBookingId:data.data.data.VistaBookingId,
-            VistaBookingNumber:data.data.data.VistaBookingNumber,
+            VistaBookingId: data.data.data.data.VistaBookingId,
+            VistaBookingNumber: data.data.data.data.VistaBookingNumber,
           }
           this.setState({...dataPaymentSuccess})
           this.refTicket.current.setState({postingTicket: false, ...dataPaymentSuccess})
@@ -85,21 +85,15 @@ class Cashier extends PureComponent {
             timer: 4000
           })
         } else {
-          // fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
-          //   method: 'POST',
-          //   headers: this.state.apiOtpHeader,
-          //   body: JSON.stringify({'UserSessionId': this.state.BookingUserSessionId})
-          // })
-          // .then(response => response.json())
           Swal({
             type: 'error',
             title: 'เกิดข้อผิดพลาด!',
             showConfirmButton: false,
             showCancelButton: true,
-            cancelButtonText: 'ปิด เพื่อจ่ายอีกครั้ง',
-            text: `${data.description} (code:${data.status_code})` ,
+            cancelButtonText: 'ปิด',
+            text: `${data.data.data.description} (code:${data.data.data.status_code})` ,
             onAfterClose: () => {
-              this.refTicket.current.setState({postingTicket: false})
+              Router.back()
             }
           })
         }
@@ -172,9 +166,6 @@ class Cashier extends PureComponent {
 
   render() {
     const {isLoading, error, dataToTicket, userInfo, success} = this.state;
-    if (error) {
-      return <p>{error.message}</p>;
-    }
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }

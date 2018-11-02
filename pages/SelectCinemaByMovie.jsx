@@ -11,6 +11,7 @@ import utilities from '../scripts/utilities';
 import '../styles/style.scss'
 import { StickyContainer, Sticky } from 'react-sticky';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
+import axios from 'axios'
 
 class MainSelectCinemaByMovie extends Component {
   constructor(props) {
@@ -54,20 +55,18 @@ class MainSelectCinemaByMovie extends Component {
       sessionStorage.setItem('BookingCinema','')
 
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
-      fetch(`https://api-cinema.truemoney.net/Schedule`,{
-        method: 'POST',
-        body: JSON.stringify(dataToPostSchedule)
+      axios(`https://api-cinema.truemoney.net/Schedule`,{
+        method: 'post',
+        data: JSON.stringify(dataToPostSchedule)
       })
-      .then(response => response.json())
       .then(data =>  {
-        this.state.schedules = data.data
-        this.state.serverTime = data.server_time
+        this.state.schedules = data.data.data
+        this.state.serverTime = data.data.server_time
 
-        fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.state.accid}`)
-        .then(response => response.json())
+        axios(`https://api-cinema.truemoney.net/FavCinemas/${this.state.accid}`)
         .then(data => {
-          if (data.data.CinemaIds) {
-            this.state.favorites = data.data.CinemaIds
+          if (data.data.data.CinemaIds) {
+            this.state.favorites = data.data.data.CinemaIds
             if (this.state.favorites === null) {
               this.state.favorites = []
             }
@@ -76,10 +75,9 @@ class MainSelectCinemaByMovie extends Component {
           this.loadComplete()
         })
 
-        fetch(`https://api-cinema.truemoney.net/Branches`)
-        .then(response => response.json())
+        axios(`https://api-cinema.truemoney.net/Branches`)
         .then(data=> {
-          this.state.branches = data.data
+          this.state.branches = data.data.data
           this.state.loadBranches = true
           this.loadComplete()
         })
@@ -207,10 +205,10 @@ class MainSelectCinemaByMovie extends Component {
   favActive(cinemaId) {
     let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
     if(newFav) {
-      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+      axios(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites.push(cinemaId)
     } else{
-      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+      axios(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
     }
 
