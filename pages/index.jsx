@@ -5,6 +5,7 @@ import empty from '../static/emptyTicket.png'
 import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
+import axios from 'axios'
 
 class home extends PureComponent {
   constructor(props) {
@@ -12,7 +13,7 @@ class home extends PureComponent {
     this.state = {
       accid: false,
       isLoading: true,
-      notConsent:true
+      notConsent: false
     }
   }
   componentDidMount() {
@@ -29,11 +30,11 @@ class home extends PureComponent {
       }
       sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
+    this.checkConsent(userInfo.accid)
     this.setState({
       isLoading: false,
       accid: userInfo.accid
     })
-
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
         .register('/service-worker.js')
@@ -45,7 +46,26 @@ class home extends PureComponent {
         })
     }
   }
-
+  checkConsent (accid) {
+    axios.get(`https://api-cinema.truemoney.net/UserInfo/${accid}`)
+    .then(data => {
+      if (data.data.data.concent) {
+        this.setState({notConsent: false})
+      } else {
+        this.setState({notConsent: true})
+      }
+    }).catch (err => {
+      this.setState({notConsent: true})
+    })
+  }
+  addConcent () {
+    axios.get(`https://api-cinema.truemoney.net/AddConcent/${this.state.accid}`)
+    .then(data => {
+      if (data.data.status_code === 0 && data.data.description === 'Success') {
+        this.setState({notConsent: false})
+      }
+    })
+  }
   renderSlide(){
     if (this.state.accid) {
       return <MainNavBar accid={this.state.accid} key="MainNavBar" />
@@ -59,9 +79,7 @@ class home extends PureComponent {
   }
 
   isConsent(){
-    this.setState({
-      notConsent:false
-    })
+    this.addConcent()
   }
 
   render() {
