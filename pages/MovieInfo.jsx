@@ -2,17 +2,22 @@ import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import '../styles/style.scss'
+import loading from '../static/loading.svg'
 
 export default class MovieInfo extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      movieInfo:[]
+      movieInfo:[],
+      isLoading: true
     }
   }
 
   componentDidMount(){
-    this.setState({movieInfo:JSON.parse(sessionStorage.getItem("movieSelect"))})
+    this.setState({
+      movieInfo:JSON.parse(sessionStorage.getItem("movieSelect")),
+      isLoading: false
+    })
   }
 
   formatDate(date){
@@ -39,8 +44,8 @@ export default class MovieInfo extends PureComponent {
   }
 
   render() {
-    const {movieInfo} = this.state
-    if (!movieInfo) false
+    const {movieInfo, isLoading} = this.state
+    if (!movieInfo) return false
     const divStyle = {
       position:'relative',
       display: 'flex',
@@ -52,6 +57,9 @@ export default class MovieInfo extends PureComponent {
     const infoStyle = {
       padding: '0 0.4rem',
     }
+    if (isLoading) {
+      return <div className="loadingWrap"><img src={loading} className="loading"/></div>
+    }
     return (
       <Layout title="Movie Infomation">
         <div className="page__movieInfo">
@@ -59,9 +67,9 @@ export default class MovieInfo extends PureComponent {
           <div className="movie-card__bg">
             <img src={this.state.movieInfo.movie_image}/>
           </div>
-          <video className="movie-card__trailer" playsInline controls width="100%" preload="yes" poster={this.state.movie_image}>
-            <source src={this.state.movieInfo.tr_ios} type="application/x-mpegURL"/>
+          <video className="movie-card__trailer" playsInline controls width="100%" preload="yes" poster={this.state.movie_image} encType="multipart/form-data">
             <source src={this.state.movieInfo.tr_mp4} type="video/mp4"/>
+            <source src={this.state.movieInfo.tr_ios} type="application/x-mpegURL"/>
             Your browser does not support the video tag.
           </video>
           <div className="movie-card__container" style={divStyle}>

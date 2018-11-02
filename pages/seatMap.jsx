@@ -9,6 +9,7 @@ import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 import empty from '../static/emptyTicket.png'
+import axios from 'axios'
 
 
 class seatMap extends PureComponent {
@@ -41,16 +42,13 @@ class seatMap extends PureComponent {
       UserSessionId: UserSessionId
     }
     try{
-      fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
-        method: 'POST',
+      axios(`https://api-cinema.truemoney.net/CancelOrder`,{
+        method: 'post',
         headers: this.state.apiOtpHeader,
-        body: JSON.stringify(dataToCancelOrder)
+        data: JSON.stringify(dataToCancelOrder)
       })
-      .then(response => response.json())
-      .then((data) =>  {
-        this.setState({
-          isLoading: false
-        })
+      .then(() =>  {
+        this.setState({ isLoading: false })
       })
       sessionStorage.removeItem('BookingCurrentServerTime')
       sessionStorage.removeItem('BookingUserSessionId')
@@ -92,11 +90,10 @@ class seatMap extends PureComponent {
   }
   getSeatPlans () {
     try{
-      fetch(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
-      .then(response => response.json())
+      axios(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(data => {
-        if (data.status_code === 0 || data.description === 'Success') {
-          this.state.dataSeatPlan = data.data
+        if (data.data.status_code === 0 || data.data.description === 'Success') {
+          this.state.dataSeatPlan = data.data.data
           this.getTickets()
         } else {
           Swal({
@@ -106,7 +103,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
@@ -117,14 +114,13 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
-      .then(response => response.json())
+      axios(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(data => {
-        if (data.status_code === 0 || data.description === 'Success') {
+        if (data.data.status_code === 0 || data.data.description === 'Success') {
           let matchTicketData = []
           let matchTicketIndex = 0
           this.state.dataSeatPlan.SeatLayoutData.Areas.forEach((area) => {
-            let tickets = data.data.Tickets.filter((ticket) => {
+            let tickets = data.data.data.Tickets.filter((ticket) => {
               if (!ticket.seatTheme && !area.seatTheme && area.AreaCategoryCode === ticket.AreaCategoryCode ) {
                 matchTicketIndex += 1
                 ticket[`seatTheme`] = 'type' + matchTicketIndex
@@ -148,7 +144,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
@@ -165,14 +161,12 @@ class seatMap extends PureComponent {
   authOtpHasToken (seatSelected) {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
-    // this.authOtpGetOtp(true)
     try {
-      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
+      axios(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
       })
-      .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 0 || data.description === 'Success') {
+        if (data.data.status_code === 0 || data.data.description === 'Success') {
           this.bookSelectedSeats(true)
         } else {
           this.authOtpGetOtp(true)
@@ -197,17 +191,16 @@ class seatMap extends PureComponent {
     }
 
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
-        method: 'POST',
+      axios(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
+        method: 'post',
         headers: this.state.apiOtpHeader,
-        body: JSON.stringify(dataToStorage)
+        data: JSON.stringify(dataToStorage)
       })
-      .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 0 || data.description === 'Success') {
+        if (data.data.status_code === 0 || data.data.description === 'Success') {
           this.state.userAuthData = {
             mobileno: this.state.userInfo.mobileno,
-            ...data
+            ...data.data
           }
           if (isChaining) {
             if (this.refSeatMapDisplay.current) {
@@ -226,7 +219,7 @@ class seatMap extends PureComponent {
             }
           } else {
             this.refOTP.current.setState({
-              otpMatchCode: data.otp_ref,
+              otpMatchCode: data.data.otp_ref,
               otpResendMsg: btnResendMsgPrev,
               otpResending: false
             })
@@ -239,7 +232,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
@@ -259,28 +252,39 @@ class seatMap extends PureComponent {
       tmn_account : userAuthData.mobileno
     }
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthVerify/${this.state.userInfo.accid}`,{
-        method: 'POST',
+      axios(`https://api-cinema.truemoney.net/AuthVerify/${this.state.userInfo.accid}`,{
+        method: 'post',
         headers: this.state.apiOtpHeader,
-        body: JSON.stringify(dataToStorage)
+        data: JSON.stringify(dataToStorage)
       })
-      .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 0 || data.description === 'Success') {
+        if (data.data.status_code === 0 || data.data.description === 'Success') {
           this.bookSelectedSeats()
-        } else if (data.status_code === 35000) {
+        } else if (data.data.status_code === 35000 && data.data.description.slice(0,7) === 'OAU0010') {
           Swal({
             title: 'รหัส OTP ไม่ถูกต้อง',
             imageUrl: './static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
-            html: `Error Code: ${data.description.slice(0,7)}` ,
+            grow:'fullscreen',
+            html: `Error Code: ${data.data.description.slice(0,7)}` ,
             confirmButtonText: 'ขอรหัส OTP อีกครั้ง',
             onAfterClose: () => {
               this.authOtpGetOtp(true)
             }
           })
-        } else {
+        }else if (data.data.status_code === 35000){
+          Swal({
+            title: 'ขออภัยระบบขัดข้อง',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.data.description.slice(0,7)}` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
+          })
+        }else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
             imageUrl: './static/error.svg',
@@ -288,12 +292,13 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
       })
     } catch (error) {
+      console.log(error, 'error');
       console.error('error', error);
     }
   }
@@ -321,19 +326,18 @@ class seatMap extends PureComponent {
       })
     });
     try {
-      fetch(`https://api-cinema.truemoney.net/AddTicket`,{
-        method: 'POST',
-        body:JSON.stringify(dataToStorage)
+      axios(`https://api-cinema.truemoney.net/AddTicket`,{
+        method: 'post',
+        data:JSON.stringify(dataToStorage)
       })
-      .then(response => response.json())
       .then((data) =>  {
-        if (data.status_code === 0 || data.description === 'Success') {
-          this.setState({ dataBookedSeats: data })
+        if (data.data.status_code === 0 || data.data.description === 'Success') {
+          this.setState({ dataBookedSeats: data.data })
           Router.push({
             pathname: '/Cashier'
           })
-          sessionStorage.setItem('BookingCurrentServerTime', data.server_time)
-          sessionStorage.setItem('BookingUserSessionId', data.data.Order.UserSessionId)
+          sessionStorage.setItem('BookingCurrentServerTime', data.data.server_time)
+          sessionStorage.setItem('BookingUserSessionId', data.data.data.Order.UserSessionId)
           sessionStorage.setItem('BookingUserPhoneNumber', this.state.userInfo.mobileno)
         } else {
           Swal({
