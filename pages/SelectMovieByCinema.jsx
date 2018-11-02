@@ -9,6 +9,7 @@ import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import '../styles/style.scss'
+import axios from 'axios'
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -27,7 +28,6 @@ class MainSelectMovieByCinema extends PureComponent {
     }
   }
 
-
   componentDidMount() {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     let nowShowing = sessionStorage.getItem("now_showing")
@@ -38,14 +38,13 @@ class MainSelectMovieByCinema extends PureComponent {
       dataMyTicketsTotal: instantTickets ? instantTickets.length : null
     })
     try {
-      fetch(`https://api-cinema.truemoney.net/Schedule`,{
-        method: 'POST',
-        body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
+      axios(`https://api-cinema.truemoney.net/Schedule`,{
+        method: 'post',
+        data: JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
-      .then(response => response.json())
       .then(data => {
-        this.state.schedules = data.data
-        this.state.serverTime = data.server_time
+        this.state.schedules = data.data.data
+        this.state.serverTime = data.data.server_time
         this.fillterDate()
       })
     } catch (error) {
@@ -61,7 +60,8 @@ class MainSelectMovieByCinema extends PureComponent {
 
   fillterDate() {
     let mapDates = []
-    if(this.state.schedule = undefined) {
+
+    if(!this.state.schedules) {
       this.setState({isEmpty:true})
     } else {
       this.state.schedules.forEach(schedule => {
