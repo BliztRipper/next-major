@@ -80,7 +80,7 @@ class home extends PureComponent {
     if (notConsent) {
       return (
         <Layout>
-          <div style={{display:'flex',justifyContent:'space-evenly',alignItems:'center',width:'100%',marginTop:'45%'}}>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
             <img src="../static/m-pass@.png" width="64" alt="" style={{marginLeft:'120px'}}/>
             <img src="../static/swap.png" width="18" alt="" style={{margin: '0 1rem'}}/>
             <img src="../static/true-money.svg" width="64" alt="" style={{marginRight:'120px'}}/>
