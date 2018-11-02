@@ -268,19 +268,31 @@ class seatMap extends PureComponent {
       .then((data) =>  {
         if (data.status_code === 0 || data.description === 'Success') {
           this.bookSelectedSeats()
-        } else if (data.status_code === 35000) {
+        } else if (data.status_code === 35000 && data.description.slice(0,7) === 'OAU0010') {
           Swal({
             title: 'รหัส OTP ไม่ถูกต้อง',
             imageUrl: './static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
+            grow:'fullscreen',
             html: `Error Code: ${data.description.slice(0,7)}` ,
             confirmButtonText: 'ขอรหัส OTP อีกครั้ง',
             onAfterClose: () => {
               this.authOtpGetOtp(true)
             }
           })
-        } else {
+        }else if (data.status_code === 35000){
+          Swal({
+            title: 'ขออภัยระบบขัดข้อง',
+            imageUrl: './static/error.svg',
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
+            onAfterClose: () => {
+              Router.push('/')
+            }
+          })
+        }else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
             imageUrl: './static/error.svg',
