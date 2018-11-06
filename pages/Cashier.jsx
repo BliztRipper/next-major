@@ -88,7 +88,7 @@ class Cashier extends PureComponent {
         } else if(data.status_code === 35000 && data.description.slice(0,7) === 'PAY0011'){
           Swal({
             title: 'ไม่สามารถซื้อตั๋วได้',
-            imageUrl: './static/nobalance.svg',
+            imageUrl: '../static/nobalance.svg',
             imageWidth: 200,
             imageHeight: 200,
             grow:'fullscreen',
