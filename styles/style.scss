@@ -186,13 +186,14 @@ body{
 .allmovie-btn-wrap {
   display: block;
   text-decoration: none;
-  padding-top: 2vh;
+  padding-top: 3vw;
   position: relative;
   text-align: center;
   display: flex;
   align-content: center;
   justify-content: center;
   font-size: 1rem;
+  z-index: 2;
 }
 .allmovie-btn{
   position: relative;
@@ -209,6 +210,7 @@ body{
   padding: calc(0.6rem - 2px) calc(0.8rem - 2px);
   min-width: 12.4rem;
   font-size: 1.06rem;
+  background-color: #fff;
 }
 
 .allmovie-btn-icon {
@@ -216,17 +218,21 @@ body{
 }
 
 .highlight{
+  position: relative;
+  z-index: 1;
   box-sizing: border-box;
-  padding: 0;
+  padding: 2vw 0;
   text-align: center;
-  height: calc(100vh - 10rem);
+  min-height: calc(100vh - 36vw);
   display: flex;
   justify-content: center;
   align-items: center;
   &__title{
     display: block;
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: bold;
+    margin-left: -1rem;
+    margin-right: -1rem;
   }
   &__subtitle{
     color: #383D48;
@@ -258,11 +264,8 @@ body{
   }
   &__book-btn{
     @include buttonTheme(var(--colorTheme), #ffffff);
-    margin-top: 1.5vh;
+    margin-top: 3vw;
     margin-bottom: 0;
-    @media (min-width:375px) and (min-height:812px){
-      margin-top: 3vh;
-    }
   }
   .poster-container {
     height: 75vw;
@@ -830,7 +833,7 @@ body{
   overflow-y: auto;
   z-index: 0;
   > .react-tabs {
-    padding-bottom: 24vw;
+    padding-bottom: 23vw;
   }
   .background-blur{
     background-size: cover;

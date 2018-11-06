@@ -71,7 +71,7 @@ class MovieWithShowtimeComp extends PureComponent {
 					}
 				}
 				if (showtime.slice(0, 10) == this.props.pickThisDay) {
-					if(this.getMovieInfo(theater.ScheduledFilmId) != null){
+					if(this.getMovieInfo(theater.ScheduledFilmId) !== null){
 						let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
 						items.push (
 							<Link prefetch href={dataToSeatMap} key={keyShowTime}>
@@ -80,14 +80,10 @@ class MovieWithShowtimeComp extends PureComponent {
 								</a>
 							</Link>
 						)
-					} else {
-						let emptyError = true
-						this.props.emptyError(emptyError)
 					}
 				}
 			})
 		}
-
 		return items
 	}
 
@@ -129,6 +125,8 @@ class MovieWithShowtimeComp extends PureComponent {
 					return (
 						this.renderTheater(theater, showtimesItems, keyCardItem)
 					)
+				} else {
+					this.props.theaterEmptyCheck(true)
 				}
 			})
 		}

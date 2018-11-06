@@ -100,7 +100,7 @@ class Cashier extends PureComponent {
         }else if(data.status_code === 35000 ){
           Swal({
             title: 'ขออภัยระบบขัดข้อง',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
@@ -117,7 +117,7 @@ class Cashier extends PureComponent {
           // .then(response => response.json())
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -192,7 +192,7 @@ class Cashier extends PureComponent {
       "", "ม.ค.", "ก.พ.", "มี.ค.",
       "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.",
       "ส.ค.", "ก.ย.", "ต.ค.",
-      "พฤ.ย.", "ธ.ค."
+      "พ.ย.", "ธ.ค."
     ]
     return monthNames[month]
   }

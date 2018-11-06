@@ -61,8 +61,11 @@ class MainSelectMovieByCinema extends PureComponent {
 
   fillterDate() {
     let mapDates = []
-    if(this.state.schedule = undefined) {
-      this.setState({isEmpty:true})
+    if(this.state.schedules.length === 0 || !this.state.schedules) {
+      this.setState({
+        isEmpty:true,
+        isLoading: false
+      })
     } else {
       this.state.schedules.forEach(schedule => {
         schedule.Theaters.forEach(theater => {
@@ -83,6 +86,7 @@ class MainSelectMovieByCinema extends PureComponent {
       }
       this.state.dates.sort(stringSorter)
       this.pickThisDay(0, true)
+
       this.setState({
         schedules: this.state.schedules,
         serverTime: this.state.serverTime,
@@ -112,15 +116,15 @@ class MainSelectMovieByCinema extends PureComponent {
     this.pickThisDay(index)
   }
 
-  theaterEmptyCheck(){
+  theaterEmptyCheck(isEmpty){
     this.setState({
-      isEmpty:true
+      isEmpty: isEmpty
     })
   }
 
   renderMovieWithShowtime(pickThisDay) {
     return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp emptyError={this.theaterEmptyCheck.bind(this)} schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
+      return <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
     })
   }
 
