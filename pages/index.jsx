@@ -58,14 +58,7 @@ class home extends PureComponent {
       this.setState({notConsent: true})
     })
   }
-  addConcent () {
-    axios.get(`https://api-cinema.truemoney.net/AddConcent/${this.state.accid}`)
-    .then(data => {
-      if (data.data.status_code === 0 && data.data.description === 'Success') {
-        this.setState({notConsent: false})
-      }
-    })
-  }
+
   renderSlide(){
     if (this.state.accid) {
       return <MainNavBar accid={this.state.accid} key="MainNavBar" />
@@ -78,8 +71,13 @@ class home extends PureComponent {
     }
   }
 
-  isConsent(){
-    this.addConcent()
+  addConsent(){
+    axios.get(`https://api-cinema.truemoney.net/AddConcent/${this.state.accid}`)
+    .then(data => {
+      if (data.data.status_code === 0 && data.data.description === 'Success') {
+        this.setState({notConsent: false})
+      }
+    })
   }
 
   render() {
@@ -108,7 +106,7 @@ class home extends PureComponent {
             <p style={{color:'#999'}}>เบอร์โทรศัพท์, หักเงินในบัญชีทรูมันนี่</p>
             <p style={{color:'#999'}}>*รองรับระบบ iOS ตั้งแต่ 10.3 และ Android 4.4 ขึ้นไป</p>
           </div>
-          <button onClick={this.isConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
+          <button onClick={this.addConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
         </Layout>
       )
     }
