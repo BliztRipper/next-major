@@ -74,7 +74,7 @@ class seatMap extends PureComponent {
     if (this.state.SessionId === 'undefined') {
       Swal({
         title: 'ไม่สามารถทำรายการได้',
-        imageUrl: './static/error.svg',
+        imageUrl: '../static/error.svg',
         imageWidth: 200,
         imageHeight: 200,
         text: 'คุณไม่ได้เลือกโรงภาพยนต์',
@@ -101,7 +101,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -143,7 +143,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -234,7 +234,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -271,7 +271,7 @@ class seatMap extends PureComponent {
         } else if (data.status_code === 35000 && data.description.slice(0,7) === 'OAU0010') {
           Swal({
             title: 'รหัส OTP ไม่ถูกต้อง',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             grow:'fullscreen',
@@ -284,7 +284,7 @@ class seatMap extends PureComponent {
         }else if (data.status_code === 35000){
           Swal({
             title: 'ขออภัยระบบขัดข้อง',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
@@ -295,7 +295,7 @@ class seatMap extends PureComponent {
         }else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -350,7 +350,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,

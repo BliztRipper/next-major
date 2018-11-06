@@ -88,7 +88,7 @@ class Cashier extends PureComponent {
         } else if(data.status_code === 35000 && data.description.slice(0,7) === 'PAY0011'){
           Swal({
             title: 'ไม่สามารถซื้อตั๋วได้',
-            imageUrl: './static/nobalance.svg',
+            imageUrl: '../static/nobalance.svg',
             imageWidth: 200,
             imageHeight: 200,
             grow:'fullscreen',
@@ -100,7 +100,7 @@ class Cashier extends PureComponent {
         }else if(data.status_code === 35000 ){
           Swal({
             title: 'ขออภัยระบบขัดข้อง',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
@@ -117,7 +117,7 @@ class Cashier extends PureComponent {
           // .then(response => response.json())
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
