@@ -67,11 +67,12 @@ export default class MovieInfo extends PureComponent {
           <div className="movie-card__bg">
             <img src={this.state.movieInfo.movie_image}/>
           </div>
-          <video className="movie-card__trailer" playsInline controls width="100%" preload="yes" poster={this.state.movie_image} encType="multipart/form-data">
+          {/* <video className="movie-card__trailer" playsInline controls width="100%" preload="yes" poster={this.state.movie_image} encType="multipart/form-data">
             <source src={this.state.movieInfo.tr_mp4} type="video/mp4"/>
             <source src={this.state.movieInfo.tr_ios} type="application/x-mpegURL"/>
             Your browser does not support the video tag.
-          </video>
+          </video> */}
+          <iframe className="movie-card__trailer" src="https://www.majorcineplex.com/embed/4653" frameborder="0"></iframe>
           <div className="movie-card__container" style={divStyle}>
             <img className="movie-card__poster" src={this.state.movieInfo.poster_ori} />
             <div className="movie-card__wrapper" style={titleStyle}>
