@@ -498,13 +498,18 @@ body{
     z-index: 2;
   }
 }
-
 .movie-card{
   box-shadow: 0 1px 10px -4px #15181d;
   padding: 1rem;
   color: #383D48;
   margin-top: 1rem;
   margin-bottom: 2rem;
+  &__trailerWrap {
+    margin-left: -8px;
+    margin-right: -8px;
+    position: relative;
+    padding-bottom: 56.25%;
+  }
   &__container{
     position: absolute;
     width: 100%;
@@ -638,10 +643,12 @@ body{
   &__trailer{
     position: absolute;
     top: 0;
-    left: 50%;
-    height: 40vh;
-    transform: translate(-50%);
-    background:transparent no-repeat;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: none;
   }
   &__director{
     font-size: 0.875rem;
