@@ -116,16 +116,21 @@ class MovieWithShowtimeComp extends PureComponent {
 
 	renderMovieCard() {
 		let showtimesItems = true
+		let isEmpty = true
 		if (this.props.schedule.Theaters && this.props.schedule.Theaters.length > 0) {
-			return this.props.schedule.Theaters.map((theater, theaterIndex) => {
+			return this.props.schedule.Theaters.map((theater, theaterIndex, theaterArray) => {
 				showtimesItems = this.renderShowtimes(theater.Showtimes, theater)
 				let showtimesItemsLength = showtimesItems.length > 0
+
 				if (showtimesItemsLength) {
+					isEmpty = false
 					let keyCardItem = theater.ScreenNameAlt + theaterIndex
 					return (
 						this.renderTheater(theater, showtimesItems, keyCardItem)
 					)
-				} else {
+				}
+
+				if (theaterIndex + 1 === theaterArray.length && isEmpty) {
 					this.props.theaterEmptyCheck(true)
 				}
 			})

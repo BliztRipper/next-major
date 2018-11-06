@@ -106,7 +106,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
@@ -148,7 +148,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
@@ -165,7 +165,6 @@ class seatMap extends PureComponent {
   authOtpHasToken (seatSelected) {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
-    // this.authOtpGetOtp(true)
     try {
       fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
@@ -239,7 +238,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }
@@ -289,7 +288,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }else {
@@ -300,7 +299,7 @@ class seatMap extends PureComponent {
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }

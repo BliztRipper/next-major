@@ -61,6 +61,7 @@ class MainSelectMovieByCinema extends PureComponent {
 
   fillterDate() {
     let mapDates = []
+
     if(this.state.schedules.length === 0 || !this.state.schedules) {
       this.setState({
         isEmpty:true,
