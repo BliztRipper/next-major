@@ -266,6 +266,7 @@ body{
     @include buttonTheme(var(--colorTheme), #ffffff);
     margin-top: 3vw;
     margin-bottom: 0;
+    border: 0;
   }
   .poster-container {
     height: 75vw;
@@ -571,8 +572,8 @@ body{
     border-radius: 4px;
   }
   &__poster-wrapper{
-    position: relative;
-    top: -2vh;
+    margin-top: -4vw;
+    padding-left: 3vw;
   }
   &__title{
     font-size: 1.125rem;
@@ -1133,6 +1134,8 @@ body{
   }
 }
 .page__selectMovieByCinema {
+  padding-top: 0.4rem;
+  padding-bottom: 4rem;
   .globalHeader__button {
     position: fixed;
     transform: translateY(0);
@@ -1141,6 +1144,17 @@ body{
     background-color: #fff;
     padding: 1.9vw;
   }
+  .cinema__cardItem-wrap {
+    &.isDiff {
+      padding-top: 0.2rem;
+      .cinema__card-cbm {
+        &:not(:last-child) {
+          margin-bottom: 1.4rem;
+        }
+      }
+    }
+  }
+
 }
 .page__movieInfo {
   .globalHeader__button {

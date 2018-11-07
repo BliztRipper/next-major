@@ -30,7 +30,7 @@ class AllMovie extends PureComponent {
       this.setState({
         dataObj: response.data.data,
         isLoading: false,
-        isEmpty: hasMovies
+        isEmpty: !hasMovies
       })
     })
     .catch(error => this.setState({ error, isLoading: false }))
