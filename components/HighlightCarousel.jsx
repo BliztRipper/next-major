@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
+import empty from '../static/emptyMovie.png'
 import Swiper from 'swiper'
 import axios from 'axios'
 
@@ -8,6 +9,7 @@ class HighlightCarousel extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      isEmpty:false,
       dataObj: [],
       advTicket: [],
       nowShowing:[],
@@ -38,9 +40,11 @@ class HighlightCarousel extends PureComponent {
         nowShowing:res.now_showing,
         advTicket:res.advance_ticket,
         isLoading: false,
+        isEmpty: res.now_showing.length > 0 ?  false : true,
         dataObj: [...res.now_showing, ...res.advance_ticket]
       })
       this.props.bg(this.state.arrbg[0])
+      this.props.highlightFetched(true)
     })
     .then(()=>{
       this.iniSlider()
@@ -78,7 +82,6 @@ class HighlightCarousel extends PureComponent {
       items.push(this.state.dataObj[i])
     }
     sessionStorage.setItem("now_showing", JSON.stringify(items))
-    this.props.highlightFetched(true)
     let renderItem = []
     renderItem.push(
       <div className="swiper-container" ref="slider" key="slider">
@@ -124,9 +127,12 @@ class HighlightCarousel extends PureComponent {
     return renderItem
   }
   render() {
-    const {isLoading} = this.state;
+    const {isEmpty, isLoading} = this.state;
     if (isLoading) {
       return <img src={loading} className="loading"/>
+    }
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5></Link></section>
     }
     return (
       <div className='highlight'>

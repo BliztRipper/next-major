@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Layout from '../components/Layout'
+import Link from 'next/link'
 import '../styles/style.scss'
 import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
@@ -16,6 +17,7 @@ class AllMovie extends PureComponent {
     this.state = {
       dataObj: [],
       isLoading: true,
+      isEmpty: false,
       error: null,
       accid: ''
     }
@@ -23,7 +25,14 @@ class AllMovie extends PureComponent {
   }
   componentDidMount(){
     axios(`https://api-cinema.truemoney.net/MovieList`)
-    .then(response => this.setState({dataObj:response.data.data, isLoading: false}))
+    .then(response => {
+      let hasMovies = response.data.data.now_showing.length > 0 && response.data.data.advance_ticket.length > 0 && response.data.data.comingsoon.length > 0
+      this.setState({
+        dataObj: response.data.data,
+        isLoading: false,
+        isEmpty: hasMovies
+      })
+    })
     .catch(error => this.setState({ error, isLoading: false }))
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     this.setState({
@@ -32,10 +41,12 @@ class AllMovie extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, accid} = this.state;
+    const {isLoading, isEmpty, error, accid, dataObj} = this.state;
+
     if (error) {
       return <p>{error.message}</p>;
     }
+
     if (isLoading) {
       return (
         <div>
@@ -43,6 +54,10 @@ class AllMovie extends PureComponent {
           <img src={loading} className="loading"/>
         </div>
       )
+    }
+
+    if (isEmpty) {
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
     }
 
     return (
@@ -62,10 +77,24 @@ class AllMovie extends PureComponent {
                       <Tab>เร็วๆนี้</Tab>
                     </TabList>
                     <TabPanel>
-                      <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
+                      {(() => {
+                        let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
+                        if (hasMovies)  {
+                          return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
+                        } else {
+                          return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+                        }
+                      })()}
                     </TabPanel>
                     <TabPanel>
-                      <CominSoonComp dataObj={this.state.dataObj} />
+                      {(() => {
+                        let hasMovies = this.state.dataObj.comingsoon.length > 0
+                        if (hasMovies) {
+                          return <CominSoonComp dataObj={this.state.dataObj} />
+                        } else {
+                          return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+                        }
+                      })()}
                     </TabPanel>
                   </Tabs>
                 </div>

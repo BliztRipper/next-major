@@ -19,7 +19,8 @@ class MainSelectMovieByCinema extends PureComponent {
       serverTime:'',
       isEmpty:false,
       accid: '',
-      schedules: [],
+      dataSchedules: [],
+      schedules: {},
       dates: [],
       pickThisDay: false,
       highlightFetching: true,
@@ -44,7 +45,7 @@ class MainSelectMovieByCinema extends PureComponent {
       })
       .then(response => response.json())
       .then(data => {
-        this.state.schedules = data.data
+        this.state.dataSchedules = data.data
         this.state.serverTime = data.server_time
         this.fillterDate()
       })
@@ -62,13 +63,13 @@ class MainSelectMovieByCinema extends PureComponent {
   fillterDate() {
     let mapDates = []
 
-    if(this.state.schedules.length === 0 || !this.state.schedules) {
+    if(this.state.dataSchedules.length === 0 || !this.state.dataSchedules) {
       this.setState({
         isEmpty:true,
         isLoading: false
       })
     } else {
-      this.state.schedules.forEach(schedule => {
+      this.state.dataSchedules.forEach(schedule => {
         schedule.Theaters.forEach(theater => {
           theater.Showtimes.forEach(showtime => {
             let strDate = showtime.substring(0, 10)
@@ -76,6 +77,13 @@ class MainSelectMovieByCinema extends PureComponent {
               mapDates[strDate] = true
               this.state.dates.push(strDate)
             }
+          })
+          if (!this.state.schedules[theater.ScheduledFilmId]) {
+            this.state.schedules[theater.ScheduledFilmId] = []
+          }
+          this.state.schedules[theater.ScheduledFilmId].push({
+            ...theater,
+            CinemaId: schedule.CinemaId
           })
         })
       })
@@ -89,7 +97,7 @@ class MainSelectMovieByCinema extends PureComponent {
       this.pickThisDay(0, true)
 
       this.setState({
-        schedules: this.state.schedules,
+        dataSchedules: this.state.dataSchedules,
         serverTime: this.state.serverTime,
         dates: this.state.dates,
         isEmpty:(this.state.dates.length == 0),
@@ -120,12 +128,6 @@ class MainSelectMovieByCinema extends PureComponent {
   theaterEmptyCheck(isEmpty){
     this.setState({
       isEmpty: isEmpty
-    })
-  }
-
-  renderMovieWithShowtime(pickThisDay) {
-    return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
     })
   }
 
@@ -165,7 +167,7 @@ class MainSelectMovieByCinema extends PureComponent {
                 <div className="page__selectMovieByCinema">
                   <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
                   <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                  {this.renderMovieWithShowtime(pickThisDay)}
+                  <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
                 </div>
                 <GlobalFooterNav/>
               </div>
