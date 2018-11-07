@@ -97,7 +97,7 @@ favActive(cinemaId) {
 
 renderBySystemType() {
   return this.state.renderSystems.map((renderSystem, i) => {
-    return <RegionCinemaComp region={renderSystem} isExpand={true} iAmFav={false} iAmSystem={true} accid={this.state.accid} favActive={this.favActive.bind(this)} />
+    return <RegionCinemaComp key={renderSystem.name} region={renderSystem} isExpand={true} iAmFav={false} iAmSystem={true} accid={this.state.accid} favActive={this.favActive.bind(this)} />
   })
 }
 
