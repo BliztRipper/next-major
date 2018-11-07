@@ -81,13 +81,14 @@ class HighlightCarousel extends PureComponent {
         this.state.dataObj[i].trailer)
       items.push(this.state.dataObj[i])
     }
+
     sessionStorage.setItem("now_showing", JSON.stringify(items))
     let renderItem = []
     renderItem.push(
       <div className="swiper-container" ref="slider" key="slider">
         <div className="swiper-wrapper">
-          {this.state.dataObj.map(item =>
-            <div className="swiper-slide" key={item.title_en}>
+          {this.state.dataObj.map((item, itemIndex) =>
+            <div className="swiper-slide" key={item.title_en + itemIndex}>
               <div className="highlight__sliderItem">
                 <Link prefetch href={dataToSelectCinemaByMovie}>
                   <div className="poster-container" onClick={this.movieDetails.bind(this,item)}>
