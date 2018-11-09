@@ -13,7 +13,8 @@ class home extends PureComponent {
     this.state = {
       accid: false,
       isLoading: true,
-      notConsent: false
+      notConsent: false,
+      underConstruction:false
     }
   }
   componentDidMount() {
@@ -81,7 +82,7 @@ class home extends PureComponent {
   }
 
   render() {
-    const { isLoading,notConsent } = this.state
+    const { isLoading,notConsent,underConstruction } = this.state
     if (isIOS){
       if(parseFloat(osVersion) < 10.3){
         return <VersionNotSupport/>
@@ -107,6 +108,19 @@ class home extends PureComponent {
             <p style={{color:'#999'}}>*รองรับระบบ iOS ตั้งแต่ 10.3 และ Android 4.4 ขึ้นไป</p>
           </div>
           <button onClick={this.addConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
+        </Layout>
+      )
+    }
+    if(underConstruction){
+      return (
+        <Layout>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
+            <img src="../static/error.svg" width="150" alt=""/>
+          </div>
+          <div style={{marginTop:'4rem', textAlign:'center'}}>
+            <p style={{color:'#333', fontSize:'1.2rem'}}>ขออภัยระบบกำลังปรับปรุง</p>
+            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก ขณะนี้ระบบกำลังปิดปรับปรุง</p>
+          </div>
         </Layout>
       )
     }
