@@ -1,18 +1,19 @@
 import Document, { Head, Main, NextScript } from 'next/document'
+const GA_TRACKING_ID = 'UA-129095188-1';
+
 
 export default class MyDocument extends Document {
   render() {
     return (
       <html lang="en">
         <Head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129095188-1"></script>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
         <script dangerouslySetInnerHTML={{
           __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-
-          gtag('config', 'UA-129095188-1');
+          gtag('config', '${GA_TRACKING_ID}');
           `,
         }}>
         </script>
