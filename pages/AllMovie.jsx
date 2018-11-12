@@ -10,6 +10,8 @@ import loading from '../static/loading.svg'
 import empty from '../static/emptyTicket.png'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import axios from 'axios'
+import Page from '../components/Page'
+
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -103,10 +105,12 @@ class AllMovie extends PureComponent {
             )
           } else {
             return (
-              <section className="empty">
-                <img src={empty}/>
-                <h5>ข้อมูลไม่ถูกต้อง</h5>
-              </section>
+              <Page>
+                <section className="empty">
+                  <img src={empty}/>
+                  <h5>ข้อมูลไม่ถูกต้อง</h5>
+                </section>
+              </Page>
             )
           }
         })()}

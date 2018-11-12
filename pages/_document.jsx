@@ -1,8 +1,15 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-const GA_TRACKING_ID = 'UA-129095188-1';
+import { GA_TRACKING_ID } from '../lib/gtag'
+import flush from 'styled-jsx/server'
 
 
 export default class MyDocument extends Document {
+  static getInitialProps ({ renderPage }) {
+    const { html, head, errorHtml, chunks } = renderPage()
+    const styles = flush()
+    return { html, head, errorHtml, chunks, styles }
+  }
+
   render() {
     return (
       <html lang="en">

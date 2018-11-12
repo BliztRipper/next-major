@@ -9,6 +9,7 @@ import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import '../styles/style.scss'
+import Page from '../components/Page';
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -163,14 +164,16 @@ class MainSelectMovieByCinema extends PureComponent {
         {(() => {
           if (accid) {
             return (
-              <div className="indexTab" key="cinemaList">
-                <div className="page__selectMovieByCinema">
-                  <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                  <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                  <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
-                </div>
-                <GlobalFooterNav/>
-              </div>
+              <Page>
+                <div className="indexTab" key="cinemaList">
+                  <div className="page__selectMovieByCinema">
+                    <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                    <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+                    <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
+                  </div>
+                  <GlobalFooterNav/>
+               </div>
+              </Page>
             )
           } else {
             return (
