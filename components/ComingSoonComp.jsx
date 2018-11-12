@@ -30,7 +30,7 @@ class CominSoonComp extends PureComponent {
       "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
       "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
       "สิงหาคม", "กันยายน", "ตุลาคม",
-      "พฤษจิกายน", "ธันวาคม"
+      "พฤศจิกายน", "ธันวาคม"
     ]
     let monthIndex = date.slice(5,7)
     let month = parseInt(monthIndex)
@@ -43,7 +43,7 @@ class CominSoonComp extends PureComponent {
       "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
       "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
       "สิงหาคม", "กันยายน", "ตุลาคม",
-      "พฤษจิกายน", "ธันวาคม"
+      "พฤศจิกายน", "ธันวาคม"
     ]
     let d = date.slice(8,10)
     let day = parseInt(d)
