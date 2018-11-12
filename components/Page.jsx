@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react';
 import Router from 'next/router'
 
 import * as gtag from '../lib/gtag'
@@ -6,7 +6,7 @@ import * as gtag from '../lib/gtag'
 Router.events.on('routeChangeComplete', url => gtag.pageview(url))
 
 export default ({ children }) => (
-  <div>
+  <Fragment>
     {children}
-  </div>
+  </Fragment>
 )
