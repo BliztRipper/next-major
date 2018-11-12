@@ -1,6 +1,5 @@
 import { PureComponent } from 'react'
 import loading from '../static/loading.svg'
-import Router from 'next/router'
 import Layout from '../components/Layout'
 import GlobalHeader from '../components/GlobalHeader'
 import Ticket from '../components/Ticket'

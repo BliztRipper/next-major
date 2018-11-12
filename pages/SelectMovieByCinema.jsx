@@ -160,31 +160,33 @@ class MainSelectMovieByCinema extends PureComponent {
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
     }
     return (
-      <Layout title="Select Movie">
-        {(() => {
-          if (accid) {
-            return (
-              <Page>
-                <div className="indexTab" key="cinemaList">
-                  <div className="page__selectMovieByCinema">
-                    <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                    <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                    <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
-                  </div>
-                  <GlobalFooterNav/>
-               </div>
-              </Page>
-            )
-          } else {
-            return (
-              <section className="empty">
-                <img src={empty}/>
-                <h5>ข้อมูลไม่ถูกต้อง</h5>
-              </section>
-            )
-          }
-        })()}
-      </Layout>
+      <Page>
+        <Layout title="Select Movie">
+          {(() => {
+            if (accid) {
+              return (
+                <Page>
+                  <div className="indexTab" key="cinemaList">
+                    <div className="page__selectMovieByCinema">
+                      <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                      <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+                      <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
+                    </div>
+                    <GlobalFooterNav/>
+                </div>
+                </Page>
+              )
+            } else {
+              return (
+                <section className="empty">
+                  <img src={empty}/>
+                  <h5>ข้อมูลไม่ถูกต้อง</h5>
+                </section>
+              )
+            }
+          })()}
+        </Layout>
+      </Page>
     )
   }
 }

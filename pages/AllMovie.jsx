@@ -63,58 +63,58 @@ class AllMovie extends PureComponent {
     }
 
     return (
-      <Layout title='All Movie'>
-        {(() => {
-          if (accid) {
-            return (
-              <Fragment>
-                <h1 className="allmovieTab__header">
-                  <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                  ภาพยนต์ทั้งหมด
-                </h1>
-                <div className="allmovieTab">
-                  <Tabs>
-                    <TabList>
-                      <Tab>กำลังฉาย</Tab>
-                      <Tab>เร็วๆนี้</Tab>
-                    </TabList>
-                    <TabPanel>
-                      {(() => {
-                        let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
-                        if (hasMovies)  {
-                          return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
-                        } else {
-                          return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
-                        }
-                      })()}
-                    </TabPanel>
-                    <TabPanel>
-                      {(() => {
-                        let hasMovies = this.state.dataObj.comingsoon.length > 0
-                        if (hasMovies) {
-                          return <CominSoonComp dataObj={this.state.dataObj} />
-                        } else {
-                          return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
-                        }
-                      })()}
-                    </TabPanel>
-                  </Tabs>
-                </div>
-                <GlobalFooterNav/>
-              </Fragment>
-            )
-          } else {
-            return (
-              <Page>
+      <Page>
+        <Layout title='All Movie'>
+          {(() => {
+            if (accid) {
+              return (
+                <Fragment>
+                  <h1 className="allmovieTab__header">
+                    <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                    ภาพยนต์ทั้งหมด
+                  </h1>
+                  <div className="allmovieTab">
+                    <Tabs>
+                      <TabList>
+                        <Tab>กำลังฉาย</Tab>
+                        <Tab>เร็วๆนี้</Tab>
+                      </TabList>
+                      <TabPanel>
+                        {(() => {
+                          let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
+                          if (hasMovies)  {
+                            return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
+                          } else {
+                            return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+                          }
+                        })()}
+                      </TabPanel>
+                      <TabPanel>
+                        {(() => {
+                          let hasMovies = this.state.dataObj.comingsoon.length > 0
+                          if (hasMovies) {
+                            return <CominSoonComp dataObj={this.state.dataObj} />
+                          } else {
+                            return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+                          }
+                        })()}
+                      </TabPanel>
+                    </Tabs>
+                  </div>
+                  <GlobalFooterNav/>
+                </Fragment>
+              )
+            } else {
+              return (
                 <section className="empty">
                   <img src={empty}/>
                   <h5>ข้อมูลไม่ถูกต้อง</h5>
                 </section>
-              </Page>
-            )
-          }
-        })()}
-      </Layout>
+              )
+            }
+          })()}
+        </Layout>
+      </Page>
     )
   }
 }
