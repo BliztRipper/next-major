@@ -8,6 +8,7 @@ import Router from "next/router";
 import utilities from "../scripts/utilities";
 import GlobalHeader from "../components/GlobalHeader";
 import Page from "../components/Page";
+import { URL_PROD } from '../lib/URL_ENV';
 
 class Cashier extends PureComponent {
   constructor(props) {
@@ -21,7 +22,7 @@ class Cashier extends PureComponent {
         third_party_tx_id: "",
         amount_satang: 0,
         currency: "THB",
-        return_url: "https://api-cinema.truemoney.net/CompleteOrder",
+        return_url: "${URL_PROD}/CompleteOrder",
         payload: {}
       },
       dataToTicket: "",
@@ -58,7 +59,7 @@ class Cashier extends PureComponent {
     if (this.refTicket.current.postingTicket) return false;
     this.refTicket.current.setState({ postingTicket: true });
     try {
-      fetch(`https://api-cinema.truemoney.net/Payment`, {
+      fetch(`${URL_PROD}/Payment`, {
         method: "POST",
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(this.state.dataToPayment)

@@ -1,12 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel, } from 'react-tabs';
-import CinemaFavoriteList from './CinemaFavoriteList'
 import CinemaSystemList from './CinemaSystemList'
-import CinemaRegionalList from './CinemaRegionalList'
 import SearchCinema from './SearchCinema'
 import loading from '../static/loading.svg'
 import CardCinema from './CardCinema'
 import CinemaListComp from './CinemaListComp'
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainCinemaListing extends PureComponent {
   constructor(props) {
@@ -25,14 +24,14 @@ class MainCinemaListing extends PureComponent {
 
   componentDidMount() {
     try {
-      fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.props.accid}`)
+      fetch(`${URL_PROD}/FavCinemas/${this.props.accid}`)
         .then(response => response.json())
         .then(data => {
           this.state.dataFav = data
           this.state.loadFav = true
           this.loadComplete()
         })
-      fetch(`https://api-cinema.truemoney.net/Branches`)
+      fetch(`${URL_PROD}/Branches`)
         .then(response => response.json())
         .then(data => {
           this.state.dataCine = data.data

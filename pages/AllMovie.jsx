@@ -11,6 +11,7 @@ import empty from '../static/emptyTicket.png'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import axios from 'axios'
 import Page from '../components/Page'
+import { URL_PROD } from '../lib/URL_ENV';
 
 
 class AllMovie extends PureComponent {
@@ -26,7 +27,7 @@ class AllMovie extends PureComponent {
 
   }
   componentDidMount(){
-    axios(`https://api-cinema.truemoney.net/MovieList`)
+    axios(`${URL_PROD}/MovieList`)
     .then(response => {
       let hasMovies = response.data.data.now_showing.length > 0 && response.data.data.advance_ticket.length > 0 && response.data.data.comingsoon.length > 0
       this.setState({

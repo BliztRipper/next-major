@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
@@ -7,6 +7,7 @@ import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
 import axios from 'axios'
 import Page from '../components/Page';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class home extends PureComponent {
   constructor(props) {
@@ -49,7 +50,7 @@ class home extends PureComponent {
     }
   }
   checkConsent (accid) {
-    axios.get(`https://api-cinema.truemoney.net/UserInfo/${accid}`)
+    axios.get(`${URL_PROD}/UserInfo/${accid}`)
     .then(data => {
       if (data.data.data.concent) {
         this.setState({notConsent: false})
@@ -74,7 +75,7 @@ class home extends PureComponent {
   }
 
   addConsent(){
-    axios.get(`https://api-cinema.truemoney.net/AddConcent/${this.state.accid}`)
+    axios.get(`${URL_PROD}/AddConcent/${this.state.accid}`)
     .then(data => {
       if (data.data.status_code === 0 && data.data.description === 'Success') {
         this.setState({notConsent: false})

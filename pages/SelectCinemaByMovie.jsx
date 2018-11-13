@@ -12,6 +12,7 @@ import '../styles/style.scss'
 import { StickyContainer, Sticky } from 'react-sticky';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import Page from '../components/Page';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainSelectCinemaByMovie extends Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class MainSelectCinemaByMovie extends Component {
       sessionStorage.setItem('BookingCinema','')
 
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
-      fetch(`https://api-cinema.truemoney.net/Schedule`,{
+      fetch(`${URL_PROD}/Schedule`,{
         method: 'POST',
         body: JSON.stringify(dataToPostSchedule)
       })
@@ -64,7 +65,7 @@ class MainSelectCinemaByMovie extends Component {
         this.state.schedules = data.data
         this.state.serverTime = data.server_time
 
-        fetch(`https://api-cinema.truemoney.net/FavCinemas/${this.state.accid}`)
+        fetch(`${URL_PROD}/FavCinemas/${this.state.accid}`)
         .then(response => response.json())
         .then(data => {
           if (data.data.CinemaIds) {
@@ -77,7 +78,7 @@ class MainSelectCinemaByMovie extends Component {
           this.loadComplete()
         })
 
-        fetch(`https://api-cinema.truemoney.net/Branches`)
+        fetch(`${URL_PROD}/Branches`)
         .then(response => response.json())
         .then(data=> {
           this.state.branches = data.data
@@ -208,10 +209,10 @@ class MainSelectCinemaByMovie extends Component {
   favActive(cinemaId) {
     let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
     if(newFav) {
-      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+      fetch(`${URL_PROD}/AddFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites.push(cinemaId)
     } else{
-      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+      fetch(`${URL_PROD}/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
     }
 

@@ -4,6 +4,7 @@ import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import Swiper from 'swiper'
 import axios from 'axios'
+import { URL_PROD } from '../lib/URL_ENV';
 
 class HighlightCarousel extends PureComponent {
   constructor(props) {
@@ -33,7 +34,7 @@ class HighlightCarousel extends PureComponent {
   }
   componentWillMount(){
     this.props.highlightFetched(false)
-    axios.get(`https://api-cinema.truemoney.net/MovieList`)
+    axios.get(`${URL_PROD}/MovieList`)
     .then(response => {
       let res =  response.data.data
       this.setState({

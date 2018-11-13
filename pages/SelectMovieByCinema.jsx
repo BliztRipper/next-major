@@ -10,6 +10,7 @@ import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import '../styles/style.scss'
 import Page from '../components/Page';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -40,7 +41,7 @@ class MainSelectMovieByCinema extends PureComponent {
       dataMyTicketsTotal: instantTickets ? instantTickets.length : null
     })
     try {
-      fetch(`https://api-cinema.truemoney.net/Schedule`,{
+      fetch(`${URL_PROD}/Schedule`,{
         method: 'POST',
         body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })

@@ -6,9 +6,7 @@ import utilities from '../scripts/utilities'
 import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
-// assets img
-import IconGlobalNavLocation from '../static/icon-global-nav-location.svg'
-import IconGlobalNavMovie from '../static/icon-global-nav-movie.svg'
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainNavBar extends PureComponent {
   constructor(props) {
@@ -29,7 +27,7 @@ class MainNavBar extends PureComponent {
 
   }
   getTickets () {
-    axios.get(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
+    axios.get(`${URL_PROD}/MyTickets/${this.props.accid}`)
     .then(response => {
       this.state.dataMyTicketServerTime = response.data.server_time
       let expired = false

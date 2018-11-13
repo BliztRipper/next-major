@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 import empty from '../static/emptyTicket.png'
 import Page from '../components/Page'
+import { URL_PROD } from '../lib/URL_ENV';
 
 
 class seatMap extends PureComponent {
@@ -42,7 +43,7 @@ class seatMap extends PureComponent {
       UserSessionId: UserSessionId
     }
     try{
-      fetch(`https://api-cinema.truemoney.net/CancelOrder`,{
+      fetch(`${URL_PROD}/CancelOrder`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToCancelOrder)
@@ -93,7 +94,7 @@ class seatMap extends PureComponent {
   }
   getSeatPlans () {
     try{
-      fetch(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
+      fetch(`${URL_PROD}/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
         if (data.status_code === 0 || data.description === 'Success') {
@@ -118,7 +119,7 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      fetch(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
+      fetch(`${URL_PROD}/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
         if (data.status_code === 0 || data.description === 'Success') {
@@ -167,7 +168,7 @@ class seatMap extends PureComponent {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
-      fetch(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PROD}/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
       })
       .then(response => response.json())
@@ -197,7 +198,7 @@ class seatMap extends PureComponent {
     }
 
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PROD}/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
@@ -259,7 +260,7 @@ class seatMap extends PureComponent {
       tmn_account : userAuthData.mobileno
     }
     try {
-      fetch(`https://api-cinema.truemoney.net/AuthVerify/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PROD}/AuthVerify/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
@@ -333,7 +334,7 @@ class seatMap extends PureComponent {
       })
     });
     try {
-      fetch(`https://api-cinema.truemoney.net/AddTicket`,{
+      fetch(`${URL_PROD}/AddTicket`,{
         method: 'POST',
         body:JSON.stringify(dataToStorage)
       })
