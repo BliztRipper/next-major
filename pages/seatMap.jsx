@@ -288,7 +288,7 @@ class seatMap extends PureComponent {
             imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
-            text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
+            html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
             onAfterClose: () => {
               Router.back()
             }
