@@ -19,13 +19,15 @@ class MovieWithShowtimeComp extends PureComponent {
 	}
 
 	handleScheduleSelected(theater, showtime) {
+		console.log(this.props.filmId, 'this.props.filmId');
+		console.log(theater.ScheduledFilmId, 'theater.ScheduledFilmId');
 		sessionStorage.setItem('BookingTime', showtime.slice(11, 16))
 		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('BookingCinemaOperatorCode', theater.CinemaOperatorCode)
 		sessionStorage.setItem('CinemaID', theater.CinemaId)
 		sessionStorage.setItem('BookingDate', showtime)
-		sessionStorage.setItem('movieSelect', JSON.stringify(this.getMovieInfo(this.props.filmId)))
+		sessionStorage.setItem('movieSelect', JSON.stringify(this.getMovieInfo(theater.ScheduledFilmId)))
 	}
 
 	getMovieInfo(filmId) {
