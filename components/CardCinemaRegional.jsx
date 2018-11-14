@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
+import { URL_PROD } from '../lib/URL_ENV';
 
 class CardCinemaRegional extends PureComponent {
   constructor(props) {
@@ -19,10 +20,10 @@ class CardCinemaRegional extends PureComponent {
     let phoneNum = this.props.accid
     if(this.state.favCineActive == true){
       this.setState({favCineActive: !this.state.favCineActive})
-      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${phoneNum}/${CinemaID}`)
+      fetch(`${URL_PROD}/RemoveFavCinema/${phoneNum}/${CinemaID}`)
     } else {
       this.setState({favCineActive: !this.state.favCineActive})
-      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${phoneNum}/${CinemaID}`)
+      fetch(`${URL_PROD}/AddFavCinema/${phoneNum}/${CinemaID}`)
     }
   }
 

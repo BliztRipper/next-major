@@ -30,7 +30,7 @@ class CominSoonComp extends PureComponent {
       "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
       "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
       "สิงหาคม", "กันยายน", "ตุลาคม",
-      "พฤษจิกายน", "ธันวาคม"
+      "พฤศจิกายน", "ธันวาคม"
     ]
     let monthIndex = date.slice(5,7)
     let month = parseInt(monthIndex)
@@ -43,7 +43,7 @@ class CominSoonComp extends PureComponent {
       "", "มกราคม", "กุมภาพันธ์", "มีนาคม",
       "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม",
       "สิงหาคม", "กันยายน", "ตุลาคม",
-      "พฤษจิกายน", "ธันวาคม"
+      "พฤศจิกายน", "ธันวาคม"
     ]
     let d = date.slice(8,10)
     let day = parseInt(d)
@@ -80,7 +80,7 @@ class CominSoonComp extends PureComponent {
         renderMovie.push(<MovieOfMonth title={month} key={month}/>)
         monthMovie[month].map((movie,i) => {
           let releaseDate = this.formatDate(movie.release_date)
-          cells.push(<MoviePoster item={movie} title_th={movie.title_th} release={releaseDate} poster={movie.poster_ori} key={movie.title+i}/>)
+          cells.push(<MoviePoster item={movie} title_th={movie.title_th} release={releaseDate} poster={movie.poster_ori} key={movie.title_th+i}/>)
         })
         renderMovie.push(
           <div className="comingsoon__container" key={month+'comingsoon__container'}>

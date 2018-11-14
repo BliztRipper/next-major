@@ -31,6 +31,7 @@
     "react-device-detect": "^1.6.1",
     "react-dom": "^16.6.0",
     "react-flip-move": "^3.0.3",
+    "react-ga": "^2.5.3",
     "react-hammerjs": "^1.0.1",
     "react-sticky": "^6.0.3",
     "react-tabs": "^2.2.2",

@@ -8,13 +8,11 @@ class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			schedule: this.props.schedule,
 			accid: this.props.accid,
 			movieList: null,
 		}
 	}
-
-	componentDidMount() {
+	componentDidMount () {
 		this.setState({
 			movieList: JSON.parse(sessionStorage.getItem("now_showing"))
 		})
@@ -25,7 +23,7 @@ class MovieWithShowtimeComp extends PureComponent {
 		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('BookingCinemaOperatorCode', theater.CinemaOperatorCode)
-		sessionStorage.setItem('CinemaID', this.props.schedule.CinemaId)
+		sessionStorage.setItem('CinemaID', theater.CinemaId)
 		sessionStorage.setItem('BookingDate', showtime)
 		sessionStorage.setItem('movieSelect', JSON.stringify(this.getMovieInfo(theater.ScheduledFilmId)))
 	}
@@ -34,12 +32,14 @@ class MovieWithShowtimeComp extends PureComponent {
 		let info = null
 		if (this.state.movieList && this.state.movieList.length > 0) {
 			this.state.movieList.forEach(movie => {
-				return movie.movieCode.forEach(code => {
-					if (filmId == code) {
-						info = movie
-						return
-					}
-				})
+				if (movie.movieCode) {
+					return movie.movieCode.forEach(code => {
+						if (filmId == code) {
+							info = movie
+							return
+						}
+					})
+				}
 			})
 		}
 		return info
@@ -59,10 +59,11 @@ class MovieWithShowtimeComp extends PureComponent {
 		}
 	}
 
-	renderShowtimes(showtimes, theater) {
+	renderShowtimes(theater, filmId) {
+
 		let items = []
-		if (showtimes) {
-			showtimes.forEach((showtime, i) => {
+		if (theater.Showtimes) {
+			theater.Showtimes.forEach((showtime, i) => {
 				let dataToSeatMap = {
 					pathname: '/seatMap',
 					query: {
@@ -70,9 +71,10 @@ class MovieWithShowtimeComp extends PureComponent {
 						SessionId: theater.SessionIds[i]
 					}
 				}
+
 				if (showtime.slice(0, 10) == this.props.pickThisDay) {
-					if(this.getMovieInfo(theater.ScheduledFilmId) != null){
-						let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(theater.ScheduledFilmId).title_en + i
+					if(this.getMovieInfo(filmId) !== null){
+						let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(filmId).title_en + i
 						items.push (
 							<Link prefetch href={dataToSeatMap} key={keyShowTime}>
 								<a className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
@@ -80,23 +82,25 @@ class MovieWithShowtimeComp extends PureComponent {
 								</a>
 							</Link>
 						)
-					} else {
-						let emptyError = true
-						this.props.emptyError(emptyError)
 					}
 				}
 			})
 		}
-
 		return items
 	}
 
-	renderTheater(theater, showtimesItems, key) {
-		return (
-			<div className="cinema__cardItemTransition" key={key}>
-				<div className="cinema__cardItem isDiff">
-					<MovieInfoByCinemaComp item={this.getMovieInfo(theater.ScheduledFilmId)} />
-					<div className="cinema__card-cbm">
+	renderTheater(theaters, filmId) {
+		let showtimesItems = true
+		let isEmpty = true
+		return theaters.map((theater, theaterIndex) => {
+			showtimesItems = this.renderShowtimes(theater, filmId)
+
+			let showtimesItemsLength = showtimesItems.length > 0
+			if (showtimesItemsLength) {
+				isEmpty = false
+				let keyCardItem = theater.ScreenNameAlt + theaterIndex
+				return (
+					<div className="cinema__card-cbm" key={keyCardItem}>
 						<div className="cinema__card-cbm--theatre-container">
 							<div className="cinema__card-cbm--theatre-wrapper">
 								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
@@ -113,34 +117,50 @@ class MovieWithShowtimeComp extends PureComponent {
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-		)
+				)
+			} else {
+				return !isEmpty
+			}
+		})
 	}
 
 	renderMovieCard() {
-		let showtimesItems = true
-		if (this.props.schedule.Theaters && this.props.schedule.Theaters.length > 0) {
-			return this.props.schedule.Theaters.map((theater, theaterIndex) => {
-				showtimesItems = this.renderShowtimes(theater.Showtimes, theater)
-				let showtimesItemsLength = showtimesItems.length > 0
-				if (showtimesItemsLength) {
-					let keyCardItem = theater.ScreenNameAlt + theaterIndex
-					return (
-						this.renderTheater(theater, showtimesItems, keyCardItem)
-					)
-				}
-			})
-		}
+		let movieInfoItem = null
+		let hasMovieInfo = false
+
+    return Object.keys(this.props.schedules).map((filmId, filmIdIndex, filmIdArray) => {
+			movieInfoItem = this.getMovieInfo(filmId)
+
+			if (movieInfoItem) {
+				hasMovieInfo = true
+			}
+
+      if (filmIdIndex + 1 === filmIdArray.length && !hasMovieInfo) {
+        this.props.theaterEmptyCheck(true)
+			}
+
+			let theatersByFilmId = this.props.schedules[filmId]
+
+      if (theatersByFilmId && movieInfoItem) {
+				return (
+					<FlipMove duration={600} className="cinema__cardItem-wrap isDiff" key={filmId} >
+						<div className="cinema__cardItemTransition">
+							<div className="cinema__cardItem isDiff">
+								{<MovieInfoByCinemaComp item={movieInfoItem} />}
+								{this.renderTheater(theatersByFilmId, filmId)}
+							</div>
+						</div>
+					</FlipMove>
+				)
+      } else {
+				return false
+			}
+    })
 	}
 
 	render() {
 		if (!this.state.movieList) return false
-		return (
-			<FlipMove duration={600} className="cinema__cardItem-wrap isDiff">
-				{this.renderMovieCard()}
-			</FlipMove>
-		)
+		return this.renderMovieCard()
 	}
 }
 

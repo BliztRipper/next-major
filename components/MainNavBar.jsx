@@ -6,9 +6,7 @@ import utilities from '../scripts/utilities'
 import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
-// assets img
-import IconGlobalNavLocation from '../static/icon-global-nav-location.svg'
-import IconGlobalNavMovie from '../static/icon-global-nav-movie.svg'
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainNavBar extends PureComponent {
   constructor(props) {
@@ -29,47 +27,44 @@ class MainNavBar extends PureComponent {
 
   }
   getTickets () {
-    try{
-      axios.get(`https://api-cinema.truemoney.net/MyTickets/${this.props.accid}`)
-      .then(response => {
-        this.state.dataMyTicketServerTime = response.data.server_time
-        let expired = false
-        if (response.data.data) {
-          this.state.dataMyTickets = []
-          this.state.dataMyTicketsExpired = []
-          response.data.data.forEach((ticket) => {
-            expired = this.ticketHasExpired(ticket)
-            if (!expired) {
-              this.state.dataMyTickets.push(ticket)
-            } else {
-              this.state.dataMyTicketsExpired.push(ticket)
-            }
-          })
-          this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
-          if (this.state.dataMyTickets.length === 0) this.state.dataMyTickets = null
-          if (this.state.dataMyTicketsExpired.length === 0) this.state.dataMyTicketsExpired = null
-        } else {
-          this.state.dataMyTicketsExpired = null
-          this.state.dataMyTickets = null
-        }
-        this.setState({
-          dataMyTicketsExpired: JSON.stringify(this.state.dataMyTicketsExpired),
-          dataMyTickets: JSON.stringify(this.state.dataMyTickets),
-          dataMyTicketsTotal: this.state.dataMyTicketsTotal,
-          dataMyTicketServerTime: this.state.dataMyTicketServerTime,
-          dataMyTicketsDone: true
-        }, () => {
-          sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
-          sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
-          sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
+    axios.get(`${URL_PROD}/MyTickets/${this.props.accid}`)
+    .then(response => {
+      this.state.dataMyTicketServerTime = response.data.server_time
+      let expired = false
+      if (response.data.data) {
+        this.state.dataMyTickets = []
+        this.state.dataMyTicketsExpired = []
+        response.data.data.forEach((ticket) => {
+          expired = this.ticketHasExpired(ticket)
+          if (!expired) {
+            this.state.dataMyTickets.push(ticket)
+          } else {
+            this.state.dataMyTicketsExpired.push(ticket)
+          }
         })
-      })
-    } catch (err) {
-      error => {
-        console.error('error', error);
-        this.setState({error: true})
+        this.state.dataMyTicketsTotal = this.state.dataMyTickets.length > 0 ? this.state.dataMyTickets.length : false
+        if (this.state.dataMyTickets.length === 0) this.state.dataMyTickets = null
+        if (this.state.dataMyTicketsExpired.length === 0) this.state.dataMyTicketsExpired = null
+      } else {
+        this.state.dataMyTicketsExpired = null
+        this.state.dataMyTickets = null
       }
-    }
+      this.setState({
+        dataMyTicketsExpired: JSON.stringify(this.state.dataMyTicketsExpired),
+        dataMyTickets: JSON.stringify(this.state.dataMyTickets),
+        dataMyTicketsTotal: this.state.dataMyTicketsTotal,
+        dataMyTicketServerTime: this.state.dataMyTicketServerTime,
+        dataMyTicketsDone: true
+      }, () => {
+        sessionStorage.setItem('dataMyTicketsExpired', this.state.dataMyTicketsExpired)
+        sessionStorage.setItem('dataMyTickets', this.state.dataMyTickets)
+        sessionStorage.setItem('dataMyTicketServerTime', this.state.dataMyTicketServerTime)
+      })
+    })
+    .catch(error=>{
+      console.error('error', error);
+      this.setState({error: true})
+    })
   }
   ticketHasExpired (ticket) {
     let serverDate = new Date(this.state.dataMyTicketServerTime)
