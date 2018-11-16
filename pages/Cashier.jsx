@@ -22,7 +22,7 @@ class Cashier extends PureComponent {
         third_party_tx_id: "",
         amount_satang: 0,
         currency: "THB",
-        return_url: "${URL_PROD}/CompleteOrder",
+        return_url: `${URL_PROD}/CompleteOrder`,
         payload: {}
       },
       dataToTicket: "",
