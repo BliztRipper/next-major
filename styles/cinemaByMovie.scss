@@ -4,16 +4,6 @@
 	width: 95vw;
 	padding: 5vw;
 }
-
-.cinema__cardItem-wrap {
-	&.isDiff {
-		padding-top: 5vw;
-		margin-left: -8px;
-		margin-right: -8px;
-		padding-bottom: 70px;
-	}
-}
-
 .cinema__cardItem {
   position: relative;
 	z-index: 0;

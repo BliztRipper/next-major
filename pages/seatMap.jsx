@@ -9,7 +9,8 @@ import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 import empty from '../static/emptyTicket.png'
-import axios from 'axios'
+import Page from '../components/Page'
+import { URL_PROD } from '../lib/URL_ENV';
 
 
 class seatMap extends PureComponent {
@@ -42,8 +43,8 @@ class seatMap extends PureComponent {
       UserSessionId: UserSessionId
     }
     try{
-      axios(`https://api-cinema.truemoney.net/CancelOrder`,{
-        method: 'post',
+      fetch(`${URL_PROD}/CancelOrder`,{
+        method: 'POST',
         headers: this.state.apiOtpHeader,
         data: JSON.stringify(dataToCancelOrder)
       })
@@ -72,7 +73,7 @@ class seatMap extends PureComponent {
     if (this.state.SessionId === 'undefined') {
       Swal({
         title: 'ไม่สามารถทำรายการได้',
-        imageUrl: './static/error.svg',
+        imageUrl: '../static/error.svg',
         imageWidth: 200,
         imageHeight: 200,
         text: 'คุณไม่ได้เลือกโรงภาพยนต์',
@@ -90,7 +91,8 @@ class seatMap extends PureComponent {
   }
   getSeatPlans () {
     try{
-      axios(`https://api-cinema.truemoney.net/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
+      fetch(`${URL_PROD}/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
+      .then(response => response.json())
       .then(data => {
         if (data.data.status_code === 0 || data.data.description === 'Success') {
           this.state.dataSeatPlan = data.data.data
@@ -98,7 +100,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -114,7 +116,8 @@ class seatMap extends PureComponent {
   }
   getTickets () {
     try{
-      axios(`https://api-cinema.truemoney.net/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
+      fetch(`${URL_PROD}/TicketPrices/${this.state.CinemaId}/${this.state.SessionId}`)
+      .then(response => response.json())
       .then(data => {
         if (data.data.status_code === 0 || data.data.description === 'Success') {
           let matchTicketData = []
@@ -139,7 +142,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -162,7 +165,7 @@ class seatMap extends PureComponent {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
-      axios(`https://api-cinema.truemoney.net/HasToken/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PROD}/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
       })
       .then((data) =>  {
@@ -191,8 +194,8 @@ class seatMap extends PureComponent {
     }
 
     try {
-      axios(`https://api-cinema.truemoney.net/AuthApply/${this.state.userInfo.accid}`,{
-        method: 'post',
+      fetch(`${URL_PROD}/AuthApply/${this.state.userInfo.accid}`,{
+        method: 'POST',
         headers: this.state.apiOtpHeader,
         data: JSON.stringify(dataToStorage)
       })
@@ -227,7 +230,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -252,8 +255,8 @@ class seatMap extends PureComponent {
       tmn_account : userAuthData.mobileno
     }
     try {
-      axios(`https://api-cinema.truemoney.net/AuthVerify/${this.state.userInfo.accid}`,{
-        method: 'post',
+      fetch(`${URL_PROD}/AuthVerify/${this.state.userInfo.accid}`,{
+        method: 'POST',
         headers: this.state.apiOtpHeader,
         data: JSON.stringify(dataToStorage)
       })
@@ -263,7 +266,7 @@ class seatMap extends PureComponent {
         } else if (data.data.status_code === 35000 && data.data.description.slice(0,7) === 'OAU0010') {
           Swal({
             title: 'รหัส OTP ไม่ถูกต้อง',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             grow:'fullscreen',
@@ -276,18 +279,18 @@ class seatMap extends PureComponent {
         }else if (data.data.status_code === 35000){
           Swal({
             title: 'ขออภัยระบบขัดข้อง',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
-            text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.data.description.slice(0,7)}` ,
+            html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
             onAfterClose: () => {
-              Router.push('/')
+              Router.back()
             }
           })
         }else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -326,9 +329,9 @@ class seatMap extends PureComponent {
       })
     });
     try {
-      axios(`https://api-cinema.truemoney.net/AddTicket`,{
-        method: 'post',
-        data:JSON.stringify(dataToStorage)
+      fetch(`${URL_PROD}/AddTicket`,{
+        method: 'POST',
+        body:JSON.stringify(dataToStorage)
       })
       .then((data) =>  {
         if (data.data.status_code === 0 || data.data.description === 'Success') {
@@ -342,7 +345,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: './static/error.svg',
+            imageUrl: '../static/error.svg',
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -412,42 +415,44 @@ class seatMap extends PureComponent {
       )
     }
     return (
-      <Layout title="Select Seats">
-        {(() => {
-          if (userInfo.accid) {
-            return (
-              <Fragment>
-                <div className={seatMapClassName}>
-                  <GlobalHeader>เลือกที่นั่ง</GlobalHeader>
-                  <SeatMapDisplay
-                    ref={this.refSeatMapDisplay}
-                    areaData={areaData}
-                    SessionId={SessionId}
-                    ticketData={ticketData}
-                    authOtpHasToken={this.authOtpHasToken.bind(this)}
-                    bookSelectedSeats={this.bookSelectedSeats.bind(this)}
-                  ></SeatMapDisplay>
-                </div>
-                <CSSTransition
-                  in={!entrySeatMap}
-                  classNames="overlayEducate"
-                  timeout={300}
-                  unmountOnExit
-                >
-                  {this.renderEducate()}
-                </CSSTransition>
-              </Fragment>
-            )
-          } else {
-            return (
-              <section className="empty">
-                <img src={empty} />
-                <h5>ข้อมูลไม่ถูกต้อง</h5>
-              </section>
-            )
-          }
-        })()}
-      </Layout>
+      <Page>
+        <Layout title="Select Seats">
+          {(() => {
+            if (userInfo.accid) {
+              return (
+                <Fragment>
+                  <div className={seatMapClassName}>
+                    <GlobalHeader>เลือกที่นั่ง</GlobalHeader>
+                    <SeatMapDisplay
+                      ref={this.refSeatMapDisplay}
+                      areaData={areaData}
+                      SessionId={SessionId}
+                      ticketData={ticketData}
+                      authOtpHasToken={this.authOtpHasToken.bind(this)}
+                      bookSelectedSeats={this.bookSelectedSeats.bind(this)}
+                    ></SeatMapDisplay>
+                  </div>
+                  <CSSTransition
+                    in={!entrySeatMap}
+                    classNames="overlayEducate"
+                    timeout={300}
+                    unmountOnExit
+                  >
+                    {this.renderEducate()}
+                  </CSSTransition>
+                </Fragment>
+              )
+            } else {
+              return (
+                <section className="empty">
+                  <img src={empty} />
+                  <h5>ข้อมูลไม่ถูกต้อง</h5>
+                </section>
+              )
+            }
+          })()}
+        </Layout>
+      </Page>
     )
   }
 }

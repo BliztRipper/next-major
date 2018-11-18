@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
+import empty from '../static/emptyMovie.png'
 import Swiper from 'swiper'
 import axios from 'axios'
+import { URL_PROD } from '../lib/URL_ENV';
 
 class HighlightCarousel extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      isEmpty:false,
       dataObj: [],
       advTicket: [],
       nowShowing:[],
@@ -31,16 +34,18 @@ class HighlightCarousel extends PureComponent {
   }
   componentWillMount(){
     this.props.highlightFetched(false)
-    axios.get(`https://api-cinema.truemoney.net/MovieList`)
+    axios.get(`${URL_PROD}/MovieList`)
     .then(response => {
       let res =  response.data.data
       this.setState({
         nowShowing:res.now_showing,
         advTicket:res.advance_ticket,
         isLoading: false,
+        isEmpty: res.now_showing.length > 0 ?  false : true,
         dataObj: [...res.now_showing, ...res.advance_ticket]
       })
       this.props.bg(this.state.arrbg[0])
+      this.props.highlightFetched(true)
     })
     .then(()=>{
       this.iniSlider()
@@ -77,14 +82,14 @@ class HighlightCarousel extends PureComponent {
         this.state.dataObj[i].trailer)
       items.push(this.state.dataObj[i])
     }
+
     sessionStorage.setItem("now_showing", JSON.stringify(items))
-    this.props.highlightFetched(true)
     let renderItem = []
     renderItem.push(
       <div className="swiper-container" ref="slider" key="slider">
         <div className="swiper-wrapper">
-          {this.state.dataObj.map(item =>
-            <div className="swiper-slide" key={item.title_en}>
+          {this.state.dataObj.map((item, itemIndex) =>
+            <div className="swiper-slide" key={item.title_en + itemIndex}>
               <div className="highlight__sliderItem">
                 <Link prefetch href={dataToSelectCinemaByMovie}>
                   <div className="poster-container" onClick={this.movieDetails.bind(this,item)}>
@@ -124,9 +129,12 @@ class HighlightCarousel extends PureComponent {
     return renderItem
   }
   render() {
-    const {isLoading} = this.state;
+    const {isEmpty, isLoading} = this.state;
     if (isLoading) {
       return <img src={loading} className="loading"/>
+    }
+    if(isEmpty){
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5></Link></section>
     }
     return (
       <div className='highlight'>

@@ -6,6 +6,7 @@ import loading from '../static/loading.svg'
 import Router from 'next/router'
 import utilities from '../scripts/utilities'
 import '../styles/style.scss'
+import Page from '../components/Page'
 
 class MyTickets extends PureComponent {
   constructor(props) {
@@ -40,16 +41,18 @@ class MyTickets extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     return (
-      <Layout title='My Tickets'>
-        <div className="globalContent isMyTicket" key="globalContent isMyTicket">
-          <GlobalHeader> ตั๋วของฉัน </GlobalHeader>
-          <div className="globalBody">
-            <div className="globalBodyInner">
-              <MyTicket dataMyTickets={dataMyTickets} dataMyTicketsExpired={dataMyTicketsExpired}></MyTicket>
+      <Page>
+        <Layout title='My Tickets'>
+          <div className="globalContent isMyTicket" key="globalContent isMyTicket">
+            <GlobalHeader> ตั๋วของฉัน </GlobalHeader>
+            <div className="globalBody">
+              <div className="globalBodyInner">
+                <MyTicket dataMyTickets={dataMyTickets} dataMyTicketsExpired={dataMyTicketsExpired}></MyTicket>
+              </div>
             </div>
           </div>
-        </div>
-      </Layout>
+        </Layout>
+      </Page>
     );
   }
 }
