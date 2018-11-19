@@ -4,8 +4,10 @@ import * as gtag from '../lib/gtag'
 
 Router.events.on('routeChangeComplete', url => gtag.pageview(url))
 
-export default ({ children }) => (
+const Page = ({ children }) => (
   <Fragment>
     {children}
   </Fragment>
 )
+
+export default Page
