@@ -62,7 +62,7 @@ class Cashier extends PureComponent {
       fetch(`${URL_PAYMENT_PROD}/Payment`, {
         method: "POST",
         headers: this.state.apiOtpHeader,
-        data: JSON.stringify(this.state.dataToPayment)
+        body: JSON.stringify(this.state.dataToPayment)
       })
         .then(response => response.json())
         .then(data => {
