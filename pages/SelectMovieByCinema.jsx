@@ -9,7 +9,8 @@ import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import '../styles/style.scss'
-import axios from 'axios'
+import Page from '../components/Page';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -20,7 +21,8 @@ class MainSelectMovieByCinema extends PureComponent {
       serverTime:'',
       isEmpty:false,
       accid: '',
-      schedules: [],
+      dataSchedules: [],
+      schedules: {},
       dates: [],
       pickThisDay: false,
       highlightFetching: true,
@@ -38,13 +40,14 @@ class MainSelectMovieByCinema extends PureComponent {
       dataMyTicketsTotal: instantTickets ? instantTickets.length : null
     })
     try {
-      axios(`https://api-cinema.truemoney.net/Schedule`,{
-        method: 'post',
-        data: JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
+      fetch(`${URL_PROD}/Schedule`,{
+        method: 'POST',
+        body:JSON.stringify({cinemaId:sessionStorage.getItem('CinemaID')})
       })
+      .then(response => response.json())
       .then(data => {
-        this.state.schedules = data.data.data
-        this.state.serverTime = data.data.server_time
+        this.state.dataSchedules = data.data
+        this.state.serverTime = data.server_time
         this.fillterDate()
       })
     } catch (error) {
@@ -61,10 +64,13 @@ class MainSelectMovieByCinema extends PureComponent {
   fillterDate() {
     let mapDates = []
 
-    if(!this.state.schedules) {
-      this.setState({isEmpty:true})
+    if(this.state.dataSchedules.length === 0 || !this.state.dataSchedules) {
+      this.setState({
+        isEmpty:true,
+        isLoading: false
+      })
     } else {
-      this.state.schedules.forEach(schedule => {
+      this.state.dataSchedules.forEach(schedule => {
         schedule.Theaters.forEach(theater => {
           theater.Showtimes.forEach(showtime => {
             let strDate = showtime.substring(0, 10)
@@ -72,6 +78,13 @@ class MainSelectMovieByCinema extends PureComponent {
               mapDates[strDate] = true
               this.state.dates.push(strDate)
             }
+          })
+          if (!this.state.schedules[theater.ScheduledFilmId]) {
+            this.state.schedules[theater.ScheduledFilmId] = []
+          }
+          this.state.schedules[theater.ScheduledFilmId].push({
+            ...theater,
+            CinemaId: schedule.CinemaId
           })
         })
       })
@@ -83,8 +96,9 @@ class MainSelectMovieByCinema extends PureComponent {
       }
       this.state.dates.sort(stringSorter)
       this.pickThisDay(0, true)
+
       this.setState({
-        schedules: this.state.schedules,
+        dataSchedules: this.state.dataSchedules,
         serverTime: this.state.serverTime,
         dates: this.state.dates,
         isEmpty:(this.state.dates.length == 0),
@@ -112,15 +126,9 @@ class MainSelectMovieByCinema extends PureComponent {
     this.pickThisDay(index)
   }
 
-  theaterEmptyCheck(){
+  theaterEmptyCheck(isEmpty){
     this.setState({
-      isEmpty:true
-    })
-  }
-
-  renderMovieWithShowtime(pickThisDay) {
-    return this.state.schedules.map(schedule => {
-      return <MovieWithShowtimeComp emptyError={this.theaterEmptyCheck.bind(this)} schedule={schedule} accid={this.state.accid} pickThisDay={pickThisDay} key={schedule.CinemaId} />
+      isEmpty: isEmpty
     })
   }
 
@@ -149,32 +157,36 @@ class MainSelectMovieByCinema extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
     }
     return (
-      <Layout title="Select Movie">
-        {(() => {
-          if (accid) {
-            return (
-              <div className="indexTab" key="cinemaList">
-                <div className="page__selectMovieByCinema">
-                  <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                  <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                  {this.renderMovieWithShowtime(pickThisDay)}
+      <Page>
+        <Layout title="Select Movie">
+          {(() => {
+            if (accid) {
+              return (
+                <Page>
+                  <div className="indexTab" key="cinemaList">
+                    <div className="page__selectMovieByCinema">
+                      <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                      <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+                      <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
+                    </div>
+                    <GlobalFooterNav/>
                 </div>
-                <GlobalFooterNav/>
-              </div>
-            )
-          } else {
-            return (
-              <section className="empty">
-                <img src={empty}/>
-                <h5>ข้อมูลไม่ถูกต้อง</h5>
-              </section>
-            )
-          }
-        })()}
-      </Layout>
+                </Page>
+              )
+            } else {
+              return (
+                <section className="empty">
+                  <img src={empty}/>
+                  <h5>ข้อมูลไม่ถูกต้อง</h5>
+                </section>
+              )
+            }
+          })()}
+        </Layout>
+      </Page>
     )
   }
 }

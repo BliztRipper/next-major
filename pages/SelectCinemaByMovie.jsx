@@ -11,7 +11,8 @@ import utilities from '../scripts/utilities';
 import '../styles/style.scss'
 import { StickyContainer, Sticky } from 'react-sticky';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
-import axios from 'axios'
+import Page from '../components/Page';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class MainSelectCinemaByMovie extends Component {
   constructor(props) {
@@ -55,18 +56,20 @@ class MainSelectCinemaByMovie extends Component {
       sessionStorage.setItem('BookingCinema','')
 
       this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
-      axios(`https://api-cinema.truemoney.net/Schedule`,{
-        method: 'post',
-        data: JSON.stringify(dataToPostSchedule)
+      fetch(`${URL_PROD}/Schedule`,{
+        method: 'POST',
+        body: JSON.stringify(dataToPostSchedule)
       })
+      .then(response => response.json())
       .then(data =>  {
-        this.state.schedules = data.data.data
-        this.state.serverTime = data.data.server_time
+        this.state.schedules = data.data
+        this.state.serverTime = data.server_time
 
-        axios(`https://api-cinema.truemoney.net/FavCinemas/${this.state.accid}`)
+        fetch(`${URL_PROD}/FavCinemas/${this.state.accid}`)
+        .then(response => response.json())
         .then(data => {
-          if (data.data.data.CinemaIds) {
-            this.state.favorites = data.data.data.CinemaIds
+          if (data.data.CinemaIds) {
+            this.state.favorites = data.data.CinemaIds
             if (this.state.favorites === null) {
               this.state.favorites = []
             }
@@ -75,9 +78,10 @@ class MainSelectCinemaByMovie extends Component {
           this.loadComplete()
         })
 
-        axios(`https://api-cinema.truemoney.net/Branches`)
+        fetch(`${URL_PROD}/Branches`)
+        .then(response => response.json())
         .then(data=> {
-          this.state.branches = data.data.data
+          this.state.branches = data.data
           this.state.loadBranches = true
           this.loadComplete()
         })
@@ -205,10 +209,10 @@ class MainSelectCinemaByMovie extends Component {
   favActive(cinemaId) {
     let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
     if(newFav) {
-      axios(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+      fetch(`${URL_PROD}/AddFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites.push(cinemaId)
     } else{
-      axios(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+      fetch(`${URL_PROD}/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
     }
 
@@ -328,7 +332,7 @@ class MainSelectCinemaByMovie extends Component {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
+      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
     }
     const hideNoTransition = {
       opacity:0,
@@ -376,26 +380,28 @@ class MainSelectCinemaByMovie extends Component {
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
     return (
-      <Layout title="Select Movie">
-        <MovieInfoComp item={movieInfo} />
-        <StickyContainer>
-          <div className="ogno" style={stickyBar}>
-            <Sticky topOffset={-100} disableCompensation={false}>
-              {({style,isSticky}) => (
-                <div style={style}>
-                  <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
-                    <h2 style={isSticky ? titleShow:hideNoTransition}><div style={{ position: 'relative', paddingLeft:'12vw', paddingRight:'12vw' }}><GlobalHeaderButtonBack></GlobalHeaderButtonBack> {this.state.nowShowing.title_en}</div></h2>
-                    <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
-                    <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
-                    <SearchCinema isSelectCinema={this.state.isSelectCinema} stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+      <Page>
+        <Layout title="Select Movie">
+          <MovieInfoComp item={movieInfo} />
+          <StickyContainer>
+            <div className="ogno" style={stickyBar}>
+              <Sticky topOffset={-100} disableCompensation={false}>
+                {({style,isSticky}) => (
+                  <div style={style}>
+                    <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
+                      <h2 style={isSticky ? titleShow:hideNoTransition}><div style={{ position: 'relative', paddingLeft:'12vw', paddingRight:'12vw' }}><GlobalHeaderButtonBack></GlobalHeaderButtonBack> {this.state.nowShowing.title_en}</div></h2>
+                      <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
+                      <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
+                      <SearchCinema isSelectCinema={this.state.isSelectCinema} stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
+                    </div>
                   </div>
-                </div>
-              )}
-            </Sticky>
-          </div>
-          {this.renderRegionTypeList()}
-        </StickyContainer>
-      </Layout>
+                )}
+              </Sticky>
+            </div>
+            {this.renderRegionTypeList()}
+          </StickyContainer>
+        </Layout>
+      </Page>
     )
   }
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
 import empty from '../static/emptyTicket.png'
@@ -6,6 +6,8 @@ import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
 import axios from 'axios'
+import Page from '../components/Page';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class home extends PureComponent {
   constructor(props) {
@@ -13,7 +15,8 @@ class home extends PureComponent {
     this.state = {
       accid: false,
       isLoading: true,
-      notConsent: false
+      notConsent: false,
+      underConstruction:false
     }
   }
   componentDidMount() {
@@ -47,7 +50,7 @@ class home extends PureComponent {
     }
   }
   checkConsent (accid) {
-    axios.get(`https://api-cinema.truemoney.net/UserInfo/${accid}`)
+    axios.get(`${URL_PROD}/UserInfo/${accid}`)
     .then(data => {
       if (data.data.data.concent) {
         this.setState({notConsent: false})
@@ -58,14 +61,7 @@ class home extends PureComponent {
       this.setState({notConsent: true})
     })
   }
-  addConcent () {
-    axios.get(`https://api-cinema.truemoney.net/AddConcent/${this.state.accid}`)
-    .then(data => {
-      if (data.data.status_code === 0 && data.data.description === 'Success') {
-        this.setState({notConsent: false})
-      }
-    })
-  }
+
   renderSlide(){
     if (this.state.accid) {
       return <MainNavBar accid={this.state.accid} key="MainNavBar" />
@@ -78,12 +74,17 @@ class home extends PureComponent {
     }
   }
 
-  isConsent(){
-    this.addConcent()
+  addConsent(){
+    axios.get(`${URL_PROD}/AddConcent/${this.state.accid}`)
+    .then(data => {
+      if (data.data.status_code === 0 && data.data.description === 'Success') {
+        this.setState({notConsent: false})
+      }
+    })
   }
 
   render() {
-    const { isLoading,notConsent } = this.state
+    const { isLoading,notConsent,underConstruction } = this.state
     if (isIOS){
       if(parseFloat(osVersion) < 10.3){
         return <VersionNotSupport/>
@@ -108,7 +109,20 @@ class home extends PureComponent {
             <p style={{color:'#999'}}>เบอร์โทรศัพท์, หักเงินในบัญชีทรูมันนี่</p>
             <p style={{color:'#999'}}>*รองรับระบบ iOS ตั้งแต่ 10.3 และ Android 4.4 ขึ้นไป</p>
           </div>
-          <button onClick={this.isConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
+          <button onClick={this.addConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
+        </Layout>
+      )
+    }
+    if(underConstruction){
+      return (
+        <Layout>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
+            <img src="../static/error.svg" width="150" alt=""/>
+          </div>
+          <div style={{marginTop:'4rem', textAlign:'center'}}>
+            <p style={{color:'#333', fontSize:'1.2rem'}}>ขออภัยระบบกำลังปรับปรุง</p>
+            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก ขณะนี้ระบบกำลังปิดปรับปรุง</p>
+          </div>
         </Layout>
       )
     }
@@ -116,9 +130,11 @@ class home extends PureComponent {
       return false
     }
       return (
-        <Layout>
-          {this.renderSlide()}
-        </Layout>
+        <Page>
+          <Layout>
+            {this.renderSlide()}
+          </Layout>
+        </Page>
       )
   }
 }

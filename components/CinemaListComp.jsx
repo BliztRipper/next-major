@@ -1,11 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
-import Layout from "./Layout";
 import Link from 'next/link'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from './RegionCinemaComp'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
-import { log } from 'util';
+import { URL_PROD } from '../lib/URL_ENV';
 
 class CinemaListComp extends PureComponent {
     constructor(props) {
@@ -90,10 +89,10 @@ class CinemaListComp extends PureComponent {
   favActive(cinemaId) {
     let newFav = !utilities.isFavorite(this.state.favorites, cinemaId)
     if(newFav) {
-      fetch(`https://api-cinema.truemoney.net/AddFavCinema/${this.state.accid}/${cinemaId}`)
+      fetch(`${URL_PROD}/AddFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites.push(cinemaId)
     } else{
-      fetch(`https://api-cinema.truemoney.net/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
+      fetch(`${URL_PROD}/RemoveFavCinema/${this.state.accid}/${cinemaId}`)
       this.state.favorites = this.state.favorites.filter(favCinemaId => favCinemaId !== cinemaId)
     }
 
@@ -154,7 +153,7 @@ class CinemaListComp extends PureComponent {
         const {isEmpty} = this.state
 
         if(isEmpty){
-          return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/>กดเพื่อกลับหน้าแรก</h5></Link></section>
+          return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
         }
 
         return this.renderRegionTypeList()
