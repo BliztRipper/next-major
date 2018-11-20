@@ -10,7 +10,7 @@ import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 import empty from '../static/emptyTicket.png'
 import Page from '../components/Page'
-import { URL_PROD } from '../lib/URL_ENV';
+import { URL_PROD, URL_PAYMENT_PROD } from '../lib/URL_ENV';
 
 
 class seatMap extends PureComponent {
@@ -168,7 +168,7 @@ class seatMap extends PureComponent {
     this.state.seatsSelected = seatSelected
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
-      fetch(`${URL_PROD}/HasToken/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PAYMENT_PROD}/HasToken/${this.state.userInfo.accid}`,{
         headers: this.state.apiOtpHeader
       })
       .then(response => response.json())
@@ -198,7 +198,7 @@ class seatMap extends PureComponent {
     }
 
     try {
-      fetch(`${URL_PROD}/AuthApply/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PAYMENT_PROD}/AuthApply/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
@@ -260,7 +260,7 @@ class seatMap extends PureComponent {
       tmn_account : userAuthData.mobileno
     }
     try {
-      fetch(`${URL_PROD}/AuthVerify/${this.state.userInfo.accid}`,{
+      fetch(`${URL_PAYMENT_PROD}/AuthVerify/${this.state.userInfo.accid}`,{
         method: 'POST',
         headers: this.state.apiOtpHeader,
         body: JSON.stringify(dataToStorage)
