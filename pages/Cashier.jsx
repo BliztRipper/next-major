@@ -59,7 +59,7 @@ class Cashier extends PureComponent {
     if (this.refTicket.current.postingTicket) return false;
     this.refTicket.current.setState({ postingTicket: true });
     try {
-      fetch(`${URL_PROD}/Payment`, {
+      fetch(`${URL_PAYMENT_PROD}/Payment`, {
         method: "POST",
         headers: this.state.apiOtpHeader,
         data: JSON.stringify(this.state.dataToPayment)
@@ -110,7 +110,7 @@ class Cashier extends PureComponent {
               imageUrl: "../static/error.svg",
               imageWidth: 200,
               imageHeight: 200,
-              text: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(
+              html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(
                 0,
                 7
               )}`,
@@ -125,7 +125,7 @@ class Cashier extends PureComponent {
               imageWidth: 200,
               imageHeight: 200,
               text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
-              text: `${data.description} (code:${data.status_code})`,
+              html: `${data.description} (code:${data.status_code})`,
               onAfterClose: () => {
                 Router.back();
               }
