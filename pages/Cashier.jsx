@@ -99,7 +99,7 @@ class Cashier extends PureComponent {
               imageWidth: 200,
               imageHeight: 200,
               grow: "fullscreen",
-              text: `ยอดเงินในบัญชีของคุณไม่เพียงพอ<br/>กรุณาเติมเงินเข้าวอลเล็ท และทำรายการใหม่อีกครั้ง`,
+              html: `ยอดเงินในบัญชีของคุณไม่เพียงพอ<br/>กรุณาเติมเงินเข้าวอลเล็ท และทำรายการใหม่อีกครั้ง`,
               onAfterClose: () => {
                 Router.back();
               }
@@ -110,10 +110,7 @@ class Cashier extends PureComponent {
               imageUrl: "../static/error.svg",
               imageWidth: 200,
               imageHeight: 200,
-              html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(
-                0,
-                7
-              )}`,
+              html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}`,
               onAfterClose: () => {
                 Router.back();
               }
