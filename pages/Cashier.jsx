@@ -8,7 +8,7 @@ import Router from "next/router";
 import utilities from "../scripts/utilities";
 import GlobalHeader from "../components/GlobalHeader";
 import Page from "../components/Page";
-import { URL_PROD } from '../lib/URL_ENV';
+import { URL_PROD,API_KEY, URL_PAYMENT_PROD } from '../lib/URL_ENV';
 
 class Cashier extends PureComponent {
   constructor(props) {
@@ -27,7 +27,7 @@ class Cashier extends PureComponent {
       },
       dataToTicket: "",
       apiOtpHeader: {
-        "X-API-Key": "085c43145ffc4727a483bc78a7dc4aae"
+        "X-API-Key": `${API_KEY}`
       },
       BookingMovie: "",
       BookingDuration: "",

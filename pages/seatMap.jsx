@@ -10,7 +10,7 @@ import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 import empty from '../static/emptyTicket.png'
 import Page from '../components/Page'
-import { URL_PROD, URL_PAYMENT_PROD } from '../lib/URL_ENV';
+import { URL_PROD, URL_PAYMENT_PROD, API_KEY } from '../lib/URL_ENV';
 
 
 class seatMap extends PureComponent {
@@ -32,7 +32,7 @@ class seatMap extends PureComponent {
       userInfo: '',
       userAuthData: null,
       apiOtpHeader: {
-        'X-API-Key': '085c43145ffc4727a483bc78a7dc4aae',
+        'X-API-Key': `${API_KEY}`,
       }
     }
     this.refSeatMapDisplay = React.createRef()
