@@ -29,7 +29,8 @@ class AllMovie extends PureComponent {
   componentDidMount(){
     axios(`${URL_PROD}/MovieList`)
     .then(response => {
-      let hasMovies = response.data.data.now_showing.length > 0 && response.data.data.advance_ticket.length > 0 && response.data.data.comingsoon.length > 0
+      let hasMovies = response.data.data.now_showing.length > 0 || response.data.data.advance_ticket.length > 0 || response.data.data.comingsoon.length > 0
+
       this.setState({
         dataObj: response.data.data,
         isLoading: false,

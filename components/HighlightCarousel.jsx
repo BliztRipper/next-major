@@ -11,6 +11,7 @@ class HighlightCarousel extends PureComponent {
     super(props);
     this.state = {
       isEmpty:false,
+      isError: false,
       dataObj: [],
       advTicket: [],
       nowShowing:[],
@@ -49,6 +50,13 @@ class HighlightCarousel extends PureComponent {
     })
     .then(()=>{
       this.iniSlider()
+    })
+    .catch((err) => {
+      this.setState(
+        {
+          isError: true
+        }
+      )
     })
   }
 
@@ -129,12 +137,20 @@ class HighlightCarousel extends PureComponent {
     return renderItem
   }
   render() {
-    const {isEmpty, isLoading} = this.state;
+    const {isError, isEmpty, isLoading} = this.state;
     if (isLoading) {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5></Link></section>
+    }
+    if(isError){
+      return (
+        <section className="empty">
+          <img src={empty}/>
+          <h5>ข้อมูลไม่ถูกต้อง</h5>
+        </section>
+      )
     }
     return (
       <div className='highlight'>
