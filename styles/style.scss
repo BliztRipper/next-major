@@ -1172,6 +1172,9 @@ body{
     }
   }
 }
+
+.swal2-shown.swal2-height-auto.swal2-iosfix{
+  height: 100% !important;
+}
+
 @import 'responsive';
-
-
