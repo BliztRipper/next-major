@@ -78,8 +78,9 @@ class Ticket extends PureComponent {
     let containerClassName = 'movie-cashier__container'
     containerClassName = this.props.expired ? containerClassName + ' expired' : containerClassName
 
-    let linkToGMAP = 'https://www.google.com/maps'
-    if (this.state.BookingBranchLocation.latitude && this.state.BookingBranchLocation.longitude) {
+    let linkToGMAP = false
+
+    if (this.state.BookingBranchLocation) {
       linkToGMAP = `https://www.google.com/maps/search/?api=1&query=${this.state.BookingBranchLocation.latitude},${this.state.BookingBranchLocation.longitude}`
     }
 
