@@ -120,8 +120,8 @@ class home extends PureComponent {
             <img src="../static/error.svg" width="150" alt=""/>
           </div>
           <div style={{marginTop:'4rem', textAlign:'center'}}>
-            <p style={{color:'#333', fontSize:'1.2rem'}}>ขออภัยระบบกำลังปรับปรุง</p>
-            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก ขณะนี้ระบบกำลังปิดปรับปรุง</p>
+            <p style={{color:'#333', fontSize:'1.2rem'}}>ระบบกำลังปรับปรุง</p>
+            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก กรุณาทำรายการใหม่ภายหลัง</p>
           </div>
         </Layout>
       )
