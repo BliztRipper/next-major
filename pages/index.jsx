@@ -16,7 +16,7 @@ class home extends PureComponent {
       accid: false,
       isLoading: true,
       notConsent: false,
-      underConstruction:false
+      underConstruction:false,
     }
   }
   componentDidMount() {
