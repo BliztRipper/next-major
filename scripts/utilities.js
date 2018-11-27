@@ -124,25 +124,25 @@ export default {
       // case '0000000011': return `./static/imaxvr.png` now hasn't picture
       case '0000000012': return `./static/SCX.png`
       case '0000000013': return `./static/kids.png`
-      default: return `../static/digi-2-d.png`
+      default: return ``
     }
   },
 
   getSystemImgFromShotName(shortName) {
     switch(shortName) {
       case '4D3': return `./static/4-dx-3-d.png`
-      case '4DX': case '4D2': return `./static/4-dx-2-d.png`
-      case 'AD': return `./static/AD.png`
-      case 'A3D': return `./static/A3D.png`
-      case 'D3D': return `./static/digi-3-d.png`
-      case 'IMAX': case 'MX': return `./static/MX.png`
-      case 'MXD': return `./static/MXD.png`
-      case 'MXHFD3D': return `./static/imaxh-3-d.png`
-      case 'MXD3D': return `./static/imaxd-3-d.png`
+      case '4D': return `./static/4-dx-2-d.png`
+      case 'Atmos': return `./static/AD.png`
+      case 'Atmos 3D': return `./static/A3D.png`
+      case '3D': return `./static/digi-3-d.png`
+      case 'Imax 70': return `./static/MX.png`
+      case 'Imax': return `./static/imaxd-2-d.png`
+      case 'Imax HF3D': return `./static/imaxh-3-d.png`
+      case 'Imax 3D': return `./static/imaxd-3-d.png`
       // case 'MXVR': return `./static/imaxvr.png` now hasn't picture
-      case 'SCX': return `./static/SCX.png`
+      case 'Screen X': return `./static/SCX.png`
       case 'KIDS': return `./static/kids.png`
-      default: return `../static/digi-2-d.png`
+      default: return ``
     }
   },
 
