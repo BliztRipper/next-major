@@ -77,7 +77,7 @@ class seatMap extends PureComponent {
         imageUrl: '../static/error.svg',
         imageWidth: 200,
         imageHeight: 200,
-        text: 'คุณไม่ได้เลือกโรงภาพยนต์',
+        text: 'คุณไม่ได้เลือกโรงภาพยนตร์',
         confirmButtonText: this.goToHome(),
         showConfirmButton: false,
         timer: 3000

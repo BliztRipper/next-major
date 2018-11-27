@@ -212,7 +212,7 @@ class MainNavBar extends PureComponent {
           <TabPanel>
             <div className="allmovie-btn-wrap" key="ButtonSeeAllMovies">
               <Link prefetch href={dataToAllMovies}>
-                <a className="allmovie-btn"><img className="allmovie-btn-icon" src="../static/all-movie-icon.svg" /> ดูภาพยนต์ทั้งหมด</a>
+                <a className="allmovie-btn"><img className="allmovie-btn-icon" src="../static/all-movie-icon.svg" /> ดูภาพยนตร์ทั้งหมด</a>
               </Link>
             </div>
             <HighlightCarousel
@@ -252,7 +252,7 @@ class MainNavBar extends PureComponent {
                       </g>
                     </svg>
                   </div>
-                  <span className="tab-menu-title">ภาพยนต์</span>
+                  <span className="tab-menu-title">ภาพยนตร์</span>
                 </Tab>
                 <Tab disabled={highlightFetching}>
                   <div className="tab-menu-icon">
@@ -272,7 +272,7 @@ class MainNavBar extends PureComponent {
                       </g>
                     </svg>
                   </div>
-                  <span className="tab-menu-title">โรงภาพยนต์</span>
+                  <span className="tab-menu-title">โรงภาพยนตร์</span>
                 </Tab>
                 <li className="isBlank">ตั้วหนัง</li>
               </div>

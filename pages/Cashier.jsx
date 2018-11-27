@@ -86,7 +86,7 @@ class Cashier extends PureComponent {
             Swal({
               type: "success",
               title: "ทำรายการเสร็จสิ้น!",
-              text: "ขอให้สนุกกับการชมภาพยนต์",
+              text: "ขอให้สนุกกับการชมภาพยนตร์",
               showConfirmButton: false,
               timer: 4000
             });

@@ -72,7 +72,7 @@ class AllMovie extends PureComponent {
                 <Fragment>
                   <h1 className="allmovieTab__header">
                     <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                    ภาพยนต์ทั้งหมด
+                    ภาพยนตร์ทั้งหมด
                   </h1>
                   <div className="allmovieTab">
                     <Tabs>
@@ -83,7 +83,6 @@ class AllMovie extends PureComponent {
                       <TabPanel>
                         {(() => {
                           let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
-                          console.log(this.state.dataObj)
                           if (hasMovies)  {
                             return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
                           } else {

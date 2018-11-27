@@ -74,7 +74,7 @@ export default class GlobalFooterNav extends Component {
                         </g>
                       </svg>
                     </div>
-                    <span className="tab-menu-title">ภาพยนต์</span>
+                    <span className="tab-menu-title">ภาพยนตร์</span>
                   </div>
                 </Link>
               </li>
@@ -99,7 +99,7 @@ export default class GlobalFooterNav extends Component {
                         </g>
                       </svg>
                     </div>
-                    <span className="tab-menu-title">โรงภาพยนต์</span>
+                    <span className="tab-menu-title">โรงภาพยนตร์</span>
                   </div>
                 </Link>
               </li>

@@ -18,7 +18,7 @@ class CinemaFavoriteList extends PureComponent {
     })
   }
 
-  renderFav(){    
+  renderFav(){
     let resultsArray = []
     if(this.state.dataFav && this.state.dataCine){
       this.state.dataCine.map(item=>{
@@ -40,12 +40,12 @@ class CinemaFavoriteList extends PureComponent {
     if (!this.state.dataFav.data.CinemaIds) {
       return false
     }
-    
+
     return (
       <div className="card-cinema">
-        <div className="card-cinema__header" onClick={this.favAddActiveClass}> 
+        <div className="card-cinema__header" onClick={this.favAddActiveClass}>
           <div className="sprite-favCinema active"></div>
-            <h5 className="card-cinema__header__title">โรงภาพยนต์ที่ชื่นชอบ</h5>
+            <h5 className="card-cinema__header__title">โรงภาพยนตร์ที่ชื่นชอบ</h5>
           <div className={this.state.favActive? 'sprite-chevronDown active':'sprite-chevronDown'}></div>
         </div>
         <div className={this.state.favActive? 'card-cinema__container active':'card-cinema__container'}>
