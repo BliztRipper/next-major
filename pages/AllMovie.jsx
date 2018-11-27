@@ -44,8 +44,7 @@ class AllMovie extends PureComponent {
   }
 
   render() {
-    const {isLoading, isEmpty, error, accid, dataObj} = this.state;
-
+    const {isLoading, isEmpty, error, accid} = this.state
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -83,6 +82,7 @@ class AllMovie extends PureComponent {
                       <TabPanel>
                         {(() => {
                           let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
+                          console.log(this.state.dataObj)
                           if (hasMovies)  {
                             return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
                           } else {

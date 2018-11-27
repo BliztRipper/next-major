@@ -11,7 +11,7 @@ class RenderShowing extends PureComponent {
       pathname: '/SelectCinemaByMovie'
     }
     return(
-      <Link  prefetch href={dataToSelectCinemaByMovie}>
+      <Link prefetch href={dataToSelectCinemaByMovie}>
         <div onClick={this.movieProps.bind(this)} className='showing__cell'>
           <img className='showing__poster' src={this.props.item.poster_ori}/>
           {(()=>{
