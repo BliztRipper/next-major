@@ -112,18 +112,18 @@ export default {
 
   getSystemImg(formatCode) {
     switch(formatCode) {
-      case '0000000001': return `./static/4-dx-3-d.png`
-      case '0000000002': return `./static/4-dx-2-d.png`
-      case '0000000003': return `./static/AD.png`
-      case '0000000004': return `./static/A3D.png`
-      case '0000000006': return `./static/digi-3-d.png`
-      case '0000000007': return `./static/MX.png`
-      case '0000000008': return `./static/MXD.png`
-      case '0000000009': return `./static/imaxh-3-d.png`
-      case '0000000010': return `./static/imaxd-3-d.png`
+      case '0000000013': return `./static/4-dx-3-d.png`
+      case '0000000001': return `./static/4-dx-2-d.png`
+      case '0000000002': return `./static/AD.png`
+      case '0000000003': return `./static/A3D.png`
+      case '0000000005': return `./static/digi-3-d.png`
+      case '0000000006': return `./static/MX.png`
+      case '0000000007': return `./static/MXD.png`
+      case '0000000008': return `./static/imaxh-3-d.png`
+      case '0000000009': return `./static/imaxd-3-d.png`
       // case '0000000011': return `./static/imaxvr.png` now hasn't picture
-      case '0000000012': return `./static/SCX.png`
-      case '0000000013': return `./static/kids.png`
+      case '0000000011': return `./static/SCX.png`
+      case '0000000012': return `./static/kids.png`
       default: return ``
     }
   },
