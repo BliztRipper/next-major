@@ -50,7 +50,7 @@ class AllMovie extends PureComponent {
   }
 
   render() {
-    const {isLoading, isError, isEmpty, error, accid, dataObj} = this.state;
+    const {isLoading, isError, isEmpty, accid, dataObj} = this.state;
 
     if (isError) {
       return (
@@ -93,9 +93,10 @@ class AllMovie extends PureComponent {
                       </TabList>
                       <TabPanel>
                         {(() => {
-                          let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
+                          let hasMovies = dataObj.now_showing.length > 0 || dataObj.advance_ticket.length > 0
+                          console.log(dataObj)
                           if (hasMovies)  {
-                            return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
+                            return <NowShowingComp dataObj={dataObj}  accid={this.state.accid}/>
                           } else {
                             return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
                           }
@@ -103,9 +104,9 @@ class AllMovie extends PureComponent {
                       </TabPanel>
                       <TabPanel>
                         {(() => {
-                          let hasMovies = this.state.dataObj.comingsoon.length > 0
+                          let hasMovies = dataObj.comingsoon.length > 0
                           if (hasMovies) {
-                            return <CominSoonComp dataObj={this.state.dataObj} />
+                            return <CominSoonComp dataObj={dataObj} />
                           } else {
                             return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
                           }

@@ -16,7 +16,7 @@ class home extends PureComponent {
       accid: false,
       isLoading: true,
       notConsent: false,
-      underConstruction:false
+      underConstruction:false,
     }
   }
   componentDidMount() {
@@ -117,11 +117,11 @@ class home extends PureComponent {
       return (
         <Layout>
           <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
-            <img src="../static/error.svg" width="150" alt=""/>
+            <img src="../static/maintenance.svg" width="150" alt=""/>
           </div>
           <div style={{marginTop:'4rem', textAlign:'center'}}>
-            <p style={{color:'#333', fontSize:'1.2rem'}}>ขออภัยระบบกำลังปรับปรุง</p>
-            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก ขณะนี้ระบบกำลังปิดปรับปรุง</p>
+            <p style={{color:'#333', fontSize:'1.2rem'}}>ระบบกำลังปรับปรุง</p>
+            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก<br/>กรุณาทำรายการใหม่ภายหลัง</p>
           </div>
         </Layout>
       )

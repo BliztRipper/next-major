@@ -46,7 +46,7 @@ export default class GlobalFooterNav extends Component {
           </Link>
           <ul className="react-tabs__tab-list" role="tablist">
             <div className="react-tabs__tabs-container">
-              <li onClick={this.backToHome.bind(this,1)} className="react-tabs__tab" role="tab" id="react-tabs-0" aria-selected="false" aria-disabled="false"
+              <li onClick={this.backToHome.bind(this,1)} className="react-tabs__tab react-tabs__tab--selected" role="tab" id="react-tabs-0" aria-selected="false" aria-disabled="false"
                 aria-controls="react-tabs-1">
                 <Link prefetch href="/" >
                   <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
@@ -78,7 +78,7 @@ export default class GlobalFooterNav extends Component {
                   </div>
                 </Link>
               </li>
-              <li onClick={this.backToHome.bind(this,2)} className="react-tabs__tab react-tabs__tab--selected" role="tab" id="react-tabs-2" aria-selected="true"
+              <li onClick={this.backToHome.bind(this,2)} className="react-tabs__tab" role="tab" id="react-tabs-2" aria-selected="true"
                 aria-disabled="false" aria-controls="react-tabs-3" tabIndex="0">
                 <Link prefetch href="/">
                   <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>

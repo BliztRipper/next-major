@@ -66,6 +66,7 @@ class Cashier extends PureComponent {
       })
         .then(response => response.json())
         .then(data => {
+          console.log(data)
           if (data.status_code === 0 || data.description === "Success") {
             sessionStorage.removeItem("movieSelect");
             let dataPaymentSuccess = {
@@ -89,10 +90,7 @@ class Cashier extends PureComponent {
               showConfirmButton: false,
               timer: 4000
             });
-          } else if (
-            data.status_code === 35000 &&
-            data.description.slice(0, 7) === "PAY0011"
-          ) {
+          } else if (data.description.slice(0, 7) === "PAY0011") {
             Swal({
               title: "ไม่สามารถซื้อตั๋วได้",
               imageUrl: "../static/nobalance.svg",
