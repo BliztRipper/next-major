@@ -4,7 +4,6 @@ import GlobalHeader from '../components/GlobalHeader'
 import Layout from '../components/Layout'
 import loading from '../static/loading.svg'
 import Router from 'next/router'
-import Page from '../components/Page'
 
 class HistoryTicketsPage extends PureComponent {
   constructor(props) {
@@ -38,18 +37,16 @@ class HistoryTicketsPage extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     return (
-      <Page>
-        <Layout title="History Tickets">
-          <div className="globalContent isHistoryTickets">
-            <GlobalHeader>ประวัติการใช้งาน</GlobalHeader>
-            <div className="globalBody">
-              <div className="globalBodyInner">
-                <HistoryTickets dataTickets={dataTickets} serverTime={serverTime} goToHistoryDetail={this.goToHistoryDetail.bind(this)} ></HistoryTickets>
-              </div>
+      <Layout title="History Tickets">
+        <div className="globalContent isHistoryTickets">
+          <GlobalHeader>ประวัติการใช้งาน</GlobalHeader>
+          <div className="globalBody">
+            <div className="globalBodyInner">
+              <HistoryTickets dataTickets={dataTickets} serverTime={serverTime} goToHistoryDetail={this.goToHistoryDetail.bind(this)} ></HistoryTickets>
             </div>
           </div>
-        </Layout>
-      </Page>
+        </div>
+      </Layout>
     )
   }
 }

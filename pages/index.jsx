@@ -6,7 +6,6 @@ import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
 import axios from 'axios'
-import Page from '../components/Page';
 import { URL_PROD } from '../lib/URL_ENV';
 
 class home extends PureComponent {
@@ -130,11 +129,9 @@ class home extends PureComponent {
       return false
     }
       return (
-        <Page>
-          <Layout>
-            {this.renderSlide()}
-          </Layout>
-        </Page>
+        <Layout>
+          {this.renderSlide()}
+        </Layout>
       )
   }
 }

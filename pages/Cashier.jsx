@@ -7,7 +7,6 @@ import loading from "../static/loading.svg";
 import Router from "next/router";
 import utilities from "../scripts/utilities";
 import GlobalHeader from "../components/GlobalHeader";
-import Page from "../components/Page";
 import { URL_PROD,API_KEY, URL_PAYMENT_PROD } from '../lib/URL_ENV';
 
 class Cashier extends PureComponent {
@@ -234,38 +233,36 @@ class Cashier extends PureComponent {
       return <img src={loading} className="loading" />;
     }
     return (
-      <Page>
-        <Layout title="Cashier Page">
-          {(() => {
-            if (userInfo) {
-              return (
-                <div className="globalContent isCashier">
-                  <GlobalHeader hideBtnBack={success}>
-                    {success ? "ซื้อตั๋วสำเร็จ" : "ยืนยันที่นั่ง"}
-                  </GlobalHeader>
-                  <div className="globalBody">
-                    <div className="globalBodyInner">
-                      <Ticket
-                        ref={this.refTicket}
-                        dataTicket={dataToTicket}
-                        accid={userInfo.accid}
-                        submitPayment={this.submitPayment.bind(this)}
-                      />
-                    </div>
+      <Layout title="Cashier Page">
+        {(() => {
+          if (userInfo) {
+            return (
+              <div className="globalContent isCashier">
+                <GlobalHeader hideBtnBack={success}>
+                  {success ? "ซื้อตั๋วสำเร็จ" : "ยืนยันที่นั่ง"}
+                </GlobalHeader>
+                <div className="globalBody">
+                  <div className="globalBodyInner">
+                    <Ticket
+                      ref={this.refTicket}
+                      dataTicket={dataToTicket}
+                      accid={userInfo.accid}
+                      submitPayment={this.submitPayment.bind(this)}
+                    />
                   </div>
                 </div>
-              );
-            } else {
-              return (
-                <section className="empty">
-                  <img src={empty} />
-                  <h5>ข้อมูลไม่ถูกต้อง</h5>
-                </section>
-              );
-            }
-          })()}
-        </Layout>
-      </Page>
+              </div>
+            );
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty} />
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            );
+          }
+        })()}
+      </Layout>
     );
   }
 }

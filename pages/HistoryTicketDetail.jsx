@@ -4,7 +4,6 @@ import Layout from '../components/Layout'
 import GlobalHeader from '../components/GlobalHeader'
 import Ticket from '../components/Ticket'
 import '../styles/style.scss'
-import Page from '../components/Page'
 
 class HistoryTicketsPage extends PureComponent {
   constructor(props) {
@@ -31,18 +30,16 @@ class HistoryTicketsPage extends PureComponent {
     }
     let movieNameEN = dataTicket.BookingMovie
     return (
-      <Page>
-        <Layout title={movieNameEN}>
-          <div className="globalContent">
-            <GlobalHeader>{movieNameEN}</GlobalHeader>
-            <div className="globalBody">
-              <div className="globalBodyInner">
-                <Ticket dataTicket={dataTicket} key={dataTicket.VistaBookingId} hideButton={true} expired={true}></Ticket>
-              </div>
+      <Layout title={movieNameEN}>
+        <div className="globalContent">
+          <GlobalHeader>{movieNameEN}</GlobalHeader>
+          <div className="globalBody">
+            <div className="globalBodyInner">
+              <Ticket dataTicket={dataTicket} key={dataTicket.VistaBookingId} hideButton={true} expired={true}></Ticket>
             </div>
           </div>
-        </Layout>
-      </Page>
+        </div>
+      </Layout>
     )
   }
 }

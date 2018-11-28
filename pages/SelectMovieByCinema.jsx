@@ -1,16 +1,15 @@
 import React, { PureComponent, Fragment } from 'react';
-import Layout from "../components/Layout";
+import Layout from "../components/Layout"
 import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
-import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp';
+import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp'
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import '../styles/style.scss'
-import Page from '../components/Page';
-import { URL_PROD } from '../lib/URL_ENV';
+import { URL_PROD } from '../lib/URL_ENV'
 
 class MainSelectMovieByCinema extends PureComponent {
   constructor(props) {
@@ -160,33 +159,31 @@ class MainSelectMovieByCinema extends PureComponent {
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
     }
     return (
-      <Page>
-        <Layout title="Select Movie">
-          {(() => {
-            if (accid) {
-              return (
-                <Page>
-                  <div className="indexTab" key="cinemaList">
-                    <div className="page__selectMovieByCinema">
-                      <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                      <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                      <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
-                    </div>
-                    <GlobalFooterNav/>
-                </div>
-                </Page>
-              )
-            } else {
-              return (
-                <section className="empty">
-                  <img src={empty}/>
-                  <h5>ข้อมูลไม่ถูกต้อง</h5>
-                </section>
-              )
-            }
-          })()}
-        </Layout>
-      </Page>
+      <Layout title="Select Movie">
+        {(() => {
+          if (accid) {
+            return (
+              <Layout>
+                <div className="indexTab" key="cinemaList">
+                  <div className="page__selectMovieByCinema">
+                    <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
+                    <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
+                    <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
+                  </div>
+                  <GlobalFooterNav/>
+              </div>
+              </Layout>
+            )
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty}/>
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
+      </Layout>
     )
   }
 }

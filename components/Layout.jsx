@@ -1,5 +1,9 @@
 import Head from 'next/head'
 import React, { Fragment } from 'react';
+import Router from 'next/router'
+import * as gtag from '../lib/gtag'
+
+Router.events.on('routeChangeComplete', url => gtag.pageview(url))
 
 const Layout = ({ children, title = 'True Major Cineplex' }) => (
   <Fragment>

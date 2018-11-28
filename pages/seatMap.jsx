@@ -9,7 +9,6 @@ import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
 import empty from '../static/emptyTicket.png'
-import Page from '../components/Page'
 import { URL_PROD, URL_PAYMENT_PROD, API_KEY } from '../lib/URL_ENV';
 
 
@@ -420,44 +419,42 @@ class seatMap extends PureComponent {
       )
     }
     return (
-      <Page>
-        <Layout title="Select Seats">
-          {(() => {
-            if (userInfo.accid) {
-              return (
-                <Fragment>
-                  <div className={seatMapClassName}>
-                    <GlobalHeader>เลือกที่นั่ง</GlobalHeader>
-                    <SeatMapDisplay
-                      ref={this.refSeatMapDisplay}
-                      areaData={areaData}
-                      SessionId={SessionId}
-                      ticketData={ticketData}
-                      authOtpHasToken={this.authOtpHasToken.bind(this)}
-                      bookSelectedSeats={this.bookSelectedSeats.bind(this)}
-                    ></SeatMapDisplay>
-                  </div>
-                  <CSSTransition
-                    in={!entrySeatMap}
-                    classNames="overlayEducate"
-                    timeout={300}
-                    unmountOnExit
-                  >
-                    {this.renderEducate()}
-                  </CSSTransition>
-                </Fragment>
-              )
-            } else {
-              return (
-                <section className="empty">
-                  <img src={empty} />
-                  <h5>ข้อมูลไม่ถูกต้อง</h5>
-                </section>
-              )
-            }
-          })()}
-        </Layout>
-      </Page>
+      <Layout title="Select Seats">
+        {(() => {
+          if (userInfo.accid) {
+            return (
+              <Fragment>
+                <div className={seatMapClassName}>
+                  <GlobalHeader>เลือกที่นั่ง</GlobalHeader>
+                  <SeatMapDisplay
+                    ref={this.refSeatMapDisplay}
+                    areaData={areaData}
+                    SessionId={SessionId}
+                    ticketData={ticketData}
+                    authOtpHasToken={this.authOtpHasToken.bind(this)}
+                    bookSelectedSeats={this.bookSelectedSeats.bind(this)}
+                  ></SeatMapDisplay>
+                </div>
+                <CSSTransition
+                  in={!entrySeatMap}
+                  classNames="overlayEducate"
+                  timeout={300}
+                  unmountOnExit
+                >
+                  {this.renderEducate()}
+                </CSSTransition>
+              </Fragment>
+            )
+          } else {
+            return (
+              <section className="empty">
+                <img src={empty} />
+                <h5>ข้อมูลไม่ถูกต้อง</h5>
+              </section>
+            )
+          }
+        })()}
+      </Layout>
     )
   }
 }

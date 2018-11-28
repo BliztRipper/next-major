@@ -11,7 +11,6 @@ import utilities from '../scripts/utilities';
 import '../styles/style.scss'
 import { StickyContainer, Sticky } from 'react-sticky';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
-import Page from '../components/Page';
 import { URL_PROD } from '../lib/URL_ENV';
 
 class MainSelectCinemaByMovie extends Component {
@@ -380,28 +379,26 @@ class MainSelectCinemaByMovie extends Component {
     sessionStorage.setItem('BookingDuration',this.state.nowShowing.duration)
     sessionStorage.setItem('BookingPoster',this.state.nowShowing.poster_ori)
     return (
-      <Page>
-        <Layout title="Select Movie">
-          <MovieInfoComp item={movieInfo} />
-          <StickyContainer>
-            <div className="ogno" style={stickyBar}>
-              <Sticky topOffset={-100} disableCompensation={false}>
-                {({style,isSticky}) => (
-                  <div style={style}>
-                    <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
-                      <h2 style={isSticky ? titleShow:hideNoTransition}><div style={{ position: 'relative', paddingLeft:'12vw', paddingRight:'12vw' }}><GlobalHeaderButtonBack></GlobalHeaderButtonBack> {this.state.nowShowing.title_en}</div></h2>
-                      <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
-                      <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
-                      <SearchCinema isSelectCinema={this.state.isSelectCinema} stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
-                    </div>
+      <Layout title="Select Movie">
+        <MovieInfoComp item={movieInfo} />
+        <StickyContainer>
+          <div className="ogno" style={stickyBar}>
+            <Sticky topOffset={-100} disableCompensation={false}>
+              {({style,isSticky}) => (
+                <div style={style}>
+                  <div style={isSticky ? stickyWrapper:hideStickyWrapper}>
+                    <h2 style={isSticky ? titleShow:hideNoTransition}><div style={{ position: 'relative', paddingLeft:'12vw', paddingRight:'12vw' }}><GlobalHeaderButtonBack></GlobalHeaderButtonBack> {this.state.nowShowing.title_en}</div></h2>
+                    <h3 style={isSticky ? titleShow:hideNoTransition}>{this.state.nowShowing.title_th}</h3>
+                    <DateFilters stickyItem={isSticky ? true:false} serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)} additionalClass="isSelectCinemaByMovie"></DateFilters>
+                    <SearchCinema isSelectCinema={this.state.isSelectCinema} stickyItem={isSticky ? true:false} onSearchChange={this.onSearchChange.bind(this)} />
                   </div>
-                )}
-              </Sticky>
-            </div>
-            {this.renderRegionTypeList()}
-          </StickyContainer>
-        </Layout>
-      </Page>
+                </div>
+              )}
+            </Sticky>
+          </div>
+          {this.renderRegionTypeList()}
+        </StickyContainer>
+      </Layout>
     )
   }
 }
