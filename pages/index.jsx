@@ -7,6 +7,7 @@ import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
 import { URL_PROD } from '../lib/URL_ENV';
 
+
 class home extends PureComponent {
   constructor(props) {
     super(props);
@@ -49,6 +50,7 @@ class home extends PureComponent {
         })
     }
   }
+
   checkConsent (accid) {
     fetch(`${URL_PROD}/UserInfo/${accid}`)
     .then(response => response.json())

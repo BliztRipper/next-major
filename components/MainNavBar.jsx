@@ -21,7 +21,6 @@ class MainNavBar extends PureComponent {
       previousRoute: '',
       btnNavNumber: '',
       currentTabsIndex: 0,
-      bg:'',
       highlightFetching: true,
     }
 
@@ -173,17 +172,9 @@ class MainNavBar extends PureComponent {
   }
 
   render() {
-    const {dataMyTicketsDone, bg, currentTabsIndex, highlightFetching} = this.state
+    const {currentTabsIndex, highlightFetching} = this.state
     resetIdCounter()
     let dataToAllMovies = ''
-    let dataToMyTicket = {
-      pathname: '/MyTickets'
-    }
-    let bgblur = {
-      backgroundImage: `url(${bg})`,
-      backgroundSize:'cover',
-      filter: 'blur(16px)',
-    }
     let tabsClassName = 'indexTab'
     if (!highlightFetching) {
       dataToAllMovies = {
@@ -195,15 +186,6 @@ class MainNavBar extends PureComponent {
 
     return (
       <div className={tabsClassName} >
-        {/* {(() => {
-          if (currentTabsIndex === 0) {
-            return (
-              <div className="background-blur__wrapper" key="bgBlurEffect">
-                <div className="background-blur" style={bgblur}></div>
-              </div>
-            )
-          }
-          })()} */}
         <Tabs
           onSelect={this.onSelectTabs.bind(this)}
           selectedIndex={currentTabsIndex}

@@ -5,6 +5,7 @@ import empty from '../static/emptyMovie.png'
 import Swiper from 'swiper'
 import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
+import * as gtag from '../lib/gtag'
 
 class HighlightCarousel extends PureComponent {
   constructor(props) {
@@ -63,7 +64,14 @@ class HighlightCarousel extends PureComponent {
   movieDetails(item){
     let props = JSON.stringify(item)
     sessionStorage.setItem('movieSelect',props)
+
+    gtag.event({
+      action: 'view_item',
+      category: 'items',
+      label: 'nowShowingSlider'
+    });
   }
+
 
   sliderChange(index){
     this.props.bg(this.state.arrbg[index])

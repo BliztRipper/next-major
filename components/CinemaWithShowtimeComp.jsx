@@ -75,8 +75,6 @@ class CinemaWithShowtimeComp extends Component {
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {
 				let objShowtimes = this.renderShowtimes(theater.Showtimes, theater)
-				console.log(theater,'theater');
-
 				if (objShowtimes.length > 0) {
 					items.push (
 						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>
