@@ -75,13 +75,15 @@ class CinemaWithShowtimeComp extends Component {
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {
 				let objShowtimes = this.renderShowtimes(theater.Showtimes, theater)
+				console.log(theater,'theater');
+
 				if (objShowtimes.length > 0) {
 					items.push (
 						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>
 							<div className="cinema__card-cbm--theatre-wrapper">
 								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
 								<div className="cinema__card-cbm--theatre-type">
-									{this.renderSystem(theater.formatCode)}
+									{this.renderSystem(theater.FormatCode)}
 								</div>
 								<div className="sprite-sound"></div>
 								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>

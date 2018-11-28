@@ -52,11 +52,11 @@ class HighlightCarousel extends PureComponent {
       this.iniSlider()
     })
     .catch((err) => {
-      this.setState(
-        {
-          isError: true
-        }
-      )
+      this.setState({
+        isError: true,
+        isEmpty: false,
+        isLoading: false
+      })
     })
   }
 

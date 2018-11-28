@@ -105,7 +105,7 @@ class MovieWithShowtimeComp extends PureComponent {
 							<div className="cinema__card-cbm--theatre-wrapper">
 								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
 								<div className="cinema__card-cbm--theatre-type">
-									{this.renderSystem(theater.formatCode)}
+									{this.renderSystem(theater.FormatCode)}
 								</div>
 								<div className="sprite-sound"></div>
 								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>

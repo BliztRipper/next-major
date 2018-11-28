@@ -7,7 +7,7 @@ import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/emptyMovie.png'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
@@ -20,6 +20,7 @@ class AllMovie extends PureComponent {
       dataObj: [],
       isLoading: true,
       isEmpty: false,
+      isError: false,
       error: null,
       accid: ''
     }
@@ -36,7 +37,11 @@ class AllMovie extends PureComponent {
         isEmpty: !hasMovies
       })
     })
-    .catch(error => this.setState({ error, isLoading: false }))
+    .catch(error => this.setState({
+      isError: true,
+      isEmpty: false,
+      isLoading: false
+    }))
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     this.setState({
       accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
@@ -44,9 +49,15 @@ class AllMovie extends PureComponent {
   }
 
   render() {
-    const {isLoading, isEmpty, error, accid} = this.state
-    if (error) {
-      return <p>{error.message}</p>;
+    const {isLoading, isError, isEmpty, accid, dataObj} = this.state;
+
+    if (isError) {
+      return (
+        <section className="empty">
+          <img src={empty}/>
+          <h5>ข้อมูลไม่ถูกต้อง</h5>
+        </section>
+      )
     }
 
     if (isLoading) {
@@ -70,7 +81,7 @@ class AllMovie extends PureComponent {
               <Fragment>
                 <h1 className="allmovieTab__header">
                   <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
-                  ภาพยนตร์ทั้งหมด
+                  ภาพยนต์ทั้งหมด
                 </h1>
                 <div className="allmovieTab">
                   <Tabs>
@@ -80,9 +91,10 @@ class AllMovie extends PureComponent {
                     </TabList>
                     <TabPanel>
                       {(() => {
-                        let hasMovies = this.state.dataObj.now_showing.length > 0 || this.state.dataObj.advance_ticket.length > 0
+                        let hasMovies = dataObj.now_showing.length > 0 || dataObj.advance_ticket.length > 0
+                        console.log(dataObj)
                         if (hasMovies)  {
-                          return <NowShowingComp dataObj={this.state.dataObj}  accid={this.state.accid}/>
+                          return <NowShowingComp dataObj={dataObj}  accid={this.state.accid}/>
                         } else {
                           return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
                         }
@@ -90,9 +102,9 @@ class AllMovie extends PureComponent {
                     </TabPanel>
                     <TabPanel>
                       {(() => {
-                        let hasMovies = this.state.dataObj.comingsoon.length > 0
+                        let hasMovies = dataObj.comingsoon.length > 0
                         if (hasMovies) {
-                          return <CominSoonComp dataObj={this.state.dataObj} />
+                          return <CominSoonComp dataObj={dataObj} />
                         } else {
                           return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
                         }

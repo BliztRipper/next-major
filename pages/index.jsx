@@ -5,17 +5,18 @@ import empty from '../static/emptyTicket.png'
 import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
-import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
 
 class home extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      accid: false,
       isLoading: true,
       notConsent: false,
       underConstruction:false,
+      userInfo: {
+        accid: false
+      }
     }
   }
   componentDidMount() {
@@ -35,7 +36,7 @@ class home extends PureComponent {
     this.checkConsent(userInfo.accid)
     this.setState({
       isLoading: false,
-      accid: userInfo.accid
+      userInfo: userInfo
     })
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -49,21 +50,32 @@ class home extends PureComponent {
     }
   }
   checkConsent (accid) {
-    axios.get(`${URL_PROD}/UserInfo/${accid}`)
+    fetch(`${URL_PROD}/UserInfo/${accid}`)
+    .then(response => response.json())
     .then(data => {
-      if (data.data.data.concent) {
+
+      this.state.userInfo = {
+        ...this.state.userInfo,
+        ...data.data
+      }
+
+      delete this.state.userInfo['_id']
+
+      if (data.data.concent) {
         this.setState({notConsent: false})
       } else {
         this.setState({notConsent: true})
       }
+
+      sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
     }).catch (err => {
       this.setState({notConsent: true})
     })
   }
 
   renderSlide(){
-    if (this.state.accid) {
-      return <MainNavBar accid={this.state.accid} key="MainNavBar" />
+    if (this.state.userInfo.accid) {
+      return <MainNavBar accid={this.state.userInfo.accid} key="MainNavBar" />
     } else {
       return (
         <section className="empty">
@@ -74,9 +86,10 @@ class home extends PureComponent {
   }
 
   addConsent(){
-    axios.get(`${URL_PROD}/AddConcent/${this.state.accid}`)
+    fetch(`${URL_PROD}/AddConcent/${this.state.userInfo.accid}`)
+    .then(response => response.json())
     .then(data => {
-      if (data.data.status_code === 0 && data.data.description === 'Success') {
+      if (data.status_code === 0 && data.description === 'Success') {
         this.setState({notConsent: false})
       }
     })
