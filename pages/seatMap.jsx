@@ -364,13 +364,26 @@ class seatMap extends PureComponent {
       console.error('error', error);
     }
   }
+  educateAccepted () {
+    fetch(`https://api-cinema-stg.truemoney.net/AddZoom/${this.state.userInfo.accid}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status_code === 0) {
+        this.state.userInfo.zoom = true
+        sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
+        this.setState({
+          userInfo: this.state.userInfo
+        })
+      }
+    })
+  }
   renderEducate () {
     return(
       <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
         <div className="seatMap__educate-inner">
           <figure><img src="../static/icon-pinch.png" alt=""/></figure>
           <div className="seatMap__educate-desc">เพื่อขยายที่นั่ง</div>
-          <div className="seatMap__educate-button">
+          <div className="seatMap__educate-button" onClick={this.educateAccepted.bind(this)}>
             <span className="btnTheme">เข้าใจแล้ว</span>
           </div>
         </div>
@@ -437,14 +450,18 @@ class seatMap extends PureComponent {
                       bookSelectedSeats={this.bookSelectedSeats.bind(this)}
                     ></SeatMapDisplay>
                   </div>
-                  <CSSTransition
-                    in={!entrySeatMap}
-                    classNames="overlayEducate"
-                    timeout={300}
-                    unmountOnExit
-                  >
-                    {this.renderEducate()}
-                  </CSSTransition>
+                  {(() => {
+                    if (!userInfo.zoom) {
+                      return <CSSTransition
+                        in={!entrySeatMap}
+                        classNames="overlayEducate"
+                        timeout={300}
+                        unmountOnExit
+                      >
+                        {this.renderEducate()}
+                      </CSSTransition>
+                    }
+                  })()}
                 </Fragment>
               )
             } else {
