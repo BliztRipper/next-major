@@ -77,13 +77,13 @@ class home extends PureComponent {
   }
 
   renderSlide(){
-    if (this.state.userInfo && this.state.userInfo.accid) {
+    if (this.state.userInfo && this.state.userInfo.accid && this.state.userInfo.mobileno) {
       return <MainNavBar accid={this.state.userInfo.accid} key="MainNavBar" />
     } else {
       return (
         <section className="empty">
           <img src={empty} />
-          <h5>ขออภัย ไม่พบข้อมูลผู้ใช้งาน</h5>
+          <h5>ขออภัย ข้อมูลของผู้ใช้งานไม่สมบูรณ์</h5>
         </section>
       )
     }
@@ -145,11 +145,11 @@ class home extends PureComponent {
     if (isLoading) {
       return false
     }
-      return (
-        <Layout>
-          {this.renderSlide()}
-        </Layout>
-      )
+    return (
+      <Layout>
+        {this.renderSlide()}
+      </Layout>
+    )
   }
 }
 export default home
