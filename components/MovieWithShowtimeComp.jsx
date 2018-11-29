@@ -89,44 +89,35 @@ class MovieWithShowtimeComp extends PureComponent {
 		return items
 	}
 
-	renderTheater(theaters, filmId) {
-		let showtimesItems = true
-		let isEmpty = true
+	renderTheater(theaters, showtimesItems) {
 		return theaters.map((theater, theaterIndex) => {
-			showtimesItems = this.renderShowtimes(theater, filmId)
-
-			let showtimesItemsLength = showtimesItems.length > 0
-			if (showtimesItemsLength) {
-				isEmpty = false
-				let keyCardItem = theater.ScreenNameAlt + theaterIndex
-				return (
-					<div className="cinema__card-cbm" key={keyCardItem}>
-						<div className="cinema__card-cbm--theatre-container">
-							<div className="cinema__card-cbm--theatre-wrapper">
-								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-								<div className="cinema__card-cbm--theatre-type">
-									{this.renderSystem(theater.FormatCode)}
-								</div>
-								<div className="sprite-sound"></div>
-								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
+			let keyCardItem = theater.ScreenNameAlt + theaterIndex
+			return (
+				<div className="cinema__card-cbm" key={keyCardItem}>
+					<div className="cinema__card-cbm--theatre-container">
+						<div className="cinema__card-cbm--theatre-wrapper">
+							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
+							<div className="cinema__card-cbm--theatre-type">
+								{this.renderSystem(theater.FormatCode)}
 							</div>
-							<div className="cinema__card-cbm--timetable-wrap">
-								<div className="cinema__card-cbm--timetable">
-									{showtimesItems}
-								</div>
+							<div className="sprite-sound"></div>
+							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
+						</div>
+						<div className="cinema__card-cbm--timetable-wrap">
+							<div className="cinema__card-cbm--timetable">
+								{showtimesItems}
 							</div>
 						</div>
 					</div>
-				)
-			} else {
-				return !isEmpty
-			}
+				</div>
+			)
 		})
 	}
 
 	renderMovieCard() {
 		let movieInfoItem = null
 		let hasMovieInfo = false
+		let instantSchedules = this.props.schedules
 
     return Object.keys(this.props.schedules).map((filmId, filmIdIndex, filmIdArray) => {
 			movieInfoItem = this.getMovieInfo(filmId)
@@ -139,22 +130,24 @@ class MovieWithShowtimeComp extends PureComponent {
         this.props.theaterEmptyCheck(true)
 			}
 
-			let theatersByFilmId = this.props.schedules[filmId]
+			let theatersByFilmId = instantSchedules[filmId]
+			let showtimesItems = false
+			theatersByFilmId.forEach(theater => {
+				showtimesItems = this.renderShowtimes(theater, filmId)
+			});
 
-      if (theatersByFilmId && movieInfoItem) {
+      if (theatersByFilmId && movieInfoItem && showtimesItems.length > 0) {
 				return (
 					<FlipMove duration={600} className="cinema__cardItem-wrap isDiff" key={filmId} >
 						<div className="cinema__cardItemTransition">
 							<div className="cinema__cardItem isDiff">
 								{<MovieInfoByCinemaComp item={movieInfoItem} />}
-								{this.renderTheater(theatersByFilmId, filmId)}
+								{this.renderTheater(theatersByFilmId, showtimesItems)}
 							</div>
 						</div>
 					</FlipMove>
 				)
-      } else {
-				return false
-			}
+      }
     })
 	}
 

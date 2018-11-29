@@ -894,6 +894,11 @@ body{
           border-top: 0;
         }
       }
+      &__tab-panel {
+        .empty {
+          padding-top: 11vh;
+        }
+      }
     }
   }
   &.isFetching {
