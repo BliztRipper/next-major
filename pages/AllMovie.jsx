@@ -92,7 +92,6 @@ class AllMovie extends PureComponent {
                     <TabPanel>
                       {(() => {
                         let hasMovies = dataObj.now_showing.length > 0 || dataObj.advance_ticket.length > 0
-                        console.log(dataObj)
                         if (hasMovies)  {
                           return <NowShowingComp dataObj={dataObj}  accid={this.state.accid}/>
                         } else {

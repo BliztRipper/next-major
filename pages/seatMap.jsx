@@ -304,7 +304,6 @@ class seatMap extends PureComponent {
         }
       })
     } catch (error) {
-      console.log(error, 'error');
       console.error('error', error);
     }
   }
