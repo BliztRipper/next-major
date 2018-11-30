@@ -26,6 +26,7 @@ class MainSelectMovieByCinema extends PureComponent {
       pickThisDay: false,
       highlightFetching: true,
       dataMyTicketsDone: false,
+      selectBy:'cinema'
     }
   }
 
@@ -170,7 +171,7 @@ class MainSelectMovieByCinema extends PureComponent {
                     <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
                     <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
                   </div>
-                  <GlobalFooterNav/>
+                  <GlobalFooterNav selectBy={this.state.selectBy}/>
               </div>
               </Layout>
             )

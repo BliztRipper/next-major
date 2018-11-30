@@ -9,6 +9,7 @@ import SearchCinema from '../components/SearchCinema'
 import DateFilters from '../components/DateFilters'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
+import GlobalFooterNav from '../components/GlobalFooterNav'
 import { StickyContainer, Sticky } from 'react-sticky';
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import { URL_PROD } from '../lib/URL_ENV';
@@ -34,7 +35,8 @@ class MainSelectCinemaByMovie extends Component {
       movieInfo: '',
       HideList: false,
       searchRegions: [],
-      isSelectCinema:true
+      isSelectCinema:true,
+      selectBy:'cinema'
     }
   }
 
@@ -398,6 +400,7 @@ class MainSelectCinemaByMovie extends Component {
           </div>
           {this.renderRegionTypeList()}
         </StickyContainer>
+        <GlobalFooterNav selectBy={this.state.selectBy}/>
       </Layout>
     )
   }
