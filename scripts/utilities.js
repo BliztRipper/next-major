@@ -144,8 +144,8 @@ export default {
       case '4DX': return `../static/4-dx.png`
       case 'Dolby Atmos': return `../static/AD.png`
       case 'Digital 3D': return `../static/D3D.png`
-      case 'RealD': return `../static/D3D.png`
-      case 'ScreenX': return `../static/D3D.png`
+      case 'RealD': return `../static/reald.png`
+      case 'ScreenX': return `../static/SCX.png`
       default: return ``
     }
   },
