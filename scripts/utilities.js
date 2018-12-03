@@ -164,6 +164,7 @@ export default {
       case 'MXVR': return 'Imax VR'
       case 'SCX': return 'Screen X'
       case 'KIDS': return 'KIDS'
+      case 'RealD': return 'RealD'
       default: return 'Digital'
     }
   },
