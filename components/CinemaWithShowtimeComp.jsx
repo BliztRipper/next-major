@@ -35,7 +35,7 @@ class CinemaWithShowtimeComp extends Component {
 	renderSound(sessionAttributesNames) {
 		if (sessionAttributesNames && sessionAttributesNames.length > 0) {
 			return sessionAttributesNames.map(sound => {
-				return utilities.getSoundDisplay(sound)
+				return `${utilities.getSoundDisplay(sound)} | `
 			})
 		}
 	}
