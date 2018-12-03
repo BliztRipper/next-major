@@ -22,19 +22,22 @@ class home extends PureComponent {
   }
   componentDidMount() {
     let urlParams = (new URL(document.location)).searchParams;
+
     let userInfo = null
     let accid = urlParams.get('accid')
     if (!accid) {
       userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
     } else {
       userInfo = {
-        accid: urlParams.get('accid'),
+        accid: accid,
         mobileno: urlParams.get('mobileno'),
         distinctid: urlParams.get('distinctid')
       }
       sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
-    this.checkConsent(userInfo.accid)
+    if (accid) {
+      this.checkConsent(accid)
+    }
     this.setState({
       isLoading: false,
       userInfo: userInfo
@@ -76,12 +79,13 @@ class home extends PureComponent {
   }
 
   renderSlide(){
-    if (this.state.userInfo.accid) {
+    if (this.state.userInfo && this.state.userInfo.accid && this.state.userInfo.mobileno) {
       return <MainNavBar accid={this.state.userInfo.accid} key="MainNavBar" />
     } else {
       return (
         <section className="empty">
           <img src={empty} />
+          <h5>ขออภัย ข้อมูลของผู้ใช้งานไม่สมบูรณ์</h5>
         </section>
       )
     }
@@ -143,11 +147,11 @@ class home extends PureComponent {
     if (isLoading) {
       return false
     }
-      return (
-        <Layout>
-          {this.renderSlide()}
-        </Layout>
-      )
+    return (
+      <Layout>
+        {this.renderSlide()}
+      </Layout>
+    )
   }
 }
 export default home

@@ -65,7 +65,6 @@ class Cashier extends PureComponent {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
           if (data.status_code === 0 || data.description === "Success") {
             sessionStorage.removeItem("movieSelect");
             let dataPaymentSuccess = {
