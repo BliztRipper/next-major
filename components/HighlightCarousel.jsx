@@ -66,8 +66,8 @@ class HighlightCarousel extends PureComponent {
     sessionStorage.setItem('movieSelect',props)
 
     gtag.event({
-      action: 'view_item',
       category: 'items',
+      action: 'view_item',
       label: 'nowShowingSlider'
     });
   }
