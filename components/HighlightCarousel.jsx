@@ -3,7 +3,6 @@ import Link from 'next/link'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import Swiper from 'swiper'
-import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
 import * as gtag from '../lib/gtag'
 
@@ -36,9 +35,11 @@ class HighlightCarousel extends PureComponent {
   }
   componentWillMount(){
     this.props.highlightFetched(false)
-    axios.get(`${URL_PROD}/MovieList`)
-    .then(response => {
-      let res =  response.data.data
+
+    fetch(`${URL_PROD}/MovieList`)
+    .then(response => response.json())
+    .then(data => {
+      let res =  data.data
       this.setState({
         nowShowing:res.now_showing,
         advTicket:res.advance_ticket,

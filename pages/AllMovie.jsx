@@ -9,7 +9,6 @@ import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import GlobalFooterNav from '../components/GlobalFooterNav'
-import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
 
 
@@ -27,12 +26,13 @@ class AllMovie extends PureComponent {
 
   }
   componentDidMount(){
-    axios(`${URL_PROD}/MovieList`)
-    .then(response => {
-      let hasMovies = response.data.data.now_showing.length > 0 || response.data.data.advance_ticket.length > 0 || response.data.data.comingsoon.length > 0
+    fetch(`${URL_PROD}/MovieList`)
+    .then(response => response.json())
+    .then(data => {
+      let hasMovies = data.data.now_showing.length > 0 || data.data.advance_ticket.length > 0 || data.data.comingsoon.length > 0
 
       this.setState({
-        dataObj: response.data.data,
+        dataObj: data.data,
         isLoading: false,
         isEmpty: !hasMovies
       })
