@@ -40,6 +40,7 @@ class HighlightCarousel extends PureComponent {
     .then(response => response.json())
     .then(data => {
       let res =  data.data
+      sessionStorage.setItem('allMovies', JSON.stringify(res))
       this.setState({
         nowShowing:res.now_showing,
         advTicket:res.advance_ticket,

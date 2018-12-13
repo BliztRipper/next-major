@@ -132,22 +132,6 @@ class MainSelectMovieByCinema extends PureComponent {
     })
   }
 
-  renderFloatButtonBadge () {
-    if (this.state.dataMyTicketsTotal) return <div className="indexTab__floatButton-badge">{this.state.dataMyTicketsTotal}</div>
-    return false
-  }
-
-  renderFloatButton () {
-    return (
-      <a className="indexTab__floatButton">
-        <div className="indexTab__floatButtonInner">
-          <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
-          { this.renderFloatButtonBadge() }
-        </div>
-      </a>
-    )
-  }
-
   render() {
     const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid} = this.state;
     if (error) {
