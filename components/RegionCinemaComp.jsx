@@ -80,16 +80,21 @@ class RegionCinemaComp extends Component {
     if (this.state.region && this.state.region.cinemas) {
       return this.state.region.cinemas.map((cinema, cinemaIndex) => {
         if (cinema.schedule) {
-          return (
-            <CinemaWithShowtimeComp
-              iAmFav={this.props.iAmFav}
-              key={cinema.cinemaId + cinemaIndex}
-              accid={this.state.accid}
-              cinema={cinema}
-              pickThisDay={this.props.pickThisDay}
-              favActive={this.state.favActive}
-            />
-          );
+          if (cinema.allowRender) {
+            return (
+              <CinemaWithShowtimeComp
+                iAmFav={this.props.iAmFav}
+                key={cinema.cinemaId + cinemaIndex}
+                accid={this.state.accid}
+                cinema={cinema}
+                showtimes={this.props.showtimes}
+                pickThisDay={this.props.pickThisDay}
+                favActive={this.state.favActive}
+              />
+            );
+          } else {
+            return false
+          }
         } else {
           return (
             <CinemaWithOutShowtimeComp

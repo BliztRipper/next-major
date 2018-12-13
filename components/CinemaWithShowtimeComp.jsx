@@ -40,9 +40,9 @@ class CinemaWithShowtimeComp extends Component {
 		}
 	}
 
-	renderShowtimes(showtimes, theater) {
+	renderShowtimes(theater) {
 		let items = []
-
+		let showtimes = theater.Showtimes
 		if (showtimes) {
 			showtimes.forEach((showtime, i) => {
 				let dataToSeatMap = {
@@ -74,8 +74,8 @@ class CinemaWithShowtimeComp extends Component {
 
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {
-				let objShowtimes = this.renderShowtimes(theater.Showtimes, theater)
-				if (objShowtimes.length > 0) {
+
+				if (theater.allowRender) {
 					items.push (
 						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>
 							<div className="cinema__card-cbm--theatre-wrapper">
@@ -88,7 +88,7 @@ class CinemaWithShowtimeComp extends Component {
 							</div>
 							<div className="cinema__card-cbm--timetable-wrap">
 								<div className="cinema__card-cbm--timetable">
-									{this.renderShowtimes(theater.Showtimes, theater)}
+									{this.renderShowtimes(theater)}
 								</div>
 							</div>
 						</div>

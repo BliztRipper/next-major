@@ -36,7 +36,8 @@ class MainSelectCinemaByMovie extends Component {
       HideList: false,
       searchRegions: [],
       isSelectCinema:true,
-      selectBy:'cinema'
+      selectBy:'cinema',
+      showtimeItems: []
     }
   }
 
@@ -202,8 +203,10 @@ class MainSelectCinemaByMovie extends Component {
     }
 
     this.state.dates.sort(stringSorter)
-    this.setState({dates: this.state.dates})
-    this.setState({isEmpty:(this.state.dates.length == 0)})
+    this.setState({
+      dates: this.state.dates,
+      isEmpty:(this.state.dates.length == 0)
+    })
     this.pickThisDay(0)
   }
 
@@ -300,9 +303,41 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   renderRegion() {
-    return this.state.regions.map((region, i) => {
-      return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
-    })
+    if (this.state.regions && this.state.regions.length > 0) {
+      return this.state.regions.map((region, i) => {
+        let instantShowtimes = []
+        region.allowRender = false
+
+        if (region.cinemas && region.cinemas.length > 0) {
+          region.cinemas.map((cinema) => {
+            cinema.allowRender = false
+
+            if (cinema.schedule.Theaters && cinema.schedule.Theaters.length > 0) {
+              cinema.schedule.Theaters.forEach(theater => {
+
+                theater.allowRender = false
+                instantShowtimes = utilities.getShowtime(theater, this.state.pickThisDay)
+
+                if (instantShowtimes.length > 0) {
+                  theater.allowRender = true
+                  cinema.allowRender = true
+                  region.allowRender = true
+                }
+
+              })
+            }
+
+          })
+        }
+
+        this.state.showtimeItems = instantShowtimes
+        if (region.allowRender) {
+          return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+        } else {
+          return false
+        }
+      })
+    }
   }
 
   renderSearchData() {
