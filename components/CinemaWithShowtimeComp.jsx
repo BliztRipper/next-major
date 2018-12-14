@@ -16,14 +16,14 @@ class CinemaWithShowtimeComp extends Component {
 	}
 
 	handleScheduleSelected(theater, showtime) {
-		sessionStorage.setItem('BookingTime', showtime.slice(11, 16))
+		sessionStorage.setItem('BookingTime', showtime.showtime)
 		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('BookingCinemaOperatorCode', theater.CinemaOperatorCode)
 		sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
 		sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
 		sessionStorage.setItem('BookingBranchLocation', JSON.stringify(this.state.cinema.branchLocation))
-		sessionStorage.setItem('BookingDate', showtime)
+		sessionStorage.setItem('BookingDate', showtime.datetime)
 	}
 
 	renderSystem(formatCode) {
@@ -41,32 +41,25 @@ class CinemaWithShowtimeComp extends Component {
 	}
 
 	renderShowtimes(theater) {
-		let items = []
-		let showtimes = theater.Showtimes
-		if (showtimes) {
-			showtimes.forEach((showtime, i) => {
-				let dataToSeatMap = {
-					pathname: '/seatMap',
-					query: {
-						...theater,
-						SessionId: theater.SessionIds[i]
-					}
-				}
 
-				if (showtime.slice(0, 10) == this.props.pickThisDay) {
-					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + i
-					items.push (
-						<Link prefetch href={dataToSeatMap} key={keyShowTime} >
-							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-								{showtime.slice(11, 16)}
-							</span>
-						</Link>
-					)
+		return theater.showtimesFilterByDate.map((showtime, showtimeIndex) => {
+			let dataToSeatMap = {
+				pathname: '/seatMap',
+				query: {
+					...theater,
+					SessionId: showtime.sessionId
 				}
-			})
-		}
+			}
+			let keyShowTime = showtime.showtime + theater.ScreenNameAlt + showtimeIndex
+			return (
+				<Link prefetch href={dataToSeatMap} key={keyShowTime} >
+					<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+						{showtime.showtime}
+					</span>
+				</Link>
+			)
+		});
 
-		return items
 	}
 
 	renderTheater() {

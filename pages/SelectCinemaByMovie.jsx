@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/link'
+import Router from 'next/router'
 import loading from '../static/loading.svg'
 import empty from '../static/emptyMovie.png'
 import RegionCinemaComp from '../components/RegionCinemaComp'
@@ -36,8 +37,7 @@ class MainSelectCinemaByMovie extends Component {
       HideList: false,
       searchRegions: [],
       isSelectCinema:true,
-      selectBy:'cinema',
-      showtimeItems: []
+      selectBy:'cinema'
     }
   }
 
@@ -45,51 +45,55 @@ class MainSelectCinemaByMovie extends Component {
   componentDidMount() {
     this.state.movieInfo = JSON.parse(sessionStorage.getItem('movieSelect'))
     let instantUserInfo = JSON.parse(sessionStorage.getItem('userInfo'))
-    this.setState({
-      movieInfo: this.state.movieInfo,
-      accid: instantUserInfo.accid
-    })
-    let dataToPostSchedule = {
-      cinemaId: '',
-      filmIds: this.state.movieInfo.movieCode
-    }
-    try {
-      sessionStorage.setItem('CinemaID','')
-      sessionStorage.setItem('BookingCinema','')
-
-      this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
-      fetch(`${URL_PROD}/Schedule`,{
-        method: 'POST',
-        body: JSON.stringify(dataToPostSchedule)
+    if (!this.state.movieInfo || !instantUserInfo) {
+      Router.push({ pathname: '/' })
+    } else {
+      this.setState({
+        movieInfo: this.state.movieInfo,
+        accid: instantUserInfo.accid
       })
-      .then(response => response.json())
-      .then(data =>  {
-        this.state.schedules = data.data
-        this.state.serverTime = data.server_time
+      let dataToPostSchedule = {
+        cinemaId: '',
+        filmIds: this.state.movieInfo.movieCode
+      }
+      try {
+        sessionStorage.setItem('CinemaID','')
+        sessionStorage.setItem('BookingCinema','')
 
-        fetch(`${URL_PROD}/FavCinemas/${this.state.accid}`)
+        this.setState({nowShowing:JSON.parse(sessionStorage.getItem("movieSelect"))})
+        fetch(`${URL_PROD}/Schedule`,{
+          method: 'POST',
+          body: JSON.stringify(dataToPostSchedule)
+        })
         .then(response => response.json())
-        .then(data => {
-          if (data.data.CinemaIds) {
-            this.state.favorites = data.data.CinemaIds
-            if (this.state.favorites === null) {
-              this.state.favorites = []
+        .then(data =>  {
+          this.state.schedules = data.data
+          this.state.serverTime = data.server_time
+
+          fetch(`${URL_PROD}/FavCinemas/${this.state.accid}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.data.CinemaIds) {
+              this.state.favorites = data.data.CinemaIds
+              if (this.state.favorites === null) {
+                this.state.favorites = []
+              }
             }
-          }
-          this.state.loadFavorites = true
-          this.loadComplete()
-        })
+            this.state.loadFavorites = true
+            this.loadComplete()
+          })
 
-        fetch(`${URL_PROD}/Branches`)
-        .then(response => response.json())
-        .then(data=> {
-          this.state.branches = data.data
-          this.state.loadBranches = true
-          this.loadComplete()
+          fetch(`${URL_PROD}/Branches`)
+          .then(response => response.json())
+          .then(data=> {
+            this.state.branches = data.data
+            this.state.loadBranches = true
+            this.loadComplete()
+          })
         })
-      })
-    } catch (error) {
-      error => this.setState({ error, isLoading: false })
+      } catch (error) {
+        error => this.setState({ error, isLoading: false })
+      }
     }
   }
 
@@ -305,7 +309,7 @@ class MainSelectCinemaByMovie extends Component {
   renderRegion() {
     if (this.state.regions && this.state.regions.length > 0) {
       return this.state.regions.map((region, i) => {
-        let instantShowtimes = []
+        let instantShowtimesFilterByDate = []
         region.allowRender = false
 
         if (region.cinemas && region.cinemas.length > 0) {
@@ -316,9 +320,10 @@ class MainSelectCinemaByMovie extends Component {
               cinema.schedule.Theaters.forEach(theater => {
 
                 theater.allowRender = false
-                instantShowtimes = utilities.getShowtime(theater, this.state.pickThisDay)
+                instantShowtimesFilterByDate = utilities.getShowtime(theater, this.state.pickThisDay)
 
-                if (instantShowtimes.length > 0) {
+                if (instantShowtimesFilterByDate.length > 0) {
+                  theater.showtimesFilterByDate = instantShowtimesFilterByDate
                   theater.allowRender = true
                   cinema.allowRender = true
                   region.allowRender = true
@@ -330,7 +335,6 @@ class MainSelectCinemaByMovie extends Component {
           })
         }
 
-        this.state.showtimeItems = instantShowtimes
         if (region.allowRender) {
           return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
         } else {

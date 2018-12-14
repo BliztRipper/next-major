@@ -198,6 +198,7 @@ export default {
 					result.push({
             date: showtime.slice(0, 10),
             showtime: showtime.slice(11, 16),
+            datetime: showtime,
             sessionId: theater.SessionIds[i]
           })
         }

@@ -133,7 +133,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid} = this.state;
+    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid, schedules, selectBy} = this.state;
     if (error) {
       return <p>{error.message}</p>;
     }
@@ -153,9 +153,9 @@ class MainSelectMovieByCinema extends PureComponent {
                   <div className="page__selectMovieByCinema">
                     <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
                     <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                    <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={this.state.schedules} accid={this.state.accid} pickThisDay={pickThisDay} />
+                    <MovieWithShowtimeComp theaterEmptyCheck={this.theaterEmptyCheck.bind(this)} schedules={schedules} accid={accid} pickThisDay={pickThisDay} />
                   </div>
-                  <GlobalFooterNav selectBy={this.state.selectBy}/>
+                  <GlobalFooterNav selectBy={selectBy}/>
               </div>
               </Layout>
             )
