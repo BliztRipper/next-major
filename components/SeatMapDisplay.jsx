@@ -20,6 +20,7 @@ class SeatMapDisplay extends PureComponent {
         seatColMax: 0,
         seatRowMax: 0,
         seatMatrix: [],
+        seatsCounter: 0,
         // ==== begin pinch pan zoom
         minScale: 1,
         maxScale: 4,
@@ -58,6 +59,7 @@ class SeatMapDisplay extends PureComponent {
   handleSelectSeats (aSeat) {
     if (this.state.postingTicket || this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
 
+    let seatsCounter = this.state.seatsCounter
     let ticketBookedMax = 6
     let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
 
@@ -66,12 +68,18 @@ class SeatMapDisplay extends PureComponent {
     let toggleBooked = (aSeat, isPackage) => {
       if (aSeat.Status === 'myBooking') { // Already booked a seat
 
+        if (!isPackage) {
+          seatsCounter -= 1
+        }
 
         aSeat.Status = 0
         this.state.seatsSelected = this.state.seatsSelected.filter((aSeatSelected) => {
           return !(aSeatSelected.Position === aSeat.Position)
         })
-        return true
+        return {
+          canBook: true,
+          seatStatus: aSeat.Status
+        }
       } else if (aSeat.Status === 0) { // Allow book a seat
 
         if (this.state.seatsSelected.length >= ticketBookedMax) {
@@ -79,53 +87,75 @@ class SeatMapDisplay extends PureComponent {
             title: 'ขออภัย',
             html: `ลูกค้าสามารถจองที่นั่งได้ไม่เกิน ${ticketBookedMax} ที่นั่ง <br/> ต่อการซื้อตั๋วหนึ่งครั้ง`
           })
-        } else {
-          if (isPackage && ticket.PackageContent.Tickets) {
-            ticket.TicketTypeCode = ticket.PackageContent.Tickets.length > 0 ? ticket.PackageContent.Tickets[0].TicketTypeCode : ticket.TicketTypeCode
+          return {
+            canBook: false
           }
+        } else {
+
+          if (!isPackage) {
+            seatsCounter += 1
+          }
+
           this.state.areaSelected = aSeat.AreaCategoryCode
           aSeat.Status = 'myBooking'
+
           this.state.seatsSelected.push({
             ...aSeat,
             ticket: ticket
           })
+          return {
+            canBook: true
+          }
         }
-        return true
       } else {
-
-        return false
+        return {
+          canBook: false
+        }
       }
+
     }
 
     if (ticket.IsPackageTicket) {
       let listSelected = []
-      let cannotBook = true
-
+      let instantSeat = {
+        canBook: true
+      }
 
       aSeat.SeatsInGroup.forEach(seatInGroup => {
         selectRow.forEach((aSeatInSelectRow) => {
 
-          if (cannotBook) {
+          if (instantSeat.canBook) {
             if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
 
-              cannotBook = toggleBooked(aSeatInSelectRow, true)
-              if (cannotBook) {
+              instantSeat = toggleBooked(aSeatInSelectRow, true)
+              if (instantSeat.canBook) {
                 listSelected.push(aSeatInSelectRow)
               }
             }
-          }//cannotBook
+          } //canBook
+
         })
       })
 
-      if (!cannotBook) {
 
-
+      if (!instantSeat.canBook) {
         if (listSelected.length > 0) {
           listSelected.forEach(selected => {
             toggleBooked(selected, true)
           })
         }
+
+      } else {
+        // Count a seat from package
+        if (instantSeat.seatStatus === 0) {
+          // Decrease
+          seatsCounter -= 1
+        } else {
+          // Increase
+          seatsCounter += 1
+        }
       }
+
     } else {
       toggleBooked(aSeat)
     }
@@ -137,7 +167,8 @@ class SeatMapDisplay extends PureComponent {
     this.setState({
       seatsSelected: this.state.seatsSelected,
       areaSelected: this.state.areaSelected,
-      renderSeats: this.listGroups()
+      renderSeats: this.listGroups(),
+      seatsCounter: seatsCounter
     })
   }
   handleSubmitTicket () {
@@ -170,7 +201,7 @@ class SeatMapDisplay extends PureComponent {
 
     if (this.state.seatsSelected.length) {
       if (allowBook) {
-        this.props.authOtpHasToken(this.state.seatsSelected)
+        this.props.authOtpHasToken(this.state.seatsSelected, this.state.seatsCounter)
         sessionStorage.setItem('BookingSeat',this.state.selectedList)
         sessionStorage.setItem('BookingSeatTotal',this.state.seatsSelected.length)
       } else {

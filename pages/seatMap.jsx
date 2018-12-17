@@ -26,6 +26,7 @@ class seatMap extends PureComponent {
       ticketData: null,
       dataBookedSeats: null,
       seatsSelected: null,
+      seatsCounter: 0,
       otpShow: false,
       entrySeatMap: false,
       userInfo: '',
@@ -161,8 +162,9 @@ class seatMap extends PureComponent {
       entrySeatMap: true
     })
   }
-  authOtpHasToken (seatSelected) {
-    this.state.seatsSelected = seatSelected
+  authOtpHasToken (seatsSelected, seatsCounter) {
+    this.state.seatsSelected = seatsSelected
+    this.state.seatsCounter = seatsCounter
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
       fetch(`${URL_PAYMENT_PROD}/HasToken/${this.state.userInfo.accid}`,{
@@ -316,19 +318,21 @@ class seatMap extends PureComponent {
       priceInCents: 0,
       SelectedSeats: []
     }
-    this.state.seatsSelected.forEach((item, index, array) => {
+    this.state.seatsSelected.forEach((aSeatSelected, aSeatSelectedIndex, aSeatSelectedArray) => {
+
       let data = {
-        cinemaId: item.ticket.CinemaId,
-        priceInCents: item.ticket.PriceInCents,
-        ticketTypeCode: item.ticket.TicketTypeCode,
-        qty: array.length,
+        cinemaId: aSeatSelected.ticket.CinemaId,
+        priceInCents: aSeatSelected.ticket.PriceInCents,
+        ticketTypeCode: aSeatSelected.ticket.TicketTypeCode,
+        qty: this.state.seatsCounter,
         SessionId: this.state.SessionId
       }
       dataToStorage = {...dataToStorage, ...data}
       dataToStorage.SelectedSeats.push({
-        AreaCategoryCode: item.ticket.AreaCategoryCode,
-        ...item.Position
+        AreaCategoryCode: aSeatSelected.ticket.AreaCategoryCode,
+        ...aSeatSelected.Position
       })
+
     });
     try {
       fetch(`${URL_PROD}/AddTicket`,{
