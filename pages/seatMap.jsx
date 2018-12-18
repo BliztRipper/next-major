@@ -50,15 +50,15 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then(() =>  {
-        this.setState({ isLoading: false })
+        this.getTheatre()
+        sessionStorage.removeItem('BookingCurrentServerTime')
+        sessionStorage.removeItem('BookingUserSessionId')
+        sessionStorage.removeItem('BookingUserPhoneNumber')
+        sessionStorage.removeItem('BookingPrice')
+        sessionStorage.removeItem('BookingPriceDisplay')
+        sessionStorage.removeItem('BookingSeat')
+        sessionStorage.removeItem('BookingSeatTotal')
       })
-      sessionStorage.removeItem('BookingCurrentServerTime')
-      sessionStorage.removeItem('BookingUserSessionId')
-      sessionStorage.removeItem('BookingUserPhoneNumber')
-      sessionStorage.removeItem('BookingPrice')
-      sessionStorage.removeItem('BookingPriceDisplay')
-      sessionStorage.removeItem('BookingSeat')
-      sessionStorage.removeItem('BookingSeatTotal')
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
@@ -398,7 +398,6 @@ class seatMap extends PureComponent {
     if (!instantMovieSelect) {
       this.goToHome()
     }
-    this.getTheatre()
     let userSessionId = sessionStorage.getItem('BookingUserSessionId')
     this.setState({
       userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
@@ -408,6 +407,8 @@ class seatMap extends PureComponent {
         isLoading: true
       })
       this.cancelOrder(userSessionId)
+    } else {
+      this.getTheatre()
     }
   }
   render () {
