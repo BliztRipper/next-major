@@ -28,7 +28,7 @@ class seatMap extends PureComponent {
       seatsSelected: null,
       seatsCounter: 0,
       otpShow: false,
-      entrySeatMap: false,
+      showPopupEducate: true,
       userInfo: '',
       userAuthData: null,
       apiOtpHeader: {
@@ -156,11 +156,6 @@ class seatMap extends PureComponent {
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
-  }
-  handleToggleZoomSeatsMap (e) {
-    this.setState({
-      entrySeatMap: true
-    })
   }
   authOtpHasToken (seatsSelected, seatsCounter) {
     this.state.seatsSelected = seatsSelected
@@ -367,21 +362,16 @@ class seatMap extends PureComponent {
     }
   }
   educateAccepted () {
-    fetch(`https://api-cinema-stg.truemoney.net/AddZoom/${this.state.userInfo.accid}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.status_code === 0) {
-        this.state.userInfo.zoom = true
-        sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
-        this.setState({
-          userInfo: this.state.userInfo
-        })
-      }
+    this.setState({
+      showPopupEducate: false
     })
+    this.state.userInfo.zoom = true
+    sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
+    fetch(`https://api-cinema-stg.truemoney.net/AddZoom/${this.state.userInfo.accid}`)
   }
   renderEducate () {
     return(
-      <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
+      <div className="seatMap__educate" onClick={this.educateAccepted.bind(this)}>
         <div className="seatMap__educate-inner">
           <figure><img src="../static/icon-pinch.png" alt=""/></figure>
           <div className="seatMap__educate-desc">เพื่อขยายที่นั่ง</div>
@@ -399,8 +389,10 @@ class seatMap extends PureComponent {
       this.goToHome()
     }
     let userSessionId = sessionStorage.getItem('BookingUserSessionId')
+    let instantUserInfo = JSON.parse(sessionStorage.getItem("userInfo"))
     this.setState({
-      userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
+      userInfo: instantUserInfo,
+      showPopupEducate: !instantUserInfo.zoom
     })
     if (userSessionId) {
       this.setState({
@@ -412,7 +404,7 @@ class seatMap extends PureComponent {
     }
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap, userInfo} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, userInfo, showPopupEducate} = this.state;
     let seatMapClassName = 'seatMap'
     if (error) {
       return <p>{error.message}</p>;
@@ -439,6 +431,8 @@ class seatMap extends PureComponent {
       <Layout title="Select Seats">
         {(() => {
           if (userInfo.accid) {
+            console.log(userInfo.zoom, 'userInfo.zoom');
+
             return (
               <Fragment>
                 <div className={seatMapClassName}>
@@ -452,18 +446,14 @@ class seatMap extends PureComponent {
                     bookSelectedSeats={this.bookSelectedSeats.bind(this)}
                   ></SeatMapDisplay>
                 </div>
-                {(() => {
-                  if (!userInfo.zoom) {
-                    return <CSSTransition
-                      in={!entrySeatMap}
-                      classNames="overlayEducate"
-                      timeout={300}
-                      unmountOnExit
-                    >
-                      {this.renderEducate()}
-                    </CSSTransition>
-                  }
-                })()}
+                <CSSTransition
+                  in={showPopupEducate}
+                  classNames="overlayEducate"
+                  timeout={300}
+                  unmountOnExit
+                >
+                  {this.renderEducate()}
+                </CSSTransition>
               </Fragment>
             )
           } else {
