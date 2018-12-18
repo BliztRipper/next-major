@@ -367,7 +367,7 @@ class seatMap extends PureComponent {
     })
     this.state.userInfo.zoom = true
     sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
-    fetch(`https://api-cinema-stg.truemoney.net/AddZoom/${this.state.userInfo.accid}`)
+    fetch(`${URL_PROD}/AddZoom/${this.state.userInfo.accid}`)
   }
   renderEducate () {
     return(
