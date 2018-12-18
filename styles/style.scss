@@ -1072,6 +1072,7 @@ body{
   height: 10vw;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
   &:after {
     content: '';
     display: block;
@@ -1160,6 +1161,9 @@ body{
         }
       }
     }
+  }
+  .empty {
+    padding-top: 16vh;
   }
 
 }

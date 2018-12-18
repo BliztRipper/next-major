@@ -3,6 +3,7 @@ import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
+import empty from '../static/emptyMovie.png'
 
 class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {
@@ -120,14 +121,17 @@ class MovieWithShowtimeComp extends PureComponent {
 		Object.keys(instantPropsSchedules).forEach((filmId, filmIdIndex, filmIdArray) => {
 			instantMovieInfo = this.getMovieInfo(filmId)
 
+			console.log(instantMovieInfo, 'instantMovieInfo');
+
 			if (instantMovieInfo) {
 
 				instantPropsSchedules[filmId].forEach(theater => {
 
 					instantShowtimesFilterByDate = utilities.getShowtime(theater, this.props.pickThisDay)
 
-					if (instantShowtimesFilterByDate.length > 0) {
+					console.log(instantShowtimesFilterByDate, 'instantShowtimesFilterByDate');
 
+					if (instantShowtimesFilterByDate.length > 0) {
 						theater.showtimesFilterByDate = instantShowtimesFilterByDate
 						allowRenderCard = true
 
@@ -150,20 +154,17 @@ class MovieWithShowtimeComp extends PureComponent {
 
 				}
 
-
-			} else {
-				renderCardItems = []
 			}
-
 		})
 
-
-
+		console.log(renderCardItems, 'renderCardItems');
 
 		if (renderCardItems.length > 0) {
 			return renderCardItems
 		} else {
-			this.props.theaterEmptyCheck(true)
+			return (
+				<section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+			)
 		}
 
 
