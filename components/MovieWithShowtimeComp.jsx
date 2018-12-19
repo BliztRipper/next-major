@@ -119,9 +119,8 @@ class MovieWithShowtimeComp extends PureComponent {
 		let allowRenderCard = false
 		let instantPropsSchedules = this.props.schedules
 		Object.keys(instantPropsSchedules).forEach((filmId, filmIdIndex, filmIdArray) => {
-			instantMovieInfo = this.getMovieInfo(filmId)
 
-			console.log(instantMovieInfo, 'instantMovieInfo');
+			instantMovieInfo = this.getMovieInfo(filmId)
 
 			if (instantMovieInfo) {
 
@@ -129,12 +128,9 @@ class MovieWithShowtimeComp extends PureComponent {
 
 					instantShowtimesFilterByDate = utilities.getShowtime(theater, this.props.pickThisDay)
 
-					console.log(instantShowtimesFilterByDate, 'instantShowtimesFilterByDate');
-
 					if (instantShowtimesFilterByDate.length > 0) {
 						theater.showtimesFilterByDate = instantShowtimesFilterByDate
 						allowRenderCard = true
-
 					}
 
 				});
@@ -157,13 +153,11 @@ class MovieWithShowtimeComp extends PureComponent {
 			}
 		})
 
-		console.log(renderCardItems, 'renderCardItems');
-
 		if (renderCardItems.length > 0) {
 			return renderCardItems
 		} else {
 			return (
-				<section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+				<section className="empty"><img src={empty}/><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/></h5></section>
 			)
 		}
 

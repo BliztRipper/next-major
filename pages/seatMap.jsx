@@ -431,8 +431,6 @@ class seatMap extends PureComponent {
       <Layout title="Select Seats">
         {(() => {
           if (userInfo.accid) {
-            console.log(userInfo.zoom, 'userInfo.zoom');
-
             return (
               <Fragment>
                 <div className={seatMapClassName}>
