@@ -7,6 +7,7 @@ import loading from "../static/loading.svg";
 import Router from "next/router";
 import utilities from "../scripts/utilities";
 import GlobalHeader from "../components/GlobalHeader";
+import empty from '../static/emptyMovie.png'
 import { URL_PROD,API_KEY, URL_PAYMENT_PROD } from '../lib/URL_ENV';
 
 class Cashier extends PureComponent {

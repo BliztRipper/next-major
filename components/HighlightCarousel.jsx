@@ -152,11 +152,16 @@ class HighlightCarousel extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5></Link></section>
+      return (
+        <section className="empty isHighlight">
+          <img src={empty}/>
+          <h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5>
+        </section>
+      )
     }
     if(isError){
       return (
-        <section className="empty">
+        <section className="empty isHighlight">
           <img src={empty}/>
           <h5>ข้อมูลไม่ถูกต้อง</h5>
         </section>
