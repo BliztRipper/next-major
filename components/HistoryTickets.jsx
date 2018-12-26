@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import '../styles/style.scss'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/icon-ticket-empty.svg'
 import utilities from '../scripts/utilities'
 
 class HistoryTickets extends PureComponent {

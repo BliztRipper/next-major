@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/icon-film-empty.svg'
 import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';

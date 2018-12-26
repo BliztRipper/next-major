@@ -8,7 +8,7 @@ import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/icon-film-empty.svg'
 import { URL_PROD, URL_PAYMENT_PROD, API_KEY } from '../lib/URL_ENV';
 
 
