@@ -3,7 +3,7 @@ import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 
 class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {

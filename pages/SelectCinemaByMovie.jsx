@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import Link from 'next/link'
 import Router from 'next/router'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import RegionCinemaComp from '../components/RegionCinemaComp'
 import MovieInfoComp from '../components/MovieInfoComp'
 import SearchCinema from '../components/SearchCinema'

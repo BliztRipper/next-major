@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import Layout from "../components/Layout"
 import Link from 'next/link'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import Router from 'next/router'
 import DateFilters from '../components/DateFilters'
 import MovieWithShowtimeComp from '../components/MovieWithShowtimeComp'

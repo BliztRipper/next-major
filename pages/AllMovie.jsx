@@ -7,7 +7,7 @@ import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import GlobalFooterNav from '../components/GlobalFooterNav'
 
 class AllMovie extends PureComponent {

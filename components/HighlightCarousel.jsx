@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import Swiper from 'swiper'
 import { URL_PROD } from '../lib/URL_ENV';
 import * as gtag from '../lib/gtag'
