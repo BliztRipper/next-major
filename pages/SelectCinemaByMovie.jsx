@@ -293,11 +293,21 @@ class MainSelectCinemaByMovie extends Component {
     this.setState({searchRegions: regions})
   }
 
-  renderFavorite() {
+  renderFavorite(cinemaIds) {
     let favRegions = []
     this.state.regionsFav.forEach((region, i) => {
-      if (region.cinemas.length > 0) {
-        favRegions.push(<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
+      let findCinema = false
+      if (region.cinemas.length > 0 && cinemaIds.length > 0) {
+        cinemaIds.forEach(cinemaId => {
+          region.cinemas.forEach(cinemaFav => {
+            if (cinemaId === cinemaFav.cinemaId) {
+              findCinema = true
+            }
+          })
+        });
+        if (findCinema) {
+          favRegions.push(<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
+        }
       }
     })
 
@@ -307,8 +317,10 @@ class MainSelectCinemaByMovie extends Component {
   }
 
   renderRegion() {
+    let instantRegions = []
+    let instantCinemaIds = []
     if (this.state.regions && this.state.regions.length > 0) {
-      return this.state.regions.map((region, i) => {
+      instantRegions = this.state.regions.map((region, i) => {
         let instantShowtimesFilterByDate = []
         region.allowRender = false
 
@@ -331,16 +343,20 @@ class MainSelectCinemaByMovie extends Component {
 
               })
             }
-
+            if (cinema.allowRender) {
+              instantCinemaIds.push(cinema.cinemaId)
+            }
           })
         }
 
         if (region.allowRender) {
-          return <RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+          return (<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
         } else {
           return false
         }
       })
+      instantRegions.unshift(this.renderFavorite(instantCinemaIds))
+      return instantRegions
     }
   }
 
@@ -356,7 +372,6 @@ class MainSelectCinemaByMovie extends Component {
     } else {
       return (
         <Fragment>
-          {this.renderFavorite()}
           {this.renderRegion()}
         </Fragment>
       )
