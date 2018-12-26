@@ -130,7 +130,7 @@ class Ticket extends PureComponent {
           </div>
           <div className="movie-cashier__seat-info--wrapper">
             <span className="movie-cashier__seat-info--title">
-            <div className="sprite-sound"></div>{this.state.BookingAttributesNames}
+              <img src="../static/ic-sound.svg" className="icSvg icSvgSound" />{this.state.BookingAttributesNames}
             </span>
           </div>
         </div>

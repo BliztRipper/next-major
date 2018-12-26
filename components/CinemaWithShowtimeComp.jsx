@@ -73,10 +73,16 @@ class CinemaWithShowtimeComp extends Component {
 						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>
 							<div className="cinema__card-cbm--theatre-wrapper">
 								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-								<div className="cinema__card-cbm--theatre-type">
-									{this.renderSystem(theater.FormatCode)}
-								</div>
-								<div className="sprite-sound"></div>
+								{(() => {
+									if (this.renderSystem(theater.FormatCode)) {
+										return (
+											<div className="cinema__card-cbm--theatre-type">
+												{this.renderSystem(theater.FormatCode)}
+											</div>
+										)
+									}
+								})()}
+								<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 							</div>
 							<div className="cinema__card-cbm--timetable-wrap">
@@ -106,8 +112,8 @@ class CinemaWithShowtimeComp extends Component {
 					</div>
 					<div className="favIconWrap">
 						<div ref="classname" className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
-							<img src="../static/icon-star-orange-line.png" alt="" />
-							<img src="../static/icon-star-orange.png" alt="" />
+							<img src="../static/ic-star-outline.svg" alt="" />
+							<img src="../static/ic-star-active.svg" alt="" />
 						</div>
 					</div>
 				</div>

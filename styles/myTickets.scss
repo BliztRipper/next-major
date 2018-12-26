@@ -72,8 +72,9 @@
       align-items: flex-end;
     }
     .movie-cashier__seat-info--title {
+      display: flex;
       align-items: center;
-      .sprite-sound {
+      .icSvgSound {
         margin: 0 0.6em 0 0;
       }
     }
