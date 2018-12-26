@@ -349,6 +349,13 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   figure {
     margin: 0 auto;
     display: block;
+    text-align: center;
+    img {
+      display: block;
+      margin: auto;
+      width: 32vw;
+      height: auto;
+    }
   }
   .seatMap__educate-desc {
     text-align: center;
