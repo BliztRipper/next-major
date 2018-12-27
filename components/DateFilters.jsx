@@ -29,7 +29,7 @@ class DateFilters extends Component {
       speed: 400,
       freeMode: true,
       slideToClickedSlide: true,
-      freeModeMomentumVelocityRatio: 2,
+      freeModeMomentum: false,
       freeModeSticky: true
     }
     let swiper = new Swiper(this.refs.slider, sliderSetting)
