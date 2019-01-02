@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import Ticket from './Ticket'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/icon-ticket-empty.svg'
 import sortTickets from '../scripts/sortTickets'
 import Router from 'next/router'
 import Swiper from 'swiper'

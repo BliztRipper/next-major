@@ -3,13 +3,14 @@ import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
+import empty from '../static/icon-film-empty.svg'
 
 class MovieWithShowtimeComp extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			accid: this.props.accid,
-			movieList: null,
+			movieList: null
 		}
 	}
 	componentDidMount () {
@@ -19,12 +20,12 @@ class MovieWithShowtimeComp extends PureComponent {
 	}
 
 	handleScheduleSelected(theater, showtime) {
-		sessionStorage.setItem('BookingTime', showtime.slice(11, 16))
+		sessionStorage.setItem('BookingTime', showtime.showtime)
 		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('BookingCinemaOperatorCode', theater.CinemaOperatorCode)
 		sessionStorage.setItem('CinemaID', theater.CinemaId)
-		sessionStorage.setItem('BookingDate', showtime)
+		sessionStorage.setItem('BookingDate', showtime.datetime)
 		sessionStorage.setItem('movieSelect', JSON.stringify(this.getMovieInfo(theater.ScheduledFilmId)))
 	}
 
@@ -54,101 +55,119 @@ class MovieWithShowtimeComp extends PureComponent {
 	renderSound(sessionAttributesNames) {
 		if (sessionAttributesNames && sessionAttributesNames.length > 0) {
 			return sessionAttributesNames.map(sound => {
-				return `${utilities.getSoundDisplay(sound)} | `
+				return `${utilities.getSoundDisplay(sound)} ${sessionAttributesNames.length > 1 ? ' | ' : ''}`
 			})
 		}
 	}
 
-	renderShowtimes(theater, filmId) {
+	renderShowtimes(theater) {
 
-		let items = []
-		if (theater.Showtimes) {
-			theater.Showtimes.forEach((showtime, i) => {
-				let dataToSeatMap = {
-					pathname: '/seatMap',
-					query: {
-						...theater,
-						SessionId: theater.SessionIds[i]
-					}
+		return theater.showtimesFilterByDate.map((showtime, showtimeIndex) => {
+			let dataToSeatMap = {
+				pathname: '/seatMap',
+				query: {
+					...theater,
+					SessionId: showtime.sessionId
 				}
+			}
+			let keyShowTime = showtime.showtime + theater.ScreenNameAlt + showtimeIndex
+			return (
+				<Link prefetch href={dataToSeatMap} key={keyShowTime} >
+					<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+						{showtime.showtime}
+					</span>
+				</Link>
+			)
+		});
 
-				if (showtime.slice(0, 10) == this.props.pickThisDay) {
-					if(this.getMovieInfo(filmId) !== null){
-						let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + this.getMovieInfo(filmId).title_en + i
-						items.push (
-							<Link prefetch href={dataToSeatMap} key={keyShowTime}>
-								<a className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-									{showtime.slice(11, 16)}
-								</a>
-							</Link>
-						)
-					}
-				}
-			})
-		}
-		return items
 	}
 
-	renderTheater(theaters, showtimesItems) {
-		return theaters.map((theater, theaterIndex) => {
-			let keyCardItem = theater.ScreenNameAlt + theaterIndex
+	renderTheater(theaters) {
+
+		return theaters.map(theater => {
+
+			let keyCardItem = theater.ScreenNameAlt
 			return (
 				<div className="cinema__card-cbm" key={keyCardItem}>
 					<div className="cinema__card-cbm--theatre-container">
 						<div className="cinema__card-cbm--theatre-wrapper">
 							<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-							<div className="cinema__card-cbm--theatre-type">
-								{this.renderSystem(theater.FormatCode)}
-							</div>
-							<div className="sprite-sound"></div>
+							{(() => {
+								if (this.renderSystem(theater.FormatCode)) {
+									return (
+										<div className="cinema__card-cbm--theatre-type">
+											{this.renderSystem(theater.FormatCode)}
+										</div>
+									)
+								}
+							})()}
+							<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
 						<div className="cinema__card-cbm--timetable-wrap">
 							<div className="cinema__card-cbm--timetable">
-								{showtimesItems}
+								{this.renderShowtimes(theater)}
 							</div>
 						</div>
 					</div>
 				</div>
 			)
-		})
+
+		});
+
 	}
 
-	renderMovieCard() {
-		let movieInfoItem = null
-		let hasMovieInfo = false
-		let instantSchedules = this.props.schedules
+	renderMovieCard () {
 
-    return Object.keys(this.props.schedules).map((filmId, filmIdIndex, filmIdArray) => {
-			movieInfoItem = this.getMovieInfo(filmId)
+		let instantMovieInfo = ''
+		let instantShowtimesFilterByDate = []
+		let renderCardItems = []
+		let allowRenderCard = false
+		let instantPropsSchedules = this.props.schedules
+		Object.keys(instantPropsSchedules).forEach((filmId, filmIdIndex, filmIdArray) => {
 
-			if (movieInfoItem) {
-				hasMovieInfo = true
-			}
+			instantMovieInfo = this.getMovieInfo(filmId)
 
-      if (filmIdIndex + 1 === filmIdArray.length && !hasMovieInfo) {
-        this.props.theaterEmptyCheck(true)
-			}
+			if (instantMovieInfo) {
 
-			let theatersByFilmId = instantSchedules[filmId]
-			let showtimesItems = false
-			theatersByFilmId.forEach(theater => {
-				showtimesItems = this.renderShowtimes(theater, filmId)
-			});
+				instantPropsSchedules[filmId].forEach(theater => {
 
-      if (theatersByFilmId && movieInfoItem && showtimesItems.length > 0) {
-				return (
-					<FlipMove duration={600} className="cinema__cardItem-wrap isDiff" key={filmId} >
-						<div className="cinema__cardItemTransition">
-							<div className="cinema__cardItem isDiff">
-								{<MovieInfoByCinemaComp item={movieInfoItem} />}
-								{this.renderTheater(theatersByFilmId, showtimesItems)}
+					instantShowtimesFilterByDate = utilities.getShowtime(theater, this.props.pickThisDay)
+
+					if (instantShowtimesFilterByDate.length > 0) {
+						theater.showtimesFilterByDate = instantShowtimesFilterByDate
+						allowRenderCard = true
+					}
+
+				});
+
+				if (allowRenderCard) {
+
+					renderCardItems.push(
+						<FlipMove duration={600} className="cinema__cardItem-wrap isDiff" key={filmId} >
+							<div className="cinema__cardItemTransition">
+								<div className="cinema__cardItem isDiff">
+									{<MovieInfoByCinemaComp item={instantMovieInfo} />}
+									{this.renderTheater(instantPropsSchedules[filmId])}
+								</div>
 							</div>
-						</div>
-					</FlipMove>
-				)
-      }
-    })
+						</FlipMove>
+					)
+
+				}
+
+			}
+		})
+
+		if (renderCardItems.length > 0) {
+			return renderCardItems
+		} else {
+			return (
+				<section className="empty"><img src={empty}/><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/></h5></section>
+			)
+		}
+
+
 	}
 
 	render() {

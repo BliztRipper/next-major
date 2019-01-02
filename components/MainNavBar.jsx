@@ -5,7 +5,6 @@ import MainCinemaListing from '../components/MainCinemaListing'
 import utilities from '../scripts/utilities'
 import Router from 'next/router'
 import Link from 'next/link'
-import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
 
 class MainNavBar extends PureComponent {
@@ -26,14 +25,15 @@ class MainNavBar extends PureComponent {
 
   }
   getTickets () {
-    axios.get(`${URL_PROD}/MyTickets/${this.props.accid}`)
-    .then(response => {
-      this.state.dataMyTicketServerTime = response.data.server_time
+    fetch(`${URL_PROD}/MyTickets/${this.props.accid}`)
+    .then(response => response.json())
+    .then(data => {
+      this.state.dataMyTicketServerTime = data.server_time
       let expired = false
-      if (response.data.data) {
+      if (data.data) {
         this.state.dataMyTickets = []
         this.state.dataMyTicketsExpired = []
-        response.data.data.forEach((ticket) => {
+        data.data.forEach((ticket) => {
           expired = this.ticketHasExpired(ticket)
           if (!expired) {
             this.state.dataMyTickets.push(ticket)

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import RegionCinemaComp from './RegionCinemaComp'
 import utilities from '../scripts/utilities';
 import '../styles/style.scss'
@@ -103,8 +103,8 @@ renderBySystemType() {
 
 render() {
   const {isEmpty} = this.state
-    if(isEmpty){
-      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
+  if(isEmpty){
+    return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
     }
 
     return this.renderBySystemType()

@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/icon-film-empty.svg'
 import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
-import { URL_PROD } from '../lib/URL_ENV';
+import { URL_PROD, URL_PORTAL } from '../lib/URL_ENV';
 
 
 class home extends PureComponent {
@@ -14,13 +14,14 @@ class home extends PureComponent {
     this.state = {
       isLoading: true,
       notConsent: false,
-      underConstruction:false,
+      underConstruction: false,
       userInfo: {
         accid: false
       }
     }
   }
-  componentDidMount() {
+
+  initApp () {
     let urlParams = (new URL(document.location)).searchParams;
 
     let userInfo = null
@@ -35,6 +36,7 @@ class home extends PureComponent {
       }
       sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
+
     if (accid) {
       this.checkConsent(accid)
     }
@@ -52,6 +54,10 @@ class home extends PureComponent {
           console.warn('service worker registration failed', err.message)
         })
     }
+  }
+
+  componentDidMount() {
+    this.checkUnderConstruction()
   }
 
   checkConsent (accid) {
@@ -75,6 +81,23 @@ class home extends PureComponent {
       sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
     }).catch (err => {
       this.setState({notConsent: true})
+    })
+  }
+
+  checkUnderConstruction () {
+    fetch(`${URL_PORTAL}/GetStatusMaintenancePage`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.message !== 'Not Found') {
+        if (data.data.maintenance_page === 'show') {
+          this.setState({
+            underConstruction: true,
+            notConsent: false,
+            isLoading: false
+          })
+        }
+      }
+      this.initApp()
     })
   }
 
@@ -103,6 +126,19 @@ class home extends PureComponent {
 
   render() {
     const { isLoading,notConsent,underConstruction } = this.state
+    if(underConstruction){
+      return (
+        <Layout>
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
+            <img src="../static/maintenance.svg" width="150" alt=""/>
+          </div>
+          <div style={{marginTop:'4rem', textAlign:'center'}}>
+            <p style={{color:'#333', fontSize:'1.2rem'}}>ระบบกำลังปรับปรุง</p>
+            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก<br/>กรุณาทำรายการใหม่ภายหลัง</p>
+          </div>
+        </Layout>
+      )
+    }
     if (isIOS){
       if(parseFloat(osVersion) < 10.3){
         return <VersionNotSupport/>
@@ -128,19 +164,6 @@ class home extends PureComponent {
             <p style={{color:'#999'}}>*รองรับระบบ iOS ตั้งแต่ 10.3 และ Android 4.4 ขึ้นไป</p>
           </div>
           <button onClick={this.addConsent.bind(this)} style={{border: 'none', backgroundColor:'#ff8300',width:'100%',fontSize:'1rem', fontWeight:'bold',height:'4rem',color:'#fff',position:'fixed',bottom:0,left:0}}>อนุญาตดำเนินการ</button>
-        </Layout>
-      )
-    }
-    if(underConstruction){
-      return (
-        <Layout>
-          <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
-            <img src="../static/maintenance.svg" width="150" alt=""/>
-          </div>
-          <div style={{marginTop:'4rem', textAlign:'center'}}>
-            <p style={{color:'#333', fontSize:'1.2rem'}}>ระบบกำลังปรับปรุง</p>
-            <p style={{color:'#999'}}>ขออภัยในความไม่สะดวก<br/>กรุณาทำรายการใหม่ภายหลัง</p>
-          </div>
         </Layout>
       )
     }

@@ -16,14 +16,14 @@ class CinemaWithShowtimeComp extends Component {
 	}
 
 	handleScheduleSelected(theater, showtime) {
-		sessionStorage.setItem('BookingTime', showtime.slice(11, 16))
+		sessionStorage.setItem('BookingTime', showtime.showtime)
 		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
 		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
 		sessionStorage.setItem('BookingCinemaOperatorCode', theater.CinemaOperatorCode)
 		sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
 		sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
 		sessionStorage.setItem('BookingBranchLocation', JSON.stringify(this.state.cinema.branchLocation))
-		sessionStorage.setItem('BookingDate', showtime)
+		sessionStorage.setItem('BookingDate', showtime.datetime)
 	}
 
 	renderSystem(formatCode) {
@@ -35,38 +35,31 @@ class CinemaWithShowtimeComp extends Component {
 	renderSound(sessionAttributesNames) {
 		if (sessionAttributesNames && sessionAttributesNames.length > 0) {
 			return sessionAttributesNames.map(sound => {
-				return `${utilities.getSoundDisplay(sound)} | `
+				return `${utilities.getSoundDisplay(sound)} ${sessionAttributesNames.length > 1 ? ' | ' : ''}`
 			})
 		}
 	}
 
-	renderShowtimes(showtimes, theater) {
-		let items = []
+	renderShowtimes(theater) {
 
-		if (showtimes) {
-			showtimes.forEach((showtime, i) => {
-				let dataToSeatMap = {
-					pathname: '/seatMap',
-					query: {
-						...theater,
-						SessionId: theater.SessionIds[i]
-					}
+		return theater.showtimesFilterByDate.map((showtime, showtimeIndex) => {
+			let dataToSeatMap = {
+				pathname: '/seatMap',
+				query: {
+					...theater,
+					SessionId: showtime.sessionId
 				}
+			}
+			let keyShowTime = showtime.showtime + theater.ScreenNameAlt + showtimeIndex
+			return (
+				<Link prefetch href={dataToSeatMap} key={keyShowTime} >
+					<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+						{showtime.showtime}
+					</span>
+				</Link>
+			)
+		});
 
-				if (showtime.slice(0, 10) == this.props.pickThisDay) {
-					let keyShowTime = showtime.slice(11, 16) + theater.ScreenNameAlt + i
-					items.push (
-						<Link prefetch href={dataToSeatMap} key={keyShowTime} >
-							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-								{showtime.slice(11, 16)}
-							</span>
-						</Link>
-					)
-				}
-			})
-		}
-
-		return items
 	}
 
 	renderTheater() {
@@ -74,21 +67,27 @@ class CinemaWithShowtimeComp extends Component {
 
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {
-				let objShowtimes = this.renderShowtimes(theater.Showtimes, theater)
-				if (objShowtimes.length > 0) {
+
+				if (theater.allowRender) {
 					items.push (
 						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>
 							<div className="cinema__card-cbm--theatre-wrapper">
 								<div className="cinema__card-cbm--theatre-title">{theater.ScreenName}</div>
-								<div className="cinema__card-cbm--theatre-type">
-									{this.renderSystem(theater.FormatCode)}
-								</div>
-								<div className="sprite-sound"></div>
+								{(() => {
+									if (this.renderSystem(theater.FormatCode)) {
+										return (
+											<div className="cinema__card-cbm--theatre-type">
+												{this.renderSystem(theater.FormatCode)}
+											</div>
+										)
+									}
+								})()}
+								<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 							</div>
 							<div className="cinema__card-cbm--timetable-wrap">
 								<div className="cinema__card-cbm--timetable">
-									{this.renderShowtimes(theater.Showtimes, theater)}
+									{this.renderShowtimes(theater)}
 								</div>
 							</div>
 						</div>
@@ -113,8 +112,8 @@ class CinemaWithShowtimeComp extends Component {
 					</div>
 					<div className="favIconWrap">
 						<div ref="classname" className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
-							<img src="../static/icon-star-orange-line.png" alt="" />
-							<img src="../static/icon-star-orange.png" alt="" />
+							<img src="../static/ic-star-outline.svg" alt="" />
+							<img src="../static/ic-star-active.svg" alt="" />
 						</div>
 					</div>
 				</div>

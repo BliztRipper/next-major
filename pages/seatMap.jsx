@@ -8,7 +8,7 @@ import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
-import empty from '../static/emptyTicket.png'
+import empty from '../static/icon-film-empty.svg'
 import { URL_PROD, URL_PAYMENT_PROD, API_KEY } from '../lib/URL_ENV';
 
 
@@ -26,8 +26,9 @@ class seatMap extends PureComponent {
       ticketData: null,
       dataBookedSeats: null,
       seatsSelected: null,
+      seatsCounter: 0,
       otpShow: false,
-      entrySeatMap: false,
+      showPopupEducate: true,
       userInfo: '',
       userAuthData: null,
       apiOtpHeader: {
@@ -49,15 +50,15 @@ class seatMap extends PureComponent {
       })
       .then(response => response.json())
       .then(() =>  {
-        this.setState({ isLoading: false })
+        this.getTheatre()
+        sessionStorage.removeItem('BookingCurrentServerTime')
+        sessionStorage.removeItem('BookingUserSessionId')
+        sessionStorage.removeItem('BookingUserPhoneNumber')
+        sessionStorage.removeItem('BookingPrice')
+        sessionStorage.removeItem('BookingPriceDisplay')
+        sessionStorage.removeItem('BookingSeat')
+        sessionStorage.removeItem('BookingSeatTotal')
       })
-      sessionStorage.removeItem('BookingCurrentServerTime')
-      sessionStorage.removeItem('BookingUserSessionId')
-      sessionStorage.removeItem('BookingUserPhoneNumber')
-      sessionStorage.removeItem('BookingPrice')
-      sessionStorage.removeItem('BookingPriceDisplay')
-      sessionStorage.removeItem('BookingSeat')
-      sessionStorage.removeItem('BookingSeatTotal')
     } catch(err){
       error => this.setState({ error, isLoading: false })
     }
@@ -156,13 +157,9 @@ class seatMap extends PureComponent {
       error => this.setState({ error, isLoading: false })
     }
   }
-  handleToggleZoomSeatsMap (e) {
-    this.setState({
-      entrySeatMap: true
-    })
-  }
-  authOtpHasToken (seatSelected) {
-    this.state.seatsSelected = seatSelected
+  authOtpHasToken (seatsSelected, seatsCounter) {
+    this.state.seatsSelected = seatsSelected
+    this.state.seatsCounter = seatsCounter
     this.refSeatMapDisplay.current.setState({postingTicket: true})
     try {
       fetch(`${URL_PAYMENT_PROD}/HasToken/${this.state.userInfo.accid}`,{
@@ -316,19 +313,21 @@ class seatMap extends PureComponent {
       priceInCents: 0,
       SelectedSeats: []
     }
-    this.state.seatsSelected.forEach((item, index, array) => {
+    this.state.seatsSelected.forEach((aSeatSelected, aSeatSelectedIndex, aSeatSelectedArray) => {
+
       let data = {
-        cinemaId: item.ticket.CinemaId,
-        priceInCents: item.ticket.PriceInCents,
-        ticketTypeCode: item.ticket.TicketTypeCode,
-        qty: array.length,
+        cinemaId: aSeatSelected.ticket.CinemaId,
+        priceInCents: aSeatSelected.ticket.PriceInCents,
+        ticketTypeCode: aSeatSelected.ticket.TicketTypeCode,
+        qty: this.state.seatsCounter,
         SessionId: this.state.SessionId
       }
       dataToStorage = {...dataToStorage, ...data}
       dataToStorage.SelectedSeats.push({
-        AreaCategoryCode: item.ticket.AreaCategoryCode,
-        ...item.Position
+        AreaCategoryCode: aSeatSelected.ticket.AreaCategoryCode,
+        ...aSeatSelected.Position
       })
+
     });
     try {
       fetch(`${URL_PROD}/AddTicket`,{
@@ -363,23 +362,18 @@ class seatMap extends PureComponent {
     }
   }
   educateAccepted () {
-    fetch(`https://api-cinema-stg.truemoney.net/AddZoom/${this.state.userInfo.accid}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.status_code === 0) {
-        this.state.userInfo.zoom = true
-        sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
-        this.setState({
-          userInfo: this.state.userInfo
-        })
-      }
+    this.setState({
+      showPopupEducate: false
     })
+    this.state.userInfo.zoom = true
+    sessionStorage.setItem('userInfo', JSON.stringify(this.state.userInfo))
+    fetch(`${URL_PROD}/AddZoom/${this.state.userInfo.accid}`)
   }
   renderEducate () {
     return(
-      <div className="seatMap__educate" onClick={this.handleToggleZoomSeatsMap.bind(this)}>
+      <div className="seatMap__educate" onClick={this.educateAccepted.bind(this)}>
         <div className="seatMap__educate-inner">
-          <figure><img src="../static/icon-pinch.png" alt=""/></figure>
+          <figure><img src="../static/icon-pinch.svg" alt=""/></figure>
           <div className="seatMap__educate-desc">เพื่อขยายที่นั่ง</div>
           <div className="seatMap__educate-button" onClick={this.educateAccepted.bind(this)}>
             <span className="btnTheme">เข้าใจแล้ว</span>
@@ -394,20 +388,23 @@ class seatMap extends PureComponent {
     if (!instantMovieSelect) {
       this.goToHome()
     }
-    this.getTheatre()
     let userSessionId = sessionStorage.getItem('BookingUserSessionId')
+    let instantUserInfo = JSON.parse(sessionStorage.getItem("userInfo"))
     this.setState({
-      userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
+      userInfo: instantUserInfo,
+      showPopupEducate: !instantUserInfo.zoom
     })
     if (userSessionId) {
       this.setState({
         isLoading: true
       })
       this.cancelOrder(userSessionId)
+    } else {
+      this.getTheatre()
     }
   }
   render () {
-    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, entrySeatMap, userInfo} = this.state;
+    const {isLoading, error, areaData, ticketData, SessionId, otpShow, userAuthData, userInfo, showPopupEducate} = this.state;
     let seatMapClassName = 'seatMap'
     if (error) {
       return <p>{error.message}</p>;
@@ -447,18 +444,14 @@ class seatMap extends PureComponent {
                     bookSelectedSeats={this.bookSelectedSeats.bind(this)}
                   ></SeatMapDisplay>
                 </div>
-                {(() => {
-                  if (!userInfo.zoom) {
-                    return <CSSTransition
-                      in={!entrySeatMap}
-                      classNames="overlayEducate"
-                      timeout={300}
-                      unmountOnExit
-                    >
-                      {this.renderEducate()}
-                    </CSSTransition>
-                  }
-                })()}
+                <CSSTransition
+                  in={showPopupEducate}
+                  classNames="overlayEducate"
+                  timeout={300}
+                  unmountOnExit
+                >
+                  {this.renderEducate()}
+                </CSSTransition>
               </Fragment>
             )
           } else {

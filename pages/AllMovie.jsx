@@ -7,11 +7,8 @@ import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import GlobalFooterNav from '../components/GlobalFooterNav'
-import axios from 'axios'
-import { URL_PROD } from '../lib/URL_ENV';
-
 
 class AllMovie extends PureComponent {
   constructor(props) {
@@ -27,23 +24,14 @@ class AllMovie extends PureComponent {
 
   }
   componentDidMount(){
-    axios(`${URL_PROD}/MovieList`)
-    .then(response => {
-      let hasMovies = response.data.data.now_showing.length > 0 || response.data.data.advance_ticket.length > 0 || response.data.data.comingsoon.length > 0
 
-      this.setState({
-        dataObj: response.data.data,
-        isLoading: false,
-        isEmpty: !hasMovies
-      })
-    })
-    .catch(error => this.setState({
-      isError: true,
-      isEmpty: false,
-      isLoading: false
-    }))
+    let instantAllMovies = JSON.parse(sessionStorage.getItem('allMovies'))
+    let hasMovies = instantAllMovies.now_showing.length > 0 || instantAllMovies.advance_ticket.length > 0 || instantAllMovies.comingsoon.length > 0
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     this.setState({
+      dataObj: hasMovies ? instantAllMovies : [],
+      isLoading: hasMovies ? false : true,
+      isEmpty: hasMovies ? false : true,
       accid: JSON.parse(sessionStorage.getItem("userInfo")).accid
     })
   }

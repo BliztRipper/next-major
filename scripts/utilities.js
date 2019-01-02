@@ -187,5 +187,24 @@ export default {
       enable: enable,
       disable: disable
     }
+  },
+  getShowtime (theater, pickThisDay) {
+    let showtimes = theater.Showtimes
+    let result = []
+		if (showtimes) {
+			showtimes.forEach((showtime, i) => {
+
+				if (showtime.slice(0, 10) === pickThisDay) {
+					result.push({
+            date: showtime.slice(0, 10),
+            showtime: showtime.slice(11, 16),
+            datetime: showtime,
+            sessionId: theater.SessionIds[i]
+          })
+        }
+
+			})
+    }
+    return result
   }
 }

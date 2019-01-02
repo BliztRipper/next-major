@@ -24,6 +24,7 @@ class MovieInfoByCinemaComp extends PureComponent {
       }
       const wrapper ={
         marginLeft:'1rem',
+        marginRight:'0.4rem',
       }
       const detail ={
         borderRadius: '4px',

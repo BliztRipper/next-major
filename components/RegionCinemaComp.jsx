@@ -30,7 +30,7 @@ class RegionCinemaComp extends Component {
     if (this.state.iAmFav) {
       return (
         <div className="cinema__regional__title-iconFav">
-          <img src="../static/icon-star-orange-line.png" alt="" />
+          <img src="../static/ic-star-outline-highlight.svg" alt="" />
         </div>
       );
     } else if (this.state.iAmSystem) {
@@ -69,7 +69,7 @@ class RegionCinemaComp extends Component {
             className={this.state.isExpand ? "arrowIcon active" : "arrowIcon"}
             key="arrowIcon">
             {" "}
-            <img src="../static/ic-arrow-back.png" alt="" />
+            <img src="../static/ic-down-chevron.svg" alt="" />
           </div>
         </div>
       </div>
@@ -80,16 +80,21 @@ class RegionCinemaComp extends Component {
     if (this.state.region && this.state.region.cinemas) {
       return this.state.region.cinemas.map((cinema, cinemaIndex) => {
         if (cinema.schedule) {
-          return (
-            <CinemaWithShowtimeComp
-              iAmFav={this.props.iAmFav}
-              key={cinema.cinemaId + cinemaIndex}
-              accid={this.state.accid}
-              cinema={cinema}
-              pickThisDay={this.props.pickThisDay}
-              favActive={this.state.favActive}
-            />
-          );
+          if (cinema.allowRender) {
+            return (
+              <CinemaWithShowtimeComp
+                iAmFav={this.props.iAmFav}
+                key={cinema.cinemaId + cinemaIndex}
+                accid={this.state.accid}
+                cinema={cinema}
+                showtimes={this.props.showtimes}
+                pickThisDay={this.props.pickThisDay}
+                favActive={this.state.favActive}
+              />
+            );
+          } else {
+            return false
+          }
         } else {
           return (
             <CinemaWithOutShowtimeComp

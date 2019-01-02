@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
 import loading from '../static/loading.svg'
-import empty from '../static/emptyMovie.png'
+import empty from '../static/icon-film-empty.svg'
 import Swiper from 'swiper'
-import axios from 'axios'
 import { URL_PROD } from '../lib/URL_ENV';
 import * as gtag from '../lib/gtag'
 
@@ -36,9 +35,12 @@ class HighlightCarousel extends PureComponent {
   }
   componentWillMount(){
     this.props.highlightFetched(false)
-    axios.get(`${URL_PROD}/MovieList`)
-    .then(response => {
-      let res =  response.data.data
+
+    fetch(`${URL_PROD}/MovieList`)
+    .then(response => response.json())
+    .then(data => {
+      let res =  data.data
+      sessionStorage.setItem('allMovies', JSON.stringify(res))
       this.setState({
         nowShowing:res.now_showing,
         advTicket:res.advance_ticket,
@@ -150,11 +152,16 @@ class HighlightCarousel extends PureComponent {
       return <img src={loading} className="loading"/>
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5></Link></section>
+      return (
+        <section className="empty isHighlight">
+          <img src={empty}/>
+          <h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้</h5>
+        </section>
+      )
     }
     if(isError){
       return (
-        <section className="empty">
+        <section className="empty isHighlight">
           <img src={empty}/>
           <h5>ข้อมูลไม่ถูกต้อง</h5>
         </section>

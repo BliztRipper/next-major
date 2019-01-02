@@ -148,14 +148,18 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
 .ticketResult {
   font-size: 2.8vw;
   line-height: 1;
-  &__lists {
+  &__listsInner {
     display: flex;
     justify-content: space-around;
     overflow: auto;
+  }
+  &__lists {
     &.needOverflow {
-      text-align: center;
-      display: block;
-      white-space: nowrap;
+      .ticketResult__listsInner {
+        text-align: center;
+        display: block;
+        white-space: nowrap;
+      }
       .ticketResult__list {
         display: inline-block;
         padding: 1.4vw;
@@ -166,18 +170,23 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
     padding: 2vw 1.2vw;
     text-align: center;
     > div {
-      display: inline-block;
+      white-space: nowrap;
       position: relative;
-      padding-left: 5.4vw;
+      padding-left: 6.4vw;
       text-align: left;
+      > div {
+        &:first-child {
+          margin-bottom: 0.18rem;
+        }
+      }
       &:after {
         content: '';
         display: block;
         position: absolute;
         left: 0;
         top: 0.2vw;
-        width: 5vw;
-        height: 5vw;
+        width: 5.3vw;
+        height: 5.3vw;
         background-color: #333;
         border-radius: 1vw;
       }
@@ -187,16 +196,16 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
     }
     &.IsPackageTicket {
       > div {
-        padding-left: 10.7vw;
+        padding-left: 12vw;
         &:before {
           content: '';
           display: block;
           position: absolute;
-          left: 5vw;
+          left: 5.3vw;
           transform: translateX(0.3vw);
           top: 0.2vw;
-          width: 5vw;
-          height: 5vw;
+          width: 5.3vw;
+          height: 5.3vw;
           border-radius: 1vw;
           background-color: #333;
         }
@@ -349,6 +358,13 @@ $colorSeats: $colorSeat1 $colorSeat2 $colorSeat3 $colorSeat4 $colorSeat5 $colorS
   figure {
     margin: 0 auto;
     display: block;
+    text-align: center;
+    img {
+      display: block;
+      margin: auto;
+      width: 32vw;
+      height: auto;
+    }
   }
   .seatMap__educate-desc {
     text-align: center;
