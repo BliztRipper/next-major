@@ -99,6 +99,9 @@ class home extends PureComponent {
       }
       this.initApp()
     })
+    .catch(err => {
+      this.initApp()
+    })
   }
 
   renderSlide(){
@@ -126,7 +129,7 @@ class home extends PureComponent {
 
   render() {
     const { isLoading,notConsent,underConstruction } = this.state
-    if(underConstruction){
+    if (underConstruction) {
       return (
         <Layout>
           <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
