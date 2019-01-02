@@ -49,6 +49,7 @@ class SeatMapDisplay extends PureComponent {
       this.refSeatsMainInner = React.createRef()
       this.refSeatsMain = React.createRef()
       this.refSeatsHammer = React.createRef()
+      this.refTicketResultListsInner = React.createRef()
   }
   getTicketByAreaCode (AreaCategoryCode) {
     return this.state.tickets.filter(ticket => ticket.AreaCategoryCode === AreaCategoryCode)[0]
@@ -121,21 +122,24 @@ class SeatMapDisplay extends PureComponent {
         canBook: true
       }
 
-      aSeat.SeatsInGroup.forEach(seatInGroup => {
-        selectRow.forEach((aSeatInSelectRow) => {
+      if (aSeat.SeatsInGroup) {
+        aSeat.SeatsInGroup.forEach(seatInGroup => {
+          selectRow.forEach((aSeatInSelectRow) => {
 
-          if (instantSeat.canBook) {
-            if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
+            if (instantSeat.canBook) {
+              if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
 
-              instantSeat = toggleBooked(aSeatInSelectRow, true)
-              if (instantSeat.canBook) {
-                listSelected.push(aSeatInSelectRow)
+                instantSeat = toggleBooked(aSeatInSelectRow, true)
+                if (instantSeat.canBook) {
+                  listSelected.push(aSeatInSelectRow)
+                }
               }
-            }
-          } //canBook
+            } //canBook
 
+          })
         })
-      })
+      }
+
 
 
       if (!instantSeat.canBook) {
@@ -283,11 +287,11 @@ class SeatMapDisplay extends PureComponent {
         </div>
       )
     });
-    let classNameTicketLists = 'ticketResult__lists'
-    classNameTicketLists = ticketList.length > 3 ? classNameTicketLists + ' needOverflow' : classNameTicketLists
     return (
-      <div className={ classNameTicketLists }>
-        {ticketList}
+      <div className="classNameTicketLists">
+        <div className="ticketResult__listsInner" ref={this.refTicketResultListsInner}>
+          {ticketList}
+        </div>
       </div>
     )
   }
@@ -297,7 +301,8 @@ class SeatMapDisplay extends PureComponent {
     let totalPrice = 0
     this.state.seatsSelected.forEach((seat, seatIndex, seatArray) => {
       totalPrice += seat.ticket.PriceInCents / 100
-      if (seat.SeatsInGroup) {
+
+      if (seat.ticket.IsPackageTicket && seat.SeatsInGroup) {
         if (seatArray.length === seatIndex + 1) {
           totalPrice = totalPrice / seat.SeatsInGroup.length
         }
@@ -319,6 +324,15 @@ class SeatMapDisplay extends PureComponent {
   }
   componentDidMount () {
     this.initPinchZoomPan()
+    let totalTicketResultListWidth = 0
+    this.refTicketResultListsInner.current.childNodes.forEach(child => {
+      totalTicketResultListWidth += child.clientWidth
+    });
+    if (window.innerWidth < totalTicketResultListWidth) {
+      this.refTicketResultListsInner.current.parentNode.classList.add('needOverflow')
+    } else {
+      this.refTicketResultListsInner.current.parentNode.classList.remove('needOverflow')
+    }
   }
   componentWillMount () {
     this.state.areas.map(area => {
