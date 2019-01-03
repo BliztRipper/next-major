@@ -116,6 +116,7 @@ export default {
       case '0000000001': return `../static/4-dx-2-d.png`
       case '0000000002': return `../static/AD.png`
       case '0000000003': return `../static/A3D.png`
+      // case '0000000004': return `../static/digi-2-d.png`
       case '0000000005': return `../static/digi-3-d.png`
       case '0000000006': return `../static/MX.png`
       case '0000000007': return `../static/MXD.png`

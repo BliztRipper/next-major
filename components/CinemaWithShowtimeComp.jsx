@@ -12,7 +12,6 @@ class CinemaWithShowtimeComp extends Component {
 			accid: this.props.accid,
 			pickThisDay: this.props.pickThisDay,
 		}
-
 	}
 
 	handleScheduleSelected(theater, showtime) {
@@ -64,10 +63,8 @@ class CinemaWithShowtimeComp extends Component {
 
 	renderTheater() {
 		let items = []
-
 		if (this.state.cinema.schedule && this.state.cinema.schedule.Theaters) {
 			this.state.cinema.schedule.Theaters.forEach(theater => {
-
 				if (theater.allowRender) {
 					items.push (
 						<div className="cinema__card-cbm--theatre-container" key={'container ' + theater.ScreenName + this.state.cinema.branchName + this.props.iAmFav}>

@@ -83,9 +83,7 @@ class MovieWithShowtimeComp extends PureComponent {
 	}
 
 	renderTheater(theaters) {
-
 		return theaters.map(theater => {
-
 			let keyCardItem = theater.ScreenNameAlt
 			return (
 				<div className="cinema__card-cbm" key={keyCardItem}>
@@ -104,6 +102,7 @@ class MovieWithShowtimeComp extends PureComponent {
 							<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
+						<div className="cinema__card-cbm--theatre-screeNum">Screen {theater.ScreenNumber}</div>
 						<div className="cinema__card-cbm--timetable-wrap">
 							<div className="cinema__card-cbm--timetable">
 								{this.renderShowtimes(theater)}
