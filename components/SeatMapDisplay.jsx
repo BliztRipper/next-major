@@ -131,32 +131,29 @@ class SeatMapDisplay extends PureComponent {
 
     }
 
-    if (aSeat.SeatsInGroup && aSeat.SeatsInGroup.length > 0) {
-      ticket.IsPackageTicket = true
-    } else {
-      ticket.IsPackageTicket = false
-    }
     if (ticket.IsPackageTicket) {
       let listSelected = []
       let instantSeat = {
         canBook: true
       }
 
-      aSeat.SeatsInGroup.forEach(seatInGroup => {
-        selectRow.forEach((aSeatInSelectRow) => {
+      if (aSeat.SeatsInGroup && aSeat.SeatsInGroup.length > 0) {
+        aSeat.SeatsInGroup.forEach(seatInGroup => {
+          selectRow.forEach((aSeatInSelectRow) => {
 
-          if (instantSeat.canBook) {
-            if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
+            if (instantSeat.canBook) {
+              if (seatInGroup.ColumnIndex === aSeatInSelectRow.Position.ColumnIndex) {
 
-              instantSeat = toggleBooked(aSeatInSelectRow, true)
-              if (instantSeat.canBook) {
-                listSelected.push(aSeatInSelectRow)
+                instantSeat = toggleBooked(aSeatInSelectRow, true)
+                if (instantSeat.canBook) {
+                  listSelected.push(aSeatInSelectRow)
+                }
               }
-            }
-          } //canBook
+            } //canBook
 
+          })
         })
-      })
+      }
 
       if (!instantSeat.canBook) {
         if (listSelected.length > 0) {
@@ -292,7 +289,7 @@ class SeatMapDisplay extends PureComponent {
     let ticketList = this.state.tickets.map(ticket => {
       let classNameTicketList = 'ticketResult__list' + ' ' + ticket.seatTheme
       let Description = ticket.Description
-      ticket.IsPackageTicket = this.getPackageByAreaCode(ticket.AreaCategoryCode)
+      ticket.IsPackageTicket = ticket.IsPackageTicket ? ticket.IsPackageTicket : this.getPackageByAreaCode(ticket.AreaCategoryCode)
       classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
 
       return (
