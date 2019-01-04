@@ -122,7 +122,7 @@ class MovieWithShowtimeComp extends PureComponent {
 		let instantShowtimesFilterByDate = false
 		let renderCardItems = []
 		let instantPropsMovies = this.props.movies
-		Object.keys(instantPropsMovies).forEach((filmId, filmIdIndex, filmIdArray) => {
+		Object.keys(instantPropsMovies).forEach(filmId => {
 
 			instantMovieInfo = this.getMovieInfo(filmId)
 
@@ -130,7 +130,8 @@ class MovieWithShowtimeComp extends PureComponent {
 
 				let movie = instantPropsMovies[filmId]
 				instantShowtimesFilterByDate = utilities.getShowtime(movie.schedules, this.props.pickThisDay)
-				if (instantShowtimesFilterByDate) {
+
+				if (instantShowtimesFilterByDate && instantShowtimesFilterByDate.length > 0) {
 
 					renderCardItems.push(
 						<FlipMove duration={600} className="cinema__cardItem-wrap isDiff" key={filmId} >
