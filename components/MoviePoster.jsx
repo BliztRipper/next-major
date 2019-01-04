@@ -12,7 +12,7 @@ class MoviePoster extends PureComponent {
           <Link prefetch href='/MovieInfo' key="desc-movie-info">
             <div style={{display:'flex',flexDirection:'column'}}>
               <img className='comingsoon__poster' src={this.props.poster}/>
-              <span className='comingsoon__title'>{this.props.title_th}</span>
+              <span className='comingsoon__title'>{this.props.title_th ? this.props.title_th : this.props.title_en}</span>
               <span className='comingsoon__date'>{this.props.release}</span>
             </div>
           </Link>

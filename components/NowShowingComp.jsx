@@ -5,6 +5,7 @@ class RenderShowing extends PureComponent {
   movieProps(){
     let item = JSON.stringify(this.props.item)
     sessionStorage.setItem('movieSelect',item)
+
   }
   render(){
     let dataToSelectCinemaByMovie = {
@@ -24,7 +25,7 @@ class RenderShowing extends PureComponent {
               )
             }
           })()}
-          <span className='showing__title'>{this.props.item.title_th}</span>
+          <span className='showing__title'>{this.props.item.title_th ? this.props.item.title_th : this.props.item.title_en}</span>
         </div>
       </Link>
     )
