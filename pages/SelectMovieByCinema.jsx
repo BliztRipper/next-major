@@ -34,11 +34,7 @@ class MainSelectMovieByCinema extends PureComponent {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
     let nowShowing = sessionStorage.getItem("now_showing")
     let instantTickets =  JSON.parse(sessionStorage.getItem('dataMyTickets'))
-    if (!nowShowing) this.goToHome()
-    this.setState({
-      nowShowing: JSON.parse(nowShowing),
-      dataMyTicketsTotal: instantTickets ? instantTickets.length : null
-    })
+    let instantNowShowingEmpty = nowShowing && nowShowing.length > 0 ? false : true
     try {
       fetch(`${URL_PROD}/Schedule`,{
         method: 'POST',
@@ -46,13 +42,25 @@ class MainSelectMovieByCinema extends PureComponent {
       })
       .then(response => response.json())
       .then(data => {
-        this.state.dataSchedules = data.data
-        this.state.serverTime = data.server_time
+        if (data.status_code === 0) {
+          this.setState({
+            isEmpty: instantNowShowingEmpty,
+            isLoading: false,
+            dataSchedules: data.data,
+            serverTime: data.server_time,
+            nowShowing: JSON.parse(nowShowing),
+            dataMyTicketsTotal: instantTickets ? instantTickets.length : null
+          })
 
-        this.fillterDate()
+          this.fillterDate()
+        } else {
+          this.goToHome()
+        }
       })
     } catch (error) {
-      error => this.setState({ error, isLoading: false })
+      error => {
+        this.setState({ error, isLoading: false })}
+        this.goToHome()
     }
   }
 
