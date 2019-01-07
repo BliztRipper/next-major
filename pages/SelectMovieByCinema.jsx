@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from "../components/Layout"
 import Link from 'next/link'
 import loading from '../static/loading.svg'
@@ -32,9 +32,7 @@ class MainSelectMovieByCinema extends PureComponent {
 
   componentDidMount() {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
-    let nowShowing = sessionStorage.getItem("now_showing")
     let instantTickets =  JSON.parse(sessionStorage.getItem('dataMyTickets'))
-    let instantNowShowingEmpty = nowShowing && nowShowing.length > 0 ? false : true
     try {
       fetch(`${URL_PROD}/Schedule`,{
         method: 'POST',
@@ -44,11 +42,8 @@ class MainSelectMovieByCinema extends PureComponent {
       .then(data => {
         if (data.status_code === 0) {
           this.setState({
-            isEmpty: instantNowShowingEmpty,
-            isLoading: false,
             dataSchedules: data.data,
             serverTime: data.server_time,
-            nowShowing: JSON.parse(nowShowing),
             dataMyTicketsTotal: instantTickets ? instantTickets.length : null
           })
 

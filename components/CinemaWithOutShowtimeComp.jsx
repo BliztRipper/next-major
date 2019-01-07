@@ -1,9 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import Link from 'next/link'
-import { log } from 'util';
-import utilities from '../scripts/utilities';
 
-class CinemaWithOutShowtimeComp extends Component {
+class CinemaWithOutShowtimeComp extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
