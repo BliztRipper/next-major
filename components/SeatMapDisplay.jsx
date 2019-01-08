@@ -302,7 +302,7 @@ class SeatMapDisplay extends PureComponent {
       )
     });
     return (
-      <div className="classNameTicketLists">
+      <div className="ticketResult__lists">
         <div className="ticketResult__listsInner" ref={this.refTicketResultListsInner}>
           {ticketList}
         </div>
