@@ -15,11 +15,11 @@ class CinemaWithShowtimeComp extends Component {
 
 	}
 
-	handleScheduleSelected(theater, showtime) {
+	handleScheduleSelected(theatre, showtime) {
 		sessionStorage.setItem('BookingTime', showtime.showtime)
-		sessionStorage.setItem('BookingScreenName', theater.ScreenName)
-		sessionStorage.setItem('BookingAttributesNames', theater.SessionAttributesNames)
-		sessionStorage.setItem('BookingCinemaOperatorCode', theater.CinemaOperatorCode)
+		sessionStorage.setItem('BookingScreenName', theatre.ScreenName)
+		sessionStorage.setItem('BookingAttributesNames', theatre.SessionAttributesNames)
+		sessionStorage.setItem('BookingCinemaOperatorCode', theatre.CinemaOperatorCode)
 		sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
 		sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
 		sessionStorage.setItem('BookingBranchLocation', JSON.stringify(this.state.cinema.branchLocation))
@@ -40,24 +40,27 @@ class CinemaWithShowtimeComp extends Component {
 		}
 	}
 
-	renderShowtimes(theater) {
+	renderShowtimes(cinema) {
 
-		return theater.showtimesFilterByDate.map((showtime, showtimeIndex) => {
-			let dataToSeatMap = {
-				pathname: '/seatMap',
-				query: {
-					...theater,
-					SessionId: showtime.sessionId
+		return cinema.showtimesFilterByDate.map((theatre, showtimeIndex) => {
+
+			return theatre.Showtimes.map((showtime) => {
+				let dataToSeatMap = {
+					pathname: '/seatMap',
+					query: {
+						...theatre,
+						SessionId: showtime.sessionId
+					}
 				}
-			}
-			let keyShowTime = showtime.showtime + theater.ScreenNameAlt + showtimeIndex
-			return (
-				<Link prefetch href={dataToSeatMap} key={keyShowTime} >
-					<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
-						{showtime.showtime}
-					</span>
-				</Link>
-			)
+				let keyShowTime = showtime.showtime + theatre.ScreenNameAlt + showtimeIndex
+				return (
+					<Link prefetch href={dataToSeatMap} key={keyShowTime} >
+						<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theatre, showtime)}>
+							{showtime.showtime}
+						</span>
+					</Link>
+				)
+			});
 		});
 
 	}
@@ -83,8 +86,9 @@ class CinemaWithShowtimeComp extends Component {
 									}
 								})()}
 								<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
-								<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
+								<div className="">{this.renderSound(theater.MovieInTheaters[0].SessionAttributesNames)}</div>
 							</div>
+							<div className="cinema__card-cbm--theatre-titleSub">Screen Number {theater.ScreenNumber}</div>
 							<div className="cinema__card-cbm--timetable-wrap">
 								<div className="cinema__card-cbm--timetable">
 									{this.renderShowtimes(theater)}

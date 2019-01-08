@@ -24,15 +24,12 @@ class MainSelectMovieByCinema extends PureComponent {
       movies: {},
       dates: [],
       pickThisDay: false,
-      highlightFetching: true,
-      dataMyTicketsDone: false,
       selectBy:'cinema'
     }
   }
 
   componentDidMount() {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
-    let instantTickets =  JSON.parse(sessionStorage.getItem('dataMyTickets'))
     try {
       fetch(`${URL_PROD}/Schedule`,{
         method: 'POST',
@@ -44,9 +41,7 @@ class MainSelectMovieByCinema extends PureComponent {
           this.setState({
             dataSchedules: data.data,
             serverTime: data.server_time,
-            dataMyTicketsTotal: instantTickets ? instantTickets.length : null
           })
-
           this.fillterDate()
         } else {
           this.goToHome()

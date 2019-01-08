@@ -103,6 +103,7 @@ class MovieWithShowtimeComp extends PureComponent {
 							<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
+						<div className="cinema__card-cbm--theatre-titleSub">Screen Number {theater.ScreenNumber}</div>
 						<div className="cinema__card-cbm--timetable-wrap">
 							<div className="cinema__card-cbm--timetable">
 								{this.renderShowtimes(theater)}

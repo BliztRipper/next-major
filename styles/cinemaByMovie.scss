@@ -151,7 +151,8 @@
 			}
 			.cinema__card-cbm--theatre-container {
 				.cinema__card-cbm--theatre-wrapper,
-				.cinema__card-cbm--timetable-wrap {
+				.cinema__card-cbm--timetable-wrap,
+				.cinema__card-cbm--theatre-titleSub {
 					width: auto;
 				}
 				.cinema__card-cbm--timetable {
@@ -245,6 +246,13 @@
 		align-items: center;
 		width: 71.6vw;
 		font-size: 0.9em;
+	}
+
+	&--theatre-titleSub {
+		width: 71.6vw;
+		margin: -0.7em auto 0.8em;
+		font-size: 0.8em;
+		color: #666;
 	}
 
 	&--theatre-title {
