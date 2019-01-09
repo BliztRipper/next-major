@@ -115,7 +115,7 @@ class CinemaWithShowtimeComp extends Component {
 						{/* <div>300 m</div> */}
 					</div>
 					<div className="favIconWrap">
-						<div ref="classname" className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
+						<div className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
 							<img src="../static/ic-star-outline.svg" alt="" />
 							<img src="../static/ic-star-active.svg" alt="" />
 						</div>

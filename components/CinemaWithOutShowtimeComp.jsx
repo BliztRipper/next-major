@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
 
-class CinemaWithOutShowtimeComp extends PureComponent {
+class CinemaWithOutShowtimeComp extends Component {
     constructor(props) {
         super(props);
         this.state = {
