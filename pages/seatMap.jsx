@@ -8,7 +8,8 @@ import Router from 'next/router'
 import '../styles/style.scss'
 import Swal from 'sweetalert2'
 import { CSSTransition } from 'react-transition-group'
-import empty from '../static/icon-film-empty.svg'
+import iconFilmEmpty from '../static/icon-film-empty.svg'
+import iconError from '../static/error.svg'
 import { URL_PROD, URL_PAYMENT_PROD, API_KEY } from '../lib/URL_ENV';
 
 
@@ -74,7 +75,7 @@ class seatMap extends PureComponent {
     if (this.state.SessionId === 'undefined') {
       Swal({
         title: 'ไม่สามารถทำรายการได้',
-        imageUrl: '../static/error.svg',
+        imageUrl: iconError,
         imageWidth: 200,
         imageHeight: 200,
         text: 'คุณไม่ได้เลือกโรงภาพยนตร์',
@@ -95,13 +96,24 @@ class seatMap extends PureComponent {
       fetch(`${URL_PROD}/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
+        Swal({
+          title: 'ขออภัยในความไม่สะดวก',
+          imageUrl: iconFilmEmpty,
+          imageWidth: 200,
+          imageHeight: 200,
+          html: `รอบฉายที่คุณเลือกเต็มทุกที่นั่ง <br/> กรุณาเลือกรอบฉายอื่น` ,
+          onAfterClose: () => {
+            Router.back()
+          }
+        })
         if (data.status_code === 0 || data.description === 'Success') {
           this.state.dataSeatPlan = data.data
           this.getTickets()
+        } else if (data.status_code === '25067' || data.description === 'Seat sold out') {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -143,7 +155,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -229,7 +241,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -266,7 +278,7 @@ class seatMap extends PureComponent {
         } else if (data.status_code === 35000 && data.description.slice(0,7) === 'OAU0010') {
           Swal({
             title: 'รหัส OTP ไม่ถูกต้อง',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             grow:'fullscreen',
@@ -279,7 +291,7 @@ class seatMap extends PureComponent {
         }else if (data.status_code === 35000){
           Swal({
             title: 'ขออภัยระบบขัดข้อง',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}` ,
@@ -290,7 +302,7 @@ class seatMap extends PureComponent {
         }else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -347,7 +359,7 @@ class seatMap extends PureComponent {
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
-            imageUrl: '../static/error.svg',
+            imageUrl: iconError,
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240` ,
@@ -457,7 +469,7 @@ class seatMap extends PureComponent {
           } else {
             return (
               <section className="empty">
-                <img src={empty} />
+                <img src={iconFilmEmpty} />
                 <h5>ข้อมูลไม่ถูกต้อง</h5>
               </section>
             )
