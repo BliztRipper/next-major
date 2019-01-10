@@ -96,20 +96,20 @@ class seatMap extends PureComponent {
       fetch(`${URL_PROD}/SeatPlan/${this.state.CinemaId}/${this.state.SessionId}`)
       .then(response => response.json())
       .then(data => {
-        Swal({
-          title: 'ขออภัยในความไม่สะดวก',
-          imageUrl: iconFilmEmpty,
-          imageWidth: 200,
-          imageHeight: 200,
-          html: `รอบฉายที่คุณเลือกเต็มทุกที่นั่ง <br/> กรุณาเลือกรอบฉายอื่น` ,
-          onAfterClose: () => {
-            Router.back()
-          }
-        })
         if (data.status_code === 0 || data.description === 'Success') {
           this.state.dataSeatPlan = data.data
           this.getTickets()
         } else if (data.status_code === '25067' || data.description === 'Seat sold out') {
+          Swal({
+            title: 'ขออภัยในความไม่สะดวก',
+            imageUrl: iconFilmEmpty,
+            imageWidth: 200,
+            imageHeight: 200,
+            html: `รอบฉายที่คุณเลือกเต็มทุกที่นั่ง <br/> กรุณาเลือกรอบฉายอื่น` ,
+            onAfterClose: () => {
+              Router.back()
+            }
+          })
         } else {
           Swal({
             title: 'ไม่สามารถทำรายการได้',
