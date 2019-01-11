@@ -61,8 +61,7 @@ class MovieWithShowtimeComp extends PureComponent {
 	}
 
 	renderShowtimes(theater) {
-
-		return theater.showtimesFilterByDate.map((showtime, showtimeIndex) => {
+		return theater.Showtimes.map((showtime, showtimeIndex) => {
 			let dataToSeatMap = {
 				pathname: '/seatMap',
 				query: {
@@ -82,8 +81,9 @@ class MovieWithShowtimeComp extends PureComponent {
 
 	}
 
-	renderTheater(theaters) {
+	renderTheater(theaters, CinemaId) {
 		return theaters.map(theater => {
+			theater.CinemaId = CinemaId
 			let keyCardItem = theater.ScreenNameAlt
 			return (
 				<div className="cinema__card-cbm" key={keyCardItem}>
@@ -102,7 +102,7 @@ class MovieWithShowtimeComp extends PureComponent {
 							<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
-						<div className="cinema__card-cbm--theatre-screeNum">Screen {theater.ScreenNumber}</div>
+						<div className="cinema__card-cbm--theatre-titleSub">Screen Number {theater.ScreenNumber}</div>
 						<div className="cinema__card-cbm--timetable-wrap">
 							<div className="cinema__card-cbm--timetable">
 								{this.renderShowtimes(theater)}
@@ -119,35 +119,26 @@ class MovieWithShowtimeComp extends PureComponent {
 	renderMovieCard () {
 
 		let instantMovieInfo = ''
-		let instantShowtimesFilterByDate = []
+		let instantShowtimesFilterByDate = false
 		let renderCardItems = []
-		let allowRenderCard = false
-		let instantPropsSchedules = this.props.schedules
-		Object.keys(instantPropsSchedules).forEach((filmId, filmIdIndex, filmIdArray) => {
+		let instantPropsMovies = this.props.movies
+		Object.keys(instantPropsMovies).forEach(filmId => {
 
 			instantMovieInfo = this.getMovieInfo(filmId)
 
 			if (instantMovieInfo) {
 
-				instantPropsSchedules[filmId].forEach(theater => {
+				let movie = instantPropsMovies[filmId]
+				instantShowtimesFilterByDate = utilities.getShowtime(movie.schedules, this.props.pickThisDay)
 
-					instantShowtimesFilterByDate = utilities.getShowtime(theater, this.props.pickThisDay)
-
-					if (instantShowtimesFilterByDate.length > 0) {
-						theater.showtimesFilterByDate = instantShowtimesFilterByDate
-						allowRenderCard = true
-					}
-
-				});
-
-				if (allowRenderCard) {
+				if (instantShowtimesFilterByDate && instantShowtimesFilterByDate.length > 0) {
 
 					renderCardItems.push(
 						<FlipMove duration={600} className="cinema__cardItem-wrap isDiff" key={filmId} >
 							<div className="cinema__cardItemTransition">
 								<div className="cinema__cardItem isDiff">
 									{<MovieInfoByCinemaComp item={instantMovieInfo} />}
-									{this.renderTheater(instantPropsSchedules[filmId])}
+									{this.renderTheater(instantShowtimesFilterByDate, movie.CinemaId)}
 								</div>
 							</div>
 						</FlipMove>

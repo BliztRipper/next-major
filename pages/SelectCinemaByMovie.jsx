@@ -41,7 +41,6 @@ class MainSelectCinemaByMovie extends Component {
     }
   }
 
-  //this function done after render
   componentDidMount() {
     this.state.movieInfo = JSON.parse(sessionStorage.getItem('movieSelect'))
     let instantUserInfo = JSON.parse(sessionStorage.getItem('userInfo'))
@@ -188,10 +187,10 @@ class MainSelectCinemaByMovie extends Component {
 
   fillterDate() {
     let mapDates = []
-    this.state.schedules.forEach(schedule => {
-      schedule.Theaters.forEach(theater => {
-        theater.Showtimes.forEach(showtime => {
-          let strDate = showtime.substring(0, 10)
+    this.state.schedules.forEach(cinemaBranch => {
+      cinemaBranch.Theaters.forEach(theater => {
+        theater.MovieInTheaters.forEach(movie => {
+          let strDate = movie.Showtimes.substring(0, 10)
           if (!(strDate in mapDates)) {
             mapDates[strDate] = true
             this.state.dates.push(strDate)
@@ -327,12 +326,12 @@ class MainSelectCinemaByMovie extends Component {
         if (region.cinemas && region.cinemas.length > 0) {
           region.cinemas.map((cinema) => {
             cinema.allowRender = false
+            let instantTheatres = cinema.schedule.Theaters
+            if (instantTheatres && instantTheatres.length > 0) {
+              instantTheatres.forEach(theater => {
 
-            if (cinema.schedule.Theaters && cinema.schedule.Theaters.length > 0) {
-              cinema.schedule.Theaters.forEach(theater => {
-
+                instantShowtimesFilterByDate = utilities.getShowtime(theater.MovieInTheaters, this.state.pickThisDay)
                 theater.allowRender = false
-                instantShowtimesFilterByDate = utilities.getShowtime(theater, this.state.pickThisDay)
 
                 if (instantShowtimesFilterByDate.length > 0) {
                   theater.showtimesFilterByDate = instantShowtimesFilterByDate

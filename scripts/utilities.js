@@ -189,22 +189,33 @@ export default {
       disable: disable
     }
   },
-  getShowtime (theater, pickThisDay) {
-    let showtimes = theater.Showtimes
+  getShowtime (schedules, pickThisDay) {
+    let theatres = {}
     let result = []
-		if (showtimes) {
-			showtimes.forEach((showtime, i) => {
-
+		if (schedules) {
+			schedules.forEach((schedule, i) => {
+        let showtime = schedule.Showtimes
 				if (showtime.slice(0, 10) === pickThisDay) {
-					result.push({
+          if (!theatres[schedule.ScreenName]) {
+            theatres[schedule.ScreenName] = {
+              ...schedule,
+              Showtimes: []
+            }
+            delete theatres[schedule.ScreenName]['MovieInTheaters']
+            delete theatres[schedule.ScreenName]['SessionIds']
+          }
+					theatres[schedule.ScreenName].Showtimes.push({
             date: showtime.slice(0, 10),
             showtime: showtime.slice(11, 16),
             datetime: showtime,
-            sessionId: theater.SessionIds[i]
+            sessionId: schedule.SessionIds
           })
         }
 
-			})
+      })
+      Object.keys(theatres).forEach(key => {
+        result.push(theatres[key])
+      });
     }
     return result
   }

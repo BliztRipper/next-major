@@ -24,7 +24,7 @@ class RenderShowing extends PureComponent {
               )
             }
           })()}
-          <span className='showing__title'>{this.props.item.title_th}</span>
+          <span className='showing__title'>{this.props.item.title_th ? this.props.item.title_th : this.props.item.title_en}</span>
         </div>
       </Link>
     )

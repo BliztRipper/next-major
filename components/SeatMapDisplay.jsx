@@ -57,6 +57,21 @@ class SeatMapDisplay extends PureComponent {
   getAreaByAreaCode (AreaCategoryCode) {
     return this.state.areas.filter(area => area.AreaCategoryCode === AreaCategoryCode)[0]
   }
+  getPackageByAreaCode (AreaCategoryCode) {
+    let isPackage = false
+    this.state.areas.forEach(area => {
+      if (area.AreaCategoryCode === AreaCategoryCode) {
+        area.Rows.forEach(row => {
+          row.Seats.forEach(seat => {
+            if (seat.SeatsInGroup && seat.SeatsInGroup.length > 0) {
+              isPackage = true
+            }
+          });
+        });
+      }
+    })
+    return isPackage
+  }
   handleSelectSeats (aSeat) {
     if (this.state.postingTicket || this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
 
@@ -122,7 +137,7 @@ class SeatMapDisplay extends PureComponent {
         canBook: true
       }
 
-      if (aSeat.SeatsInGroup) {
+      if (aSeat.SeatsInGroup && aSeat.SeatsInGroup.length > 0) {
         aSeat.SeatsInGroup.forEach(seatInGroup => {
           selectRow.forEach((aSeatInSelectRow) => {
 
@@ -139,8 +154,6 @@ class SeatMapDisplay extends PureComponent {
           })
         })
       }
-
-
 
       if (!instantSeat.canBook) {
         if (listSelected.length > 0) {
@@ -276,6 +289,7 @@ class SeatMapDisplay extends PureComponent {
     let ticketList = this.state.tickets.map(ticket => {
       let classNameTicketList = 'ticketResult__list' + ' ' + ticket.seatTheme
       let Description = ticket.Description
+      ticket.IsPackageTicket = ticket.IsPackageTicket ? ticket.IsPackageTicket : this.getPackageByAreaCode(ticket.AreaCategoryCode)
       classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
 
       return (
@@ -288,7 +302,7 @@ class SeatMapDisplay extends PureComponent {
       )
     });
     return (
-      <div className="classNameTicketLists">
+      <div className="ticketResult__lists">
         <div className="ticketResult__listsInner" ref={this.refTicketResultListsInner}>
           {ticketList}
         </div>

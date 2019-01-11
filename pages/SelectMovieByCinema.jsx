@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import Layout from "../components/Layout"
 import Link from 'next/link'
 import loading from '../static/loading.svg'
@@ -21,24 +21,15 @@ class MainSelectMovieByCinema extends PureComponent {
       isEmpty:false,
       accid: '',
       dataSchedules: [],
-      schedules: {},
+      movies: {},
       dates: [],
       pickThisDay: false,
-      highlightFetching: true,
-      dataMyTicketsDone: false,
       selectBy:'cinema'
     }
   }
 
   componentDidMount() {
     sessionStorage.setItem('previousRoute', this.props.url.pathname)
-    let nowShowing = sessionStorage.getItem("now_showing")
-    let instantTickets =  JSON.parse(sessionStorage.getItem('dataMyTickets'))
-    if (!nowShowing) this.goToHome()
-    this.setState({
-      nowShowing: JSON.parse(nowShowing),
-      dataMyTicketsTotal: instantTickets ? instantTickets.length : null
-    })
     try {
       fetch(`${URL_PROD}/Schedule`,{
         method: 'POST',
@@ -46,13 +37,20 @@ class MainSelectMovieByCinema extends PureComponent {
       })
       .then(response => response.json())
       .then(data => {
-        this.state.dataSchedules = data.data
-        this.state.serverTime = data.server_time
-
-        this.fillterDate()
+        if (data.status_code === 0) {
+          this.setState({
+            dataSchedules: data.data,
+            serverTime: data.server_time,
+          })
+          this.fillterDate()
+        } else {
+          this.goToHome()
+        }
       })
     } catch (error) {
-      error => this.setState({ error, isLoading: false })
+      error => {
+        this.setState({ error, isLoading: false })}
+        this.goToHome()
     }
   }
 
@@ -67,21 +65,24 @@ class MainSelectMovieByCinema extends PureComponent {
     let instantDates = []
     if (this.state.dataSchedules && this.state.dataSchedules.length > 0) {
 
-      this.state.dataSchedules.forEach(schedule => {
-        schedule.Theaters.forEach(theater => {
-          theater.Showtimes.forEach(showtime => {
-            let strDate = showtime.substring(0, 10)
+      this.state.dataSchedules.forEach(cinemaBranch => {
+        cinemaBranch.Theaters.forEach(theatre => {
+          theatre.MovieInTheaters.forEach(movie => {
+            let strDate = movie.Showtimes.substring(0, 10)
             if (!(strDate in mapDates)) {
               mapDates[strDate] = true
               instantDates.push(strDate)
             }
-          })
-          if (!this.state.schedules[theater.ScheduledFilmId]) {
-            this.state.schedules[theater.ScheduledFilmId] = []
-          }
-          this.state.schedules[theater.ScheduledFilmId].push({
-            ...theater,
-            CinemaId: schedule.CinemaId
+            if (!this.state.movies[movie.ScheduledFilmId]) {
+              this.state.movies[movie.ScheduledFilmId] = {
+                CinemaId: cinemaBranch.CinemaId,
+                schedules: []
+              }
+            }
+            this.state.movies[movie.ScheduledFilmId].schedules.push({
+              ...theatre,
+              ...movie
+            })
           })
         })
       })
@@ -130,7 +131,7 @@ class MainSelectMovieByCinema extends PureComponent {
   }
 
   render() {
-    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid, schedules, selectBy} = this.state;
+    const {isLoading, error, isEmpty, serverTime, dates, pickThisDay, accid, movies, selectBy} = this.state;
 
     if (error) {
       return <p>{error.message}</p>;
@@ -151,7 +152,7 @@ class MainSelectMovieByCinema extends PureComponent {
                   <div className="page__selectMovieByCinema">
                     <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
                     <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                    <MovieWithShowtimeComp schedules={schedules} accid={accid} pickThisDay={pickThisDay} />
+                    <MovieWithShowtimeComp movies={movies} accid={accid} pickThisDay={pickThisDay} />
                   </div>
                   <GlobalFooterNav selectBy={selectBy}/>
                 </div>
