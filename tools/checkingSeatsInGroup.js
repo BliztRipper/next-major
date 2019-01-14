@@ -2,9 +2,13 @@ const axios = require('axios')
 const apiUrlBase = 'https://api-cinema.truemoney.net'
 let branchIncreasement = 0
 let totalSessionIds = 0
+let totalTheatres = 0
+let totalBranches = 0
 let previousSessionId = ''
+let previousTheatres = ''
+let previousBranches = ''
 
-const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan, theatre, movie, sessionId) => {
+const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, movie, sessionId) => {
   console.log(`>>> Theatre Name: ${theatre.ScreenName} || Theatre Number: ${theatre.ScreenNumber} || SessionId: ${sessionId} || Showtimes: ${movie.Showtimes}`);
   let instantTicketAreas = ticketPrices.Tickets
   let instantSeatAreas = SeatPlan.SeatLayoutData.Areas
@@ -32,6 +36,15 @@ const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan, theatre, movie, se
                   console.log(`AreaCategoryCode: ${ticketArea.AreaCategoryCode}`);
                   console.log(`SeatsInGroup : ${seat.SeatsInGroup}`);
                   console.log('...');
+                }
+                if (cinema.ID != previousBranches) {
+                  totalBranches += 1
+                  previousBranches = cinema.ID
+                  previousTheatres = ''
+                }
+                if (theatre.ScreenNumber != previousTheatres) {
+                  totalTheatres += 1
+                  previousTheatres = theatre.ScreenNumber
                 }
                 console.log('...');
                 console.log(`row: ${seatRow.PhysicalName}`);
@@ -64,7 +77,7 @@ const getSeatsIngroup = async (cinema, theatre, movie) => {
     let instantTicketPricesData = ticketPricesResponse.data
     let instantSeatPlanResponseData = seatPlanResponse.data
     if (instantTicketPricesData.status_code === 0 && instantSeatPlanResponseData.status_code === 0 ) {
-      return await mapTicketPricesWithSeatPlans(instantTicketPricesData.data, instantSeatPlanResponseData.data,theatre, movie, sessionId)
+      return await mapTicketPricesWithSeatPlans(instantTicketPricesData.data, instantSeatPlanResponseData.data,cinema, theatre, movie, sessionId)
     }
   }))
   .catch(function (error) {
@@ -89,7 +102,7 @@ const getScheduleInBranchCinema = (cinema) => {
   })
   .then(async (res) => {
     let instantSchedulesDataInCinemas = res.data
-    if (instantSchedulesDataInCinemas.status_code === 0) {
+    if (instantSchedulesDataInCinemas.status_code === 0 && instantSchedulesDataInCinemas.data[0] && instantSchedulesDataInCinemas.data[0].Theaters) {
       let theatres = instantSchedulesDataInCinemas.data[0].Theaters
       for (let theatresIndex = 0; theatresIndex < theatres.length; theatresIndex++) {
         let lastTheatre = theatresIndex + 1 === theatres.length
@@ -100,10 +113,11 @@ const getScheduleInBranchCinema = (cinema) => {
           await getSeatsIngroup(cinema, theatre, movie)
         }
       }
-      console.log('Start next getBranches');
-      getBranches()
-
+      // console.log(`>>> Total SessionIds : ${totalSessionIds} || Theatres : ${totalTheatres} || Branches : ${totalBranches}`);
+      // getBranches()
     }
+    console.log(`>>> Total SessionIds : ${totalSessionIds} || Theatres : ${totalTheatres} || Branches : ${totalBranches}`);
+    getBranches()
 
   })
   .catch(function (error) {
@@ -134,7 +148,7 @@ const getBranches = () => {
         console.log('===');
         console.log('===');
         console.log(`CinemaId: ${instantBranchesData[branchIncreasement].ID} || Cinema Name: ${instantBranchesData[branchIncreasement].Name ? instantBranchesData[branchIncreasement].Name : instantBranchesData[branchIncreasement].NameAlt}`);
-        console.log(`Total Branch : ${branchIncreasement + 1}/${instantBranchesData.length}`);
+        console.log(`On progress branch : ${branchIncreasement + 1}/${instantBranchesData.length}`);
         console.log('===');
         console.log('===');
         getScheduleInBranchCinema(instantBranchesData[branchIncreasement])
