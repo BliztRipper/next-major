@@ -1,9 +1,10 @@
 const axios = require('axios')
 const apiUrlBase = 'https://api-cinema.truemoney.net'
-let branchIncreasement = 0
+let branchIndex = 47
 let totalSessionIds = 0
 let totalTheatres = 0
 let totalBranches = 0
+let totalRequests = 0
 let previousSessionId = ''
 let previousTheatres = ''
 let previousBranches = ''
@@ -54,6 +55,8 @@ const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, mo
             });
           }
         });
+      } else {
+        console.log('=== NO ISSUE ===');
       }
     });
   });
@@ -72,6 +75,7 @@ const getSeatsIngroup = async (cinema, theatre, movie) => {
     apiPromises.push(axios.get(apiUrls[key]))
   });
 
+  totalRequests += 2
   return await axios.all(apiPromises)
   .then(axios.spread(async function (ticketPricesResponse, seatPlanResponse) {
     let instantTicketPricesData = ticketPricesResponse.data
@@ -81,7 +85,7 @@ const getSeatsIngroup = async (cinema, theatre, movie) => {
     }
   }))
   .catch(function (error) {
-    console.log(error);
+    console.log(`!!!! Error: ${error.config.url}`);
   })
   .then(function () {
     // always executed
@@ -95,6 +99,7 @@ const getScheduleInBranchCinema = (cinema) => {
     filmIds: []
   }
   // Get Schedules
+  totalRequests += 1
   axios({
     method: 'post',
     url: `${apiUrlBase}/Schedule`,
@@ -113,21 +118,20 @@ const getScheduleInBranchCinema = (cinema) => {
           await getSeatsIngroup(cinema, theatre, movie)
         }
       }
-      // console.log(`>>> Total SessionIds : ${totalSessionIds} || Theatres : ${totalTheatres} || Branches : ${totalBranches}`);
-      // getBranches()
     }
     console.log(`>>> Total SessionIds : ${totalSessionIds} || Theatres : ${totalTheatres} || Branches : ${totalBranches}`);
     getBranches()
 
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(`!!!! Error: ${error.config.url}`);
   })
   .then(function () {
     // always executed
   });
 }
 const getBranches = () => {
+  totalRequests += 1
   axios({
     method: 'get',
     url: `${apiUrlBase}/Branches`
@@ -136,43 +140,36 @@ const getBranches = () => {
     let instantBranchesRes = res.data
     if (instantBranchesRes.status_code === 0) {
       let instantBranchesData = instantBranchesRes.data
-      if (branchIncreasement === 0) {
+      if (branchIndex === 0) {
         console.log('======================');
         console.log(`========== BEGIN TASK ==========`);
       }
-      if (branchIncreasement < instantBranchesData.length) {
+      if (branchIndex < instantBranchesData.length) {
         console.log('===');
         console.log('===');
         console.log('===');
         console.log('===');
         console.log('===');
         console.log('===');
-        console.log(`CinemaId: ${instantBranchesData[branchIncreasement].ID} || Cinema Name: ${instantBranchesData[branchIncreasement].Name ? instantBranchesData[branchIncreasement].Name : instantBranchesData[branchIncreasement].NameAlt}`);
-        console.log(`On progress branch : ${branchIncreasement + 1}/${instantBranchesData.length}`);
+        console.log(`CinemaId: ${instantBranchesData[branchIndex].ID} || Cinema Name: ${instantBranchesData[branchIndex].Name ? instantBranchesData[branchIndex].Name : instantBranchesData[branchIndex].NameAlt}`);
+        console.log(`On progress branch : ${branchIndex + 1}/${instantBranchesData.length}`);
         console.log('===');
         console.log('===');
-        getScheduleInBranchCinema(instantBranchesData[branchIncreasement])
+        getScheduleInBranchCinema(instantBranchesData[branchIndex])
       }
-      branchIncreasement += 1
-      if (branchIncreasement === instantBranchesData.length) {
-        console.log(`Total SessionIds : ${totalSessionIds}`);
+      branchIndex += 1
+      if (branchIndex === instantBranchesData.length) {
+        console.log(`Total SessionIds : ${totalSessionIds} || Total Requests ${totalRequests}`);
         console.log(`========== END TASK ==========`);
         console.log('======================');
       }
     }
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(`!!!! Error: ${error.config.url}`);
   })
   .then(function () {
     // always executed
   });
 }
-
 getBranches()
-
-
-// process.on('exit', function(code) {
-  // getBranches()
-  // return console.log(`About to exit with code ${code}`);
-// });
