@@ -10,6 +10,18 @@ let previousSessionId = ''
 let previousTheatres = ''
 let previousBranches = ''
 
+const getQuantitySeatsInPackageMoreThanOne = (ticketsInPackageContent) => {
+  let ticketIsPackgeMoreThanOne = false
+  if (ticketsInPackageContent.length > 0) {
+    let instantTicketQuantity = 0
+    ticketsInPackageContent.forEach((ticketInPackage) => {
+      instantTicketQuantity += ticketInPackage.Quantity
+    })
+    ticketIsPackgeMoreThanOne = instantTicketQuantity > 1 ? true : false
+  }
+  return ticketIsPackgeMoreThanOne
+}
+
 const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, movie, sessionId) => {
   console.log(`>>> Theatre Name: ${theatre.ScreenName} || Theatre Number: ${theatre.ScreenNumber} || SessionId: ${sessionId} || Showtimes: ${movie.Showtimes}`);
   let instantTicketAreas = ticketPrices.Tickets
@@ -18,7 +30,8 @@ const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, mo
     let lastSeatArea = seatAreaIndex + 1 === seatAreaArray.length
      instantTicketAreas.forEach((ticketArea, ticketAreaIndex, ticketAreaArray) => {
       let lastTicketArea = ticketAreaIndex + 1 === ticketAreaArray.length
-      if (seatArea.AreaCategoryCode === ticketArea.AreaCategoryCode && ticketArea.IsPackageTicket) {
+      let ticketIsPackgeMoreThanOneSeats = getQuantitySeatsInPackageMoreThanOne(ticketArea.PackageContent.Tickets)
+      if (seatArea.AreaCategoryCode === ticketArea.AreaCategoryCode && ticketIsPackgeMoreThanOneSeats) {
          seatArea.Rows.forEach((seatRow, seatRowIndex, seatRowArray) => {
           let lastRow = seatRowIndex + 1 === seatRowArray.length
           let seatsInRows = []
