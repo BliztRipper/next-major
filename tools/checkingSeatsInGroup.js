@@ -133,7 +133,7 @@ const getScheduleInBranchCinema = (cinema) => {
     console.log(`>>> Subtotal SessionIds : ${totalSessionIds}|| Requests ${totalRequests} || Theatres : ${totalTheatres} || Branches : ${totalBranches} `);
     branchIndex += 1
     if (branchIndex === instantBranchesData.length) {
-      console.log(` Total SessionIds : ${totalSessionIds}|| Requests ${totalRequests} || Theatres : ${totalTheatres} || Branches : ${totalBranches} `);
+      console.log(` Total SessionIds : ${totalSessionIds} || Requests ${totalRequests} || Theatres : ${totalTheatres} || Branches : ${totalBranches} `);
       console.log(`========== END TASK ==========`);
       console.log('======================');
       return
