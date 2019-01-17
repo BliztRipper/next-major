@@ -1,0 +1,1964 @@
+next-major $node ./tools/checkingSeatsInGroup.js
+======================
+========== BEGIN TASK ==========
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001001 || Cinema Name: Major Cineplex Ratchayothin
+On progress branch : 1/154
+===
+===
+=====
+=====
+Theatre Name: Theatre13 || Theatre Number: 13
+SessionId: 251740 || Showtimes: 2019-01-15T12:50:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre13 || Theatre Number: 13
+SessionId: 251741 || Showtimes: 2019-01-15T15:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre13 || Theatre Number: 13
+SessionId: 251742 || Showtimes: 2019-01-15T18:10:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre13 || Theatre Number: 13
+SessionId: 251743 || Showtimes: 2019-01-15T20:50:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre13 || Theatre Number: 13
+SessionId: 251744 || Showtimes: 2019-01-15T23:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001002 || Cinema Name: Major Cineplex Sukhumvit
+On progress branch : 2/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001003 || Cinema Name: Major Cineplex Pinklao
+On progress branch : 3/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001004 || Cinema Name: Major Cineplex Rangsit
+On progress branch : 4/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001005 || Cinema Name: Major Cineplex Central Rama III
+On progress branch : 5/154
+===
+===
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 127204 || Showtimes: 2019-01-15T13:00:00
+AreaCategoryCode: 0000000022
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: CC
+Seat IDs : 6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 127205 || Showtimes: 2019-01-15T16:30:00
+AreaCategoryCode: 0000000022
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: CC
+Seat IDs : 6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 127206 || Showtimes: 2019-01-15T20:00:00
+AreaCategoryCode: 0000000022
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: CC
+Seat IDs : 6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001006 || Cinema Name: Major Cineplex Central Bangna
+On progress branch : 6/154
+===
+===
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 81427 || Showtimes: 2019-01-15T12:20:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 81428 || Showtimes: 2019-01-15T15:00:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 81429 || Showtimes: 2019-01-15T17:40:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001007 || Cinema Name: Major Cineplex Lotus Bangkapi
+On progress branch : 7/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001008 || Cinema Name: Paradise Cineplex
+On progress branch : 8/154
+===
+===
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116740 || Showtimes: 2019-01-15T11:40:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116741 || Showtimes: 2019-01-15T14:30:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116742 || Showtimes: 2019-01-15T17:30:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116743 || Showtimes: 2019-01-15T20:30:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116774 || Showtimes: 2019-01-16T11:40:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116775 || Showtimes: 2019-01-16T17:20:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116829 || Showtimes: 2019-01-17T11:40:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116830 || Showtimes: 2019-01-17T17:20:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116895 || Showtimes: 2019-01-18T11:40:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 116897 || Showtimes: 2019-01-18T17:20:00
+AreaCategoryCode: 0000000031
+SeatsInGroup : null
+...
+...
+row: AA
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+...
+row: BB
+Seat IDs : 8,7,6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001010 || Cinema Name: Major Cineplex Central Rama II
+On progress branch : 9/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001011 || Cinema Name: Major Cineplex V-Square NakornSawan
+On progress branch : 10/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001012 || Cinema Name: Major Cineplex Nonthaburi
+On progress branch : 11/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001013 || Cinema Name: Major Cineplex Chachoengsao
+On progress branch : 12/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001014 || Cinema Name: Major Cineplex Central UdonThani
+On progress branch : 13/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001015 || Cinema Name: Major Cineplex Fashion Island
+On progress branch : 14/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001016 || Cinema Name: Major Cineplex Yingcharoen Park UbonRajathani
+On progress branch : 15/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001017 || Cinema Name: Major Cineplex Petchakasem
+On progress branch : 16/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001018 || Cinema Name: Major Cineplex Huahin
+On progress branch : 17/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001019 || Cinema Name: Major Cineplex Lotus Samui
+On progress branch : 18/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001020 || Cinema Name: Major Cineplex Chaengwatthana
+On progress branch : 19/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001021 || Cinema Name: Major Cineplex Lotus Phitsanulok
+On progress branch : 20/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001022 || Cinema Name: Esplanade Cineplex Ratchadapisek
+On progress branch : 21/154
+===
+===
+=====
+=====
+Theatre Name: Theatre4 || Theatre Number: 4
+SessionId: 191558 || Showtimes: 2019-01-15T11:40:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre4 || Theatre Number: 4
+SessionId: 191559 || Showtimes: 2019-01-15T14:20:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre4 || Theatre Number: 4
+SessionId: 191560 || Showtimes: 2019-01-15T17:20:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre4 || Theatre Number: 4
+SessionId: 191561 || Showtimes: 2019-01-15T20:00:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre4 || Theatre Number: 4
+SessionId: 191562 || Showtimes: 2019-01-15T23:00:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191615 || Showtimes: 2019-01-15T11:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191616 || Showtimes: 2019-01-15T13:40:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191617 || Showtimes: 2019-01-15T16:20:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191618 || Showtimes: 2019-01-15T19:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191619 || Showtimes: 2019-01-15T21:40:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191382 || Showtimes: 2019-01-31T11:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191383 || Showtimes: 2019-01-31T14:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191384 || Showtimes: 2019-01-31T16:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191385 || Showtimes: 2019-01-31T19:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191386 || Showtimes: 2019-01-31T21:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191387 || Showtimes: 2019-01-31T23:50:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191352 || Showtimes: 2019-02-01T11:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191353 || Showtimes: 2019-02-01T14:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191354 || Showtimes: 2019-02-01T16:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191355 || Showtimes: 2019-02-01T19:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191356 || Showtimes: 2019-02-01T21:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191357 || Showtimes: 2019-02-01T23:50:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191364 || Showtimes: 2019-02-02T11:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191365 || Showtimes: 2019-02-02T14:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191366 || Showtimes: 2019-02-02T16:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191367 || Showtimes: 2019-02-02T19:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191368 || Showtimes: 2019-02-02T21:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191369 || Showtimes: 2019-02-02T23:50:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191376 || Showtimes: 2019-02-03T11:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191377 || Showtimes: 2019-02-03T14:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191378 || Showtimes: 2019-02-03T16:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191379 || Showtimes: 2019-02-03T19:00:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191380 || Showtimes: 2019-02-03T21:30:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 191381 || Showtimes: 2019-02-03T23:50:00
+AreaCategoryCode: 0000000030
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre12 || Theatre Number: 12
+SessionId: 191601 || Showtimes: 2019-01-15T12:00:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre12 || Theatre Number: 12
+SessionId: 191602 || Showtimes: 2019-01-15T14:40:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre12 || Theatre Number: 12
+SessionId: 191603 || Showtimes: 2019-01-15T17:20:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre12 || Theatre Number: 12
+SessionId: 191604 || Showtimes: 2019-01-15T20:00:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre12 || Theatre Number: 12
+SessionId: 191605 || Showtimes: 2019-01-15T22:40:00
+AreaCategoryCode: 0000000021
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001023 || Cinema Name: Major Cineplex Samrong
+On progress branch : 22/154
+===
+===
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 158174 || Showtimes: 2019-01-15T12:00:00
+AreaCategoryCode: 0000000002
+SeatsInGroup : null
+...
+...
+row: D
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: G
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: H
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: I
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: J
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: K
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: L
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 158176 || Showtimes: 2019-01-15T17:00:00
+AreaCategoryCode: 0000000002
+SeatsInGroup : null
+...
+...
+row: D
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: G
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: H
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: I
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: J
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: K
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: L
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 158217 || Showtimes: 2019-01-16T12:00:00
+AreaCategoryCode: 0000000002
+SeatsInGroup : null
+...
+...
+row: D
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: G
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: H
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: I
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: J
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: K
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: L
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 11,10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre8 || Theatre Number: 8
+SessionId: 158219 || Showtimes: 2019-01-16T17:00:00
+AreaCategoryCode: 0000000002
+SeatsInGroup : null
+...
+...
+row: D
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: G
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: H
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: I
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: J
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: K
+Seat IDs : 18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: L
+Seat IDs : 16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: A
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 11,10,9,8,7,6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001024 || Cinema Name: Major Cineplex Pattaya
+On progress branch : 23/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001025 || Cinema Name: Major Cineplex Big C Chonburi
+On progress branch : 24/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001026 || Cinema Name: Major Cineplex Lotus Krabi
+On progress branch : 25/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001027 || Cinema Name: Major Cineplex Lotus Salaya
+On progress branch : 26/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001028 || Cinema Name: Major Cineplex Big C Ayutthaya
+On progress branch : 27/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001029 || Cinema Name: Major Cineplex Lotus Petchaboon
+On progress branch : 28/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001031 || Cinema Name: Major Cineplex Big C Thunyaburi
+On progress branch : 29/154
+===
+===
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 62392 || Showtimes: 2019-01-15T10:30:00
+AreaCategoryCode: 0000000014
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 62393 || Showtimes: 2019-01-15T13:00:00
+AreaCategoryCode: 0000000014
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 62394 || Showtimes: 2019-01-15T15:30:00
+AreaCategoryCode: 0000000014
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 62395 || Showtimes: 2019-01-15T18:00:00
+AreaCategoryCode: 0000000014
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 62396 || Showtimes: 2019-01-15T20:40:00
+AreaCategoryCode: 0000000014
+SeatsInGroup : null
+...
+...
+row: VP
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001032 || Cinema Name: Major Cineplex Lotus Navanakorn
+On progress branch : 30/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001033 || Cinema Name: Major Cineplex Lotus Baanpong
+On progress branch : 31/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001034 || Cinema Name: Major Cineplex Lotus Srinakarin
+On progress branch : 32/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001035 || Cinema Name: Major Cineplex Lotus Amatanakorn
+On progress branch : 33/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001036 || Cinema Name: Esplanade Cineplex Ngamwongwan-Khae Rai
+On progress branch : 34/154
+===
+===
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 256094 || Showtimes: 2019-01-15T13:00:00
+AreaCategoryCode: 0000000023
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 256095 || Showtimes: 2019-01-15T16:00:00
+AreaCategoryCode: 0000000023
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 256096 || Showtimes: 2019-01-15T19:00:00
+AreaCategoryCode: 0000000023
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+=====
+=====
+Theatre Name: Theatre1 || Theatre Number: 1
+SessionId: 256097 || Showtimes: 2019-01-15T21:40:00
+AreaCategoryCode: 0000000023
+SeatsInGroup : null
+...
+...
+row: A
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: B
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: C
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: D
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: E
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+...
+row: F
+Seat IDs : 10,9,8,7,6,5,4,3,2,1
+...
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001037 || Cinema Name: Major Cineplex Big C Mahachai
+On progress branch : 35/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001038 || Cinema Name: Major Cineplex SukAnan Park Saraburi
+On progress branch : 36/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001039 || Cinema Name: Major Cineplex Samsen
+On progress branch : 37/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001040 || Cinema Name: Major Cineplex Big C Kamphaengphet
+On progress branch : 38/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001041 || Cinema Name: Major Cineplex Central Chiangrai
+On progress branch : 39/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001043 || Cinema Name: Major Cineplex Central Phitsanulok
+On progress branch : 40/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001044 || Cinema Name: Major Cineplex Big C Chanthaburi
+On progress branch : 41/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001045 || Cinema Name: Mega Cineplex
+On progress branch : 42/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001046 || Cinema Name: Major Cineplex Big C Nakhonsithammarat
+On progress branch : 43/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001047 || Cinema Name: Major Cineplex Big C Roi Et
+On progress branch : 44/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001048 || Cinema Name: Major Cineplex Lotus Nakhonsawan
+On progress branch : 45/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001049 || Cinema Name: Major Cineplex Central Ubonratchathani
+On progress branch : 46/154
+===
+===
+===
+===
+===
+===
+===
+===
+CinemaId: 0000001050 || Cinema Name: Major Cineplex Lotus Nongbua Lamphu
+On progress branch : 47/154
+===
+===

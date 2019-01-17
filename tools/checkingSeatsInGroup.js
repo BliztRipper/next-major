@@ -1,6 +1,7 @@
 const axios = require('axios')
 const apiUrlBase = 'https://api-cinema.truemoney.net'
-let branchIndex = 47
+let instantBranchesData
+let branchIndex = 0
 let totalSessionIds = 0
 let totalTheatres = 0
 let totalBranches = 0
@@ -30,13 +31,12 @@ const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, mo
                 if (sessionId != previousSessionId) {
                   totalSessionIds += 1
                   previousSessionId = sessionId
-                  console.log('=====');
-                  console.log('=====');
-                  console.log(`Theatre Name: ${theatre.ScreenName} || Theatre Number: ${theatre.ScreenNumber}`);
-                  console.log(`SessionId: ${sessionId} || Showtimes: ${movie.Showtimes}`);
-                  console.log(`AreaCategoryCode: ${ticketArea.AreaCategoryCode}`);
-                  console.log(`SeatsInGroup : ${seat.SeatsInGroup}`);
-                  console.log('...');
+                  console.log('.....');
+                  console.log('.....');
+                  console.log(`..... Theatre Name: ${theatre.ScreenName} || Screen Number: ${theatre.ScreenNumber}`);
+                  console.log(`..... AreaCategoryCode: ${ticketArea.AreaCategoryCode} || Area Description: ${ticketArea.Description}`);
+                  console.log(`..... SessionId: ${sessionId} || Showtimes: ${movie.Showtimes}`);
+                  console.log(`..... SeatsInGroup : ${seat.SeatsInGroup}`);
                 }
                 if (cinema.ID != previousBranches) {
                   totalBranches += 1
@@ -47,16 +47,14 @@ const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, mo
                   totalTheatres += 1
                   previousTheatres = theatre.ScreenNumber
                 }
-                console.log('...');
-                console.log(`row: ${seatRow.PhysicalName}`);
-                console.log(`Seat IDs : ${seatsInRows.join()}`);
-                console.log('...');
+                console.log('.........');
+                console.log('.........');
+                console.log(`......... row: ${seatRow.PhysicalName}`);
+                console.log(`......... Seat IDs : ${seatsInRows.join()}`);
               }
             });
           }
         });
-      } else {
-        console.log('=== NO ISSUE ===');
       }
     });
   });
@@ -85,7 +83,7 @@ const getSeatsIngroup = async (cinema, theatre, movie) => {
     }
   }))
   .catch(function (error) {
-    console.log(`!!!! Error: ${error.config.url}`);
+    console.log(`!!!! Error: ${error.config ? error.config.url : '' } >> function getSeatsIngroup`);
   })
   .then(function () {
     // always executed
@@ -119,12 +117,21 @@ const getScheduleInBranchCinema = (cinema) => {
         }
       }
     }
-    console.log(`>>> Total SessionIds : ${totalSessionIds} || Theatres : ${totalTheatres} || Branches : ${totalBranches}`);
-    getBranches()
+    console.log(`>>> Subtotal SessionIds : ${totalSessionIds}|| Requests ${totalRequests} || Theatres : ${totalTheatres} || Branches : ${totalBranches} `);
+    branchIndex += 1
+    if (branchIndex === instantBranchesData.length) {
+      console.log(` Total SessionIds : ${totalSessionIds}|| Requests ${totalRequests} || Theatres : ${totalTheatres} || Branches : ${totalBranches} `);
+      console.log(`========== END TASK ==========`);
+      console.log('======================');
+      return
+    }
+    if (branchIndex < instantBranchesData.length) {
+      getBranches()
+    }
 
   })
   .catch(function (error) {
-    console.log(`!!!! Error: ${error.config.url}`);
+    console.log(`!!!! Error: ${error.config ? error.config.url : '' } >> function getScheduleInBranchCinema`);
   })
   .then(function () {
     // always executed
@@ -139,34 +146,24 @@ const getBranches = () => {
   .then((res) => {
     let instantBranchesRes = res.data
     if (instantBranchesRes.status_code === 0) {
-      let instantBranchesData = instantBranchesRes.data
+      instantBranchesData = instantBranchesRes.data
       if (branchIndex === 0) {
         console.log('======================');
         console.log(`========== BEGIN TASK ==========`);
       }
       if (branchIndex < instantBranchesData.length) {
-        console.log('===');
-        console.log('===');
-        console.log('===');
-        console.log('===');
-        console.log('===');
-        console.log('===');
-        console.log(`CinemaId: ${instantBranchesData[branchIndex].ID} || Cinema Name: ${instantBranchesData[branchIndex].Name ? instantBranchesData[branchIndex].Name : instantBranchesData[branchIndex].NameAlt}`);
-        console.log(`On progress branch : ${branchIndex + 1}/${instantBranchesData.length}`);
-        console.log('===');
-        console.log('===');
+        console.log('.');
+        console.log('.');
+        console.log('.');
+        console.log('.');
+        console.log(`. CinemaId: ${instantBranchesData[branchIndex].ID} || Cinema Name: ${instantBranchesData[branchIndex].Name ? instantBranchesData[branchIndex].Name : instantBranchesData[branchIndex].NameAlt}`);
+        console.log(`. On progress branch : ${branchIndex + 1}/${instantBranchesData.length}`);
         getScheduleInBranchCinema(instantBranchesData[branchIndex])
-      }
-      branchIndex += 1
-      if (branchIndex === instantBranchesData.length) {
-        console.log(`Total SessionIds : ${totalSessionIds} || Total Requests ${totalRequests}`);
-        console.log(`========== END TASK ==========`);
-        console.log('======================');
       }
     }
   })
   .catch(function (error) {
-    console.log(`!!!! Error: ${error.config.url}`);
+    console.log(`!!!! Error: ${error.config ? error.config.url : '' }  >> function getBranches`);
   })
   .then(function () {
     // always executed
