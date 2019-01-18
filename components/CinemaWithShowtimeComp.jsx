@@ -114,13 +114,14 @@ class CinemaWithShowtimeComp extends Component {
 
 	render() {
 		return (
-			<div ref="searchCine" className="cinema__card-cbm" >
+			<div className="cinema__card-cbm" >
 				<div className="cinema__card-cbm--title" key="title">
 					<div className="cinema__card-cbm--titleIcon">
 						<img src="../static/major.png" alt="" />
 					</div>
 					<div ref="cineName" className="cinema__card-cbm--branch">
 						<div>{this.state.cinema.branchName}</div>
+						<div>Brand ID : {this.state.cinema.brandId}</div>
 						{/* <div>300 m</div> */}
 					</div>
 					<div className="favIconWrap">
@@ -130,7 +131,6 @@ class CinemaWithShowtimeComp extends Component {
 						</div>
 					</div>
 				</div>
-
 				{this.renderTheater()}
 			</div>
 		)

@@ -43,6 +43,7 @@ convertDataToUse() {
             longitude: branch.Longitude
           },
           cinemaId: branch.ID,
+          brandId: branch.DescriptionInside.brand_id,
           brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
           isFavorite: utilities.isFavorite(favorites, branch.ID),
           searchKey: branch.Name+branch.NameAlt,
