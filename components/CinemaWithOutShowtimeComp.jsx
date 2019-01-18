@@ -22,7 +22,7 @@ class CinemaWithOutShowtimeComp extends Component {
             pathname: '/SelectMovieByCinema'
         }
         return (
-            <div ref="searchCine" className="cinema__card-cbm noTime">
+            <div className="cinema__card-cbm noTime">
                 <div className="cinema__card-cbm--title">
                     <Link prefetch href={dataToMovieByCinema}>
                         <div className="cinema__card-cbm--titleIcon" onClick={this.handleSelectBranch.bind(this)}>
@@ -32,6 +32,7 @@ class CinemaWithOutShowtimeComp extends Component {
                     <Link prefetch href={dataToMovieByCinema}>
                         <div ref="cineName" className="cinema__card-cbm--branch" onClick={this.handleSelectBranch.bind(this)}>
                             <div>{this.state.cinema.branchName}</div>
+                            <div>Brand ID : {this.state.cinema.brandId}</div>
                             {/* <div>300 m</div> */}
                         </div>
                     </Link>

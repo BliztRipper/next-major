@@ -142,6 +142,7 @@ class MainSelectCinemaByMovie extends Component {
           longitude: branch.Longitude
         },
         cinemaId: branch.ID,
+        brandId: branch.DescriptionInside.brand_id,
         brandName: utilities.getBrandName(branch.DescriptionInside.brand_name_en),
         isFavorite: utilities.isFavorite(this.state.favorites, branch.ID),
         searchKey: branch.Name+branch.NameAlt,
@@ -361,7 +362,7 @@ class MainSelectCinemaByMovie extends Component {
 
   renderSearchData() {
     return this.state.searchRegions.map((region, i) => {
-      return <RegionCinemaComp key={region.name + i + region.keywordSearch} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>
+      return <RegionCinemaComp key={region.name + i + region.keywordSearch} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} serverTime={this.state.serverTime} favActive={this.favActive.bind(this)}/>
     })
   }
 
