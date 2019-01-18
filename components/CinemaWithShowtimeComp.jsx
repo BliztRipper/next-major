@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
-import { log } from 'util';
 import utilities from '../scripts/utilities';
 
 class CinemaWithShowtimeComp extends Component {
@@ -11,6 +10,7 @@ class CinemaWithShowtimeComp extends Component {
 			cinema: this.props.cinema,
 			accid: this.props.accid,
 			pickThisDay: this.props.pickThisDay,
+			serverTime: this.props.serverTime
 		}
 	}
 
@@ -51,14 +51,26 @@ class CinemaWithShowtimeComp extends Component {
 						SessionId: showtime.sessionId
 					}
 				}
+
 				let keyShowTime = showtime.showtime + theatre.ScreenNameAlt + showtimeIndex
-				return (
-					<Link prefetch href={dataToSeatMap} key={keyShowTime} >
-						<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theatre, showtime)}>
+				let showTimeDate = new Date(showtime.datetime)
+				let nowDateFromServer = new Date(this.state.serverTime)
+
+				if (showTimeDate.getTime() > nowDateFromServer.getTime()) {
+					return (
+						<Link prefetch href={dataToSeatMap} key={keyShowTime} >
+							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theatre, showtime)}>
+								{showtime.showtime}
+							</span>
+						</Link>
+					)
+				} else {
+					return (
+						<span className="cinema__card-cbm__showtime disable" key={keyShowTime} >
 							{showtime.showtime}
 						</span>
-					</Link>
-				)
+					)
+				}
 			});
 		});
 

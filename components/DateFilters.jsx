@@ -30,26 +30,35 @@ class DateFilters extends Component {
       freeMode: true,
       slideToClickedSlide: true,
       freeModeMomentum: false,
-      freeModeSticky: true
+      freeModeSticky: true,
+      on: {
+        init: function () {
+          this.$wrapperEl[0].style.width = `${this.size * this.wrapperEl.childElementCount}px`
+        },
+      }
     }
     let swiper = new Swiper(this.refs.slider, sliderSetting)
     swiper.on('slideChange', () => { this.sliderBeforeChange(swiper.activeIndex) })
+
     return swiper
   }
   renderDates() {
     let strToday = `${this.state.serverTime.slice(8,10)} ${this.getMonth(this.state.serverTime)}`
 
     return this.state.dates.map((date, i) => {
-
-      let displayDate = `${date.slice(8,10)} ${this.getMonth(date)}`
-      if (strToday == displayDate) {
-        displayDate = "วันนี้"
+      let instantDate = new Date(date).getDate()
+      let instantCurrentDate = new Date(this.state.serverTime).getDate()
+      if (instantDate >= instantCurrentDate) {
+        let displayDate = `${date.slice(8,10)} ${this.getMonth(date)}`
+        if (strToday == displayDate) {
+          displayDate = "วันนี้"
+        }
+        return (
+          <div className="swiper-slide" key={date}>
+            <div className="date-filter__item"><span>{displayDate}</span></div>
+          </div>
+        )
       }
-      return (
-        <div className="swiper-slide" key={date}>
-          <div className="date-filter__item"><span>{displayDate}</span></div>
-        </div>
-      )
     })
   }
   componentDidMount() {

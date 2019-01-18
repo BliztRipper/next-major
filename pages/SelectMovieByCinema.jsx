@@ -152,7 +152,7 @@ class MainSelectMovieByCinema extends PureComponent {
                   <div className="page__selectMovieByCinema">
                     <GlobalHeaderButtonBack></GlobalHeaderButtonBack>
                     <DateFilters serverTime={serverTime} dates={dates} sliderBeforeChange={this.dateFilterSliderBeforeChange.bind(this)}></DateFilters>
-                    <MovieWithShowtimeComp movies={movies} accid={accid} pickThisDay={pickThisDay} />
+                    <MovieWithShowtimeComp movies={movies} accid={accid} pickThisDay={pickThisDay} serverTime={serverTime} />
                   </div>
                   <GlobalFooterNav selectBy={selectBy}/>
                 </div>

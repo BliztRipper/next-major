@@ -72,6 +72,17 @@ class SeatMapDisplay extends PureComponent {
     })
     return isPackage
   }
+  getQuantitySeatsInPackageMoreThanOne (ticketsInPackageContent) {
+    let ticketIsPackgeMoreThanOne = false
+    if (ticketsInPackageContent.length > 0) {
+      let instantTicketQuantity = 0
+      ticketsInPackageContent.forEach((ticketInPackage) => {
+        instantTicketQuantity += ticketInPackage.Quantity
+      })
+      ticketIsPackgeMoreThanOne = instantTicketQuantity > 1 ? true : false
+    }
+    return ticketIsPackgeMoreThanOne
+  }
   handleSelectSeats (aSeat) {
     if (this.state.postingTicket || this.state.seatsSelected.length && (this.state.areaSelected !== aSeat.AreaCategoryCode) || !this.getTicketByAreaCode(aSeat.AreaCategoryCode)) return false
 
@@ -80,6 +91,7 @@ class SeatMapDisplay extends PureComponent {
     let selectRow = this.state.seatMatrix[aSeat.Position.RowIndex]
 
     let ticket = this.getTicketByAreaCode(aSeat.AreaCategoryCode)
+    let ticketIsPackgeMoreThanOneSeats = this.getQuantitySeatsInPackageMoreThanOne(ticket.PackageContent.Tickets)
 
     let toggleBooked = (aSeat, isPackage) => {
       if (aSeat.Status === 'myBooking') { // Already booked a seat
@@ -131,7 +143,7 @@ class SeatMapDisplay extends PureComponent {
 
     }
 
-    if (ticket.IsPackageTicket) {
+    if (ticketIsPackgeMoreThanOneSeats) {
       let listSelected = []
       let instantSeat = {
         canBook: true
@@ -152,6 +164,11 @@ class SeatMapDisplay extends PureComponent {
             } //canBook
 
           })
+        })
+      } else {
+        Swal({
+          title: 'ข้อมูลผิดพลาด',
+          html: `<b>SeatsInGroup</b>: ${aSeat.SeatsInGroup}`
         })
       }
 
@@ -289,8 +306,8 @@ class SeatMapDisplay extends PureComponent {
     let ticketList = this.state.tickets.map(ticket => {
       let classNameTicketList = 'ticketResult__list' + ' ' + ticket.seatTheme
       let Description = ticket.Description
-      ticket.IsPackageTicket = ticket.IsPackageTicket ? ticket.IsPackageTicket : this.getPackageByAreaCode(ticket.AreaCategoryCode)
-      classNameTicketList = ticket.IsPackageTicket ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
+      let ticketIsPackgeMoreThanOneSeats = this.getQuantitySeatsInPackageMoreThanOne(ticket.PackageContent.Tickets)
+      classNameTicketList = ticketIsPackgeMoreThanOneSeats ? classNameTicketList + ' IsPackageTicket' : classNameTicketList
 
       return (
         <div className={classNameTicketList} key={ticket.AreaCategoryCode + Description}>
