@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
-import { log } from 'util';
 import utilities from '../scripts/utilities';
 
 class CinemaWithShowtimeComp extends Component {
