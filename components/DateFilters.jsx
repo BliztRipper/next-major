@@ -30,10 +30,16 @@ class DateFilters extends Component {
       freeMode: true,
       slideToClickedSlide: true,
       freeModeMomentum: false,
-      freeModeSticky: true
+      freeModeSticky: true,
+      on: {
+        init: function () {
+          this.$wrapperEl[0].style.width = `${this.size * this.wrapperEl.childElementCount}px`
+        },
+      }
     }
     let swiper = new Swiper(this.refs.slider, sliderSetting)
     swiper.on('slideChange', () => { this.sliderBeforeChange(swiper.activeIndex) })
+
     return swiper
   }
   renderDates() {

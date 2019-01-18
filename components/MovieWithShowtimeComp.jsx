@@ -1,16 +1,17 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
 import empty from '../static/icon-film-empty.svg'
 
-class MovieWithShowtimeComp extends PureComponent {
+class MovieWithShowtimeComp extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			accid: this.props.accid,
-			movieList: null
+			movieList: null,
+			serverTime: this.props.serverTime
 		}
 	}
 	componentDidMount () {
@@ -69,14 +70,26 @@ class MovieWithShowtimeComp extends PureComponent {
 					SessionId: showtime.sessionId
 				}
 			}
+
 			let keyShowTime = showtime.showtime + theater.ScreenNameAlt + showtimeIndex
-			return (
-				<Link prefetch href={dataToSeatMap} key={keyShowTime} >
-					<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+			let showTimeDate = new Date(showtime.datetime)
+			let nowDateFromServer = new Date(this.state.serverTime)
+
+			if (showTimeDate.getTime() > nowDateFromServer.getTime()) {
+				return (
+					<Link prefetch href={dataToSeatMap} key={keyShowTime} >
+						<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theater, showtime)}>
+							{showtime.showtime}
+						</span>
+					</Link>
+				)
+			} else {
+				return (
+					<span className="cinema__card-cbm__showtime disable" key={keyShowTime} >
 						{showtime.showtime}
 					</span>
-				</Link>
-			)
+				)
+			}
 		});
 
 	}

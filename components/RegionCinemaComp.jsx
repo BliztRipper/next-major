@@ -90,6 +90,7 @@ class RegionCinemaComp extends Component {
                 showtimes={this.props.showtimes}
                 pickThisDay={this.props.pickThisDay}
                 favActive={this.state.favActive}
+                serverTime={this.props.serverTime}
               />
             );
           } else {

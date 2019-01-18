@@ -349,7 +349,7 @@ class MainSelectCinemaByMovie extends Component {
         }
 
         if (region.allowRender) {
-          return (<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
+          return (<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={false} accid={this.state.accid} pickThisDay={this.state.pickThisDay} serverTime={this.state.serverTime} favActive={this.favActive.bind(this)}/>)
         } else {
           return false
         }
