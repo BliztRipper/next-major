@@ -117,11 +117,16 @@ class CinemaWithShowtimeComp extends Component {
 			<div className="cinema__card-cbm" >
 				<div className="cinema__card-cbm--title" key="title">
 					<div className="cinema__card-cbm--titleIcon">
-						<img src="../static/major.png" alt="" />
+						{(() => {
+							if (this.state.cinema.brandId) {
+								return <img src={`../static/brandIds/brand_id_${this.state.cinema.brandId}.png`} />
+							} else {
+								return false
+							}
+						})()}
 					</div>
 					<div ref="cineName" className="cinema__card-cbm--branch">
 						<div>{this.state.cinema.branchName}</div>
-						<div>Brand ID : {this.state.cinema.brandId}</div>
 						{/* <div>300 m</div> */}
 					</div>
 					<div className="favIconWrap">

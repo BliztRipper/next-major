@@ -1,0 +1,47 @@
+ID:11 = Toyota Imax
+
+============
+
+//ID:1 = Major Cineplex
+//ID:2 = EGV
+//ID:3 = Paragon
+//ID:4 = Esplanade
+//ID:5 = KrungSri Imax
+//ID:7 = Paradise Cineplex
+//ID:8 = Mega Cineplex
+//ID:9 = Hat yai
+//ID:10 = Quartier Cineart
+//ID:12 = West gate
+//ID:13 = Promanade
+//ID:14 = East ville
+//ID:15 = Diana Cineplex
+//ID:16 = Ayudtaya City park
+//ID:17 = Blue pot Cineplex
+//ID:18 = Korat Cineplex
+//ID:19 = seacon Cineplex
+//ID:20 = Imax VR
+//ID:21 = Icon cineconic
+
+============
+
+============
+//ID:1 = Major Cineplex
+//ID:2 = EGV
+//ID:3 = Paragon
+//ID:4 = Esplanade
+ID:5 = KrungSri Imax
+//ID:7 = Paradise Cineplex
+//ID:8 = Mega Cineplex
+//ID:9 = Hat yai
+ID:10 = Quartier Cineart
+ID:11 = Toyota Imax
+ID:12 = West gate
+//ID:13 = Promanade
+//ID:14 = East ville
+//ID:15 = Diana Cineplex
+//ID:16 = Ayudtaya City park
+//ID:17 = Blue pot Cineplex
+//ID:18 = Korat Cineplex
+//ID:19 = seacon Cineplex
+ID:20 = Imax VR
+ID:21 = Icon cineconic

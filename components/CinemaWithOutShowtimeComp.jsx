@@ -26,13 +26,18 @@ class CinemaWithOutShowtimeComp extends Component {
                 <div className="cinema__card-cbm--title">
                     <Link prefetch href={dataToMovieByCinema}>
                         <div className="cinema__card-cbm--titleIcon" onClick={this.handleSelectBranch.bind(this)}>
-                            <img src="../static/major.png" alt=""/>
+                            {(() => {
+                                if (this.state.cinema.brandId) {
+                                    return <img src={`../static/brandIds/brand_id_${this.state.cinema.brandId}.png`} />
+                                } else {
+                                    return false
+                                }
+                            })()}
                         </div>
                     </Link>
                     <Link prefetch href={dataToMovieByCinema}>
                         <div ref="cineName" className="cinema__card-cbm--branch" onClick={this.handleSelectBranch.bind(this)}>
                             <div>{this.state.cinema.branchName}</div>
-                            <div>Brand ID : {this.state.cinema.brandId}</div>
                             {/* <div>300 m</div> */}
                         </div>
                     </Link>
