@@ -138,10 +138,7 @@ const getScheduleInBranchCinema = (cinema) => {
       console.log('======================');
       return
     }
-    if (branchIndex < instantBranchesData.length) {
-      getBranches()
-    }
-
+    printCinema()
   })
   .catch(function (error) {
     console.log(`!!!! Error: ${error.config ? error.config.url : '' } >> function getScheduleInBranchCinema`);
@@ -149,6 +146,18 @@ const getScheduleInBranchCinema = (cinema) => {
   .then(function () {
     // always executed
   });
+}
+const printCinema = () => {
+
+  if (branchIndex < instantBranchesData.length) {
+    console.log('.');
+    console.log('.');
+    console.log('.');
+    console.log('.');
+    console.log(`. CinemaId: ${instantBranchesData[branchIndex].ID} || Cinema Name: ${instantBranchesData[branchIndex].Name ? instantBranchesData[branchIndex].Name : instantBranchesData[branchIndex].NameAlt}`);
+    console.log(`. On progress branch : ${branchIndex + 1}/${instantBranchesData.length}`);
+    getScheduleInBranchCinema(instantBranchesData[branchIndex])
+  }
 }
 const getBranches = () => {
   totalRequests += 1
@@ -164,15 +173,7 @@ const getBranches = () => {
         console.log('======================');
         console.log(`========== BEGIN TASK ==========`);
       }
-      if (branchIndex < instantBranchesData.length) {
-        console.log('.');
-        console.log('.');
-        console.log('.');
-        console.log('.');
-        console.log(`. CinemaId: ${instantBranchesData[branchIndex].ID} || Cinema Name: ${instantBranchesData[branchIndex].Name ? instantBranchesData[branchIndex].Name : instantBranchesData[branchIndex].NameAlt}`);
-        console.log(`. On progress branch : ${branchIndex + 1}/${instantBranchesData.length}`);
-        getScheduleInBranchCinema(instantBranchesData[branchIndex])
-      }
+      printCinema()
     }
   })
   .catch(function (error) {

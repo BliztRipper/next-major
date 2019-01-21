@@ -14,11 +14,11 @@ class CinemaWithShowtimeComp extends Component {
 		}
 	}
 
-	handleScheduleSelected(theatre, showtime) {
+	handleScheduleSelected(theatre, showtime, detailShowtimeIntheatre) {
 		sessionStorage.setItem('BookingTime', showtime.showtime)
 		sessionStorage.setItem('BookingScreenName', theatre.ScreenName)
-		sessionStorage.setItem('BookingAttributesNames', theatre.SessionAttributesNames)
-		sessionStorage.setItem('BookingCinemaOperatorCode', theatre.CinemaOperatorCode)
+		sessionStorage.setItem('BookingAttributesNames', detailShowtimeIntheatre.SessionAttributesNames)
+		sessionStorage.setItem('BookingCinemaOperatorCode', detailShowtimeIntheatre.CinemaOperatorCode)
 		sessionStorage.setItem('CinemaID', this.state.cinema.cinemaId)
 		sessionStorage.setItem('BookingCinema', this.state.cinema.branchName)
 		sessionStorage.setItem('BookingBranchLocation', JSON.stringify(this.state.cinema.branchLocation))
@@ -39,15 +39,15 @@ class CinemaWithShowtimeComp extends Component {
 		}
 	}
 
-	renderShowtimes(cinema) {
+	renderShowtimes(theatre) {
 
-		return cinema.showtimesFilterByDate.map((theatre, showtimeIndex) => {
+		return theatre.showtimesFilterByDate.map((detailShowtimeIntheatre, showtimeIndex) => {
 
-			return theatre.Showtimes.map((showtime) => {
+			return detailShowtimeIntheatre.Showtimes.map((showtime) => {
 				let dataToSeatMap = {
 					pathname: '/seatMap',
 					query: {
-						...theatre,
+						...detailShowtimeIntheatre,
 						SessionId: showtime.sessionId
 					}
 				}
@@ -59,7 +59,7 @@ class CinemaWithShowtimeComp extends Component {
 				if (showTimeDate.getTime() > nowDateFromServer.getTime()) {
 					return (
 						<Link prefetch href={dataToSeatMap} key={keyShowTime} >
-							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theatre, showtime)}>
+							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theatre, showtime, detailShowtimeIntheatre)}>
 								{showtime.showtime}
 							</span>
 						</Link>

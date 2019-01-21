@@ -194,24 +194,26 @@ export default {
     let result = []
 		if (schedules) {
 			schedules.forEach((schedule, i) => {
-        let showtime = schedule.Showtimes
-				if (showtime.slice(0, 10) === pickThisDay) {
-          if (!theatres[schedule.ScreenName]) {
-            theatres[schedule.ScreenName] = {
-              ...schedule,
-              Showtimes: []
+        let hasSalesChanels = schedule.SalesChannels.search('TRUEP')
+        if (hasSalesChanels !== -1) {
+          let showtime = schedule.Showtimes
+          if (showtime.slice(0, 10) === pickThisDay) {
+            if (!theatres[schedule.ScreenName]) {
+              theatres[schedule.ScreenName] = {
+                ...schedule,
+                Showtimes: []
+              }
+              delete theatres[schedule.ScreenName]['MovieInTheaters']
+              delete theatres[schedule.ScreenName]['SessionIds']
             }
-            delete theatres[schedule.ScreenName]['MovieInTheaters']
-            delete theatres[schedule.ScreenName]['SessionIds']
+            theatres[schedule.ScreenName].Showtimes.push({
+              date: showtime.slice(0, 10),
+              showtime: showtime.slice(11, 16),
+              datetime: showtime,
+              sessionId: schedule.SessionIds
+            })
           }
-					theatres[schedule.ScreenName].Showtimes.push({
-            date: showtime.slice(0, 10),
-            showtime: showtime.slice(11, 16),
-            datetime: showtime,
-            sessionId: schedule.SessionIds
-          })
         }
-
       })
       Object.keys(theatres).forEach(key => {
         result.push(theatres[key])
