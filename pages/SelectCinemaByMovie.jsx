@@ -356,7 +356,11 @@ class MainSelectCinemaByMovie extends Component {
         }
       })
       instantRegions.unshift(this.renderFavorite(instantCinemaIds))
-      return instantRegions
+      return (
+        <div className="cinema__cardItems">
+          {instantRegions}
+        </div>
+      )
     }
   }
 
