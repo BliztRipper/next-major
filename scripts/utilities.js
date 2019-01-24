@@ -220,5 +220,11 @@ export default {
       });
     }
     return result
+  },
+  convertToTimeStamp (date) {
+    let instantDate = new Date(date)
+    var localOffset = (-1) * instantDate.getTimezoneOffset() * 60
+    let instantTimestamp = Math.floor(instantDate.getTime() / 1000 + localOffset)
+    return instantTimestamp
   }
 }

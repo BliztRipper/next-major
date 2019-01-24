@@ -53,10 +53,9 @@ class CinemaWithShowtimeComp extends Component {
 				}
 
 				let keyShowTime = showtime.showtime + theatre.ScreenNameAlt + showtimeIndex
-				let showTimeDate = new Date(showtime.datetime)
-				let nowDateFromServer = new Date(this.state.serverTime)
-
-				if (showTimeDate.getTime() > nowDateFromServer.getTime()) {
+				let showTimeDate = utilities.convertToTimeStamp(showtime.datetime)
+				let nowDateFromServer = utilities.convertToTimeStamp(this.state.serverTime)
+				if (showTimeDate > nowDateFromServer) {
 					return (
 						<Link prefetch href={dataToSeatMap} key={keyShowTime} >
 							<span className="cinema__card-cbm__showtime" onClick={this.handleScheduleSelected.bind(this, theatre, showtime, detailShowtimeIntheatre)}>
