@@ -112,19 +112,19 @@ export default {
 
   getSystemImg(formatCode) {
     switch(formatCode) {
-      case '0000000013': return `../static/4-dx-3-d.png`
-      case '0000000001': return `../static/4-dx-2-d.png`
-      case '0000000002': return `../static/AD.png`
-      case '0000000003': return `../static/A3D.png`
+      case '0000000013': return `../Home/static/4-dx-3-d.png`
+      case '0000000001': return `../Home/static/4-dx-2-d.png`
+      case '0000000002': return `../Home/static/AD.png`
+      case '0000000003': return `../Home/static/A3D.png`
       // case '0000000004': return `../static/digi-2-d.png`
-      case '0000000005': return `../static/digi-3-d.png`
-      case '0000000006': return `../static/MX.png`
-      case '0000000007': return `../static/MXD.png`
-      case '0000000008': return `../static/imaxh-3-d.png`
-      case '0000000009': return `../static/imaxd-3-d.png`
+      case '0000000005': return `../Home/static/digi-3-d.png`
+      case '0000000006': return `../Home/static/MX.png`
+      case '0000000007': return `../Home/static/MXD.png`
+      case '0000000008': return `../Home/static/imaxh-3-d.png`
+      case '0000000009': return `../Home/static/imaxd-3-d.png`
       // case '0000000011': return `../static/imaxvr.png` now hasn't picture
-      case '0000000011': return `../static/SCX.png`
-      case '0000000012': return `../static/kids.png`
+      case '0000000011': return `../Home/static/SCX.png`
+      case '0000000012': return `../Home/static/kids.png`
       default: return ``
     }
   },
@@ -141,12 +141,12 @@ export default {
       // case 'MXVR': return `../static/imaxvr.png` now hasn't picture
       // case 'Screen X': return `../static/SCX.png`
       // case 'KIDS': return `../static/kids.png`
-      case 'IMAX': return `../static/MX.png`
-      case '4DX': return `../static/4-dx.png`
-      case 'Dolby Atmos': return `../static/AD.png`
-      case 'Digital 3D': return `../static/D3D.png`
-      case 'RealD': return `../static/reald.png`
-      case 'ScreenX': return `../static/SCX.png`
+      case 'IMAX': return `../Home/static/MX.png`
+      case '4DX': return `../Home/static/4-dx.png`
+      case 'Dolby Atmos': return `../Home/static/AD.png`
+      case 'Digital 3D': return `../Home/static/D3D.png`
+      case 'RealD': return `../Home/static/reald.png`
+      case 'ScreenX': return `../Home/static/SCX.png`
       default: return ``
     }
   },
