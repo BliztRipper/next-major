@@ -89,19 +89,23 @@ class Cashier extends PureComponent {
               showConfirmButton: false,
               timer: 4000
             });
-          } else if (data.description.slice(0, 7) === "PAY0011") {
-            Swal({
-              title: "ไม่สามารถซื้อตั๋วได้",
-              imageUrl: "../static/nobalance.svg",
-              imageWidth: 200,
-              imageHeight: 200,
-              grow: "fullscreen",
-              html: `ยอดเงินในบัญชีของคุณไม่เพียงพอ<br/>กรุณาเติมเงินเข้าวอลเล็ท และทำรายการใหม่อีกครั้ง`,
-              onAfterClose: () => {
-                Router.back();
-              }
-            });
-          } else if (data.status_code === 35000) {
+          }
+          if (data.description) {
+            if (data.description.slice(0, 7) === "PAY0011") {
+              Swal({
+                title: "ไม่สามารถซื้อตั๋วได้",
+                imageUrl: "../static/nobalance.svg",
+                imageWidth: 200,
+                imageHeight: 200,
+                grow: "fullscreen",
+                html: `ยอดเงินในบัญชีของคุณไม่เพียงพอ<br/>กรุณาเติมเงินเข้าวอลเล็ท และทำรายการใหม่อีกครั้ง`,
+                onAfterClose: () => {
+                  Router.back();
+                }
+              });
+            }
+          }
+          if (data.status_code === 35000) {
             Swal({
               title: "ขออภัยระบบขัดข้อง",
               imageUrl: "../static/error.svg",
