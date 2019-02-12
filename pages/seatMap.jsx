@@ -385,7 +385,7 @@ class seatMap extends PureComponent {
     return(
       <div className="seatMap__educate" onClick={this.educateAccepted.bind(this)}>
         <div className="seatMap__educate-inner">
-          <figure><img src="../static/icon-pinch.svg" alt=""/></figure>
+          <figure><img src="../Home/static/icon-pinch.svg" alt=""/></figure>
           <div className="seatMap__educate-desc">เพื่อขยายที่นั่ง</div>
           <div className="seatMap__educate-button" onClick={this.educateAccepted.bind(this)}>
             <span className="btnTheme">เข้าใจแล้ว</span>

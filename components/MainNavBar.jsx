@@ -132,7 +132,7 @@ class MainNavBar extends PureComponent {
       return (
         <div className="indexTab__floatButton" onClick={this.goToMyTickets} key="buttonLinkToMyTicket">
           <div className="indexTab__floatButtonInner">
-            <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
+            <img className="indexTab__floatButton-icon" src="../Home/static/icon-ticket.svg" alt=""/>
             { this.renderFloatButtonBadge() }
           </div>
         </div>
@@ -194,7 +194,7 @@ class MainNavBar extends PureComponent {
           <TabPanel>
             <div className="allmovie-btn-wrap" key="ButtonSeeAllMovies">
               <Link prefetch href={dataToAllMovies}>
-                <a className="allmovie-btn"><img className="allmovie-btn-icon" src="../static/all-movie-icon.svg" /> ดูภาพยนตร์ทั้งหมด</a>
+                <a className="allmovie-btn"><img className="allmovie-btn-icon" src="../Home/static/all-movie-icon.svg" /> ดูภาพยนตร์ทั้งหมด</a>
               </Link>
             </div>
             <HighlightCarousel

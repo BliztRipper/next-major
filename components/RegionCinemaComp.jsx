@@ -30,7 +30,7 @@ class RegionCinemaComp extends Component {
     if (this.state.iAmFav) {
       return (
         <div className="cinema__regional__title-iconFav">
-          <img src="../static/ic-star-outline-highlight.svg" alt="" />
+          <img src="../Home/static/ic-star-outline-highlight.svg" alt="" />
         </div>
       );
     } else if (this.state.iAmSystem) {
@@ -69,7 +69,7 @@ class RegionCinemaComp extends Component {
             className={this.state.isExpand ? "arrowIcon active" : "arrowIcon"}
             key="arrowIcon">
             {" "}
-            <img src="../static/ic-down-chevron.svg" alt="" />
+            <img src="../Home/static/ic-down-chevron.svg" alt="" />
           </div>
         </div>
       </div>

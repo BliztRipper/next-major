@@ -241,7 +241,7 @@ class SeatMapDisplay extends PureComponent {
       } else {
         SweetAlert.fire({
           customClass: 'notAllowedSelected',
-          html: <div style={{ textAlign: 'center' }}><figure className="image"><img src="../static/seat-errer.png" alt=""/></figure> ขออภัย กรุณาไม่เว้นที่ว่าง <br/> ระหว่างที่นั่ง</div>
+          html: <div style={{ textAlign: 'center' }}><figure className="image"><img src="../Home/static/seat-errer.png" alt=""/></figure> ขออภัย กรุณาไม่เว้นที่ว่าง <br/> ระหว่างที่นั่ง</div>
         })
       }
     } else {

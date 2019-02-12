@@ -111,7 +111,7 @@ class MovieWithShowtimeComp extends Component {
 									)
 								}
 							})()}
-							<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
+							<img src="../Home/static/ic-sound.svg" className="icSvg icSvgSound" />
 							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
 						<div className="cinema__card-cbm--theatre-titleSub">Screen Number {theater.ScreenNumber}</div>

@@ -93,7 +93,7 @@ class CinemaWithShowtimeComp extends Component {
 										)
 									}
 								})()}
-								<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
+								<img src="../Home/static/ic-sound.svg" className="icSvg icSvgSound" />
 								<div className="">{this.renderSound(theater.MovieInTheaters[0].SessionAttributesNames)}</div>
 							</div>
 							<div className="cinema__card-cbm--theatre-titleSub">Screen Number {theater.ScreenNumber}</div>
@@ -130,8 +130,8 @@ class CinemaWithShowtimeComp extends Component {
 					</div>
 					<div className="favIconWrap">
 						<div className={this.state.cinema.isFavorite ? 'favIcon active' : 'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
-							<img src="../static/ic-star-outline.svg" alt="" />
-							<img src="../static/ic-star-active.svg" alt="" />
+							<img src="../Home/static/ic-star-outline.svg" alt="" />
+							<img src="../Home/static/ic-star-active.svg" alt="" />
 						</div>
 					</div>
 				</div>

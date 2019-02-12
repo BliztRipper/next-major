@@ -133,7 +133,7 @@ class home extends PureComponent {
       return (
         <Layout>
           <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
-            <img src="../static/maintenance.svg" width="150" alt=""/>
+            <img src="../Home/static/maintenance.svg" width="150" alt=""/>
           </div>
           <div style={{marginTop:'4rem', textAlign:'center'}}>
             <p style={{color:'#333', fontSize:'1.2rem'}}>ระบบกำลังปรับปรุง</p>
@@ -157,9 +157,9 @@ class home extends PureComponent {
       return (
         <Layout>
           <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%',marginTop:'45%'}}>
-            <img src="../static/m-pass@.png" width="64" alt="" style={{marginLeft:'120px'}}/>
-            <img src="../static/swap.png" width="18" alt="" style={{margin: '0 1rem'}}/>
-            <img src="../static/true-money.svg" width="64" alt="" style={{marginRight:'120px'}}/>
+            <img src="../Home/static/m-pass@.png" width="64" alt="" style={{marginLeft:'120px'}}/>
+            <img src="../Home/static/swap.png" width="18" alt="" style={{margin: '0 1rem'}}/>
+            <img src="../Home/static/true-money.svg" width="64" alt="" style={{marginRight:'120px'}}/>
           </div>
           <div style={{marginTop:'4rem', textAlign:'center'}}>
             <p style={{color:'#333', fontSize:'1.2rem'}}>อนุญาตให้เข้าถึงข้อมูลทรูมันนี่ วอลเล็ท</p>
