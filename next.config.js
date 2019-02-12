@@ -8,8 +8,10 @@ const withBabelMinify = require('next-babel-minify')()
 const withOffline = require('next-offline')
 const withPlugins = require('next-compose-plugins');
 const optimizedImages = require('next-optimized-images');
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = withPlugins([
+  {assetPrefix: isProd ? 'https://web-cinema-stg.truemoney.net/Home' : ''},
   [optimizedImages, {
     inlineImageLimit: 8192,
     imagesFolder: 'static',
@@ -45,6 +47,7 @@ withBabelMinify(withOffline(withFonts(withImages(withSass({
       }))
     }
     return config
-  }
+  },
+  assetPrefix: isProd ? 'https://web-cinema-stg.truemoney.net/Home' : ''
 })))))
 ])
