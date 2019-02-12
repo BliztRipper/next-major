@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
 import Link from 'next/link'
-import loading from '../static/loading.svg'
-import empty from '../static/icon-film-empty.svg'
 import Swiper from 'swiper'
 import { URL_PROD } from '../lib/URL_ENV';
 import * as gtag from '../lib/gtag'
@@ -118,7 +116,7 @@ class HighlightCarousel extends PureComponent {
                         return (
                           <div className="advanceBadge">
                             <div className="advanceBadge--text">ตั๋วล่วงหน้า</div>
-                            <img className='advanceBadge--img' src='../static/advanceTicket_bg.svg'/>
+                            <img className='advanceBadge--img' src='../Home/static/advanceTicket_bg.svg'/>
                           </div>
                         )
                       }
@@ -149,7 +147,7 @@ class HighlightCarousel extends PureComponent {
   render() {
     const {isError, isEmpty, isLoading} = this.state;
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return <img src="../Home/static/loading.svg" className="loading"/>
     }
     if(isEmpty){
       return (

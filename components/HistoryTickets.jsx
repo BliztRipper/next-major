@@ -1,6 +1,5 @@
 import { PureComponent } from 'react'
 import '../styles/style.scss'
-import empty from '../static/icon-ticket-empty.svg'
 import utilities from '../scripts/utilities'
 
 class HistoryTickets extends PureComponent {
@@ -86,7 +85,7 @@ class HistoryTickets extends PureComponent {
       return <p>{error.message}</p>;
     }
     if(isEmpty){
-      return <section className="empty"><img src={empty}/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
+      return <section className="empty"><img src="../Home/static/icon-ticket-empty.svg"/><h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5></section>
     }
     return (
       <div className="historyTickets">

@@ -1,5 +1,4 @@
 import { PureComponent } from 'react'
-import loading from '../static/loading.svg'
 import Layout from '../components/Layout'
 import GlobalHeader from '../components/GlobalHeader'
 import Ticket from '../components/Ticket'
@@ -26,7 +25,7 @@ class HistoryTicketsPage extends PureComponent {
   render () {
     const {isLoading, dataTicket} = this.state;
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return <img src="../Home/static/loading.svg" className="loading"/>
     }
     let movieNameEN = dataTicket.BookingMovie
     return (

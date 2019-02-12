@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel, } from 'react-tabs';
 import CinemaSystemList from './CinemaSystemList'
 import SearchCinema from './SearchCinema'
-import loading from '../static/loading.svg'
 import CardCinema from './CardCinema'
 import CinemaListComp from './CinemaListComp'
 import { URL_PROD } from '../lib/URL_ENV';
@@ -113,7 +112,7 @@ class MainCinemaListing extends PureComponent {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return <img src="../Home/static/loading.svg" className="loading"/>
     }
 
     return (

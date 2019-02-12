@@ -3,11 +3,9 @@ import "../styles/style.scss";
 import Layout from "../components/Layout";
 import Ticket from "../components/Ticket";
 import Swal from "sweetalert2";
-import loading from "../static/loading.svg";
 import Router from "next/router";
 import utilities from "../scripts/utilities";
 import GlobalHeader from "../components/GlobalHeader";
-import empty from '../static/icon-film-empty.svg'
 import { URL_PROD,API_KEY, URL_PAYMENT_PROD } from '../lib/URL_ENV';
 
 class Cashier extends PureComponent {
@@ -92,7 +90,7 @@ class Cashier extends PureComponent {
           } else if (data.description.slice(0, 7) === "PAY0011") {
             Swal({
               title: "ไม่สามารถซื้อตั๋วได้",
-              imageUrl: "../static/nobalance.svg",
+              imageUrl: "../Home/static/nobalance.svg",
               imageWidth: 200,
               imageHeight: 200,
               grow: "fullscreen",
@@ -104,7 +102,7 @@ class Cashier extends PureComponent {
           } else if (data.status_code === 35000) {
             Swal({
               title: "ขออภัยระบบขัดข้อง",
-              imageUrl: "../static/error.svg",
+              imageUrl: "../Home/static/error.svg",
               imageWidth: 200,
               imageHeight: 200,
               html: `เกิดข้อผิดพลาด ไม่สามารถทำรายการได้ในขณะนี้<br/>กรุณาลองใหม่อีกครั้ง<br/>CODE:${data.description.slice(0,7)}`,
@@ -115,7 +113,7 @@ class Cashier extends PureComponent {
           } else {
             Swal({
               title: "ไม่สามารถทำรายการได้",
-              imageUrl: "../static/error.svg",
+              imageUrl: "../Home/static/error.svg",
               imageWidth: 200,
               imageHeight: 200,
               text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
@@ -230,7 +228,7 @@ class Cashier extends PureComponent {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src={loading} className="loading" />;
+      return <img src="../Home/static/loading.svg"className="loading" />;
     }
     return (
       <Layout title="Cashier Page">
@@ -256,7 +254,7 @@ class Cashier extends PureComponent {
           } else {
             return (
               <section className="empty">
-                <img src={empty} />
+                <img src="../Home/static/icon-film-empty.svg" />
                 <h5>ข้อมูลไม่ถูกต้อง</h5>
               </section>
             );

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MainNavBar from '../components/MainNavBar'
-import empty from '../static/icon-film-empty.svg'
 import '../styles/style.scss'
 import {isIOS, isAndroid, osVersion} from "react-device-detect";
 import VersionNotSupport from '../components/VersionNotSupport';
@@ -110,7 +109,7 @@ class home extends PureComponent {
     } else {
       return (
         <section className="empty">
-          <img src={empty} />
+          <img src="../Home/static/icon-film-empty.svg" />
           <h5>ขออภัย ข้อมูลของผู้ใช้งานไม่สมบูรณ์</h5>
         </section>
       )

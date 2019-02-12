@@ -2,7 +2,6 @@ import { PureComponent } from 'react';
 import Layout from '../components/Layout'
 import MyTicket from '../components/MyTicket'
 import GlobalHeader from '../components/GlobalHeader'
-import loading from '../static/loading.svg'
 import Router from 'next/router'
 import utilities from '../scripts/utilities'
 import '../styles/style.scss'
@@ -37,7 +36,7 @@ class MyTickets extends PureComponent {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return <img src="../Home/static/loading.svg" className="loading"/>
     }
     return (
       <Layout title='My Tickets'>

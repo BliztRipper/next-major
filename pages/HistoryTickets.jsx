@@ -2,7 +2,6 @@ import { PureComponent } from 'react'
 import HistoryTickets from '../components/HistoryTickets'
 import GlobalHeader from '../components/GlobalHeader'
 import Layout from '../components/Layout'
-import loading from '../static/loading.svg'
 import Router from 'next/router'
 
 class HistoryTicketsPage extends PureComponent {
@@ -34,7 +33,7 @@ class HistoryTicketsPage extends PureComponent {
   render () {
     const {isLoading, dataTickets, serverTime} = this.state;
     if (isLoading) {
-      return <img src={loading} className="loading"/>
+      return <img src="../Home/static/loading.svg" className="loading"/>
     }
     return (
       <Layout title="History Tickets">

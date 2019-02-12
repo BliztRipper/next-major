@@ -28,7 +28,7 @@ class CinemaWithOutShowtimeComp extends Component {
                         <div className="cinema__card-cbm--titleIcon" onClick={this.handleSelectBranch.bind(this)}>
                             {(() => {
                                 if (this.state.cinema.brandId) {
-                                    return <img src={`../static/brandIds/brand_id_${this.state.cinema.brandId}.png`} />
+                                    return <img src={`../Home/static/brandIds/brand_id_${this.state.cinema.brandId}.png`} />
                                 } else {
                                     return false
                                 }

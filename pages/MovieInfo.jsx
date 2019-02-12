@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Layout from "../components/Layout";
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
 import '../styles/style.scss'
-import loading from '../static/loading.svg'
+
 
 export default class MovieInfo extends PureComponent {
   constructor(props) {
@@ -38,7 +38,7 @@ export default class MovieInfo extends PureComponent {
 
   checkMovieImg(img){
     if(!img){
-      return '../static/empty2.png'
+      return '../Home/static/empty2.png'
     }
     return img
   }
@@ -58,7 +58,7 @@ export default class MovieInfo extends PureComponent {
       padding: '0 0.4rem',
     }
     if (isLoading) {
-      return <div className="loadingWrap"><img src={loading} className="loading"/></div>
+      return <div className="loadingWrap"><img src="../Home/static/loading.svg" className="loading"/></div>
     }
     return (
       <Layout title="Movie Infomation">

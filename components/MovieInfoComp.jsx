@@ -6,7 +6,7 @@ import '../styles/style.scss'
 class MovieInfoComp extends PureComponent {
     movieImage(img){
       if(img === ""){
-        img = '../static/empty2.png'
+        img = '../Home/static/empty2.png'
       } else {
         img = img
       }

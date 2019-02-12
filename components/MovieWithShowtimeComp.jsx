@@ -3,7 +3,6 @@ import Link from 'next/link'
 import utilities from '../scripts/utilities'
 import MovieInfoByCinemaComp from '../components/MovieInfoByCinemaComp'
 import FlipMove from 'react-flip-move'
-import empty from '../static/icon-film-empty.svg'
 
 class MovieWithShowtimeComp extends Component {
 	constructor(props) {
@@ -165,7 +164,7 @@ class MovieWithShowtimeComp extends Component {
 			return renderCardItems
 		} else {
 			return (
-				<section className="empty"><img src={empty}/><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/></h5></section>
+				<section className="empty"><img src="../Home/static/icon-film-empty.svg"/><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/></h5></section>
 			)
 		}
 

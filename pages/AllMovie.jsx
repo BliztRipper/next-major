@@ -6,8 +6,7 @@ import '../styles/style.scss'
 import NowShowingComp from '../components/NowShowingComp'
 import CominSoonComp from '../components/ComingSoonComp'
 import GlobalHeaderButtonBack from '../components/GlobalHeaderButtonBack'
-import loading from '../static/loading.svg'
-import empty from '../static/icon-film-empty.svg'
+
 import GlobalFooterNav from '../components/GlobalFooterNav'
 
 class AllMovie extends PureComponent {
@@ -42,7 +41,7 @@ class AllMovie extends PureComponent {
     if (isError) {
       return (
         <section className="empty">
-          <img src={empty}/>
+          <img src="../Home/static/icon-film-empty.svg"/>
           <h5>ข้อมูลไม่ถูกต้อง</h5>
         </section>
       )
@@ -52,7 +51,7 @@ class AllMovie extends PureComponent {
       return (
         <div>
           <GlobalFooterNav/>
-          <img src={loading} className="loading"/>
+          <img src="../Home/static/loading.svg" className="loading"/>
         </div>
       )
     }
