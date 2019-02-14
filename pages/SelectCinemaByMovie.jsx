@@ -304,7 +304,7 @@ class MainSelectCinemaByMovie extends Component {
           })
         });
         if (findCinema) {
-          favRegions.push(<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} favActive={this.favActive.bind(this)}/>)
+          favRegions.push(<RegionCinemaComp key={region.name + i} region={region} isExpand={(i==0)} iAmFav={true} accid={this.state.accid} pickThisDay={this.state.pickThisDay} serverTime={this.state.serverTime}  favActive={this.favActive.bind(this)}/>)
         }
       }
     })

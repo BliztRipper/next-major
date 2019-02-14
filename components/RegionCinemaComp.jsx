@@ -36,10 +36,7 @@ class RegionCinemaComp extends Component {
     } else if (this.state.iAmSystem) {
       return (
         <div className="cinema__regional__title-iconFav">
-          <img
-            src={utilities.getSystemImgFromShotName(this.state.region.name)}
-            alt=""
-          />
+          <img src={utilities.getSystemImgFromShotName(this.state.region.name)} />
         </div>
       );
     }
