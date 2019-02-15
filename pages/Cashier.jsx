@@ -51,7 +51,9 @@ class Cashier extends PureComponent {
       VistaBookingId: "",
       VistaBookingNumber: "",
       movieSelected: "",
-      userInfo: ""
+      userInfo: "",
+      queryTxTimer: "",
+      queryTxCounter: 0
     };
     this.refTicket = React.createRef();
   }
@@ -66,29 +68,11 @@ class Cashier extends PureComponent {
       })
         .then(response => response.json())
         .then(data => {
-          if (data.status_code === 0 || data.description === "Success") {
-            sessionStorage.removeItem("movieSelect");
-            let dataPaymentSuccess = {
-              success: true,
-              VistaBookingId: data.data.data.VistaBookingId,
-              VistaBookingNumber: data.data.data.VistaBookingNumber
-            };
-            this.setState({ ...dataPaymentSuccess });
-            this.refTicket.current.setState({
-              postingTicket: false,
-              ...dataPaymentSuccess
-            });
-            utilities.removeBookingInfoInSessionStorage();
-            Router.beforePopState(({ url, as, options }) => {
-              return false;
-            });
-            Swal({
-              type: "success",
-              title: "ทำรายการเสร็จสิ้น!",
-              text: "ขอให้สนุกกับการชมภาพยนตร์",
-              showConfirmButton: false,
-              timer: 4000
-            });
+          if (data.description === 'Pending') {
+            this.paymentOnPending()
+          }
+          else if (data.status_code === 0 || data.description === "Success") {
+            this.afterPaymentSuccess(data.data.data)
           } else if (data.description.slice(0, 7) === "PAY0011") {
             Swal({
               title: "ไม่สามารถซื้อตั๋วได้",
@@ -129,6 +113,102 @@ class Cashier extends PureComponent {
     } catch (error) {
       console.error("error", error);
     }
+  }
+  paymentOnPending () {
+    this.queryTx()
+  }
+  queryTx () {
+    let totalResInMs = 5000
+    let sendDate = (new Date()).getTime()
+    if (this.state.queryTxTimer) {
+      clearTimeout(this.state.queryTxTimer)
+      this.state.queryTxTimer = ''
+    }
+    try {
+      fetch(`${URL_PAYMENT_PROD}/QueryTx/${this.state.BookingUserSessionId}`)
+      .then(response => response.json())
+      .then(data => {
+        if (this.state.queryTxCounter < 6) {
+          let instantPaymentStatusData = data.data
+          let paymentStatus = instantPaymentStatusData.payment_status
+          switch (paymentStatus) {
+            case "Payment Pending":
+              let responseDate = (new Date()).getTime()
+              let totalResponseMs =  totalResInMs - (responseDate - sendDate)
+              totalResponseMs = totalResponseMs > 0 ? totalResponseMs : 0
+              this.state.queryTxTimer = setTimeout(() => {
+                this.state.queryTxCounter += 1
+                this.queryTx()
+              }, totalResponseMs);
+              break;
+            case "Payment Success":
+              this.afterPaymentSuccess(instantPaymentStatusData.noti_response.data)
+              break;
+            default:
+              Swal({
+                title: "ไม่สามารถทำรายการได้",
+                imageUrl: "../static/error.svg",
+                imageWidth: 200,
+                imageHeight: 200,
+                text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
+                onAfterClose: () => {
+                  Router.back();
+                }
+              });
+              break;
+          }
+        } else {
+          Swal({
+            title: "ไม่สามารถทำรายการได้",
+            imageUrl: "../static/error.svg",
+            imageWidth: 200,
+            imageHeight: 200,
+            text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
+            html: `${data.description} (code:${data.status_code})`,
+            onAfterClose: () => {
+              Router.back();
+            }
+          });
+        }
+
+      })
+    } catch (error) {
+      Swal({
+        title: "ไม่สามารถทำรายการได้",
+        imageUrl: "../static/error.svg",
+        imageWidth: 200,
+        imageHeight: 200,
+        text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
+        html: `${data.description} (code:${data.status_code})`,
+        onAfterClose: () => {
+          Router.back();
+        }
+      });
+    }
+  }
+  afterPaymentSuccess (dataBooking) {
+    sessionStorage.removeItem("movieSelect");
+    let dataPaymentSuccess = {
+      success: true,
+      VistaBookingId: dataBooking.VistaBookingId,
+      VistaBookingNumber: dataBooking.VistaBookingNumber
+    };
+    this.setState({ ...dataPaymentSuccess });
+    this.refTicket.current.setState({
+      postingTicket: false,
+      ...dataPaymentSuccess
+    });
+    utilities.removeBookingInfoInSessionStorage();
+    Router.beforePopState(({ url, as, options }) => {
+      return false;
+    });
+    Swal({
+      type: "success",
+      title: "ทำรายการเสร็จสิ้น!",
+      text: "ขอให้สนุกกับการชมภาพยนตร์",
+      showConfirmButton: false,
+      timer: 4000
+    });
   }
   componentDidMount() {
     this.state.movieSelected = JSON.parse(
