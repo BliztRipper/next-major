@@ -145,7 +145,7 @@ class Cashier extends PureComponent {
             default:
               Swal({
                 title: "ไม่สามารถทำรายการได้",
-                imageUrl: "../static/error.svg",
+                imageUrl: "../Home/static/error.svg",
                 imageWidth: 200,
                 imageHeight: 200,
                 text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
@@ -158,7 +158,7 @@ class Cashier extends PureComponent {
         } else {
           Swal({
             title: "ไม่สามารถทำรายการได้",
-            imageUrl: "../static/error.svg",
+            imageUrl: "../Home/static/error.svg",
             imageWidth: 200,
             imageHeight: 200,
             text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
@@ -173,7 +173,7 @@ class Cashier extends PureComponent {
     } catch (error) {
       Swal({
         title: "ไม่สามารถทำรายการได้",
-        imageUrl: "../static/error.svg",
+        imageUrl: "../Home/static/error.svg",
         imageWidth: 200,
         imageHeight: 200,
         text: `กรุณาทำรายการใหม่อีกครั้ง หากพบปัญหาติดต่อทรูมันนี่ แคร์ 1240`,
