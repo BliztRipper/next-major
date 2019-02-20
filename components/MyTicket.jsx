@@ -71,7 +71,7 @@ class MyTicket extends PureComponent {
     if (isEmpty) {
       return (
         <section className="empty">
-          <img src="../Home/static/icon-ticket-empty.svg"/>
+          <img src="../static/icon-ticket-empty.svg"/>
           <h5>ท่านยังไม่มีตั๋วภาพยนตร์ กรุณาทำการจองตั๋ว</h5>
           <ButtonHistory goToHistoryLists={this.goToHistoryLists.bind(this)} hideButton={dataMyTicketsExpired}></ButtonHistory>
         </section>

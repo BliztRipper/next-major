@@ -25,7 +25,7 @@ class HistoryTicketsPage extends PureComponent {
   render () {
     const {isLoading, dataTicket} = this.state;
     if (isLoading) {
-      return <img src="../Home/static/loading.svg" className="loading"/>
+      return <img src="../static/loading.svg" className="loading"/>
     }
     let movieNameEN = dataTicket.BookingMovie
     return (

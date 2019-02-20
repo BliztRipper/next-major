@@ -41,7 +41,7 @@ class AllMovie extends PureComponent {
     if (isError) {
       return (
         <section className="empty">
-          <img src="../Home/static/icon-film-empty.svg"/>
+          <img src="../static/icon-film-empty.svg"/>
           <h5>ข้อมูลไม่ถูกต้อง</h5>
         </section>
       )
@@ -51,7 +51,7 @@ class AllMovie extends PureComponent {
       return (
         <div>
           <GlobalFooterNav/>
-          <img src="../Home/static/loading.svg" className="loading"/>
+          <img src="../static/loading.svg" className="loading"/>
         </div>
       )
     }

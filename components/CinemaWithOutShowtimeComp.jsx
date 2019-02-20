@@ -28,7 +28,7 @@ class CinemaWithOutShowtimeComp extends Component {
                         <div className="cinema__card-cbm--titleIcon" onClick={this.handleSelectBranch.bind(this)}>
                             {(() => {
                                 if (this.state.cinema.brandId) {
-                                    return <img src={`../Home/static/brandIds/brand_id_${this.state.cinema.brandId}.png`} />
+                                    return <img src={`../static/brandIds/brand_id_${this.state.cinema.brandId}.png`} />
                                 } else {
                                     return false
                                 }
@@ -43,8 +43,8 @@ class CinemaWithOutShowtimeComp extends Component {
                     </Link>
                     <div className="favIconWrap">
                         <div ref="classname" className={this.state.cinema.isFavorite? 'favIcon active':'favIcon'} onClick={this.state.favActive.bind(this, this.state.cinema.cinemaId)}>
-                            <img src="../Home/static/ic-star-outline.svg" alt=""/>
-                            <img src="../Home/static/ic-star-active.svg" alt=""/>
+                            <img src="../static/ic-star-outline.svg" alt=""/>
+                            <img src="../static/ic-star-active.svg" alt=""/>
                         </div>
                     </div>
                 </div>

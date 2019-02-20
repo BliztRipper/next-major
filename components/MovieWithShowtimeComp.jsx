@@ -110,7 +110,7 @@ class MovieWithShowtimeComp extends Component {
 									)
 								}
 							})()}
-							<img src="../Home/static/ic-sound.svg" className="icSvg icSvgSound" />
+							<img src="../static/ic-sound.svg" className="icSvg icSvgSound" />
 							<div className="">{this.renderSound(theater.SessionAttributesNames)}</div>
 						</div>
 						<div className="cinema__card-cbm--theatre-titleSub">Screen Number {theater.ScreenNumber}</div>
@@ -164,7 +164,7 @@ class MovieWithShowtimeComp extends Component {
 			return renderCardItems
 		} else {
 			return (
-				<section className="empty"><img src="../Home/static/icon-film-empty.svg"/><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/></h5></section>
+				<section className="empty"><img src="../static/icon-film-empty.svg"/><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/></h5></section>
 			)
 		}
 

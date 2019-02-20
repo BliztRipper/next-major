@@ -21,7 +21,7 @@ export default class GlobalFooterNav extends Component {
     return (
       <a className="indexTab__floatButton">
         <div className="indexTab__floatButtonInner">
-          <img className="indexTab__floatButton-icon" src="../Home/static/icon-ticket.svg" alt=""/>
+          <img className="indexTab__floatButton-icon" src="../static/icon-ticket.svg" alt=""/>
           { this.renderFloatButtonBadge() }
         </div>
       </a>

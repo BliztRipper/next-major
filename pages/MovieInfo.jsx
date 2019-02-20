@@ -38,7 +38,7 @@ export default class MovieInfo extends PureComponent {
 
   checkMovieImg(img){
     if(!img){
-      return '../Home/static/empty2.png'
+      return '../static/empty2.png'
     }
     return img
   }
@@ -58,7 +58,7 @@ export default class MovieInfo extends PureComponent {
       padding: '0 0.4rem',
     }
     if (isLoading) {
-      return <div className="loadingWrap"><img src="../Home/static/loading.svg" className="loading"/></div>
+      return <div className="loadingWrap"><img src="../static/loading.svg" className="loading"/></div>
     }
     return (
       <Layout title="Movie Infomation">

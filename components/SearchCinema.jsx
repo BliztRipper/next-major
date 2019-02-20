@@ -15,7 +15,7 @@ class SearchCinema extends PureComponent {
       <section style={{position:'relative'}}>
         <div className="search-cinema">
           <div className="search-cinema-icon-search">
-            <img src="../Home/static/ic-search.svg" alt=""/>
+            <img src="../static/ic-search.svg" alt=""/>
           </div>
           <input onChange={this.props.onSearchChange} style={this.props.isSelectCinema ? {backgroundColor:'tranparent'}:{backgroundColor:'#fff'}} className={this.props.stickyItem ? "search-cinema__searchbox sticky":"search-cinema__searchbox"}placeholder="ค้นหาโรงภาพยนตร์ที่ต้องการ" type="text" name="" id=""/>
         </div>

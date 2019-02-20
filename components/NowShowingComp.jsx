@@ -19,7 +19,7 @@ class RenderShowing extends PureComponent {
               return (
                 <div className="advanceBadge">
                   <div className="advanceBadge--text">ตั๋วล่วงหน้า</div>
-                  <img className='advanceBadge--img' src='../Home/static/advanceTicket_bg.svg'/>
+                  <img className='advanceBadge--img' src='../static/advanceTicket_bg.svg'/>
                 </div>
               )
             }

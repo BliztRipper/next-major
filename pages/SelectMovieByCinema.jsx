@@ -135,7 +135,7 @@ class MainSelectMovieByCinema extends PureComponent {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src="../Home/static/loading.svg" className="loading"/>
+      return <img src="../static/loading.svg" className="loading"/>
     }
     if(isEmpty){
       return <section className="empty"><img src={empty}/><Link prefetch href='/'><h5>ขออภัย ไม่มีภาพยนตร์เข้าฉายในช่วงเวลานี้<br/><br/><button className="highlight__book-btn">กดเพื่อกลับหน้าแรก</button></h5></Link></section>
@@ -159,7 +159,7 @@ class MainSelectMovieByCinema extends PureComponent {
           } else {
             return (
               <section className="empty">
-                <img src="../Home/static/icon-film-empty.svg" />
+                <img src="../static/icon-film-empty.svg" />
                 <h5>ข้อมูลไม่ถูกต้อง</h5>
               </section>
             )

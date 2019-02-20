@@ -36,7 +36,7 @@ class MyTickets extends PureComponent {
       return <p>{error.message}</p>;
     }
     if (isLoading) {
-      return <img src="../Home/static/loading.svg" className="loading"/>
+      return <img src="../static/loading.svg" className="loading"/>
     }
     return (
       <Layout title='My Tickets'>

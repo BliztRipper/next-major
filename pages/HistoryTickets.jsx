@@ -33,7 +33,7 @@ class HistoryTicketsPage extends PureComponent {
   render () {
     const {isLoading, dataTickets, serverTime} = this.state;
     if (isLoading) {
-      return <img src="../Home/static/loading.svg" className="loading"/>
+      return <img src="../static/loading.svg" className="loading"/>
     }
     return (
       <Layout title="History Tickets">
