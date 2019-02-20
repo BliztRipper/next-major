@@ -28,48 +28,52 @@ const mapTicketPricesWithSeatPlans = (ticketPrices, SeatPlan,cinema, theatre, mo
   let instantSeatAreas = SeatPlan.SeatLayoutData.Areas
   instantSeatAreas.forEach((seatArea, seatAreaIndex, seatAreaArray) => {
     let lastSeatArea = seatAreaIndex + 1 === seatAreaArray.length
-     instantTicketAreas.forEach((ticketArea, ticketAreaIndex, ticketAreaArray) => {
-      let lastTicketArea = ticketAreaIndex + 1 === ticketAreaArray.length
-      let ticketIsPackgeMoreThanOneSeats = getQuantitySeatsInPackageMoreThanOne(ticketArea.PackageContent.Tickets)
-      if (seatArea.AreaCategoryCode === ticketArea.AreaCategoryCode && ticketIsPackgeMoreThanOneSeats) {
-         seatArea.Rows.forEach((seatRow, seatRowIndex, seatRowArray) => {
-          let lastRow = seatRowIndex + 1 === seatRowArray.length
-          let seatsInRows = []
-          if (seatRow.PhysicalName && seatRow.Seats && seatRow.Seats.length > 0) {
-             seatRow.Seats.forEach((seat, seatIndex, seatArray) => {
-              if (!seat.SeatsInGroup) {
-                seatsInRows.push(seat.Id)
-              }
-              if (seatIndex + 1 === seatArray.length && seatsInRows.length > 0) {
-                if (sessionId != previousSessionId) {
-                  totalSessionIds += 1
-                  previousSessionId = sessionId
-                  console.log('.....');
-                  console.log('.....');
-                  console.log(`..... Theatre Name: ${theatre.ScreenName} || Screen Number: ${theatre.ScreenNumber}`);
-                  console.log(`..... AreaCategoryCode: ${ticketArea.AreaCategoryCode} || Area Description: ${ticketArea.Description}`);
-                  console.log(`..... SessionId: ${sessionId} || Showtimes: ${movie.Showtimes}`);
-                  console.log(`..... SeatsInGroup : ${seat.SeatsInGroup}`);
+    if (instantTicketAreas && instantTicketAreas.length > 0) {
+      instantTicketAreas.forEach((ticketArea, ticketAreaIndex, ticketAreaArray) => {
+        let lastTicketArea = ticketAreaIndex + 1 === ticketAreaArray.length
+        let ticketIsPackgeMoreThanOneSeats = getQuantitySeatsInPackageMoreThanOne(ticketArea.PackageContent.Tickets)
+        if (seatArea.AreaCategoryCode === ticketArea.AreaCategoryCode && ticketIsPackgeMoreThanOneSeats) {
+           seatArea.Rows.forEach((seatRow, seatRowIndex, seatRowArray) => {
+            let lastRow = seatRowIndex + 1 === seatRowArray.length
+            let seatsInRows = []
+            if (seatRow.PhysicalName && seatRow.Seats && seatRow.Seats.length > 0) {
+               seatRow.Seats.forEach((seat, seatIndex, seatArray) => {
+                if (!seat.SeatsInGroup) {
+                  seatsInRows.push(seat.Id)
                 }
-                if (cinema.ID != previousBranches) {
-                  totalBranches += 1
-                  previousBranches = cinema.ID
-                  previousTheatres = ''
+                if (seatIndex + 1 === seatArray.length && seatsInRows.length > 0) {
+                  if (sessionId != previousSessionId) {
+                    totalSessionIds += 1
+                    previousSessionId = sessionId
+                    console.log('.....');
+                    console.log('.....');
+                    console.log(`..... Theatre Name: ${theatre.ScreenName} || Screen Number: ${theatre.ScreenNumber}`);
+                    console.log(`..... AreaCategoryCode: ${ticketArea.AreaCategoryCode} || Area Description: ${ticketArea.Description}`);
+                    console.log(`..... SessionId: ${sessionId} || Showtimes: ${movie.Showtimes}`);
+                    console.log(`..... SeatsInGroup : ${seat.SeatsInGroup}`);
+                  }
+                  if (cinema.ID != previousBranches) {
+                    totalBranches += 1
+                    previousBranches = cinema.ID
+                    previousTheatres = ''
+                  }
+                  if (theatre.ScreenNumber != previousTheatres) {
+                    totalTheatres += 1
+                    previousTheatres = theatre.ScreenNumber
+                  }
+                  console.log('.........');
+                  console.log('.........');
+                  console.log(`......... row: ${seatRow.PhysicalName}`);
+                  console.log(`......... Seat IDs : ${seatsInRows.join()}`);
                 }
-                if (theatre.ScreenNumber != previousTheatres) {
-                  totalTheatres += 1
-                  previousTheatres = theatre.ScreenNumber
-                }
-                console.log('.........');
-                console.log('.........');
-                console.log(`......... row: ${seatRow.PhysicalName}`);
-                console.log(`......... Seat IDs : ${seatsInRows.join()}`);
-              }
-            });
-          }
-        });
-      }
-    });
+              });
+            }
+          });
+        }
+      });
+    } else {
+      console.log('== Has NOT tickets');
+    }
   });
 }
 
