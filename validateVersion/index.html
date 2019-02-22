@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>True Money Major Cineplex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.3/mobile-detect.min.js"></script>
+<script>
+  var urlParams = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return decodeURI(results[1]) || 0;
+    }
+  }
+  // console.log(urlParams('accid'),'accid')
+  // console.log(urlParams('mobileno'),'mobileno')
+  var userInfo = null
+  var accid = urlParams('accid')
+  var mobileno = urlParams('mobileno')
+  if (!accid) {
+    userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+  } else {
+    userInfo = {
+      accid: accid,
+      mobileno: urlParams('mobileno'),
+      distinctid: urlParams('distinctid')
+    }
+    sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+  }
+
+  var md = new MobileDetect(window.navigator.userAgent);
+  if(md.is('Android')){
+    if(md.version('Android') <= 5) {
+      window.location.replace('/error.html')
+    }else{
+      // window.location.replace('/Home/?accid=tmn.10005364023'+'&mobileno=0891916415')
+      window.location.replace('home.html?accid='+accid+'&mobileno='+mobileno)
+    }
+  } else {
+    if(md.version('iOS') <= 10.3) {
+      window.location.replace('/error.html')
+    }else{
+      // window.location.replace('/Home/?accid=tmn.10005364023'+'&mobileno=0891916415')
+      window.location.replace('home.html?accid='+accid+'&mobileno='+mobileno)
+    }
+  }
+
+
+</script>
+</html>
